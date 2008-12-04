@@ -1,0 +1,87 @@
+/*
+ * 著作権: Copyright (c) 2007－2008 ZIGEN
+ * ライセンス：Eclipse Public License - v 1.0 
+ * 原文：http://www.eclipse.org/legal/epl-v10.html
+ */
+
+package zigen.plugin.db.ext.oracle.internal;
+
+import java.sql.Connection;
+
+import org.eclipse.jface.viewers.StructuredViewer;
+
+import zigen.plugin.db.DbPlugin;
+import zigen.plugin.db.core.Transaction;
+import zigen.plugin.db.ui.internal.Folder;
+import zigen.plugin.db.ui.internal.OracleSource;
+import zigen.plugin.db.ui.internal.Schema;
+
+/**
+ * 
+ * OracleSourceSearchThreadクラス.
+ * 
+ * @author ZIGEN
+ * @version 1.0
+ * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/21 ZIGEN create.
+ * 
+ */
+public class OracleSourceSearchAction implements Runnable {
+
+	private StructuredViewer viewer;
+
+	private Folder folder;
+
+	public OracleSourceSearchAction(StructuredViewer viewer, Folder folder) {
+		this.viewer = viewer;
+		this.folder = folder;
+	}
+
+	public void run() {
+		try {
+			// "読み込み中"を削除
+			// folder.removeChild(folder.getChild(DbPluginConstant.TREE_LEAF_LOADING));
+
+			// if (viewer != null) {
+			// viewer.refresh(folder);// 再描画
+			// }
+
+			Connection con = Transaction.getInstance(folder.getDbConfig()).getConnection();
+
+			// Folderの上位は、Schema前提
+			Schema schema = (Schema) folder.getParent();
+
+			String owner = schema.getName();
+			String type = folder.getName();
+
+			OracleSourceInfo[] infos = OracleSourceSearcher.execute(con, owner, type);
+
+			AddSources(con, folder, infos);
+
+			// 再描画
+			if (viewer != null) {
+				viewer.refresh(folder);// 再描画
+			}
+
+		} catch (Exception e) {
+			DbPlugin.getDefault().showErrorDialog(e);
+		}
+
+	}
+
+	/**
+	 * ソース要素をフォルダ配下に追加する
+	 * 
+	 * @param con
+	 * @param folder
+	 * @param infos
+	 * @throws Exception
+	 */
+	private static void AddSources(Connection con, Folder folder, OracleSourceInfo[] infos) throws Exception {
+		for (int i = 0; i < infos.length; i++) {
+			OracleSource source = new OracleSource();
+			source.setOracleSourceInfo(infos[i]);
+			folder.addChild(source);
+		}
+	}
+
+}

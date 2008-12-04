@@ -1,0 +1,317 @@
+/*
+ * 著作権: Copyright (c) 2007－2008 ZIGEN
+ * ライセンス：Eclipse Public License - v 1.0 
+ * 原文：http://www.eclipse.org/legal/epl-v10.html
+ */
+
+package zigen.plugin.db.core.rule.db2;
+
+import zigen.plugin.db.core.SQLFormatter;
+import zigen.plugin.db.core.SQLUtil;
+import zigen.plugin.db.core.rule.DefaultSQLCreatorFactory;
+import zigen.plugin.db.ui.internal.Column;
+import zigen.plugin.db.ui.internal.ITable;
+
+/**
+ * 
+ * OracleInsertFactory.javaクラス.
+ * 
+ * @author ZIGEN
+ * @version 1.0
+ * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
+ * 
+ */
+public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
+
+	public DB2SQLCreatorFactory(ITable table) {
+		super(table);
+	}
+
+	// select * from table fetch first 10 rows only
+	public String createSelect(String _condition, int limit) {
+		StringBuffer sb = new StringBuffer();
+
+		sb.append("SELECT * FROM "); //$NON-NLS-1$
+		sb.append(table.getSqlTableName());
+		
+
+		String[] conditions = SQLFormatter.splitOrderCause(_condition);
+		String condition = conditions[0];
+		String orderBy = conditions[1];
+
+		sb.append(" WHERE 0 = 0");// ダミーの条件 //$NON-NLS-1$
+
+		if (condition != null && !"".equals(condition.trim())) { //$NON-NLS-1$
+			sb.append(" AND " + condition); //$NON-NLS-1$
+		}
+		// ORDER BY
+		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
+			sb.append(" " + orderBy); //$NON-NLS-1$
+		}
+		if (limit > 0) {
+			sb.append(" FETCH FIRST " + (limit + 1) + " ROWS ONLY");// ダイアログを出すために＋１
+																	// //$NON-NLS-1$
+																	// //$NON-NLS-2$
+		}
+
+		return sb.toString();
+	}
+
+	public boolean supportsRemarks() {
+		return true;
+	}
+
+	public boolean supportsModifyColumnType() {
+		return false;
+	}
+
+	public boolean supportsModifyColumnSize(String columnType) {
+		return isVisibleColumnSize(columnType);
+	}
+
+	public boolean supportsDropColumnCascadeConstraints() {
+		return false;
+	}
+
+	public boolean supportsRollbackDDL() {
+		return true;
+	}
+
+	public String createCommentOnTableDDL(String commnets) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("COMMENT ON TABLE "); //$NON-NLS-1$
+		if(isVisibleSchemaName){
+			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		}else{
+			sb.append(SQLUtil.encodeQuotation(table.getName()));
+		}
+
+
+		sb.append(" IS "); //$NON-NLS-1$
+		sb.append(" '" + SQLUtil.encodeQuotation(commnets) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		return sb.toString();
+	}
+
+	public String createCommentOnColumnDDL(Column column) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("COMMENT ON COLUMN "); //$NON-NLS-1$
+		if(isVisibleSchemaName){
+			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		}else{
+			sb.append(SQLUtil.encodeQuotation(table.getName()));
+		}
+
+
+		sb.append("."); //$NON-NLS-1$
+		sb.append(column.getName());
+		sb.append(" IS"); //$NON-NLS-1$
+		sb.append(" '" + SQLUtil.encodeQuotation(column.getRemarks()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		return sb.toString();
+	}
+
+	public String createRenameTableDDL(String newTableName) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("RENAME TABLE "); //$NON-NLS-1$
+		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(" TO "); //$NON-NLS-1$
+		sb.append(SQLUtil.encodeQuotation(newTableName));
+		return sb.toString();
+	}
+
+	public String createRenameColumnDDL(Column from, Column to) {
+		return null; // DB2 ではコマンドからカラム名の変更ができない
+
+	}
+
+	public String[] createAddColumnDDL(Column column) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("ALTER TABLE "); //$NON-NLS-1$
+		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(" ADD "); //$NON-NLS-1$
+		sb.append(SQLUtil.encodeQuotation(column.getName()));
+		sb.append(" "); //$NON-NLS-1$
+		sb.append(column.getTypeName());// 型
+		if (isVisibleColumnSize(column.getTypeName())) {// 桁
+			sb.append("("); //$NON-NLS-1$
+			sb.append(column.getSize());
+			sb.append(")"); //$NON-NLS-1$
+		}
+
+		if (column.getDefaultValue() != null && !"".equals(column.getDefaultValue())) {// DEFAULT
+																						// //$NON-NLS-1$
+			sb.append(" DEFAULT "); //$NON-NLS-1$
+			sb.append(column.getDefaultValue());
+		}
+
+		if (column.isNotNull()) { // NOT NULL
+			sb.append(" NOT NULL"); //$NON-NLS-1$
+		} else {
+			; // NULLの場合は未指定
+		}
+
+		return new String[] {
+			sb.toString()
+		};
+
+	}
+
+	public String[] createModifyColumnDDL(Column from, Column to) {
+		return null; // DB2では、コマンドから桁の変更、初期値の変更しかできない
+
+	}
+
+	public String[] createDropColumnDDL(Column column, boolean cascadeConstraints) {
+		return null; // DB2では、コマンドからのカラム削除はできない
+
+	}
+
+	// / ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ //
+	public String createCreateIndexDDL(String indexName, Column[] columns, int indexType) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("CREATE"); //$NON-NLS-1$
+
+		if (TYPE_UNIQUE_INDEX == indexType) {
+			sb.append(" UNIQUE"); //$NON-NLS-1$
+		} else if (TYPE_BITMAP_INDEX == indexType) {
+			sb.append(" BITMAP"); //$NON-NLS-1$
+		}
+		sb.append(" INDEX "); //$NON-NLS-1$
+		// INDEX名
+		sb.append("\""); //$NON-NLS-1$
+		sb.append(table.getSchemaName());
+		sb.append("\""); //$NON-NLS-1$
+		sb.append("."); //$NON-NLS-1$
+		sb.append(indexName);
+		sb.append(" ON "); //$NON-NLS-1$
+		if(isVisibleSchemaName){
+			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		}else{
+			sb.append(SQLUtil.encodeQuotation(table.getName()));
+		}
+
+
+		sb.append("("); //$NON-NLS-1$
+		for (int i = 0; i < columns.length; i++) {
+			Column column = columns[i];
+			if (i != 0) {
+				sb.append(", "); //$NON-NLS-1$
+			}
+			sb.append(column.getColumn().getColumnName());
+		}
+		sb.append(")"); //$NON-NLS-1$
+
+		return sb.toString();
+	}
+
+	public String createDropIndexDDL(String indexName) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("DROP INDEX "); //$NON-NLS-1$
+		sb.append("\""); //$NON-NLS-1$
+		sb.append(table.getSchemaName());
+		sb.append("\""); //$NON-NLS-1$
+		sb.append("."); //$NON-NLS-1$
+		sb.append(indexName);
+		return sb.toString();
+	}
+
+	// ALTER TABLE SCOTT.EMP3 ADD CONSTRAINT PK_TEST PRIMARY KEY (EMPNO)
+	public String createCreateConstraintPKDDL(String constraintName, Column[] columns) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("ALTER TABLE "); //$NON-NLS-1$
+		sb.append(table.getSqlTableName());
+		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
+		sb.append(constraintName);
+		sb.append(" PRIMARY KEY"); //$NON-NLS-1$
+		sb.append("("); //$NON-NLS-1$
+		for (int i = 0; i < columns.length; i++) {
+			Column column = columns[i];
+			if (i != 0) {
+				sb.append(", "); //$NON-NLS-1$
+			}
+			sb.append(column.getColumn().getColumnName());
+		}
+		sb.append(")"); //$NON-NLS-1$
+		return sb.toString();
+	}
+
+	public String createCreateConstraintUKDDL(String constraintName, Column[] columns) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("ALTER TABLE "); //$NON-NLS-1$
+		sb.append(table.getSqlTableName());
+		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
+		sb.append(constraintName);
+		sb.append(" UNIQUE "); // UNIQUE KEY ではなく、 UNIQUE //$NON-NLS-1$
+		sb.append("("); //$NON-NLS-1$
+		for (int i = 0; i < columns.length; i++) {
+			Column column = columns[i];
+			if (i != 0) {
+				sb.append(", "); //$NON-NLS-1$
+			}
+			sb.append(column.getColumn().getColumnName());
+		}
+		sb.append(")"); //$NON-NLS-1$
+		return sb.toString();
+	}
+
+	// ALTER TABLE SCOTT.EMP3 ADD CONSTRAINT FK_EMP
+	// FOREIGN KEY (EMPNO) REFERENCES SCOTT.DEPT(DEPTNO) ON DELETE CASCADE
+	public String createCreateConstraintFKDDL(String constraintName, Column[] columns, ITable refTable, Column[] refColumns, boolean onDeleteCascade) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("ALTER TABLE "); //$NON-NLS-1$
+		sb.append(table.getSqlTableName());
+		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
+		sb.append(constraintName);
+		sb.append(" FOREIGN KEY"); //$NON-NLS-1$
+		sb.append("("); //$NON-NLS-1$
+		for (int i = 0; i < columns.length; i++) {
+			Column column = columns[i];
+			if (i != 0) {
+				sb.append(", "); //$NON-NLS-1$
+			}
+			sb.append(column.getColumn().getColumnName());
+		}
+		sb.append(")"); //$NON-NLS-1$
+		sb.append(" REFERENCES "); //$NON-NLS-1$
+
+		sb.append(refTable.getSqlTableName());
+		sb.append("("); //$NON-NLS-1$
+		for (int i = 0; i < refColumns.length; i++) {
+			Column refColumn = refColumns[i];
+			if (i != 0) {
+				sb.append(", "); //$NON-NLS-1$
+			}
+			sb.append(refColumn.getColumn().getColumnName());
+		}
+		sb.append(")"); //$NON-NLS-1$
+		if (onDeleteCascade) {
+			sb.append(" ON DELETE CASCADE"); //$NON-NLS-1$
+		}
+
+		return sb.toString();
+	}
+
+	// ALTER TABLE SCOTT.EMP3 ADD CONSTRAINT MY_CHECK CHECK (SAL > 0)
+	public String createCreateConstraintCheckDDL(String constraintName, String check) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("ALTER TABLE "); //$NON-NLS-1$
+		sb.append(table.getSqlTableName());
+		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
+		sb.append(constraintName);
+		sb.append(" CHECK"); //$NON-NLS-1$
+		sb.append("("); //$NON-NLS-1$
+		sb.append(check);
+		sb.append(")"); //$NON-NLS-1$
+		return sb.toString();
+	}
+
+	// ALTER TABLE SCOTT.EMP3 DROP CONSTRAINT TESTPK
+	public String createDropConstraintDDL(String constraintName, String type) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("ALTER TABLE "); //$NON-NLS-1$
+		sb.append(table.getSqlTableName());
+		sb.append(" DROP CONSTRAINT "); //$NON-NLS-1$
+		sb.append(constraintName);
+		return sb.toString();
+
+	}
+}
