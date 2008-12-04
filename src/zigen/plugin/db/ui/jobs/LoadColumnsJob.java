@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
@@ -20,17 +20,17 @@ import zigen.plugin.db.ui.editors.exceptions.NotFoundSynonymInfoException;
 import zigen.plugin.db.ui.internal.ITable;
 
 public class LoadColumnsJob extends AbstractLoadColumnJob {
-
+	
 	TreeViewer viewer;
-
+	
 	ITable[] tables;
-
+	
 	IDBConfig config;
-
+	
 	int total = 0;
 	
 	StringBuffer err = new StringBuffer();
-
+	
 	public LoadColumnsJob(TreeViewer viewer, IDBConfig config, ITable[] tables) {
 		super("Loading All column information...");
 		this.viewer = viewer;
@@ -40,16 +40,16 @@ public class LoadColumnsJob extends AbstractLoadColumnJob {
 			this.total = tables.length * 6;
 		}
 	}
-
+	
 	protected IStatus run(IProgressMonitor monitor) {
 		TimeWatcher tw = new TimeWatcher();
 		tw.start();
 		Connection con = null;
 		try {
 			con = ConnectionManager.getConnection(config);
-
+			
 			monitor.beginTask("Refresh Column...", total);
-
+			
 			for (int i = 0; i < tables.length; i++) {
 				ITable table = tables[i];
 				if (!table.isExpanded()) {
@@ -63,28 +63,28 @@ public class LoadColumnsJob extends AbstractLoadColumnJob {
 						}
 					} else {
 						loadTable(monitor, con, table, total);
-
+						
 					}
 				}
-
+				
 			}
-
+			
 		} catch (InterruptedException e) {
 			return Status.CANCEL_STATUS;
-		
+			
 		} catch (Exception e) {
 			showErrorMessage(Messages.getString("RefreshColumnJob.2"), e);// //$NON-NLS-1$
 			return Status.CANCEL_STATUS;
-
+			
 		} finally {
 			ConnectionManager.closeConnection(con);
 			monitor.done();
-
+			
 		}
 		tw.stop();
 		return Status.OK_STATUS;
 	}
-
+	
 	private void loadTable(IProgressMonitor monitor, Connection con, ITable table, int total) throws Exception {
 		try {
 			monitor.subTask(Messages.getString("LoadColumnsJob.3") + table.getSqlTableName()); //$NON-NLS-1$
@@ -94,21 +94,23 @@ public class LoadColumnsJob extends AbstractLoadColumnJob {
 					table.setExpanded(false);
 					throw new InterruptedException();
 				}
-
+				
 				table.setExpanded(true);
-				showResults(new RefreshTreeNodeAction(viewer, table));
+				// showResults(new RefreshTreeNodeAction(viewer, table));
+				// カラムを展開する
+				showResults(new RefreshTreeNodeAction(viewer, table, RefreshTreeNodeAction.MODE_EXPAND));
 			}
-
+			
 		} catch (NotFoundSynonymInfoException e) {
 			table.setEnabled(false);
 			table.removeChildAll(); // 子ノードを全て削除
 			showResults(new RefreshTreeNodeAction(viewer, table)); // 再描画
-			//showErrorMessage(Messages.getString("RefreshColumnJob.1"), e);// //$NON-NLS-1$
+			// showErrorMessage(Messages.getString("RefreshColumnJob.1"), e);// //$NON-NLS-1$
 			throw e;
-
+			
 		} catch (Exception e) {
 			table.setExpanded(false);
-			//showErrorMessage(Messages.getString("RefreshColumnJob.2"), e);// //$NON-NLS-1$
+			// showErrorMessage(Messages.getString("RefreshColumnJob.2"), e);// //$NON-NLS-1$
 			throw e;
 		}
 	}
