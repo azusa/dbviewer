@@ -321,6 +321,7 @@
   		<action class="zigen.plugin.db.ui.actions.SQLToUpperCaseAction" id="zigen.plugin.db.ui.actions.SQLToUpperCaseAction"
   		 label="%convert.capital" menubarPath="Replace/Group"/>
 
+
    	</viewerContribution>
 
 
