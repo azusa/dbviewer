@@ -16,7 +16,7 @@ package zigen.plugin.db;
  */
 public class DbPluginConstant {
 	
-	public static String VERSION = "1.0.9 release 2008/09/01"; //$NON-NLS-1$
+	public static String VERSION = "1.1.0 release 2009/01/08"; //$NON-NLS-1$
 	
 	public static String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
 	
