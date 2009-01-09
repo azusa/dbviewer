@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -18,17 +18,17 @@ import zigen.plugin.db.core.TimeWatcher;
 
 /**
  * TableViewerManagerクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/09/17 ZIGEN create.
- * 
+ *
  */
 public class TableViewerManager {
 
 	/**
 	 * 要素を追加する
-	 * 
+	 *
 	 * @param viewer
 	 * @param newElement
 	 */
@@ -55,7 +55,7 @@ public class TableViewerManager {
 
 	/**
 	 * 指定した要素を更新する ※複数行更新された場合でも、実際に更新した行のみ再描画される
-	 * 
+	 *
 	 * @param viewer
 	 * @param from
 	 * @param to
@@ -72,13 +72,7 @@ public class TableViewerManager {
 					TableElement ele = elements[i];
 					ele.copy(to);
 					ele.clearMofiedColumn();
-
-					// System.out.println(to.getRecordNo());
-					// System.out.println(from.getRecordNo());
-					// System.out.println();
-					// ele.setRecordNo(i); // 1番目はヘッダー
 					ele.setRecordNo(from.getRecordNo()); // 1番目はヘッダー
-
 					ele.isNew(false);
 					viewer.update(ele, null);// テーブル・ビューワを更新
 					break; // 更新行を見つけたらbreakする
@@ -95,7 +89,7 @@ public class TableViewerManager {
 
 	/**
 	 * 指定した要素を削除する
-	 * 
+	 *
 	 * @param viewer
 	 * @param from
 	 * @param to
@@ -126,7 +120,7 @@ public class TableViewerManager {
 
 	/**
 	 * 指定した複数の要素を削除する
-	 * 
+	 *
 	 * @param viewer
 	 * @param target
 	 */

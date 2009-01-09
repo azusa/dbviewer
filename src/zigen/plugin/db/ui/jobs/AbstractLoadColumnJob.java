@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
@@ -216,7 +216,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 		table.setExpanded(true); // カラム情報の読み込み完了
 
 		tw.stop();
-		System.out.println("loadColumnInfo " + tw.getTotalTime());
 		return true;
 	}
 

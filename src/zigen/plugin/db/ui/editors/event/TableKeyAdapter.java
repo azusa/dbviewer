@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -43,13 +43,13 @@ import zigen.plugin.db.ui.jobs.OpenEditorJob;
 import zigen.plugin.db.ui.jobs.RecordCountForTableJob;
 
 /**
- * 
+ *
  * TableKeyAdapterクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/02/08 ZIGEN create.
- * 
+ *
  */
 public class TableKeyAdapter implements KeyListener, TraverseListener {
 
@@ -67,7 +67,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 */
 	public TableKeyAdapter(TableKeyEventHandler handler) {
 		this.handler = handler;
@@ -104,7 +104,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 	/**
 	 * Enterイベント
-	 * 
+	 *
 	 * @param e
 	 * @throws Exception
 	 */
@@ -130,7 +130,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 	/**
 	 * 矢印イベント
-	 * 
+	 *
 	 * @param e
 	 * @param text
 	 * @throws Exception
@@ -434,11 +434,9 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 			// 表示レコード件数＋１でRecordNoを設定
 			// TableElement newElement = new TableNewElement(tbl, count + 1, headerTableElement.getColumns(), items, headerTableElement.getUniqueColumns());
 
-			// System.out.println("create " + recordNo);
 			TableElement newElement = new TableNewElement(tbl, recordNo, headerTableElement.getColumns(), items, headerTableElement.getUniqueColumns());
 
 			// 同じレコードが登録されている場合は非更新状態(*)にする
-
 
 			// レコードの追加
 			TableViewerManager.insert(handler.viewer, newElement);
