@@ -57,7 +57,7 @@ public class QueryViewerContributor extends MultiPageEditorActionBarContributor 
 
 		manager.add(copyRecordDataAction);
 		manager.add(selectAllAction);
-//		manager.add(new Separator());
+		// manager.add(new Separator());
 		manager.add(createCSVForQueryAction);
 
 		// Other plug-ins can contribute there actions here
@@ -66,8 +66,8 @@ public class QueryViewerContributor extends MultiPageEditorActionBarContributor 
 
 	// ツールバーを追加する場合にオーバーライドする
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		// ツールバーを作成
-		// toolBarManager.add(new MyAction());
+	// ツールバーを作成
+	// toolBarManager.add(new MyAction());
 	}
 
 	public void setActivePage(IEditorPart target) {

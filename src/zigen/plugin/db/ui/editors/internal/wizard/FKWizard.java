@@ -74,9 +74,7 @@ public class FKWizard extends DefaultWizard implements IConfirmDDLWizard {
 		Column[] refColumns = (Column[]) page2.selectedList.toArray(new Column[0]);
 		boolean onCascadeDelete = page2.chkDeleteCascade.getSelection();
 		String sql = factory.createCreateConstraintFKDDL(constraintName, columns, refTable, refColumns, onCascadeDelete);
-		return new String[] {
-			sql
-		};
+		return new String[] {sql};
 	}
 
 }

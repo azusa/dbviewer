@@ -64,7 +64,7 @@ public class SQLHistoryManager extends DefaultXmlManager {
 
 				// ソート
 				Collections.sort(history, new SQLHistorySorter());
-				
+
 				return history;
 			}
 		} catch (Exception e) {
@@ -77,15 +77,15 @@ public class SQLHistoryManager extends DefaultXmlManager {
 		try {
 			TimeWatcher tw = new TimeWatcher();
 			tw.start();
-			
+
 			// 空白は取り除く
 			for (Iterator iter = history.iterator(); iter.hasNext();) {
 				SQLHistory sql = (SQLHistory) iter.next();
 				if (sql.isBlank()) {
 					iter.remove();
 				}
-				
-				if(!sql.isFileMode()){
+
+				if (!sql.isFileMode()) {
 					// 旧Versionの履歴を変換する処理
 					saveContents(sql);
 				}
@@ -93,7 +93,7 @@ public class SQLHistoryManager extends DefaultXmlManager {
 			}
 			super.saveXml(history);
 			tw.stop();
-			
+
 		} catch (IOException e) {
 			DbPlugin.log(e);
 		}
@@ -101,20 +101,20 @@ public class SQLHistoryManager extends DefaultXmlManager {
 	}
 
 
-	public String loadContents(SQLHistory history){
+	public String loadContents(SQLHistory history) {
 		String sql = null;
 		String folderName = history.getFolderName();
 		String fileName = history.getFileName();
 		String filePath = file.getParent() + File.separator + folderName + File.separator + fileName + ".sql";
 		File file = new File(filePath);
-		if(file.exists()){
+		if (file.exists()) {
 			sql = FileUtil.getContents(new File(filePath));
-		}else{
+		} else {
 			sql = history.getSql();
 		}
 		return sql;
 	}
-	
+
 	public void saveContents(SQLHistory history) {
 		try {
 			// フォルダ作成
@@ -134,7 +134,7 @@ public class SQLHistoryManager extends DefaultXmlManager {
 	}
 
 	String getShortSql(String fullSql) {
-//		String sql = SQLFormatter.unformat(fullSql);
+		// String sql = SQLFormatter.unformat(fullSql);
 		String sql = fullSql; // レスポンス悪化のため、Unformatしない
 		if (sql == null)
 			return "";
@@ -172,17 +172,16 @@ public class SQLHistoryManager extends DefaultXmlManager {
 
 		String filePath = file.getParent() + File.separator + folderName + File.separator + fileName + ".sql";
 		File f = new File(filePath);
-		if(f.exists()){
+		if (f.exists()) {
 			f.delete();
 		}
-		
-		
-		if(f.getParentFile().list().length == 0){
+
+
+		if (f.getParentFile().list().length == 0) {
 			f.getParentFile().delete();
 		}
 	}
 
-	
 
 	public List getHistory() {
 		return this.history;
@@ -198,13 +197,13 @@ public class SQLHistoryManager extends DefaultXmlManager {
 
 	}
 
-	public void removeOverHistory() throws IOException{
+	public void removeOverHistory() throws IOException {
 		try {
 			this.maxSize = preferenceStore.getInt(PreferencePage.P_MAX_HISTORY);
 			while (history.size() - 1 > maxSize) { // 空白用を考慮
-				SQLHistory sh = (SQLHistory)history.get(0);
-				removeFile(sh); //add
-				
+				SQLHistory sh = (SQLHistory) history.get(0);
+				removeFile(sh); // add
+
 				history.remove(0);
 				currentPosition--; // 減らした分位置を--
 			}
@@ -221,26 +220,26 @@ public class SQLHistoryManager extends DefaultXmlManager {
 
 			SQLHistory his = (SQLHistory) history.get(position);
 			String targetSql = loadContents(his);
-			
+
 			// 大量のINSERT文をunFormatして比較すると、CPUが100%になり、レスポンスが悪化するため、Unformatしないで比較する
-//			String hSql = SQLFormatter.unformat(targetSql);
-//			String uSql = SQLFormatter.unformat(sql);
+			// String hSql = SQLFormatter.unformat(targetSql);
+			// String uSql = SQLFormatter.unformat(sql);
 			String hSql = targetSql;
 			String uSql = sql;
-			
-			tw.stop();			
-//			tw.start();
-//			// 仮に全部の履歴とチェックする
-//			for (Iterator iter = history.iterator(); iter.hasNext();) {
-//				SQLHistory sh = (SQLHistory) iter.next();
-//				String targetSql2 = loadContents(sh);
-//				String hSql2 = SQLFormatter.unformat(targetSql);
-//				if (uSql.equals(hSql2)) {
-//				}
-//				
-//			}
-//			tw.stop();
-//
+
+			tw.stop();
+			// tw.start();
+			// // 仮に全部の履歴とチェックする
+			// for (Iterator iter = history.iterator(); iter.hasNext();) {
+			// SQLHistory sh = (SQLHistory) iter.next();
+			// String targetSql2 = loadContents(sh);
+			// String hSql2 = SQLFormatter.unformat(targetSql);
+			// if (uSql.equals(hSql2)) {
+			// }
+			//				
+			// }
+			// tw.stop();
+			//
 
 			if (uSql.equals(hSql)) {
 				return true;
@@ -259,18 +258,18 @@ public class SQLHistoryManager extends DefaultXmlManager {
 		boolean isAdd = false;
 		String sql = his.getSql();
 		SQLHistory current = currentHistory();
-		
+
 		if (!isSameHistory(sql, currentPosition)) {
-			
+
 			// SQLファイルを記録
 			saveContents(his);
 			history.add(his); // 最後の１つ前にする
 			currentPosition = history.size() - 2; // カレントを最後から１つ前にする
 			isAdd = true;
 		}
-		
+
 		Collections.sort(history, new SQLHistorySorter());
-		
+
 		// 最大数を超えた履歴は削除する
 		removeOverHistory();
 
@@ -278,17 +277,17 @@ public class SQLHistoryManager extends DefaultXmlManager {
 		return isAdd;
 	}
 
-	public void remove(SQLHistory sqlHistory) throws IOException{
-//		TimeWatcher tw = new TimeWatcher();
-//		tw.start();
-		
-		removeFile(sqlHistory); //add
+	public void remove(SQLHistory sqlHistory) throws IOException {
+		// TimeWatcher tw = new TimeWatcher();
+		// tw.start();
+
+		removeFile(sqlHistory); // add
 		history.remove(sqlHistory);
 		if (currentPosition > 0) {
 			currentPosition--;
 		}
 
-//		tw.stop();
+		// tw.stop();
 	}
 
 	// 現在の履歴を取得

@@ -52,11 +52,11 @@ public class SqlFormatJob extends AbstractJob {
 	TextSelection selection;
 
 	boolean selectionMode = false;
-	
+
 	int formattOffset = 0;
-	
+
 	int firstWordPosition = 0;
-	
+
 	public SqlFormatJob(SQLSourceViewer viewer, String secondarlyId) {
 		super("SQL Formatting...");
 		this.viewer = viewer;
@@ -68,30 +68,31 @@ public class SqlFormatJob extends AbstractJob {
 		if (selection != null && selection.getText().length() > 0) {
 			this.targetSql = selection.getText(); // cancel用
 			this.selectionMode = true;
-			
+
 			calcurate(doc, selection);
-			
+
 		} else {
 			this.targetSql = viewer.getDocument().get();
-//			this.targetSql = viewer.getCurrentSql();	// フォーカスが無い場合があることを考慮しないと整形後NULLになる
-			
+			// this.targetSql = viewer.getCurrentSql(); // フォーカスが無い場合があることを考慮しないと整形後NULLになる
+
 			this.selectionMode = false;
 		}
 		this.formattedSql = targetSql; // cancel用に設定しておく
 
 	}
 
-	private void calcurate(IDocument doc, TextSelection selection){
+	private void calcurate(IDocument doc, TextSelection selection) {
 		try {
 			int sOffset = doc.getLineOffset(selection.getStartLine());
-			
+
 			firstWordPosition = StringUtil.firstWordPosition(selection.getText());
 			this.formattOffset = selection.getOffset() - sOffset + firstWordPosition;
-			
+
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 	}
+
 	// /**
 	// * SQLを選択して実行する場合のSQL整形処理(※選択したSQLの整形ではない）
 	// *
@@ -120,32 +121,32 @@ public class SqlFormatJob extends AbstractJob {
 			int type = ps.getInt(SQLFormatPreferencePage.P_USE_FORMATTER_TYPE);
 			int max = ps.getInt(SQLFormatPreferencePage.P_MAX_SQL_COUNT);
 
-			
+
 			StringBuffer sb = new StringBuffer();
 			SQLTokenizer st = new SQLTokenizer(targetSql, demiliter);
-			
+
 			// while (st.hasMoreElements()) {
 			int tokenCount = st.getTokenCount();
 
 			for (int i = 0; i < tokenCount; i++) {
-			
+
 				String sql = (String) st.nextElement();
-				
+
 				if (sql != null && sql.length() > 0) {
-					if(i < max){
+					if (i < max) {
 						sb.append(SQLFormatter.format(sql, type, onPatch, formattOffset));
-					}else{
+					} else {
 						// 最大数を超える場合は整形しない
 						sb.append(sql);
 					}
-					
+
 					if (!selectionMode) {
 						// 非選択モード
 						addLine(sb, demiliter);
-					}else{
+					} else {
 						// 選択モード場合
-						
-						if(tokenCount > 1){
+
+						if (tokenCount > 1) {
 							addLine(sb, demiliter);
 						}
 					}
@@ -171,8 +172,8 @@ public class SqlFormatJob extends AbstractJob {
 		return Status.OK_STATUS; // エラーダイアログを表示するためにOKで返す
 
 	}
-	
-	private void addLine(StringBuffer sb, String demiliter){
+
+	private void addLine(StringBuffer sb, String demiliter) {
 		if ("/".equals(demiliter)) { //$NON-NLS-1$
 			sb.append(DbPluginConstant.LINE_SEP);
 		}
@@ -185,6 +186,7 @@ public class SqlFormatJob extends AbstractJob {
 	}
 
 	protected class ShowResultAction implements Runnable {
+
 		String secondaryId = null;
 
 		String formattedSql = null;
@@ -220,14 +222,13 @@ public class SqlFormatJob extends AbstractJob {
 				}
 
 
-
 				// フォーカスを与えるために先にTrueにしておく
 				viewer.setEditable(true);
 
-				if(selectionMode){
-					//setSelection(viewer, selection, true);
+				if (selectionMode) {
+					// setSelection(viewer, selection, true);
 					setSelection(viewer, new TextSelection(selection.getOffset() + firstWordPosition, formattedSql.length()), true);
-				}else{
+				} else {
 					int maxLine = doc.getLineOfOffset(formattedSql.length());
 					if (line > maxLine)
 						line = maxLine;
@@ -243,10 +244,10 @@ public class SqlFormatJob extends AbstractJob {
 					int newOffset = doc.getLineOffset(line) + x;
 					if (formattedSql.length() < newOffset)
 						newOffset = formattedSql.length();
-					
+
 					setSelection(viewer, new TextSelection(newOffset, 0), true);
 				}
-				
+
 				// outlineに通知するためにイベントを発行
 				viewer.getTextWidget().notifyListeners(SWT.Selection, null);
 
@@ -269,6 +270,7 @@ public class SqlFormatJob extends AbstractJob {
 	}
 
 	protected class UnLockAction implements Runnable {
+
 		String secondaryId = null;
 
 		String responseTime = null;

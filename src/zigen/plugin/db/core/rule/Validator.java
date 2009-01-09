@@ -83,7 +83,7 @@ public class Validator {
 		for (int i = 0; i < text.length(); i++) {
 			char chr = text.charAt(i);
 			if (!(chr >= '0' && chr <= '9')) { // 0`9ˆÈŠO‚ÍƒGƒ‰[
-			// return filedName + "‚Í”¼Šp”Žš‚Ì‚Ý“ü—Í‚µ‚Ä‚­‚¾‚³‚¢";
+				// return filedName + "‚Í”¼Šp”Žš‚Ì‚Ý“ü—Í‚µ‚Ä‚­‚¾‚³‚¢";
 				return filedName + " is numeric only,";
 			}
 		}

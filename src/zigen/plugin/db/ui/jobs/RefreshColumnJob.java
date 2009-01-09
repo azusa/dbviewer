@@ -27,6 +27,7 @@ import zigen.plugin.db.ui.internal.ITable;
 import zigen.plugin.db.ui.views.TreeContentProvider;
 
 public class RefreshColumnJob extends AbstractLoadColumnJob {
+
 	private static Object lock = new Object();
 
 	protected TreeViewer treeViewer;
@@ -57,15 +58,15 @@ public class RefreshColumnJob extends AbstractLoadColumnJob {
 		try {
 			// JOB単位に個別のコネクションを使うため、ロックする必要は無い
 			// しかし、テーブルエディターの起動時のカラム検索との排他制御が必要となる
-			
+
 			synchronized (table) {
 				monitor.beginTask(Messages.getString("RefreshColumnJob.6"), 6); //$NON-NLS-1$
 				// Connection con =
 				// Transaction.getInstance(config).getConnection();
 				con = ConnectionManager.getConnection(config);
-				
+
 				monitor.beginTask(Messages.getString("RefreshColumnJob.5"), 6); //$NON-NLS-1$
-				
+
 				if (!loadColumnInfo(monitor, con, table)) {
 					table.setExpanded(false);
 					return Status.CANCEL_STATUS;

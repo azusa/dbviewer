@@ -30,7 +30,7 @@ public class ExecSQLFileAction extends Action implements IObjectActionDelegate {
 	}
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-		// action.setAccelerator(SWT.CTRL + SWT.CR);
+	// action.setAccelerator(SWT.CTRL + SWT.CR);
 	}
 
 	public void run(IAction action) {
@@ -78,11 +78,9 @@ public class ExecSQLFileAction extends Action implements IObjectActionDelegate {
 			Object obj = ss.getFirstElement();
 			if (obj instanceof IFile) {
 				IFile wkfile = (IFile) obj;
-				/* ファイルの拡張子がSQLに限らないように修正
-				if (FileUtil.isSqlFile(wkfile)) {
-					file = wkfile;
-					action.setEnabled(true);
-				}*/
+				/*
+				 * ファイルの拡張子がSQLに限らないように修正 if (FileUtil.isSqlFile(wkfile)) { file = wkfile; action.setEnabled(true); }
+				 */
 				file = wkfile;
 				action.setEnabled(true);
 

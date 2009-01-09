@@ -35,7 +35,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String[] getSupportColumnType() {
-		return new String[] { "TINYINT", //$NON-NLS-1$
+		return new String[] {"TINYINT", //$NON-NLS-1$
 				"BIT", //$NON-NLS-1$
 				"BOOL", //$NON-NLS-1$
 				"BOOLEAN", //$NON-NLS-1$
@@ -104,23 +104,23 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
 		String orderBy = conditions[1];
-		
+
 		if (condition != null && !"".equals(condition.trim())) { //$NON-NLS-1$
 			sb.append(" WHERE " + condition); //$NON-NLS-1$
 		}
-		
+
 		// ORDER BY
 		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
-		
+
 		if (limit > 0) {
 			sb.append(" LIMIT " + (limit + 1)); // ダイアログを出す為に＋１ //$NON-NLS-1$
 		}
 
 		return sb.toString();
 	}
-	
+
 	public boolean isSupportPager() {
 		return true;
 	}
@@ -129,30 +129,30 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
 		sb.append(table.getSqlTableName());
-		
+
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
 		String orderBy = conditions[1];
-		
+
 		if (condition != null && !"".equals(condition.trim())) { //$NON-NLS-1$
 			sb.append(" WHERE "); //$NON-NLS-1$
 			sb.append(condition);
 		}
 		if (limit > 0) {
 			sb.append(" LIMIT ");
-			sb.append(offset-1);
+			sb.append(offset - 1);
 			sb.append(", ");
 			sb.append(limit);
 		}
-		
+
 		// ORDER BY
 		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
 		return sb.toString();
 	}
-	
-	
+
+
 	public String createCommentOnTableDDL(String commnets) {
 		return null;
 	}
@@ -220,7 +220,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 		sb.append(")"); //$NON-NLS-1$
 
-		return new String[] { sb.toString() };
+		return new String[] {sb.toString()};
 
 	}
 
@@ -241,9 +241,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 
 		/*
-		 * if (!from.getDefaultValue().equals(to.getDefaultValue())) {// DEFAULT
-		 * sb.append(" DEFAULT "); //$NON-NLS-1$ if
-		 * ("".equals(to.getDefaultValue())) { //$NON-NLS-1$ sb.append("NULL");
+		 * if (!from.getDefaultValue().equals(to.getDefaultValue())) {// DEFAULT sb.append(" DEFAULT "); //$NON-NLS-1$ if ("".equals(to.getDefaultValue())) { //$NON-NLS-1$ sb.append("NULL");
 		 * //$NON-NLS-1$ } else { sb.append(to.getDefaultValue()); } }
 		 */
 		sb.append(" DEFAULT "); //$NON-NLS-1$
@@ -259,7 +257,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" NULL"); //$NON-NLS-1$
 		}
 
-		return new String[] { sb.toString() };
+		return new String[] {sb.toString()};
 
 	}
 
@@ -271,7 +269,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.encodeQuotation(column.getName()));
 		// MySQL では未サポート
 		// sb.append(" CASCADE CONSTRAINTS ");
-		return new String[] { sb.toString() };
+		return new String[] {sb.toString()};
 
 	}
 
@@ -308,9 +306,9 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		// INDEX名
 		sb.append(indexName);
 		sb.append(" ON "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -443,14 +441,14 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		// MySQLは、COMMENT ON 句ではない
 		// テーブルコメント
-		//sb.append(getTableComment());
-		
+		// sb.append(getTableComment());
+
 		// MySQLは、COMMENT ON 句ではない
 		// カラムコメント
-		//sb.append(getColumnComment());
+		// sb.append(getColumnComment());
 		return sb.toString();
 	}
-	
+
 	protected String getViewDDL_SQL(String owner, String view) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT"); //$NON-NLS-1$
@@ -461,6 +459,6 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("        table_schema = '" + SQLUtil.encodeQuotation(owner) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("        AND table_name = '" + SQLUtil.encodeQuotation(view) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		return sb.toString();	
+		return sb.toString();
 	}
 }

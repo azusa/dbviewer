@@ -20,8 +20,7 @@ import zigen.plugin.db.core.SchemaInfo;
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4
- * @see org.eclipse.jface.dialogs.IDialogSettings history Symbol Date Person
- *      Note [1] 2005/03/15 ZIGEN create.
+ * @see org.eclipse.jface.dialogs.IDialogSettings history Symbol Date Person Note [1] 2005/03/15 ZIGEN create.
  * 
  */
 public interface IDBDialogSettings {
@@ -33,7 +32,7 @@ public interface IDBDialogSettings {
 	public String get(String key);
 
 	public String[] getArray(String key);
-	
+
 	public SchemaInfo[] getSchemaInfos(String key); // ADD
 
 	public boolean getBoolean(String key);
@@ -57,7 +56,7 @@ public interface IDBDialogSettings {
 	public void load(String fileName) throws IOException;
 
 	public void put(String key, String[] value);
-	
+
 	public void put(String key, SchemaInfo[] value);
 
 	public void put(String key, double value);

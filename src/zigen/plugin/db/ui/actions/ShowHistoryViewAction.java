@@ -23,7 +23,7 @@ import zigen.plugin.db.ui.views.HistoryView;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/26 ZIGEN create.
  * 
  */
-public class ShowHistoryViewAction extends Action{
+public class ShowHistoryViewAction extends Action {
 
 	/**
 	 * コンストラクタ
@@ -32,9 +32,9 @@ public class ShowHistoryViewAction extends Action{
 	 */
 	public ShowHistoryViewAction() {
 		super(Messages.getString("ShowHistoryViewAction.0"), IAction.AS_CHECK_BOX); //$NON-NLS-1$
-		//super(Messages.getString("ShowHistoryViewAction.0"), IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
-//		super(Messages.getString("ShowHistoryViewAction.0"), IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
-		
+		// super(Messages.getString("ShowHistoryViewAction.0"), IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
+		// super(Messages.getString("ShowHistoryViewAction.0"), IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
+
 		this.setToolTipText(Messages.getString("ShowHistoryViewAction.0")); //$NON-NLS-1$
 		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_CLOCK));
 		// this.setChecked(true);

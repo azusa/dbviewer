@@ -65,11 +65,9 @@ public class CreateCSVForTableAction extends Action {
 			Shell shell = DbPlugin.getDefault().getShell();
 			FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 			dialog.setFileName(editor.getTableNode().getName());
-			dialog.setFilterExtensions(new String[] {
-					"*.csv", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
+			dialog.setFilterExtensions(new String[] {"*.csv", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
 			});
-			dialog.setFilterNames(new String[] {
-					Messages.getString("CreateCSVForTableAction.4"), Messages.getString("CreateCSVForTableAction.5") //$NON-NLS-1$ //$NON-NLS-2$
+			dialog.setFilterNames(new String[] {Messages.getString("CreateCSVForTableAction.4"), Messages.getString("CreateCSVForTableAction.5") //$NON-NLS-1$ //$NON-NLS-2$
 					});
 			String fileName = dialog.open();
 
@@ -91,23 +89,23 @@ public class CreateCSVForTableAction extends Action {
 			CSVConfig config = new CSVConfig();
 
 			String encoding = store.getString(CSVPreferencePage.P_ENCODING);
-            String separator = store.getString(CSVPreferencePage.P_DEMILITER);
-            boolean nonHeader = store.getBoolean(CSVPreferencePage.P_NON_HEADER);
-            boolean nonDoubleQuate = store.getBoolean(CSVPreferencePage.P_NON_DOUBLE_QUATE);
-            
-			
+			String separator = store.getString(CSVPreferencePage.P_DEMILITER);
+			boolean nonHeader = store.getBoolean(CSVPreferencePage.P_NON_HEADER);
+			boolean nonDoubleQuate = store.getBoolean(CSVPreferencePage.P_NON_DOUBLE_QUATE);
+
+
 			String condition = editor.getCondition();
-			if(condition == null || condition.length() == 0){
+			if (condition == null || condition.length() == 0) {
 				config.setQuery(TableManager.getSQLForCSV(editor.getTableNode()));
-			}else{
-				config.setQuery(TableManager.getSQLForCSV(editor.getTableNode(), condition));	
+			} else {
+				config.setQuery(TableManager.getSQLForCSV(editor.getTableNode(), condition));
 			}
-			
+
 			config.setCsvEncoding(encoding);
-            config.setSeparator(separator);
-            config.setNonHeader(nonHeader);
-            config.setNonDoubleQuate(nonDoubleQuate);
-            
+			config.setSeparator(separator);
+			config.setNonHeader(nonHeader);
+			config.setNonDoubleQuate(nonDoubleQuate);
+
 
 			config.setCsvFile(fileName);
 			CSVWriter writer = new CSVWriter(editor.getDBConfig(), config);

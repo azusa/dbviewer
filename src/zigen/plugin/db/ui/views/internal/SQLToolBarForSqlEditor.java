@@ -19,12 +19,13 @@ import zigen.plugin.db.ui.editors.sql.ExecuteSQLForEditorAction;
 import zigen.plugin.db.ui.editors.sql.SqlEditor2;
 
 public class SQLToolBarForSqlEditor extends SQLToolBar {
+
 	protected IEditorPart fEditor;
 
 	protected DisplayResultAction displayResultAction;
-	
-	protected ExecuteSQLForEditorAction executeSQLForEditorAction; 
-	
+
+	protected ExecuteSQLForEditorAction executeSQLForEditorAction;
+
 	protected ToolBarContributionItem getToolBarContributionItem1(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
 		toolBarMgr.add(new SaveAction());
@@ -33,15 +34,15 @@ public class SQLToolBarForSqlEditor extends SQLToolBar {
 
 	protected ToolBarContributionItem getToolBarContributionItem2(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
-		if(fEditor instanceof SqlEditor2){
-			executeSQLForEditorAction = new ExecuteSQLForEditorAction((SqlEditor2)fEditor);	
+		if (fEditor instanceof SqlEditor2) {
+			executeSQLForEditorAction = new ExecuteSQLForEditorAction((SqlEditor2) fEditor);
 			toolBarMgr.add(executeSQLForEditorAction);
-		}else{
+		} else {
 			toolBarMgr.add(executeSQLForEditorAction);
 		}
 		toolBarMgr.add(allClearAction);
 		return new ToolBarContributionItem(toolBarMgr);
-		
+
 	}
 
 	protected ToolBarContributionItem getToolBarContributionItem3(CoolBarManager coolBarMgr) {
@@ -97,13 +98,12 @@ public class SQLToolBarForSqlEditor extends SQLToolBar {
 
 	}
 
-	
-	public void setDisplayResultChecked(boolean checked){
+
+	public void setDisplayResultChecked(boolean checked) {
 		displayResultAction.setChecked(checked);
 	}
-	
-	
-	
+
+
 	class DisplayResultAction extends Action {
 
 		public DisplayResultAction() {
@@ -112,15 +112,15 @@ public class SQLToolBarForSqlEditor extends SQLToolBar {
 		}
 
 		public void run() {
-//			if (fEditor instanceof SqlEditor2) {
-//				((SqlEditor2) fEditor).setResultVisible(!isChecked());				
-//			}
+		// if (fEditor instanceof SqlEditor2) {
+		// ((SqlEditor2) fEditor).setResultVisible(!isChecked());
+		// }
 		}
-		
-		public void setChecked(boolean checked){
+
+		public void setChecked(boolean checked) {
 			super.setChecked(checked);
 			if (fEditor instanceof SqlEditor2) {
-				((SqlEditor2) fEditor).setResultVisible(isChecked());				
+				((SqlEditor2) fEditor).setResultVisible(isChecked());
 			}
 		}
 

@@ -20,6 +20,7 @@ import zigen.plugin.db.core.TableColumn;
  * 
  */
 public interface IColumnSearcherFactory {
+
 	public static final int COLUMN_NAME = 4; // カラム名
 
 	public static final int DATA_TYPE = 5; // java.sql.Types での SQL データ型
@@ -27,8 +28,9 @@ public interface IColumnSearcherFactory {
 	public static final int TYPE_NAME = 6; // DB 製品に依存する列のデータ型名
 
 	public static final int COLUMN_SIZE = 7; // 列サイズ。char/date
-												// タイプについては最大文字数、numeric や
-												// decimal タイプについては桁数
+
+	// タイプについては最大文字数、numeric や
+	// decimal タイプについては桁数
 
 	public static final int DECIMAL_DIGITS = 9; // 小数点以下の桁数
 

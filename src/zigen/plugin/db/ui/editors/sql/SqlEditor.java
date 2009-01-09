@@ -145,7 +145,7 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
 
 		IDocument doc = sqlViewer.getDocument();
-		IDocumentPartitioner partitioner = new FastPartitioner(new SQLPartitionScanner(), new String[] { SQLPartitionScanner.SQL_STRING, SQLPartitionScanner.SQL_COMMENT });
+		IDocumentPartitioner partitioner = new FastPartitioner(new SQLPartitionScanner(), new String[] {SQLPartitionScanner.SQL_STRING, SQLPartitionScanner.SQL_COMMENT});
 		partitioner.connect(doc);
 		doc.setDocumentPartitioner(partitioner);
 
@@ -197,8 +197,8 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		toolBar.updateCombo(ResourceUtil.getDBConfig(getFile()));
 
 		// リアルタイムでは実行しない
-		 sqlViewer.getTextWidget().addKeyListener(new AutoDelayAdapter());
-		 sqlViewer.getTextWidget().addMouseListener(new AutoDelayAdapter());
+		sqlViewer.getTextWidget().addKeyListener(new AutoDelayAdapter());
+		sqlViewer.getTextWidget().addMouseListener(new AutoDelayAdapter());
 
 		getSite().setSelectionProvider(sqlViewer);
 		// getEditorSite().getPage().addSelectionListener(this);
@@ -269,6 +269,7 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+
 			public void menuAboutToShow(IMenuManager manager) {
 				getContributor().fillContextMenu(manager);
 			}
@@ -382,8 +383,7 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		}
 
 		/*
-		 * if (IContentOutlinePage.class.equals(adapter)) { if (outlinePage ==
-		 * null) { outlinePage = new SQLOutinePage(this); } return outlinePage; }
+		 * if (IContentOutlinePage.class.equals(adapter)) { if (outlinePage == null) { outlinePage = new SQLOutinePage(this); } return outlinePage; }
 		 */
 
 		return super.getAdapter(adapter);
@@ -391,19 +391,19 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 
 	protected void updateFolding() {
 
-		// IDocument doc = sqlViewer.getDocument();
-		// int offset = sqlViewer.getTextWidget().getCaretOffset();
-		// setStatusLineMessage(""); // クリアする
-		// ProjectionAnnotationModel model =
-		// sqlViewer.getProjectionAnnotationModel();
-		//		
-		// if (model != null) {
-		// UpdateSQLFoldingJob job = new UpdateSQLFoldingJob(model, doc, offset,
-		// getIStatusLineManager());
-		// job.setPriority(UpdateSQLFoldingJob.SHORT);
-		// job.setUser(true);
-		// job.schedule();
-		// }
+	// IDocument doc = sqlViewer.getDocument();
+	// int offset = sqlViewer.getTextWidget().getCaretOffset();
+	// setStatusLineMessage(""); // クリアする
+	// ProjectionAnnotationModel model =
+	// sqlViewer.getProjectionAnnotationModel();
+	//		
+	// if (model != null) {
+	// UpdateSQLFoldingJob job = new UpdateSQLFoldingJob(model, doc, offset,
+	// getIStatusLineManager());
+	// job.setPriority(UpdateSQLFoldingJob.SHORT);
+	// job.setUser(true);
+	// job.schedule();
+	// }
 	}
 
 	public void doSave(IProgressMonitor progressMonitor) {
@@ -463,6 +463,7 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 	}
 
 	class SaveAction extends org.eclipse.jface.action.Action {
+
 		public SaveAction() {
 			this.setToolTipText("Save"); //$NON-NLS-1$
 			this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_SAVE));
@@ -477,14 +478,16 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 	// ---------------------------------------------------------//
 
 	class AutoDelayAdapter extends AutoDelayListener {
+
 		public Runnable createExecutAction() {
 			return new Runnable() {
+
 				public void run() {
 					try {
 						if (outlinePage != null)
 
 							outlinePage.update();
-							//updateFolding();
+						// updateFolding();
 					} catch (Exception e) {
 					}
 				}
@@ -524,8 +527,8 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		}
 
 		private boolean isCanceled() {
-			return fCanceled || fProgressMonitor.isCanceled() || fPostSelectionValidator != null && !(fPostSelectionValidator.isValid(fSelection) || fForcedMarkOccurrencesSelection == fSelection)
-					|| LinkedModeModel.hasInstalledModel(fDocument);
+			return fCanceled || fProgressMonitor.isCanceled() || fPostSelectionValidator != null
+					&& !(fPostSelectionValidator.isValid(fSelection) || fForcedMarkOccurrencesSelection == fSelection) || LinkedModeModel.hasInstalledModel(fDocument);
 		}
 
 		public IStatus run(IProgressMonitor progressMonitor) {

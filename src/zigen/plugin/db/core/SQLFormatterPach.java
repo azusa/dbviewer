@@ -170,7 +170,7 @@ public class SQLFormatterPach {
 		return sb.toString();
 	}
 
-	
+
 	// BIND変数(:)対応
 	private static String formatCoron(String sql) {
 		StringBuffer sb = new StringBuffer();
@@ -184,7 +184,7 @@ public class SQLFormatterPach {
 			if (token3.trim().length() == 0) {
 				indent++;
 			} else {
-				//String wk = token3.trim().toUpperCase(); // 改行削除、大文字変換
+				// String wk = token3.trim().toUpperCase(); // 改行削除、大文字変換
 				String wk = token3.trim(); // 改行削除、大文字変換は不要
 				if (wk.endsWith(":")) {
 					isCoron = true;
@@ -197,10 +197,10 @@ public class SQLFormatterPach {
 				} else {
 					if (sb.length() == 0) {
 						sb.append(token3);
-					} else if(isCoron){
+					} else if (isCoron) {
 						sb.append(StringUtil.indent(token3, indent));
 						isCoron = false;
-					}else{
+					} else {
 						sb.append(" ");
 						sb.append(StringUtil.indent(token3, indent));
 					}

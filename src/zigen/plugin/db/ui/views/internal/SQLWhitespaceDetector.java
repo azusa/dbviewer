@@ -21,8 +21,7 @@ public class SQLWhitespaceDetector implements IWhitespaceDetector {
 	/**
 	 * コンストラク
 	 */
-	public SQLWhitespaceDetector() {
-	}
+	public SQLWhitespaceDetector() {}
 
 	public boolean isWhitespace(char c) {
 		// return Character.isWhitespace(c);

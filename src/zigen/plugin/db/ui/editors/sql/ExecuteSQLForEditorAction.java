@@ -9,12 +9,13 @@ package zigen.plugin.db.ui.editors.sql;
 import org.eclipse.jface.text.IDocument;
 
 
-public class ExecuteSQLForEditorAction extends AbstractExecuteSQLForEditorAction{
+public class ExecuteSQLForEditorAction extends AbstractExecuteSQLForEditorAction {
+
 	public ExecuteSQLForEditorAction(SqlEditor2 editor) {
 		super(editor);
 	}
 
-	protected String targetSql(IDocument doc){
-		return doc.get();	// 全SQLを実行
+	protected String targetSql(IDocument doc) {
+		return doc.get(); // 全SQLを実行
 	}
 }

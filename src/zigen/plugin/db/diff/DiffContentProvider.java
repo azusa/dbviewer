@@ -17,11 +17,14 @@ import zigen.plugin.db.ui.internal.TreeNode;
 
 public class DiffContentProvider implements ITreeContentProvider {
 
-    public static final String FOLDER_INCLUDE_ONLY_TARGET = Messages.getString("DiffContentProvider.0"); //$NON-NLS-1$
-    public static final String FOLDER_INCLUDE_ONLY_ORIGIN = Messages.getString("DiffContentProvider.1"); //$NON-NLS-1$
-    public static final String FOLDER_BOTH_DIFFERENCE = Messages.getString("DiffContentProvider.2"); //$NON-NLS-1$
-    public static final String FOLDER_BOTH_SAME = Messages.getString("DiffContentProvider.3"); //$NON-NLS-1$
-    
+	public static final String FOLDER_INCLUDE_ONLY_TARGET = Messages.getString("DiffContentProvider.0"); //$NON-NLS-1$
+
+	public static final String FOLDER_INCLUDE_ONLY_ORIGIN = Messages.getString("DiffContentProvider.1"); //$NON-NLS-1$
+
+	public static final String FOLDER_BOTH_DIFFERENCE = Messages.getString("DiffContentProvider.2"); //$NON-NLS-1$
+
+	public static final String FOLDER_BOTH_SAME = Messages.getString("DiffContentProvider.3"); //$NON-NLS-1$
+
 	private Root invisibleRoot;
 
 	private TreeViewer viewer;
@@ -33,56 +36,56 @@ public class DiffContentProvider implements ITreeContentProvider {
 		if (newInput != null) {
 			invisibleRoot = new Root("invisible", true); //$NON-NLS-1$
 
-            Folder folder1 = new Folder(FOLDER_INCLUDE_ONLY_TARGET);
-            Folder folder2 = new Folder(FOLDER_INCLUDE_ONLY_ORIGIN);
-            Folder folder3 = new Folder(FOLDER_BOTH_DIFFERENCE);
-            Folder folder4 = new Folder(FOLDER_BOTH_SAME);
-            
-            invisibleRoot.addChild(folder1);
-            invisibleRoot.addChild(folder2);
-            invisibleRoot.addChild(folder3);
-            invisibleRoot.addChild(folder4);
-            
+			Folder folder1 = new Folder(FOLDER_INCLUDE_ONLY_TARGET);
+			Folder folder2 = new Folder(FOLDER_INCLUDE_ONLY_ORIGIN);
+			Folder folder3 = new Folder(FOLDER_BOTH_DIFFERENCE);
+			Folder folder4 = new Folder(FOLDER_BOTH_SAME);
+
+			invisibleRoot.addChild(folder1);
+			invisibleRoot.addChild(folder2);
+			invisibleRoot.addChild(folder3);
+			invisibleRoot.addChild(folder4);
+
 			this.viewer = (TreeViewer) v;
 
 			if (newInput instanceof IDDLDiff[]) {
 				IDDLDiff[] diffs = (IDDLDiff[]) newInput;
 
-                int cnt1 = 0;
-                int cnt2 = 0;
-                int cnt3 = 0;
-                int cnt4 = 0;
-                
+				int cnt1 = 0;
+				int cnt2 = 0;
+				int cnt3 = 0;
+				int cnt4 = 0;
+
 				for (int i = 0; i < diffs.length; i++) {
 					IDDLDiff diff = diffs[i];
-                    
-                    switch (diff.getResultType()) {
-                        case IDDLDiff.TYPE_INCLUDE_ONLY_TARGET:
-                            folder1.addChild((TreeLeaf)diff);
-                            cnt1++;
-                            break;
-                        case IDDLDiff.TYPE_INCLUDE_ONLY_ORIGN:
-                            folder2.addChild((TreeLeaf)diff);
-                            cnt2++;
-                            break;
-                        case IDDLDiff.TYPE_BOTH_DIFFERENCE:
-                            folder3.addChild((TreeLeaf)diff);
-                            cnt3++;
-                            break;
-                        case IDDLDiff.TYPE_BOTH_SAME:
-                            folder4.addChild((TreeLeaf)diff);
-                            cnt4++;
-                            break;
-                        default:
-                            invisibleRoot.addChild((TreeLeaf)diff);
-                            break;
-                    }
+
+					switch (diff.getResultType()) {
+					case IDDLDiff.TYPE_INCLUDE_ONLY_TARGET:
+						folder1.addChild((TreeLeaf) diff);
+						cnt1++;
+						break;
+					case IDDLDiff.TYPE_INCLUDE_ONLY_ORIGN:
+						folder2.addChild((TreeLeaf) diff);
+						cnt2++;
+						break;
+					case IDDLDiff.TYPE_BOTH_DIFFERENCE:
+						folder3.addChild((TreeLeaf) diff);
+						cnt3++;
+						break;
+					case IDDLDiff.TYPE_BOTH_SAME:
+						folder4.addChild((TreeLeaf) diff);
+						cnt4++;
+						break;
+					default:
+						invisibleRoot.addChild((TreeLeaf) diff);
+						break;
+					}
 				}
-                
-                folder1.setName(FOLDER_INCLUDE_ONLY_TARGET + " (" +cnt1 +")"); //$NON-NLS-1$ //$NON-NLS-2$
-                folder2.setName(FOLDER_INCLUDE_ONLY_ORIGIN + " (" +cnt2 +")"); //$NON-NLS-1$ //$NON-NLS-2$
-                folder3.setName(FOLDER_BOTH_DIFFERENCE + " (" +cnt3 +")"); //$NON-NLS-1$ //$NON-NLS-2$
-                folder4.setName(FOLDER_BOTH_SAME + " (" +cnt4 +")"); //$NON-NLS-1$ //$NON-NLS-2$
+
+				folder1.setName(FOLDER_INCLUDE_ONLY_TARGET + " (" + cnt1 + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				folder2.setName(FOLDER_INCLUDE_ONLY_ORIGIN + " (" + cnt2 + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				folder3.setName(FOLDER_BOTH_DIFFERENCE + " (" + cnt3 + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				folder4.setName(FOLDER_BOTH_SAME + " (" + cnt4 + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 
 
 			}
@@ -91,8 +94,7 @@ public class DiffContentProvider implements ITreeContentProvider {
 
 	}
 
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	public Object[] getElements(Object inputElement) {
 		return getChildren(invisibleRoot);

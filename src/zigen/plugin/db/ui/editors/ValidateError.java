@@ -8,8 +8,9 @@ package zigen.plugin.db.ui.editors;
 import java.io.Serializable;
 
 public class ValidateError implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	int row = 0;
 
 	int column = 0;

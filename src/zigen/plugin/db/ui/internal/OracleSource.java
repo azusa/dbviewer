@@ -17,13 +17,13 @@ import zigen.plugin.db.ext.oracle.internal.OracleSourceInfo;
  * 
  */
 public class OracleSource extends TreeNode {
-	
-	
+
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private OracleSourceInfo info;
-	
-	
+
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -32,7 +32,7 @@ public class OracleSource extends TreeNode {
 	public OracleSource(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -41,15 +41,15 @@ public class OracleSource extends TreeNode {
 	public OracleSource() {
 		super();
 	}
-	
+
 	public OracleSourceInfo getOracleSourceInfo() {
 		return info;
 	}
-	
+
 	public void setOracleSourceInfo(OracleSourceInfo info) {
 		this.info = info;
 	}
-	
+
 	public String getName() {
 		if (info != null) {
 			return this.info.getName();
@@ -57,7 +57,7 @@ public class OracleSource extends TreeNode {
 			return super.name;
 		}
 	}
-	
+
 	/**
 	 * 型を取得
 	 * 
@@ -70,14 +70,14 @@ public class OracleSource extends TreeNode {
 			return "";
 		}
 	}
-	
-	
+
+
 	public OracleSourceInfo getInfo() {
 		return info;
 	}
-	
+
 	public void setInfo(OracleSourceInfo info) {
 		this.info = info;
 	}
-	
+
 }

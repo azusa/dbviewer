@@ -115,6 +115,7 @@ public class WizardPage2 extends DefaultWizardPage {
 		// updateComboBox(page.classpathList);
 
 		driverCombox.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				modified();
 
@@ -171,6 +172,7 @@ public class WizardPage2 extends DefaultWizardPage {
 		urlText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		urlText.addFocusListener(new TextSelectionListener());
 		urlText.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				modified();
 
@@ -183,7 +185,7 @@ public class WizardPage2 extends DefaultWizardPage {
 						int index = s.indexOf('?');
 						if (index >= 0) {
 							schemaText.setText(s.substring(0, index)); // ?
-																		// の前までを使う
+							// の前までを使う
 						} else {
 							schemaText.setText(s);
 						}
@@ -220,15 +222,16 @@ public class WizardPage2 extends DefaultWizardPage {
 		userIdText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		userIdText.addFocusListener(new TextSelectionListener());
 		userIdText.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent evt) {
 				modified();
-				
+
 				if (driverCombox != null && driverCombox.getText().indexOf("mysql") >= 0 && schemaText != null) {
 					;// mysqlであれば、何もしない
-				}else{
+				} else {
 					Text text = (Text) evt.widget;
 					if (schemaText != null)
-						schemaText.setText(text.getText());					
+						schemaText.setText(text.getText());
 				}
 
 			}
@@ -285,6 +288,7 @@ public class WizardPage2 extends DefaultWizardPage {
 		Label dummy = new Label(group, SWT.NULL);
 		testBtn = WidgetUtil.createButton(group, SWT.PUSH, Messages.getString("WizardPage2.14"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 		testBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				pressTestBtn();
 
@@ -503,7 +507,7 @@ public class WizardPage2 extends DefaultWizardPage {
 			if (getOldConfig().isConnectAsSYSOPER())
 				connectionModeCombox.select(2);
 		}
-		
+
 		int width = group.getSize().x;
 		group.pack();
 		int height = group.getSize().y;
@@ -531,8 +535,7 @@ public class WizardPage2 extends DefaultWizardPage {
 					}
 				} else if (DBType.getType(driver) == DBType.DB_TYPE_MYSQL) {
 					/*
-					 * 特に接続モードを設定する必要がなくなった。 if (connectionModeCombox2 == null) {
-					 * addMySQL5OptionSection(group); resize(); }
+					 * 特に接続モードを設定する必要がなくなった。 if (connectionModeCombox2 == null) { addMySQL5OptionSection(group); resize(); }
 					 */
 				}
 			}

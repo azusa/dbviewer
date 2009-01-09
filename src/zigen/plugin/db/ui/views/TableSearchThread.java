@@ -34,8 +34,7 @@ import zigen.plugin.db.ui.internal.View;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/21 ZIGEN create.
- *        [002] 2005/11/23 ZIGEN スキーマ未サポートDB用の修正.
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/21 ZIGEN create. [002] 2005/11/23 ZIGEN スキーマ未サポートDB用の修正.
  * 
  * 
  */
@@ -55,14 +54,10 @@ public class TableSearchThread implements Runnable {
 		try {
 			Connection con = Transaction.getInstance(folder.getDbConfig()).getConnection();
 			if (SchemaSearcher.isSupport(con)) {
-				tables = TableSearcher.execute(con, folder.getSchema().getName(), new String[] {
-					folder.getName()
-				});
+				tables = TableSearcher.execute(con, folder.getSchema().getName(), new String[] {folder.getName()});
 			} else {
 				// 第1引数からそれぞれデータベース名、スキーマ名、テーブル名、テーブルの型
-				tables = TableSearcher.execute(con, null, new String[] {
-					folder.getName()
-				});
+				tables = TableSearcher.execute(con, null, new String[] {folder.getName()});
 			}
 			AddTables(con, folder.getSchema(), folder, tables); // Schema未対応場合は、第二引数はNULLになる
 
@@ -85,7 +80,7 @@ public class TableSearchThread implements Runnable {
 
 	}
 
-    public static void AddTables(Connection con, Schema schema, Folder folder, TableInfo[] tables) throws Exception {
+	public static void AddTables(Connection con, Schema schema, Folder folder, TableInfo[] tables) throws Exception {
 		String label = folder.getName();
 
 		for (int i = 0; i < tables.length; i++) {

@@ -30,6 +30,7 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  */
 public class CopyInsertStatementAction extends TableViewEditorAction {
+
 	private final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
 
 	IStructuredSelection selection;
@@ -94,11 +95,7 @@ public class CopyInsertStatementAction extends TableViewEditorAction {
 
 				}
 			}
-			clipboard.setContents(new Object[] {
-				sb.toString()
-			}, new Transfer[] {
-				text_transfer
-			});
+			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {text_transfer});
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

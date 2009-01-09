@@ -14,14 +14,13 @@ import java.util.Properties;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- *        [2] 2005/09/27 ZIGEN create.
+ * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create. [2] 2005/09/27 ZIGEN create.
  * 
  */
 public class DBConfig implements IDBConfig, Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int JDBC_DRIVER_TYPE_2 = 2;
 
 	public static final int JDBC_DRIVER_TYPE_4 = 4;
@@ -59,27 +58,26 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 	private String databaseProductVersion;
 
 	private int dataBaseProductMajorVersion;
-	
+
 	private int dataBaseProductMinorVersion;
-	
-	private boolean isConnectAsSYSDBA;	// for Oracle
-	
-	private boolean isConnectAsSYSOPER;	// for Oracle
-	
+
+	private boolean isConnectAsSYSDBA; // for Oracle
+
+	private boolean isConnectAsSYSOPER; // for Oracle
+
 	private boolean isConnectAsInformationSchema; // for MySQL5
-	
+
 	private SchemaInfo[] displayedSchemas;
-	
+
 	private String filterPattern;
-	
+
 	private boolean checkFilterPattern;
-	
-	
+
+
 	/**
 	 * コンストラクタ
 	 */
-	public DBConfig() {
-	}
+	public DBConfig() {}
 
 	/**
 	 * @return classPath を戻します。
@@ -152,8 +150,8 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 		Properties properties = new Properties();
 		properties.setProperty("user", this.getUserId()); //$NON-NLS-1$
 		properties.setProperty("password", this.getPassword()); //$NON-NLS-1$
-		
-		
+
+
 		// charSetの追加
 		if (this.getCharset() != null && !this.getCharset().equals("")) { //$NON-NLS-1$
 
@@ -173,20 +171,20 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 			}
 
 		}
-		if(DBType.getType(driverName) == DBType.DB_TYPE_ORACLE){
-			if(isConnectAsSYSDBA){
+		if (DBType.getType(driverName) == DBType.DB_TYPE_ORACLE) {
+			if (isConnectAsSYSDBA) {
 				properties.setProperty("internal_logon", "sysdba"); //$NON-NLS-1$
 			}
-			if(isConnectAsSYSOPER){
+			if (isConnectAsSYSOPER) {
 				properties.setProperty("internal_logon", "sysoper"); //$NON-NLS-1$
 			}
-		}else if(DBType.getType(driverName) == DBType.DB_TYPE_MYSQL){
-			if(isConnectAsInformationSchema){
+		} else if (DBType.getType(driverName) == DBType.DB_TYPE_MYSQL) {
+			if (isConnectAsInformationSchema) {
 				properties.setProperty("useInformationSchema", "true"); //$NON-NLS-1$
-			}else{
+			} else {
 				properties.setProperty("useInformationSchema", "false"); //$NON-NLS-1$
 			}
-			
+
 		}
 
 		return properties;
@@ -309,11 +307,9 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns <code>true</code> if this <code>DBConfig</code> is the same
-	 * as the o argument.
+	 * Returns <code>true</code> if this <code>DBConfig</code> is the same as the o argument.
 	 * 
-	 * @return <code>true</code> if this <code>DBConfig</code> is the same
-	 *         as the o argument.
+	 * @return <code>true</code> if this <code>DBConfig</code> is the same as the o argument.
 	 */
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -328,7 +324,8 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 		DBConfig castedObj = (DBConfig) o;
 		return ((this.dbName == null ? castedObj.dbName == null : this.dbName.equals(castedObj.dbName))
 				&& (this.driverName == null ? castedObj.driverName == null : this.driverName.equals(castedObj.driverName))
-				&& (this.url == null ? castedObj.url == null : this.url.equals(castedObj.url)) && (this.userId == null ? castedObj.userId == null : this.userId.equals(castedObj.userId))
+				&& (this.url == null ? castedObj.url == null : this.url.equals(castedObj.url))
+				&& (this.userId == null ? castedObj.userId == null : this.userId.equals(castedObj.userId))
 				&& (this.password == null ? castedObj.password == null : this.password.equals(castedObj.password))
 				&& (this.schema == null ? castedObj.schema == null : this.schema.equals(castedObj.schema)) && java.util.Arrays.equals(this.classPaths, castedObj.classPaths)
 				&& (this.charset == null ? castedObj.charset == null : this.charset.equals(castedObj.charset)) && (this.isConvertUnicode == castedObj.isConvertUnicode)
@@ -425,21 +422,21 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 		inst.jdbcType = this.jdbcType;
 		inst.isSavePassword = this.isSavePassword;
 		inst.isNoLockMode = this.isNoLockMode;
-		
+
 		inst.dataBaseProductMajorVersion = this.dataBaseProductMajorVersion;
 		inst.dataBaseProductMinorVersion = this.dataBaseProductMinorVersion;
 		inst.databaseProductVersion = this.databaseProductVersion;
-		
+
 		inst.isConnectAsSYSDBA = this.isConnectAsSYSDBA;
 		inst.isConnectAsSYSOPER = this.isConnectAsSYSOPER;
-		// add 
+		// add
 		inst.displayedSchemas = this.displayedSchemas;
-		
+
 		if (this.displayedSchemas != null) {
 			inst.displayedSchemas = new SchemaInfo[this.displayedSchemas.length];
 			for (int i0 = 0; i0 < this.displayedSchemas.length; i0++) {
 				inst.displayedSchemas[i0] = this.displayedSchemas[i0] == null ? null : this.displayedSchemas[i0];
-				if(inst.displayedSchemas != null){
+				if (inst.displayedSchemas != null) {
 					inst.displayedSchemas[i0].setConfig(inst);// コピーしたものにSchemaInfoの参照を与えること
 				}
 			}
@@ -448,7 +445,7 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 		}
 		inst.checkFilterPattern = this.checkFilterPattern;
 		inst.filterPattern = this.filterPattern;
-		
+
 		return inst;
 	}
 
@@ -475,7 +472,7 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 	public void setDatabaseProductVersion(String databaseProductVersion) {
 		this.databaseProductVersion = databaseProductVersion;
 	}
-	
+
 
 	public boolean isConnectAsSYSDBA() {
 		return isConnectAsSYSDBA;
@@ -494,19 +491,19 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 	}
 
 
-	public SchemaInfo[] getDisplayedSchemas(){
-		if(displayedSchemas != null ){
+	public SchemaInfo[] getDisplayedSchemas() {
+		if (displayedSchemas != null) {
 			for (int i = 0; i < displayedSchemas.length; i++) {
 				displayedSchemas[i].setConfig(this);
 			}
 		}
 		return this.displayedSchemas;
 	}
-	
-	public void setDisplayedSchemas(SchemaInfo[] schemas){
+
+	public void setDisplayedSchemas(SchemaInfo[] schemas) {
 		this.displayedSchemas = schemas;
 	}
-	
+
 	public String getFilterPattern() {
 		return filterPattern;
 	}

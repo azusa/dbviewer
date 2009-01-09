@@ -11,10 +11,10 @@ import org.eclipse.jface.action.IAction;
 import zigen.plugin.db.DbPlugin;
 
 public abstract class AbstractToggleLinkingAction extends Action {
-	
+
 	public AbstractToggleLinkingAction() {
-		super(Messages.getString("AbstractToggleLinkingAction.1"), IAction.AS_CHECK_BOX);  //$NON-NLS-1$
-		setToolTipText(Messages.getString("AbstractToggleLinkingAction.1"));  //$NON-NLS-1$
+		super(Messages.getString("AbstractToggleLinkingAction.1"), IAction.AS_CHECK_BOX); //$NON-NLS-1$
+		setToolTipText(Messages.getString("AbstractToggleLinkingAction.1")); //$NON-NLS-1$
 		setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_SYNCED));
 	}
 

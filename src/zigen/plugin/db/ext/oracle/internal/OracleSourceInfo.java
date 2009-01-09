@@ -8,8 +8,9 @@ package zigen.plugin.db.ext.oracle.internal;
 import java.io.Serializable;
 
 public class OracleSourceInfo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected String owner;
 
 	protected String name;
@@ -19,8 +20,7 @@ public class OracleSourceInfo implements Serializable {
 	/**
 	 * コンストラクタ
 	 */
-	public OracleSourceInfo() {
-	}
+	public OracleSourceInfo() {}
 
 	public String getOwner() {
 		return this.owner;

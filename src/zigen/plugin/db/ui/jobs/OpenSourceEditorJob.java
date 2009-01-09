@@ -24,7 +24,7 @@ public class OpenSourceEditorJob extends AbstractJob {
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
 			monitor.beginTask("Open Editor...", 10);
-			
+
 			if (monitor.isCanceled()) {
 				return Status.CANCEL_STATUS;
 			}

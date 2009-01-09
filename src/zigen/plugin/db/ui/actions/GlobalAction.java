@@ -150,7 +150,7 @@ public class GlobalAction extends Action {
 			setText(Messages.getString("GlobalAction.24")); //$NON-NLS-1$
 			this.setImageDescriptor(DbPlugin.getDefault().getImageRegistry().getDescriptor(DbPlugin.IMG_CODE_ROLLBACK));
 			return;
-			
+
 
 		case ISQLOperationTarget.SCRIPT_EXECUTE:
 			setText(Messages.getString("GlobalAction.25")); //$NON-NLS-1$
@@ -170,8 +170,8 @@ public class GlobalAction extends Action {
 		this.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(imageName));
 	}
 
-    public void setTextViewer(TextViewer viewer) {
-        this.viewer = viewer;
-    }
+	public void setTextViewer(TextViewer viewer) {
+		this.viewer = viewer;
+	}
 
 }

@@ -39,8 +39,7 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 
 
 	/**
-	 * 指定したテーブルのカラム情報取得
-	 * 性能改善のために、プライマリかどうかの判定は外している。(TODO)
+	 * 指定したテーブルのカラム情報取得 性能改善のために、プライマリかどうかの判定は外している。(TODO)
 	 */
 	public TableColumn[] execute(Connection con, String schemaPattern, String tableName) throws Exception {
 		List list = new ArrayList();
@@ -49,8 +48,8 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 		Map map = new HashMap();
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
-			
-			//TablePKColumn[] pks = ConstraintSearcher.getPKColumns(con, schemaPattern, tableName); // PK取得;
+
+			// TablePKColumn[] pks = ConstraintSearcher.getPKColumns(con, schemaPattern, tableName); // PK取得;
 
 			if (schemaPattern != null) {
 				rs = objMet.getColumns(null, schemaPattern, tableName, "%"); //$NON-NLS-1$
@@ -96,9 +95,9 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 				}
 
 				// <!-- [002] 修正 ZIGEN 2005/09/17
-				//if (ConstraintSearcher.isPKColumn(pks, column.getColumnName())) {
-				//	column.setUniqueKey(true);
-				//}
+				// if (ConstraintSearcher.isPKColumn(pks, column.getColumnName())) {
+				// column.setUniqueKey(true);
+				// }
 				// [002] 修正 ZIGEN 2005/09/17 -->
 
 				map.put(column.getColumnName(), column);
@@ -107,7 +106,7 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 				seq++;
 			}
 
-			
+
 			overrideColumnInfo(map, con, schemaPattern, tableName, convertUnicode);
 
 			return (TableColumn[]) list.toArray(new TableColumn[0]);
@@ -119,9 +118,10 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 			ResultSetUtil.close(rs);
 		}
 	}
-	
+
 	/**
 	 * Oracleでは個別実装して、スケールの見直しを行なうこと
+	 * 
 	 * @param map
 	 * @param con
 	 * @param schemaPattern
@@ -132,10 +132,9 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 	protected void overrideColumnInfo(Map map, Connection con, String schemaPattern, String tableName, boolean convUnicode) throws Exception {
 		;
 	}
-	
+
 	/**
-	 * 古いSymfoWAREではCOLUMN_DEFのカラムが無いため、SQLExceptionとなる。 
-	 * そのため、以下のメソッドで個別に処理を行う。
+	 * 古いSymfoWAREではCOLUMN_DEFのカラムが無いため、SQLExceptionとなる。 そのため、以下のメソッドで個別に処理を行う。
 	 * 
 	 * @param rs
 	 * @return
@@ -153,7 +152,7 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 				return JDBCUnicodeConvertor.convert(defaultValue);
 			}
 		} catch (SQLException e) {
-			//DbPlugin.log(e);
+			// DbPlugin.log(e);
 		}
 		return defaultValue;
 

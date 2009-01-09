@@ -35,9 +35,9 @@ public class FileUtil {
 	static String getDBConfigName(IFile file) {
 		String dbName = null;
 		try {
-			if(file.isAccessible()){
+			if (file.isAccessible()) {
 				dbName = file.getPersistentProperty(new QualifiedName(DBPropertyPage.QUALIFIER, DBPropertyPage.SELECTED_DB));
-			}else{
+			} else {
 				; // ProjectÇ™ï¬Ç∂ÇƒÇ¢ÇÈÇΩÇﬂÅAâΩÇ‡ÇµÇ‹ÇπÇÒ
 			}
 		} catch (Exception e) {
@@ -45,8 +45,8 @@ public class FileUtil {
 		}
 		return dbName;
 	}
-	
-	
+
+
 	public static String getContents(IFile file) {
 		int len;
 		char[] buffer = new char[4096];

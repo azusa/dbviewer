@@ -18,13 +18,12 @@ import zigen.plugin.db.core.IDBConfig;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- *        [2] 2005/10/10 ZIGEN 長いQueryの場合tooltipが見えなくなるためコメントアウト [3] 2005/10/18
- *        ZIGEN Eclipse3.1.x系でtooltipを設定しないとエラーになる
+ * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create. [2] 2005/10/10 ZIGEN 長いQueryの場合tooltipが見えなくなるためコメントアウト [3] 2005/10/18 ZIGEN Eclipse3.1.x系でtooltipを設定しないとエラーになる
  * 
  */
 
 public class QueryViewEditorInput implements IEditorInput {
+
 	private String tooltip;
 
 	private String name;

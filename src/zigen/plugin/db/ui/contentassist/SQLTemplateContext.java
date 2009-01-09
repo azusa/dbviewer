@@ -28,14 +28,14 @@ public class SQLTemplateContext extends DocumentTemplateContext {
 	public TemplateBuffer evaluate(Template template) throws BadLocationException, TemplateException {
 
 		if (!canEvaluate(template))
-			throw new TemplateException(""); 
-				
+			throw new TemplateException("");
+
 		SQLTemplateFormatter formatter = new SQLTemplateFormatter(getDocument(), getCompletionOffset());
 		String pattern = formatter.format(template.getPattern());
 		TemplateTranslator translator = new TemplateTranslator();
-		TemplateBuffer buffer= translator.translate(pattern);
+		TemplateBuffer buffer = translator.translate(pattern);
 		getContextType().resolve(buffer, this);
 		return buffer;
 	}
-	
+
 }

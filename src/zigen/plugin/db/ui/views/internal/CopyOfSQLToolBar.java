@@ -113,7 +113,7 @@ public class CopyOfSQLToolBar {
 			this.type = TYPE_SQL_EDITOR;
 		}
 
-//		coolBar = new CoolBar(parent, SWT.FLAT);
+		// coolBar = new CoolBar(parent, SWT.FLAT);
 		coolBar = new CoolBar(parent, SWT.NONE);
 
 		FormData data = new FormData();
@@ -132,7 +132,7 @@ public class CopyOfSQLToolBar {
 		if (type == TYPE_PLSQL_EDITOR || type == TYPE_SQL_EXECUTE_VIEW) {
 			toolBarMgr1.add(scriptExecAction);
 		}
-		
+
 		toolBarMgr1.add(allClearAction);
 
 		ToolBarManager toolBarMgr2 = new ToolBarManager(SWT.FLAT);
@@ -163,7 +163,7 @@ public class CopyOfSQLToolBar {
 			// エディターとしての保存
 			toolBarMgr6.add(new SaveAction());
 		}
-		
+
 		ToolBarManager toolBarMgr5 = new ToolBarManager(SWT.FLAT);
 		toolBarMgr5.add(comboContributionItem); //$NON-NLS-1$
 
@@ -183,8 +183,8 @@ public class CopyOfSQLToolBar {
 		coolBarMgr.update(true);
 
 		coolBar.addControlListener(new ControlListener() {
-			public void controlMoved(ControlEvent e) {
-			}
+
+			public void controlMoved(ControlEvent e) {}
 
 			public void controlResized(ControlEvent e) {
 				parent.getParent().layout(true);
@@ -241,8 +241,8 @@ public class CopyOfSQLToolBar {
 	}
 
 	public void updateCombo(IDBConfig config) {
-		if(!lockDataBaseAction.isChecked()){
-			comboContributionItem.updateCombo(config);	
+		if (!lockDataBaseAction.isChecked()) {
+			comboContributionItem.updateCombo(config);
 		}
 	}
 
@@ -255,6 +255,7 @@ public class CopyOfSQLToolBar {
 	}
 
 	class ComboContributionItem extends ControlContribution {
+
 		public ComboContributionItem(String id) {
 			super(id);
 
@@ -274,6 +275,7 @@ public class CopyOfSQLToolBar {
 			initializeSelectCombo();
 
 			selectCombo.addSelectionListener(new SelectionAdapter() {
+
 				// 接続先を変更した場合
 				public void widgetSelected(SelectionEvent e) {
 					IDBConfig config = getConfig();
@@ -409,12 +411,13 @@ public class CopyOfSQLToolBar {
 		}
 
 	}
-	
-	public boolean isLockedDataBase(){
+
+	public boolean isLockedDataBase() {
 		return lockDataBaseAction.isChecked();
 	}
-	public void setLockedDataBase(boolean isLocked){
+
+	public void setLockedDataBase(boolean isLocked) {
 		lockDataBaseAction.setChecked(isLocked);
 	}
-	
+
 }

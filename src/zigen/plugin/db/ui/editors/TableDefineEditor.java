@@ -216,6 +216,7 @@ public class TableDefineEditor {
 		txtTableName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		txtTableName.addFocusListener(new TextSelectionListener());
 		txtTableName.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				if (editor != null)
 					editor.setDirty(true);
@@ -247,6 +248,7 @@ public class TableDefineEditor {
 		if (factory.supportsRemarks()) {
 			txtTableComment.addFocusListener(new TextSelectionListener());
 			txtTableComment.addModifyListener(new ModifyListener() {
+
 				public void modifyText(ModifyEvent e) {
 					if (editor != null)
 						editor.setDirty(true);
@@ -264,10 +266,7 @@ public class TableDefineEditor {
 		sash.setLayoutData(gd);
 		createTableDefineWidget(sash);
 		createConstraintWidget(sash);
-		sash.setWeights(new int[] {
-				65,
-				35
-		});
+		sash.setWeights(new int[] {65, 35});
 
 	}
 
@@ -281,6 +280,7 @@ public class TableDefineEditor {
 		tree.setHeaderVisible(true);
 		// tree.setHeaderVisible(false);
 		tree.addFocusListener(new FocusAdapter() {
+
 			public void focusGained(FocusEvent e) {
 				setFocusDefine(false);
 			}
@@ -297,6 +297,7 @@ public class TableDefineEditor {
 		constraintViewer.setContentProvider(new ConstraintAndIndexContentProvider());
 
 		tree.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				table.deselectAll();
 			}
@@ -334,6 +335,7 @@ public class TableDefineEditor {
 		table.setLinesVisible(true);
 		table.setFont(DbPlugin.getDefaultFont());
 		table.addFocusListener(new FocusAdapter() {
+
 			public void focusGained(FocusEvent e) {
 				setFocusDefine(true);
 			}
@@ -348,6 +350,7 @@ public class TableDefineEditor {
 		defineViewer.setSorter(new TreeViewSorter());
 		setHeaderColumn(table);
 		defineViewer.addDoubleClickListener(new IDoubleClickListener() {
+
 			public void doubleClick(DoubleClickEvent event) {
 
 				switch (DBType.getType(tableNode.getDbConfig())) {
@@ -458,6 +461,7 @@ public class TableDefineEditor {
 	}
 
 	private class ColumnLabelProvider extends LabelProvider implements ITableLabelProvider {
+
 		private ImageCacher imageCacher = ImageCacher.getInstance();
 
 		public String getColumnText(Object element, int columnIndex) {
@@ -520,6 +524,7 @@ public class TableDefineEditor {
 	}
 
 	private class ColumnContentProvider implements IStructuredContentProvider {
+
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof Column[]) {
 				return (Column[]) inputElement;
@@ -527,11 +532,9 @@ public class TableDefineEditor {
 			return null;
 		}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
-		public void dispose() {
-		}
+		public void dispose() {}
 
 	}
 
@@ -644,11 +647,9 @@ public class TableDefineEditor {
 			return getChildren(inputElement);
 		}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
-		public void dispose() {
-		}
+		public void dispose() {}
 
 	}
 

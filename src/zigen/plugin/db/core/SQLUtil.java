@@ -58,7 +58,8 @@ public class SQLUtil {
 	 * @return •ÏŠ·Œã‚Ì•¶Žš—ñ
 	 */
 	public static final String encodeQuotation(String str) {
-		if(str == null) return str;
+		if (str == null)
+			return str;
 		int nLen = str.length();
 		StringBuffer sb = new StringBuffer(nLen * 2);
 		for (int i = 0; i < nLen; i++) {

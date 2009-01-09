@@ -71,42 +71,42 @@ import zigen.sql.parser.ast.ASTValue;
 import zigen.sql.parser.exception.ParserException;
 
 public class SQLOutinePage extends ContentOutlinePage implements ISelectionListener {
-	
+
 	SqlEditor2 editor;
-	
+
 	SQLSourceViewer fSQLSourceViewer;
-	
+
 	SqlInput fSqlInput = new SqlInput();
-	
+
 	IDoubleClickListener doubleClickListener;
-	
+
 	SqlParser fSqlParser;
-	
+
 	ASTVisitor2 visitor;
-	
+
 	IDocument fDocument;
-	
+
 	TreeViewer fTreeViewer;
-	
+
 	IPreferenceStore ps;
-	
+
 	CurrentSql currentSql;
-	
+
 	boolean isASTMode = false;
-	
+
 	private Menu fMenu;
-	
+
 	public SQLOutinePage(SqlEditor2 editor) {
 		this.editor = editor;
 		this.fSQLSourceViewer = editor.getSqlViewer();
 		this.fDocument = editor.getSqlViewer().getDocument();
 		this.ps = DbPlugin.getDefault().getPreferenceStore();
 	}
-	
+
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 		fTreeViewer = getTreeViewer();
-		
+
 		fTreeViewer.setContentProvider(new TreeContentProvider());
 		fTreeViewer.setLabelProvider(new TreeLabelProvider());
 		doubleClickListener = new DoubleClickListener();
@@ -116,27 +116,27 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 		fTreeViewer.setInput(fSqlInput);
 		fTreeViewer.expandToLevel(2);
 		update();
-		
+
 
 		MenuManager manager = new MenuManager("SQLOutlinePage", "SQLOutlinePage");
 		manager.setRemoveAllWhenShown(true);
 		manager.addMenuListener(new IMenuListener() {
-			
+
 			public void menuAboutToShow(IMenuManager m) {
 				contextMenuAboutToShow(m);
 			}
 		});
 		fMenu = manager.createContextMenu(fTreeViewer.getControl());
 		fTreeViewer.getControl().setMenu(fMenu);
-		
+
 		IPageSite site = getSite();
 		site.registerContextMenu("DBViewer.outline", manager, fTreeViewer); //$NON-NLS-1$
-		
+
 
 		getSite().getPage().addSelectionListener(this);
-		
+
 	}
-	
+
 	protected void contextMenuAboutToShow(IMenuManager menu) {
 		// JavaPlugin.createStandardGroups(menu);
 		IStructuredSelection selection = (IStructuredSelection) getSelection();
@@ -144,7 +144,7 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 		// fActionGroups.fillContextMenu(menu);
 		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-	
+
 	public void update() {
 		// 2008/09/24 ZIGEN
 		if (fSQLSourceViewer != null) {
@@ -152,7 +152,7 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			String _temp = (currentSql != null) ? currentSql.getSql() : null;
 			String demiliter = ps.getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
 			currentSql = new CurrentSql(fDocument, offset, demiliter);
-			
+
 			if (_temp == null || !_temp.equals(currentSql.getSql())) {
 				UpdateOutlineJob job = new UpdateOutlineJob(currentSql);
 				job.setPriority(UpdateSQLFoldingJob.LONG);
@@ -161,26 +161,26 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			}
 		}
 	}
-	
+
 	private void revealRange(int offset, int length) {
 		offset += currentSql.getBegin();
 		fSQLSourceViewer.revealRange(offset, length);
 		fSQLSourceViewer.setSelectedRange(offset, length);
-		
+
 	}
-	
+
 	public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
 		// menuManager.add(new ChangeModeAction());
 		toolBarManager.add(new ExpandAllAction());
 		toolBarManager.add(new CollapseAllAction());
-		
+
 	}
-	
-	
+
+
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (selection instanceof TextSelection) {
 			TextSelection ts = (TextSelection) selection;
-			
+
 			if (currentSql.getBegin() <= ts.getOffset() && ts.getOffset() <= currentSql.getEnd()) {
 				if (ts.getText().length() > 0) {
 					if (visitor != null) {
@@ -192,7 +192,7 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 								fTreeViewer.setSelection(ss, true);
 								fTreeViewer.expandToLevel(ss, 1);
 							}
-							
+
 						} catch (RuntimeException e) {
 							e.printStackTrace();
 						}
@@ -203,8 +203,8 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			}
 		}
 	}
-	
-	
+
+
 	public INode getEndNode(INode node) {
 		INode n = node.getLastChild();
 		if (n == null) {
@@ -213,7 +213,7 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			return getEndNode(n);
 		}
 	}
-	
+
 	// /**
 	// * Returns the <code>IShowInTarget</code> for this view.
 	// *
@@ -239,57 +239,57 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 	// }
 	// };
 	// }
-	
+
 	class ExpandAllAction extends Action {
-		
+
 		public ExpandAllAction() {
 			super("Expand All", IAction.AS_PUSH_BUTTON);
 			setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_EXPAND_ALL));
 		}
-		
+
 		public void run() {
 			fTreeViewer.expandAll();
 		}
-		
+
 	}
-	
+
 	class CollapseAllAction extends Action {
-		
+
 		public CollapseAllAction() {
 			super("Collapse All", IAction.AS_PUSH_BUTTON);
 			setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLLAPSE_ALL));
 		}
-		
+
 		public void run() {
 			fTreeViewer.collapseAll();
 		}
-		
+
 	}
-	
+
 	class ChangeModeAction extends Action {
-		
+
 		public ChangeModeAction() {
 			super("ASTMode", IAction.AS_CHECK_BOX);
 		}
-		
+
 		public void run() {
 			isASTMode = isChecked();
 			fTreeViewer.refresh();
 		}
-		
+
 	}
-	
+
 	class SqlInput {
-		
+
 		INode documentElement;
 	}
-	
+
 	class DoubleClickListener implements IDoubleClickListener {
-		
+
 		int offset = -1;
-		
+
 		int length = -1;
-		
+
 		private void calc(ASTColumn node) {
 			offset = node.getOffset();
 			length = node.getLength();
@@ -297,30 +297,30 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 				length = node.getAliasOffset() + node.getAliasLength() - offset;
 			}
 		}
-		
+
 		private void calc(ASTParentheses node) {
 			offset = node.getOffset();
 			length = node.getEndOffset() + 1 - offset;
 			if (node.hasAlias()) {
 				length = node.getAliasOffset() + node.getAliasLength() - offset;
 			}
-			
+
 		}
-		
+
 		private void calc(ASTSelectStatement node) {
 			INode last = getEndNode(node);
 			offset = node.getOffset();
 			length = last.getOffset() + last.getLength() - offset;
-			
+
 			if (last instanceof ASTAlias) {
 				ASTAlias as = (ASTAlias) last;
 				if (as.hasAlias()) {
 					length = as.getAliasOffset() + as.getAliasLength() - offset;
 				}
 			}
-			
+
 		}
-		
+
 		private void calc(ASTFunction node) {
 			if (node.getChildrenSize() == 1 && node.getChild(0) instanceof ASTParentheses) {
 				ASTParentheses p = (ASTParentheses) node.getChild(0);
@@ -328,37 +328,37 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 				// Function‚Ìoffset,length‚ð”½‰f‚·‚é
 				offset = node.getOffset(); // offset‚ÍAFunction‚Ì‚à‚Ì
 				length += node.getLength(); // length‚ÍAFunction•ª‚ð‰ÁŽZ
-				
+
 				if (node.hasAlias()) {
 					length = node.getAliasOffset() + node.getAliasLength() - offset;
 				}
-				
+
 			}
 		}
-		
+
 		public void doubleClick(DoubleClickEvent event) {
 			try {
 				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
 				Object element = sel.getFirstElement();
-				
+
 				if (element instanceof ASTColumn) {
 					calc((ASTColumn) element);
-					
+
 				} else if (element instanceof ASTParentheses) {
 					calc(((ASTParentheses) element));
-					
+
 				} else if (element instanceof ASTSelectStatement) {
 					calc((ASTSelectStatement) element);
-					
+
 				} else if (element instanceof ASTFunction) {
 					calc((ASTFunction) element);
-					
+
 				} else if (element instanceof Node) {
 					Node node = ((Node) element);
 					offset = node.getOffset();
 					length = node.getLength();
 				}
-				
+
 				if (offset >= 0) {
 					revealRange(offset, length);
 				}
@@ -366,34 +366,34 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	class TreeLabelProvider extends LabelProvider {
-		
+
 		ImageCacher ic = ImageCacher.getInstance();
-		
+
 		public String getText(Object obj) {
 			if (obj instanceof Node) {
 				if (isASTMode) {
 					return ((Node) obj).toString();
 				} else {
-					
+
 					if (obj instanceof ASTFunction) {
 						ASTVisitorToString v = new ASTVisitorToString();
 						ASTFunction f = (ASTFunction) obj;
 						f.accept(v, null);
 						return v.toString();
-						
+
 					} else {
 						return ((Node) obj).getName();
-						
+
 					}
 				}
 			}
 			return obj.toString();
 		}
-		
+
 		public Image getImage(Object obj) {
 			if (obj instanceof ASTTable) {
 				return ic.getImage(DbPlugin.IMG_CODE_TABLE);
@@ -405,31 +405,31 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 				return ic.getImage(DbPlugin.IMG_CODE_SQL);
 			}
 			// return ic.getImage(DbPlugin.IMG_CODE_SQL);
-			
+
 			// String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 			// return
 			// PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 		}
-		
+
 	}
-	
+
 	class TreeContentProvider implements ITreeContentProvider {
-		
+
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {}
-		
+
 		public void dispose() {}
-		
+
 		public Object[] getElements(Object inputElement) {
 			return getChildren(fSqlInput.documentElement);
 		}
-		
+
 		public Object getParent(Object element) {
 			if (element instanceof Node) {
 				return ((Node) element).getParent();
 			}
 			return null;
 		}
-		
+
 		public Object[] getChildren(Object parentElement) {
 			List result = new ArrayList();
 			if (parentElement != null && parentElement instanceof Node) {
@@ -447,34 +447,34 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			}
 			return result.toArray(new Node[0]);
 		}
-		
+
 		public boolean hasChildren(Object element) {
 			if (element instanceof Node)
 				return ((Node) element).getChildrenSize() > 0;
 			return false;
 		}
 	}
-	
+
 	class ParseCancel extends ParserException {
-		
+
 		private static final long serialVersionUID = 1L;
-		
+
 		public ParseCancel(String message) {
 			super(message, null, 0, 0);
 		}
 	}
-	
+
 	class SqlParserWithProgressMonitor extends SqlParser implements ISqlParser {
-		
+
 		IProgressMonitor monitor;
-		
+
 		public SqlParserWithProgressMonitor(IProgressMonitor monitor, String sql, SqlFormatRule rule) {
 			super(sql, rule);
 			// super.setTokenizer(new SqlTokenizerWithProgressMonitor(monitor,
 			// sql, rule));
 			this.monitor = monitor;
 		}
-		
+
 		protected int nextToken() {
 			if (monitor.isCanceled()) {
 				throw new ParseCancel("SQL Parse cancel");
@@ -484,93 +484,93 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			}
 		}
 	}
-	
+
 	class UpdateOutlineJob extends AbstractJob {
-		
+
 		CurrentSql currentSql;
-		
+
 		public UpdateOutlineJob(CurrentSql currentSql) {
 			super("Updating SQL Outline");
 			this.currentSql = currentSql;
 		}
-		
+
 		protected IStatus run(IProgressMonitor monitor) {
 			zigen.sql.parser.ISqlParser parser = null;
-			
+
 			try {
 				monitor.beginTask("Updating SQL Outline...", IProgressMonitor.UNKNOWN);
-				
+
 				if (monitor.isCanceled()) {
 					return Status.CANCEL_STATUS;
 				}
 				monitor.subTask("Parsing SQL");
-				
+
 				String sql = currentSql.getSql();
 				parser = new SqlParserWithProgressMonitor(monitor, sql, DbPlugin.getSqlFormatRult());
 				final INode node = new ASTRoot();
-				
+
 				visitor = new ASTVisitor2();
 				parser.parse(node);
 				node.accept(visitor, null);
-				
+
 				monitor.subTask("Complete Parsed SQL " + currentSql);
 				showResults(new Runnable() {
-					
+
 					public void run() {
 						try {
 							getTreeViewer().removeDoubleClickListener(doubleClickListener);
 							fSqlInput.documentElement = node;
 							fTreeViewer.refresh();
-							
+
 							int searchOffset = StringUtil.endWordPosition(currentSql.getOffsetSql());
 							INode cNode = visitor.findNodeByOffset(searchOffset);
 							// fTreeViewer.expandToLevel(cNode, 1);
 							fTreeViewer.expandToLevel(cNode, 1);
-							
+
 							getTreeViewer().addDoubleClickListener(doubleClickListener);
-							
+
 						} catch (org.eclipse.swt.SWTException e) {
 							;
 						} catch (Exception e) {
 							DbPlugin.log(e);
 						}
-						
+
 					}
 				});
-				
+
 				monitor.done();
-				
+
 			} catch (ParseCancel e) {
 				return Status.CANCEL_STATUS;
-				
+
 			} catch (zigen.sql.parser.exception.ParserException e) {
 				DbPlugin.log("SQL Parser Error." + DbPluginConstant.LINE_SEP + currentSql.getSql(), e);
-				
+
 
 			} catch (Exception e) {
 				DbPlugin.log("UpdateOutlineJob Error." + DbPluginConstant.LINE_SEP + currentSql.getSql(), e);
-				
+
 			} catch (java.lang.StackOverflowError e) {
 				DbPlugin.log("UpdateOutlineJob Error." + DbPluginConstant.LINE_SEP + currentSql.getSql(), e);
-				
+
 
 			} finally {
 				if (parser != null)
 					parser = null;
 			}
-			
+
 			return Status.OK_STATUS;
 		}
 	}
-	
-	
+
+
 	public CurrentSql getCurrentSql() {
 		return currentSql;
 	}
-	
+
 	public SqlEditor2 getEditor() {
 		return editor;
 	}
-	
+
 
 }

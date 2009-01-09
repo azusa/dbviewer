@@ -61,7 +61,7 @@ public class TableViewerManager {
 	 * @param to
 	 */
 	public static void update(TableViewer viewer, TableElement from, TableElement to) {
-		
+
 		Object obj = viewer.getInput();
 		TimeWatcher tw = new TimeWatcher();
 		tw.start();
@@ -72,19 +72,19 @@ public class TableViewerManager {
 					TableElement ele = elements[i];
 					ele.copy(to);
 					ele.clearMofiedColumn();
-					
-//					System.out.println(to.getRecordNo());
-//					System.out.println(from.getRecordNo());
-//					System.out.println();
-					//ele.setRecordNo(i); // 1番目はヘッダー
+
+					// System.out.println(to.getRecordNo());
+					// System.out.println(from.getRecordNo());
+					// System.out.println();
+					// ele.setRecordNo(i); // 1番目はヘッダー
 					ele.setRecordNo(from.getRecordNo()); // 1番目はヘッダー
-					
+
 					ele.isNew(false);
 					viewer.update(ele, null);// テーブル・ビューワを更新
 					break; // 更新行を見つけたらbreakする
-				}else{
-					
-					
+				} else {
+
+
 				}
 			}
 		} else {
@@ -123,24 +123,24 @@ public class TableViewerManager {
 			throw new IllegalArgumentException("TableViewerに格納されているオブジェクトが異なります"); //$NON-NLS-1$
 		}
 	}
-	
+
 	/**
 	 * 指定した複数の要素を削除する
+	 * 
 	 * @param viewer
 	 * @param target
 	 */
-    public static void remove(TableViewer viewer, Object[] target) {
-    	TableElement[] contents = (TableElement[]) viewer.getInput();
-    	
-        LinkedList srcList = new LinkedList(Arrays.asList(contents));
-        for (int i = 0; i < target.length; i++) {
-            srcList.remove(target[i]);
-        }
-        contents = (TableElement[])srcList.toArray(new TableElement[srcList.size()]);
+	public static void remove(TableViewer viewer, Object[] target) {
+		TableElement[] contents = (TableElement[]) viewer.getInput();
 
-        viewer.setInput(contents);
-    }
+		LinkedList srcList = new LinkedList(Arrays.asList(contents));
+		for (int i = 0; i < target.length; i++) {
+			srcList.remove(target[i]);
+		}
+		contents = (TableElement[]) srcList.toArray(new TableElement[srcList.size()]);
 
+		viewer.setInput(contents);
+	}
 
 
 }

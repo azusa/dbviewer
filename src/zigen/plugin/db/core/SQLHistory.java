@@ -20,8 +20,9 @@ import java.util.Date;
  * 
  */
 public class SQLHistory implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Date date;
 
 	private String sql;
@@ -29,12 +30,12 @@ public class SQLHistory implements Serializable {
 	private boolean isBlank; // 空白用
 
 	private IDBConfig config;
-	
+
 	/**
 	 * SQL履歴を1ファイルずつ管理するモード（高速化のため）
 	 */
-	private boolean fileMode = false;	
-	
+	private boolean fileMode = false;
+
 
 	public SQLHistory() {
 		this.sql = "";
@@ -106,16 +107,16 @@ public class SQLHistory implements Serializable {
 	public void setConfig(IDBConfig config) {
 		this.config = config;
 	}
-	
+
 	protected SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyyMMdd");
 
 	protected SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
-	
-	public String getFolderName(){
+
+	public String getFolderName() {
 		return ymdFormat.format(getDate());
 	}
-	
-	public String getFileName(){
+
+	public String getFileName() {
 		return timeFormat.format(getDate());
 	}
 
@@ -126,5 +127,5 @@ public class SQLHistory implements Serializable {
 	public void setFileMode(boolean fileMode) {
 		this.fileMode = fileMode;
 	}
-	
+
 }

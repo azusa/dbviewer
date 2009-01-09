@@ -22,6 +22,7 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.actions.SaveSQLAction;
 
 public class DDLToolBar {
+
 	private SQLSourceViewer fSourceViewer;
 
 	private CoolBar coolBar;
@@ -32,9 +33,9 @@ public class DDLToolBar {
 
 	public DDLToolBar(final Composite parent, IEditorPart editor) {
 		this.fEditor = editor;
-		//this.coolBar = new CoolBar(parent, SWT.FLAT);
+		// this.coolBar = new CoolBar(parent, SWT.FLAT);
 		this.coolBar = new CoolBar(parent, SWT.NONE);
-		
+
 		FormData data = new FormData();
 		data.top = new FormAttachment(0, 0);
 		data.left = new FormAttachment(0, 0);
@@ -47,8 +48,8 @@ public class DDLToolBar {
 		coolBarMgr.add(new ToolBarContributionItem(toolBarMgr1));
 		coolBarMgr.update(true);
 		coolBar.addControlListener(new ControlListener() {
-			public void controlMoved(ControlEvent e) {
-			}
+
+			public void controlMoved(ControlEvent e) {}
 
 			public void controlResized(ControlEvent e) {
 				parent.getParent().layout(true);
@@ -76,6 +77,7 @@ public class DDLToolBar {
 	}
 
 	private class SaveAction extends Action {
+
 		public SaveAction() {
 			this.setToolTipText(Messages.getString("SQLToolBar.3")); //$NON-NLS-1$
 			this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_SAVE));

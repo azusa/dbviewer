@@ -34,8 +34,7 @@ public class TreeLeafListTransfer extends ByteArrayTransfer {
 
 	private static TreeLeafListTransfer instance = new TreeLeafListTransfer();
 
-	public TreeLeafListTransfer() {
-	}
+	public TreeLeafListTransfer() {}
 
 	public static TreeLeafListTransfer getInstance() {
 		return instance;
@@ -85,15 +84,11 @@ public class TreeLeafListTransfer extends ByteArrayTransfer {
 	}
 
 	protected String[] getTypeNames() {
-		return new String[] {
-			MYTYPENAME
-		};
+		return new String[] {MYTYPENAME};
 	}
 
 	protected int[] getTypeIds() {
-		return new int[] {
-			MYTYPEID
-		};
+		return new int[] {MYTYPEID};
 	}
 
 }

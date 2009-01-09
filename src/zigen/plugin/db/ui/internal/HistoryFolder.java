@@ -18,13 +18,13 @@ import java.util.Date;
  * 
  */
 public class HistoryFolder extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	
+
 	private Date date;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -34,7 +34,7 @@ public class HistoryFolder extends TreeNode {
 		super();
 		this.date = date;
 	}
-	
+
 	public String getName() {
 		if (date != null) {
 			return dateFormat.format(date);
@@ -42,9 +42,9 @@ public class HistoryFolder extends TreeNode {
 			return null;
 		}
 	}
-	
+
 	// equals メソッドはオーバライドしない
-	
+
 	/**
 	 * Returns <code>true</code> if this <code>HistoryFolder</code> is the same as the o argument.
 	 * 

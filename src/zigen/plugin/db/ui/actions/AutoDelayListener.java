@@ -22,23 +22,23 @@ abstract public class AutoDelayListener implements KeyListener, MouseListener, I
 	private Object fMutex = new Object();
 
 	int fAutoActivationDelay;
-	
-	
+
+
 	public AutoDelayListener() {
 		this.fAutoActivationDelay = 500;
 	}
-	
+
 	public AutoDelayListener(int autoActivationDelay) {
 		this.fAutoActivationDelay = autoActivationDelay;
 	}
-	
+
 	protected void start(int showStyle) {
 		fThread = new Thread(this, "DUMMY"); //$NON-NLS-1$
 		fThread.start();
 	}
 
 	abstract public Runnable createExecutAction();
-	
+
 	public void run() {
 		try {
 			while (true) {
@@ -84,6 +84,7 @@ abstract public class AutoDelayListener implements KeyListener, MouseListener, I
 	public void keyPressed(KeyEvent e) {
 		fireEvent();
 	}
+
 	public void mouseUp(MouseEvent e) {
 		fireEvent();
 	}
@@ -92,13 +93,12 @@ abstract public class AutoDelayListener implements KeyListener, MouseListener, I
 		fireEvent();
 	}
 
-	
+
 	public void keyReleased(KeyEvent e) {}
 
 	public void mouseDown(MouseEvent e) {}
 
 	public void mouseDoubleClick(MouseEvent e) {}
-
 
 
 }

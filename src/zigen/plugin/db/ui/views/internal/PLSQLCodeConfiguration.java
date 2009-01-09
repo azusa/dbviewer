@@ -16,21 +16,22 @@ public class PLSQLCodeConfiguration extends SQLCodeConfiguration {
 		super(colorManager);
 	}
 
-    protected ISQLTokenScanner getSQLKeywordScanner() {
-        if (keyWorkScanner == null) {
-            keyWorkScanner = new PLSQLKeywordScanner(colorManager);
-        }else{
-            keyWorkScanner.initialize();
-        }
-        return keyWorkScanner;
-    }
-	
-    // コンテンツアシスト用のオーバライドメソッド
-    public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
-        // 無効化
-        return null;
-    }
-    public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
-        return new PlsqlAnnotationHover();
-    }
+	protected ISQLTokenScanner getSQLKeywordScanner() {
+		if (keyWorkScanner == null) {
+			keyWorkScanner = new PLSQLKeywordScanner(colorManager);
+		} else {
+			keyWorkScanner.initialize();
+		}
+		return keyWorkScanner;
+	}
+
+	// コンテンツアシスト用のオーバライドメソッド
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+		// 無効化
+		return null;
+	}
+
+	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
+		return new PlsqlAnnotationHover();
+	}
 }

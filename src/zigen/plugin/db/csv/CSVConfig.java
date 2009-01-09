@@ -10,101 +10,106 @@ import java.io.Serializable;
 
 /**
  * CSVConfigクラス.
+ * 
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
  */
 public class CSVConfig implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
-    private String query;
 
-    private String csvFile;
+	private String query;
 
-    private String csvEncoding;
+	private String csvFile;
 
-    private String separator;
+	private String csvEncoding;
 
-    private boolean nonHeader;
+	private String separator;
 
-    private boolean nonDoubleQuate;
+	private boolean nonHeader;
 
-    public String getSeparator() {
-        return separator;
-    }
+	private boolean nonDoubleQuate;
 
-    public void setSeparator(String separator) {
-        this.separator = separator;
-    }
+	public String getSeparator() {
+		return separator;
+	}
 
-    public boolean isNonHeader() {
-        return nonHeader;
-    }
+	public void setSeparator(String separator) {
+		this.separator = separator;
+	}
 
-    public void setNonHeader(boolean nonHeader) {
-        this.nonHeader = nonHeader;
-    }
+	public boolean isNonHeader() {
+		return nonHeader;
+	}
 
-    public boolean isNonDoubleQuate() {
-        return nonDoubleQuate;
-    }
+	public void setNonHeader(boolean nonHeader) {
+		this.nonHeader = nonHeader;
+	}
 
-    public void setNonDoubleQuate(boolean nonDoubleQuate) {
-        this.nonDoubleQuate = nonDoubleQuate;
-    }
+	public boolean isNonDoubleQuate() {
+		return nonDoubleQuate;
+	}
 
-    /**
-     * @return csvEncoding を戻します。
-     */
-    public String getCsvEncoding() {
-        return csvEncoding;
-    }
+	public void setNonDoubleQuate(boolean nonDoubleQuate) {
+		this.nonDoubleQuate = nonDoubleQuate;
+	}
 
-    /**
-     * @param csvEncoding csvEncoding を設定。
-     */
-    public void setCsvEncoding(String csvEncoding) {
-        this.csvEncoding = csvEncoding;
-    }
+	/**
+	 * @return csvEncoding を戻します。
+	 */
+	public String getCsvEncoding() {
+		return csvEncoding;
+	}
 
-    /**
-     * @return csvFile を戻します。
-     */
-    public String getCsvFile() {
-        return csvFile;
-    }
+	/**
+	 * @param csvEncoding
+	 *            csvEncoding を設定。
+	 */
+	public void setCsvEncoding(String csvEncoding) {
+		this.csvEncoding = csvEncoding;
+	}
 
-    /**
-     * @param csvFile csvFile を設定。
-     */
-    public void setCsvFile(String csvFile) {
-        this.csvFile = csvFile;
-    }
+	/**
+	 * @return csvFile を戻します。
+	 */
+	public String getCsvFile() {
+		return csvFile;
+	}
 
-    /**
-     * @return query を戻します。
-     */
-    public String getQuery() {
-        return query;
-    }
+	/**
+	 * @param csvFile
+	 *            csvFile を設定。
+	 */
+	public void setCsvFile(String csvFile) {
+		this.csvFile = csvFile;
+	}
 
-    /**
-     * @param query query を設定。
-     */
-    public void setQuery(String query) {
-        this.query = query;
-    }
+	/**
+	 * @return query を戻します。
+	 */
+	public String getQuery() {
+		return query;
+	}
 
-    public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("[CSVConfig:"); //$NON-NLS-1$
-        buffer.append(" query: "); //$NON-NLS-1$
-        buffer.append(query);
-        buffer.append(" csvFile: "); //$NON-NLS-1$
-        buffer.append(csvFile);
-        buffer.append(" csvEncoding: "); //$NON-NLS-1$
-        buffer.append(csvEncoding);
-        buffer.append("]"); //$NON-NLS-1$
-        return buffer.toString();
-    }
+	/**
+	 * @param query
+	 *            query を設定。
+	 */
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[CSVConfig:"); //$NON-NLS-1$
+		buffer.append(" query: "); //$NON-NLS-1$
+		buffer.append(query);
+		buffer.append(" csvFile: "); //$NON-NLS-1$
+		buffer.append(csvFile);
+		buffer.append(" csvEncoding: "); //$NON-NLS-1$
+		buffer.append(csvEncoding);
+		buffer.append("]"); //$NON-NLS-1$
+		return buffer.toString();
+	}
 }

@@ -87,6 +87,7 @@ public class TableViewerPager {
 		topPage.setImage(ic.getImage(DbPlugin.IMG_CODE_TOP));
 		topPage.setToolTipText(Messages.getString("TableViewerPager.0")); //$NON-NLS-1$
 		topPage.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				offset = 1;
 				firePageChangeListener(IPageChangeListener.EVT_MOVE_PREVIOUS, offset, limit);
@@ -99,6 +100,7 @@ public class TableViewerPager {
 		backPage.setImage(ic.getImage(DbPlugin.IMG_CODE_PREVIOUS));
 		backPage.setToolTipText(Messages.getString("TableViewerPager.8")); //$NON-NLS-1$
 		backPage.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				offset = offset - limit;
 				firePageChangeListener(IPageChangeListener.EVT_MOVE_PREVIOUS, offset, limit);
@@ -118,6 +120,7 @@ public class TableViewerPager {
 		nextPage.setImage(ic.getImage(DbPlugin.IMG_CODE_NEXT));
 		nextPage.setToolTipText(Messages.getString("TableViewerPager.9")); //$NON-NLS-1$
 		nextPage.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				offset = offset + limit;
 				firePageChangeListener(IPageChangeListener.EVT_MOVE_PREVIOUS, offset, limit);
@@ -129,6 +132,7 @@ public class TableViewerPager {
 		endPage.setImage(ic.getImage(DbPlugin.IMG_CODE_END));
 		endPage.setToolTipText(Messages.getString("TableViewerPager.2")); //$NON-NLS-1$
 		endPage.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				offset = (pageCount - 1) * limit + 1;
 				firePageChangeListener(IPageChangeListener.EVT_MOVE_PREVIOUS, offset, limit);

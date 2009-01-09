@@ -15,17 +15,17 @@ package zigen.plugin.db.ui.internal;
  * 
  */
 public class BookmarkFolder extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public BookmarkFolder() {
 		super();
 	}
-	
+
 	public BookmarkFolder(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * Š‘®‚·‚éBookmarkRoot‚Ìæ“¾
 	 * 
@@ -34,7 +34,7 @@ public class BookmarkFolder extends TreeNode {
 	public BookmarkRoot getBookmarkRoot() {
 		return getBookmarkRoot(this);
 	}
-	
+
 	/**
 	 * Š‘®‚·‚éBookmarkFolder‚Ìæ“¾
 	 * 
@@ -43,7 +43,7 @@ public class BookmarkFolder extends TreeNode {
 	public BookmarkFolder getBookmarkFolder() {
 		return getBookmarkFolder(this);
 	}
-	
+
 	private BookmarkRoot getBookmarkRoot(TreeLeaf leaf) {
 		if (leaf instanceof BookmarkRoot) {
 			return (BookmarkRoot) leaf;
@@ -56,7 +56,7 @@ public class BookmarkFolder extends TreeNode {
 			}
 		}
 	}
-	
+
 	private BookmarkFolder getBookmarkFolder(TreeLeaf leaf) {
 		if (leaf instanceof BookmarkFolder) {
 			return (BookmarkFolder) leaf;
@@ -68,7 +68,7 @@ public class BookmarkFolder extends TreeNode {
 			}
 		}
 	}
-	
+
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -85,5 +85,5 @@ public class BookmarkFolder extends TreeNode {
 		BookmarkFolder castedObj = (BookmarkFolder) o;
 		return ((this.name == null ? castedObj.name == null : this.name.equals(castedObj.name)));
 	}
-	
+
 }

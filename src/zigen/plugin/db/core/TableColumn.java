@@ -17,8 +17,9 @@ import java.io.Serializable;
  * 
  */
 public class TableColumn implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private int seq;
 
 	private String columnName;
@@ -41,9 +42,8 @@ public class TableColumn implements Serializable {
 
 	// データタイプがパラメータ無しの場合(Oracle用)
 	private boolean withoutParam = false;
-	
-	public TableColumn() {
-	}
+
+	public TableColumn() {}
 
 	/**
 	 * @return columnName を戻します。
@@ -193,11 +193,11 @@ public class TableColumn implements Serializable {
 		buffer.append(" notNull: ");
 		buffer.append(notNull);
 		buffer.append(" defaultValue: ");
-        buffer.append(defaultValue);
+		buffer.append(defaultValue);
 		buffer.append(" isUniqueKey: ");
 		buffer.append(isUniqueKey);
-        buffer.append(" withoutParam: ");
-        buffer.append(withoutParam);
+		buffer.append(" withoutParam: ");
+		buffer.append(withoutParam);
 		buffer.append("]");
 		return buffer.toString();
 	}
@@ -209,40 +209,38 @@ public class TableColumn implements Serializable {
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
-	
-	
-//  ※ TableColumnのequalsメソッドは実装しない(インスタンスが同じかどうかでチェックするため）
-//	/**
-//	 * Returns <code>true</code> if this <code>TableColumn</code> is the
-//	 * same as the o argument.
-//	 * 
-//	 * @return <code>true</code> if this <code>TableColumn</code> is the
-//	 *         same as the o argument.
-//	 */
-//	public boolean equals(Object o) {
-//		if (this == o) {
-//			return true;
-//		}
-//		if (o == null) {
-//			return false;
-//		}
-//		if (o.getClass() != getClass()) {
-//			return false;
-//		}
-//		TableColumn castedObj = (TableColumn) o;
-//		return ((this.seq == castedObj.seq) && (this.columnName == null ? castedObj.columnName == null : this.columnName.equals(castedObj.columnName)) && (this.dataType == castedObj.dataType)
-//				&& (this.typeName == null ? castedObj.typeName == null : this.typeName.equals(castedObj.typeName)) && (this.columnSize == castedObj.columnSize)
-//				&& (this.decimalDigits == castedObj.decimalDigits) && (this.remarks == null ? castedObj.remarks == null : this.remarks.equals(castedObj.remarks))
-//				&& (this.notNull == castedObj.notNull) && (this.defaultValue == null ? castedObj.defaultValue == null : this.defaultValue.equals(castedObj.defaultValue))
-//				&& (this.isUniqueKey == castedObj.isUniqueKey)&& (this.withoutParam == castedObj.withoutParam));
-//	}
+
+
+	// ※ TableColumnのequalsメソッドは実装しない(インスタンスが同じかどうかでチェックするため）
+	// /**
+	// * Returns <code>true</code> if this <code>TableColumn</code> is the
+	// * same as the o argument.
+	// *
+	// * @return <code>true</code> if this <code>TableColumn</code> is the
+	// * same as the o argument.
+	// */
+	// public boolean equals(Object o) {
+	// if (this == o) {
+	// return true;
+	// }
+	// if (o == null) {
+	// return false;
+	// }
+	// if (o.getClass() != getClass()) {
+	// return false;
+	// }
+	// TableColumn castedObj = (TableColumn) o;
+	// return ((this.seq == castedObj.seq) && (this.columnName == null ? castedObj.columnName == null : this.columnName.equals(castedObj.columnName)) && (this.dataType == castedObj.dataType)
+	// && (this.typeName == null ? castedObj.typeName == null : this.typeName.equals(castedObj.typeName)) && (this.columnSize == castedObj.columnSize)
+	// && (this.decimalDigits == castedObj.decimalDigits) && (this.remarks == null ? castedObj.remarks == null : this.remarks.equals(castedObj.remarks))
+	// && (this.notNull == castedObj.notNull) && (this.defaultValue == null ? castedObj.defaultValue == null : this.defaultValue.equals(castedObj.defaultValue))
+	// && (this.isUniqueKey == castedObj.isUniqueKey)&& (this.withoutParam == castedObj.withoutParam));
+	// }
 
 	/**
-	 * Returns <code>true</code> if this <code>TableColumn</code> is the
-	 * same as the o argument.
+	 * Returns <code>true</code> if this <code>TableColumn</code> is the same as the o argument.
 	 * 
-	 * @return <code>true</code> if this <code>TableColumn</code> is the
-	 *         same as the o argument.
+	 * @return <code>true</code> if this <code>TableColumn</code> is the same as the o argument.
 	 */
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -255,19 +253,19 @@ public class TableColumn implements Serializable {
 			return false;
 		}
 		TableColumn castedObj = (TableColumn) o;
-		return ((this.seq == castedObj.seq) && (this.columnName == null ? castedObj.columnName == null : this.columnName.equals(castedObj.columnName)) && (this.dataType == castedObj.dataType)
-				&& (this.typeName == null ? castedObj.typeName == null : this.typeName.equals(castedObj.typeName)) && (this.columnSize == castedObj.columnSize)
-				&& (this.decimalDigits == castedObj.decimalDigits) && (this.remarks == null ? castedObj.remarks == null : this.remarks.equals(castedObj.remarks))
-				&& (this.notNull == castedObj.notNull) && (this.defaultValue == null ? castedObj.defaultValue == null : this.defaultValue.equals(castedObj.defaultValue))
-				&& (this.isUniqueKey == castedObj.isUniqueKey)&& (this.withoutParam == castedObj.withoutParam));
+		return ((this.seq == castedObj.seq) && (this.columnName == null ? castedObj.columnName == null : this.columnName.equals(castedObj.columnName))
+				&& (this.dataType == castedObj.dataType) && (this.typeName == null ? castedObj.typeName == null : this.typeName.equals(castedObj.typeName))
+				&& (this.columnSize == castedObj.columnSize) && (this.decimalDigits == castedObj.decimalDigits)
+				&& (this.remarks == null ? castedObj.remarks == null : this.remarks.equals(castedObj.remarks)) && (this.notNull == castedObj.notNull)
+				&& (this.defaultValue == null ? castedObj.defaultValue == null : this.defaultValue.equals(castedObj.defaultValue)) && (this.isUniqueKey == castedObj.isUniqueKey) && (this.withoutParam == castedObj.withoutParam));
 	}
 
-    public boolean isWithoutParam() {
-        return withoutParam;
-    }
+	public boolean isWithoutParam() {
+		return withoutParam;
+	}
 
-    public void setWithoutParam(boolean withoutParam) {
-        this.withoutParam = withoutParam;
-    }
+	public void setWithoutParam(boolean withoutParam) {
+		this.withoutParam = withoutParam;
+	}
 
 }

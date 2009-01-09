@@ -28,14 +28,12 @@ import zigen.plugin.db.core.IDBConfig;
  * 
  */
 public class ImpWizardPage1 extends DefaultWizardPage {
+
 	private final String LINE_SEP = System.getProperty("line.separator");
 
 	public static final String MSG = "インポート対象を選択し、終了ボタンを押下してください";
 
-	private String[] headers = {
-			"データベース論理名",
-			"接続文字列"
-	};
+	private String[] headers = {"データベース論理名", "接続文字列"};
 
 	private IDBConfig[] configs;
 
@@ -57,10 +55,10 @@ public class ImpWizardPage1 extends DefaultWizardPage {
 		label.setText("選択可能なデータベース定義一覧(&T):");
 
 		createTable(container);
-		
+
 		setControl(container);
 	}
-	
+
 
 	private void createTable(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -85,18 +83,12 @@ public class ImpWizardPage1 extends DefaultWizardPage {
 		gridData = new GridData(GridData.FILL_BOTH);
 		tableViewer.getControl().setLayoutData(gridData);
 
-		String[] properties = new String[] {
-				"check",
-				""
-		};
+		String[] properties = new String[] {"check", ""};
 		// カラム・プロパティの設定
 		tableViewer.setColumnProperties(properties);
 
 		// 各カラムに設定するセル・エディタの配列
-		CellEditor[] editors = new CellEditor[] {
-				new CheckboxCellEditor(table),
-				null
-		};
+		CellEditor[] editors = new CellEditor[] {new CheckboxCellEditor(table), null};
 
 		// セル・エディタの設定
 		tableViewer.setCellEditors(editors);

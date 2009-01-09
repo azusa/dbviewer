@@ -57,20 +57,17 @@ public class RefreshTreeNodeAction implements Runnable {
 			}
 
 			viewer.refresh(treeNode);
-			
 
-			
-			
 
 			// 選択状態を再度通知する
 			viewer.getControl().notifyListeners(SWT.Selection, null);
 
-			if(treeNode instanceof DataBase){
+			if (treeNode instanceof DataBase) {
 				// Filter通知
-				if(mode == RefreshTreeNodeAction.MODE_EXPAND){
-					DbPlugin.fireStatusChangeListener(((DataBase)treeNode).getDbConfig(), IStatusChangeListener.EVT_AddSchemaFilter);
+				if (mode == RefreshTreeNodeAction.MODE_EXPAND) {
+					DbPlugin.fireStatusChangeListener(((DataBase) treeNode).getDbConfig(), IStatusChangeListener.EVT_AddSchemaFilter);
 				}
-			}else if (treeNode instanceof ITable) {
+			} else if (treeNode instanceof ITable) {
 				// テーブル要素の更新を通知
 				DbPlugin.fireStatusChangeListener((ITable) treeNode, IStatusChangeListener.EVT_RefreshTable);
 			}

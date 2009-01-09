@@ -139,7 +139,7 @@ public class CalcIndexSpace {
 			if (blockSize == 0) {
 				blockSize = OracleDbBlockSizeSearcher.execute(con);
 			}
-//			log.debug("ブロックサイズ:" + this.blockSize); //$NON-NLS-1$
+			// log.debug("ブロックサイズ:" + this.blockSize); //$NON-NLS-1$
 			// カラム領域の取得
 			OracleColumnSizeUtil cs = new OracleColumnSizeUtil();
 			int columnAreaSize = cs.getRowLength(con, columns);
@@ -158,7 +158,7 @@ public class CalcIndexSpace {
 			// BigDecimal.ROUND_UP); // 切上げ
 			this.tableSpaceSafeSize = this.tableSpaceSafeSize.setScale(3, BigDecimal.ROUND_UP); // 切上げ
 
-//			log.debug("必要なサイズ(MB)を取得:" + this.tableSpaceSafeSize); //$NON-NLS-1$
+			// log.debug("必要なサイズ(MB)を取得:" + this.tableSpaceSafeSize); //$NON-NLS-1$
 
 		} catch (Exception e) {
 			throw e;
@@ -174,7 +174,7 @@ public class CalcIndexSpace {
 	 */
 	public double getBlockHeaderSize() {
 		double d = 113 + 24 * 2;
-//		log.debug("1.ブロックヘッダー:" + d); //$NON-NLS-1$
+		// log.debug("1.ブロックヘッダー:" + d); //$NON-NLS-1$
 		return d;
 	}
 
@@ -185,7 +185,7 @@ public class CalcIndexSpace {
 	 */
 	private final double getRiyouKanouArea() {
 		double d = Math.ceil((blockSize - getBlockHeaderSize()) * (1 - pctFree / 100d));
-//		log.debug("2.利用可能領域の取得:" + d); //$NON-NLS-1$
+		// log.debug("2.利用可能領域の取得:" + d); //$NON-NLS-1$
 		return d;
 
 	}
@@ -212,7 +212,7 @@ public class CalcIndexSpace {
 
 		}
 		double d = entryHeader + rowId + (f * 1 + v * 2) + columnAreaSize;
-//		log.debug("3.全体の索引値サイズの計算:" + d); //$NON-NLS-1$
+		// log.debug("3.全体の索引値サイズの計算:" + d); //$NON-NLS-1$
 		return d;
 	}
 
@@ -223,7 +223,7 @@ public class CalcIndexSpace {
 	 */
 	private final double getAverageRowCountOfBlock(IColumn[] columns, int columnAreaSize) throws CalcTableSpaceException {
 		double d = Math.floor(getRiyouKanouArea() / getIndexValueSize(columns, columnAreaSize));
-//		log.debug("4.ブロックあたりの平均行数の計算:" + d); //$NON-NLS-1$
+		// log.debug("4.ブロックあたりの平均行数の計算:" + d); //$NON-NLS-1$
 		return d;
 	}
 
@@ -235,7 +235,7 @@ public class CalcIndexSpace {
 	 */
 	private final double getNecessaryBlockSize(IColumn[] columns, int columnAreaSize, long totalRow) throws CalcTableSpaceException {
 		double d = Math.ceil(1.05 * totalRow / getAverageRowCountOfBlock(columns, columnAreaSize));
-//		log.debug("5.必要なブロック数:" + d); //$NON-NLS-1$
+		// log.debug("5.必要なブロック数:" + d); //$NON-NLS-1$
 		return d;
 	}
 

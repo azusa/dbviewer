@@ -158,115 +158,115 @@ import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
  */
 public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableViewEditor, IPropertyChangeListener, ISelectionListener, IStatusChangeListener, IPageChangeListener {
-	
+
 	private boolean isEditing = false;
-	
+
 	private ConditionManager condiitonMgr = DbPlugin.getDefault().getConditionManager();
-	
+
 	private IDBConfig config;
-	
+
 	private SourceViewer logViewer;
-	
+
 	private TableViewer viewer;
-	
+
 	protected SQLSourceViewer ddlViewer; // DDL View
-	
+
 	protected SQLCodeConfiguration sqlConfiguration;
-	
+
 	protected ColorManager colorManager = new ColorManager();
-	
+
 	protected ImageCacher ic = ImageCacher.getInstance();
-	
+
 	private Table table;
-	
+
 	protected ITable tableNode;
-	
+
 	private CellEditor[] cellEditors;
-	
+
 	private Label infoLabel;
-	
+
 	private TableElement[] elements;
-	
+
 	private int maxSize = 10;
-	
+
 	private List conditionHistory = new ArrayList();
-	
+
 	protected Combo conditionComb;
-	
+
 	private static final int CONDITION_SHOW_COLS = 20; // 一度に表示できる項目数を20とする
-	
+
 	private TableKeyEventHandler handler;
-	
+
 	protected InsertRecordAction insertRecordAction;
-	
+
 	protected SelectAllRecordAction selectAllRecordAction;
-	
+
 	protected DeleteRecordAction deleteAction;
-	
+
 	protected CopyRecordDataAction copyAction;
-	
+
 	protected PasteRecordDataAction pasteAction;
-	
+
 	protected ChangeColorJob changeColorJob;
-	
+
 	private TableSortListener sortListener;
-	
+
 	protected ColumnFilterInfo[] filterInfos;
-	
+
 	protected StatusLineContributionItem responseTimeItem;
-	
+
 	protected String responseTime;
-	
+
 	protected ISelection selection;
-	
+
 	protected MatchingCharacterPainter painter;
-	
+
 	protected LineNumberRulerColumn rulerCol;
-	
+
 	protected ToolItem searchItem;
-	
+
 	protected ToolItem filterItem;
-	
+
 	protected ToolItem pingColumnItem;
-	
+
 	private boolean isLockedColumnWidth;
-	
+
 	protected IPreferenceStore ps;
-	
+
 	protected Condition fCondition;
-	
+
 	protected int offset = 1;
-	
+
 	protected int limit = 0;
-	
+
 	protected long totalCount;
-	
+
 	protected Label totalPage;
-	
+
 	protected DDLToolBar toolBar;
-	
+
 	protected TableViewerPager pager;
-	
+
 	protected ToolItem addToolItem;
-	
+
 	protected ToolItem deleteToolItem;
-	
+
 	protected CoolItem pagerItem;
-	
+
 	protected CoolItem infoLabelItem;
-	
-	
+
+
 	/**
 	 * Where条件を入力して検索した場合に格納されるようにする
 	 */
 	protected String whereString;
-	
+
 	public TableViewEditorFor31() {
 		super();
 		ps = DbPlugin.getDefault().getPreferenceStore();
 		isLockedColumnWidth = ps.getBoolean(PreferencePage.P_LOCKE_COLUMN_WIDTH); // 初期値
 	}
-	
+
 	private void makeActions() {
 		insertRecordAction = new InsertRecordAction();
 		selectAllRecordAction = new SelectAllRecordAction();
@@ -278,9 +278,9 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		deleteAction.setActiveEditor(this);
 		copyAction.setActiveEditor(this);
 		pasteAction.setActiveEditor(this);
-		
+
 	}
-	
+
 	private void saveConditionHistory() {
 		String schemaName = tableNode.getSchemaName();
 		String tableName = tableNode.getName();
@@ -294,7 +294,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		condition.setCheckFilterPattern(false); // Filterチェックは起動時にはOFFにするため、常にFalseを設定
 		condiitonMgr.setCondition(condition);
 	}
-	
+
 	private void loadConditionHistory() {
 		String url = config.getUrl();
 		String schemaName = tableNode.getSchemaName();
@@ -306,7 +306,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			this.filterPattern = fCondition.getFilterPattern();
 		}
 	}
-	
+
 	protected void createPages() {
 		makeActions();
 		Composite composite = new Composite(getContainer(), SWT.NONE);
@@ -319,32 +319,32 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		loadConditionHistory();
 		DbPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(this);
 		DbPlugin.addStatusChangeListener(this);
-		
+
 	}
-	
+
 	private void createDDLPage() {
 		Composite composite = new Composite(getContainer(), SWT.NONE);
 		FormLayout layout = new FormLayout();
 		composite.setLayout(layout);
-		
+
 		toolBar = new DDLToolBar(composite, this);
 		Composite sqlComposite = new Composite(composite, SWT.NONE);
 		sqlComposite.setLayout(new FillLayout());
-		
+
 		FormData data = new FormData();
 		data.top = new FormAttachment(toolBar.getCoolBar(), 0);
 		data.left = new FormAttachment(0, 0);
 		data.right = new FormAttachment(100, 0);
 		data.bottom = new FormAttachment(100, 0);
 		sqlComposite.setLayoutData(data);
-		
+
 		CompositeRuler ruler = new CompositeRuler();
 		rulerCol = new LineNumberRulerColumn();
 		ruler.addDecorator(0, rulerCol);
-		
+
 		LineNumberRulerColumnUtil.changeColor(colorManager, rulerCol);
 		ddlViewer = new SQLSourceViewer(sqlComposite, ruler, null, false, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		
+
 		// sqlファイルに保存時の初期値を設定しておく
 		ddlViewer.setSqlFileName(tableNode.getName());
 		toolBar.setSQLSourceViewer(ddlViewer);
@@ -361,9 +361,9 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		int index = addPage(composite);
 		setPageText(index, "DDL"); //$NON-NLS-1$
 	}
-	
+
 	private void createMessageArea(Composite parent) {
-		
+
 		CoolBar coolBar1 = new CoolBar(parent, SWT.NONE);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		coolBar1.setLayoutData(gridData);
@@ -377,21 +377,21 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		pager = new TableViewerPager(tableNode, limit);
 		pagerItem.setControl(pager.createStackedButtons(coolBar1));
 		computeSize(pagerItem);
-		
+
 		pager.setPageNo(1);
 		pager.addPageChangeListener(this);
-		
+
 		infoLabelItem = new CoolItem(coolBar1, SWT.NONE);
 		infoLabel = new Label(coolBar1, SWT.NONE);
 		infoLabel.setText(""); //$NON-NLS-1$
 		infoLabel.setForeground(new Color(null, 255, 0, 0));
 		// infoLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		infoLabelItem.setControl(infoLabel);
-		
+
 		computeSize(infoLabelItem);
-		
+
 	}
-	
+
 	private void createMainPage() {
 		Composite main = new Composite(getContainer(), SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
@@ -404,13 +404,13 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		main.setLayout(gridLayout);
 		// ツールバー領域用
 		createToolBar(main);
-		
+
 		// データ表示エリア
 		table = new Table(main, SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		
+
 		// Pagerおよびメッセージ領域
 		createMessageArea(main);
-		
+
 		GridData gridData2 = new GridData(GridData.FILL_BOTH);
 		table.setLayoutData(gridData2);
 		table.setHeaderVisible(true);
@@ -422,66 +422,66 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		// setCellModify(viewer, filterInfos, handler);// セルモディファイの設定
 		viewer.setContentProvider(new TableViewContentProvider());
 		viewer.setLabelProvider(new TableViewLabelProvider());
-		
+
 		table.addKeyListener(new KeyAdapter() {
-			
+
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.F2) {
 					// レコード選択を解除し、先頭のカラムを編集状態にする
 					int row = handler.getSelectedRow();
 					handler.editTableElement(row, 1);
-					
+
 				}
 			}
 		});
 		table.addFocusListener(new FocusAdapter() {
-			
+
 			public void focusGained(FocusEvent e) {
 				if (table.getSelectionIndex() == -1) {
 					table.select(0); // 未選択の場合は、強制的に1レコード目を選択
 					table.notifyListeners(SWT.Selection, null); // 選択状態を通知
-					
+
 				}
 				// テーブル操作用のActionBarにする
 				IActionBars bars = getEditorSite().getActionBars();
 				setGlobalActionForEditor(bars);
 				bars.updateActionBars();
-				
+
 			}
 		});
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			public void selectionChanged(SelectionChangedEvent e) {
 				selectionChangeHandler(e);
 			}
-			
+
 		});
-		
+
 		viewer.setInput(elements);
 		columnsPack(table);
-		
+
 		// hookContextMenu();
 		contributeToStatusLine();
-		
+
 		addPage(0, main); // 先頭に挿入
 		removePage(1);
 		setActivePage(0); // 先頭をアクティブ
 		getSite().setSelectionProvider(viewer);
 		getEditorSite().getPage().addSelectionListener(this);
 		setKeyBinding();
-		
+
 		changeColorJob = new ChangeColorJob(table, tableNode);
 		changeColorJob.setPriority(ChangeColorJob.LONG);
 		changeColorJob.setUser(false);
 		changeColorJob.schedule();
-		
+
 	}
-	
+
 	// for Eclipse3.2 Keybinding(新規レコード作成）
 	protected void setKeyBinding() {
 		;
 	}
-	
+
 	private boolean hasContributionItem(IStatusLineManager manager, String id) {
 		IContributionItem[] items = manager.getItems();
 		for (int i = 0; i < items.length; i++) {
@@ -493,46 +493,46 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		}
 		return false;
 	}
-	
+
 	public void contributeToStatusLine() {
 		IStatusLineManager manager = getIStatusLineManager();
 		if (!hasContributionItem(manager, "RecordCount")) { //$NON-NLS-1$
 			responseTimeItem = new StatusLineContributionItem("RecordCount"); //$NON-NLS-1$
 			manager.add(responseTimeItem);
 		}
-		
+
 	}
-	
-	
+
+
 	// for Eclipse3.1
 	protected void conditionEventHandler(KeyEvent e) {
 		if (e.character == SWT.CR) {
 			e.doit = true;
 			whereString = conditionComb.getText();
-			
+
 			pager.setPageNo(1); // Where条件で検索すると必ず1ページに移動する
 			offset = 1; // offsetを初期化
 			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD); // 制限を初期化
 			updateTableViewer(whereString, offset, limit);
 		}
 	}
-	
+
 	public void pageChanged(int status, int offset, int limit) {
 		this.offset = offset;
 		this.limit = limit;
 		this.whereString = conditionComb.getText();
 		updateTableViewer(whereString, offset, limit);
-		
+
 	}
-	
-	
+
+
 	public void setTotalCount(int dispCount, long totalCount) {
 		this.totalCount = totalCount;
-		
+
 		NumberFormat format = NumberFormat.getInstance();
 		String displayCount = format.format(dispCount);
 		String displayTotalCount = format.format(totalCount);
-		
+
 		StringBuffer sb = new StringBuffer();
 		sb.append("["); //$NON-NLS-1$
 		sb.append(config.getDbName());
@@ -554,15 +554,15 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		sb.append(Messages.getString("TableViewEditorFor31.14")); //$NON-NLS-1$
 		sb.append(responseTime);
 		sb.append("]"); //$NON-NLS-1$
-		
+
 		setPageText(0, sb.toString());
-		
+
 		pager.setLimit(limit);
 		pager.setRecordCount((int) totalCount);
 		computeSize(pagerItem);
-		
+
 	}
-	
+
 	public void setResponseTime(String responseTime) {
 		this.responseTime = responseTime;
 		if (responseTimeItem != null && responseTime != null && !"".equals(responseTime)) { //$NON-NLS-1$
@@ -570,32 +570,32 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			sb.append(Messages.getString("TableViewEditorFor31.17")); //$NON-NLS-1$
 			sb.append(responseTime);
 			responseTimeItem.setText(sb.toString());
-			
+
 		}
 	}
-	
+
 	public void refleshAction() {
 		deleteAction.refresh();
 		copyAction.refresh();
 		pasteAction.refresh();
-		
+
 		// ツールバーの制御
 		if (table.getSelectionCount() > 0) {
 			deleteToolItem.setEnabled(true);
 		} else {
 			deleteToolItem.setEnabled(false);
 		}
-		
+
 	}
-	
+
 	void selectionChangeHandler(SelectionChangedEvent event) {
 		refleshAction();
 	}
-	
-	
+
+
 	private void createToolBar(Composite parent) {
 		GridData gridData;
-		
+
 		CoolBar coolBar = new CoolBar(parent, SWT.FLAT);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		coolBar.setLayoutData(gridData);
@@ -608,40 +608,40 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		// saveToolItem.setImage(getImage(ISharedImages.IMG_TOOL_PASTE));
 		// // saveToolItem.setText("Paste");
 		// saveToolItem.setToolTipText("Paste");
-		
+
 		addToolItem = new ToolItem(toolBar1, SWT.PUSH);
 		addToolItem.setImage(ic.getImage(DbPlugin.IMG_CODE_ADD));
 		addToolItem.setToolTipText(Messages.getString("TableViewEditorFor31.9")); //$NON-NLS-1$
 		addToolItem.setEnabled(false);
 		addToolItem.addSelectionListener(new SelectionAdapter() {
-			
+
 			public void widgetSelected(SelectionEvent e) {
 				InsertRecordAction action = getContributor().getInsertRecordAction();
 				action.run();
 			}
 		});
-		
+
 		deleteToolItem = new ToolItem(toolBar1, SWT.PUSH);
 		deleteToolItem.setImage(getImage(ISharedImages.IMG_TOOL_DELETE));
 		deleteToolItem.setToolTipText(Messages.getString("TableViewEditorFor31.8")); //$NON-NLS-1$
 		deleteToolItem.setEnabled(false);
 		computeSize(coolBar, toolBar1);
 		deleteToolItem.addSelectionListener(new SelectionAdapter() {
-			
+
 			public void widgetSelected(SelectionEvent e) {
 				DeleteRecordAction action = getContributor().getDeleteRecordAction();
 				action.run();
 			}
 		});
-		
+
 		final ToolBar toolBar3 = new ToolBar(coolBar, SWT.HORIZONTAL);
-		
+
 		searchItem = new ToolItem(toolBar3, SWT.NONE);
 		searchItem.setImage(ic.getImage(DbPlugin.IMG_CODE_EXECUTE));
 		searchItem.setEnabled(false); // カラム情報が読み終わるまでFalse
 		searchItem.setToolTipText(Messages.getString("TableViewEditorFor31.19")); //$NON-NLS-1$
 		searchItem.addSelectionListener(new SelectionAdapter() {
-			
+
 			public void widgetSelected(SelectionEvent e) {
 				whereString = conditionComb.getText();
 				pager.setPageNo(1);
@@ -650,35 +650,35 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				updateTableViewer(whereString, offset, limit);
 			}
 		});
-		
+
 		computeSize(coolBar, toolBar3);
-		
+
 		final ToolBar toolBar2 = new ToolBar(coolBar, SWT.HORIZONTAL);
 		filterItem = new ToolItem(toolBar2, SWT.NONE);
 		filterItem.setImage(ic.getImage(DbPlugin.IMG_CODE_FILTER));
 		filterItem.setEnabled(false); // カラム情報が読み終わるまでFalse
 		filterItem.setToolTipText(Messages.getString("TableViewEditorFor31.20")); //$NON-NLS-1$
 		filterItem.addSelectionListener(new SelectionAdapter() {
-			
+
 			public void widgetSelected(SelectionEvent e) {
 				filterBtnSelectHandler(e);
 			}
 		});
-		
+
 		pingColumnItem = new ToolItem(toolBar2, SWT.CHECK);
 		pingColumnItem.setImage(ic.getImage(DbPlugin.IMG_CODE_PIN_COLUMN));
 		pingColumnItem.setSelection(isLockedColumnWidth);
 		pingColumnItem.setEnabled(false); // カラム情報が読み終わるまでFalse
 		pingColumnItem.setToolTipText(Messages.getString("TableViewEditorFor31.29")); //$NON-NLS-1$
 		pingColumnItem.addSelectionListener(new SelectionAdapter() {
-			
+
 			public void widgetSelected(SelectionEvent e) {
 				isLockedColumnWidth = !isLockedColumnWidth;
 			}
 		});
-		
+
 		computeSize(coolBar, toolBar2);
-		
+
 		// CSVエクスポート部分
 		// ToolBar cToolBar5 = new ToolBar(coolBar, SWT.FLAT);
 		// ToolItem exportCsvItem = new ToolItem(cToolBar5, SWT.NONE);
@@ -691,7 +691,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		// action.run();
 		// }
 		// });
-		
+
 		final Composite tool = new Composite(parent, SWT.NONE);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		tool.setLayoutData(gridData);
@@ -703,56 +703,56 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		gridLayout.horizontalSpacing = 0;
 		gridLayout.verticalSpacing = 0;
 		tool.setLayout(gridLayout);
-		
+
 		// where条件
 		Label label1 = new Label(tool, SWT.NULL);
 		gridData = new GridData(GridData.FILL);
 		gridData.verticalIndent = 2;
 		label1.setLayoutData(gridData);
 		label1.setText(Messages.getString("TableViewEditorFor31.18")); //$NON-NLS-1$
-		
+
 		conditionComb = new Combo(tool, SWT.NONE);
 		conditionComb.setEnabled(false);
 		if (whereString != null && !"".equals(whereString)) { //$NON-NLS-1$
 			conditionComb.setText(whereString);
 		}
-		
+
 		conditionComb.setVisibleItemCount(CONDITION_SHOW_COLS);
 		conditionComb.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+
 		conditionComb.addKeyListener(new KeyAdapter() {
-			
+
 			public void keyPressed(KeyEvent e) {
 				conditionEventHandler(e);
 			}
 		});
-		
+
 		// // ------------------------------------------
 		// // コードアシスト only Eclipse 3.2
 		// // ------------------------------------------
 		// AddContentAssist();
-		
+
 		conditionComb.addTraverseListener(new TraverseListener() {
-			
+
 			public void keyTraversed(TraverseEvent e) {
 				if (e.character == SWT.TAB) {
 					if (table.getItemCount() == 0) {
 						// 検索結果が0の場合
 						handler.createNewRecord();
 					}
-					
+
 				}
 			}
 		});
 		conditionComb.setFont(DbPlugin.getDefaultFont());
 		conditionComb.addFocusListener(new FocusAdapter() {
-			
+
 			public void focusGained(FocusEvent e) {
 				IActionBars bars = getEditorSite().getActionBars();
 				bars.clearGlobalActionHandlers();
 				bars.updateActionBars();
 			}
-			
+
 		});
 		conditionComb.setFocus();
 		if (conditionHistory != null) {
@@ -764,33 +764,33 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				}
 			}
 		}
-		
+
 	}
-	
+
 	protected Image getImage(String key) {
 		return PlatformUI.getWorkbench().getSharedImages().getImage(key);
 	}
-	
+
 	private void computeSize(CoolBar coolBar, ToolBar cToolBar) {
 		CoolItem item = new CoolItem(coolBar, SWT.PUSH);
 		cToolBar.pack();
 		Point size = cToolBar.getSize();
 		item.setControl(cToolBar);
 		item.setSize(item.computeSize(size.x + 5, size.y));
-		
+
 	}
-	
+
 	private void computeSize(CoolItem item) {
 		Control control = item.getControl();
 		Point pt = control.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		pt = item.computeSize(pt.x + 5, pt.y);
 		item.setSize(pt);
 	}
-	
+
 	boolean checkFilterPattern = false;
-	
+
 	String filterPattern = null;
-	
+
 	private void filterBtnSelectHandler(SelectionEvent event) {
 		Shell shell = this.getSite().getShell();
 		ColumnFilterDialog dialog = new ColumnFilterDialog(shell, this);
@@ -800,7 +800,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			filterPattern = dialog.filterPattern;
 		}
 	}
-	
+
 	public void removeOverHistory() {
 		while (conditionHistory.size() > maxSize) { // 空白用を考慮
 			int i = conditionHistory.size() - 1;
@@ -808,43 +808,43 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			conditionComb.remove(i);
 		}
 	}
-	
+
 	void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
-			
+
 			public void menuAboutToShow(IMenuManager manager) {
 				switch (getActivePage()) {
-					case SHEET_INFO:
-						if (tableDefineEditor.focusDefine()) {
-							ISelection selection = tableDefineEditor.getDefineViewer().getSelection();
-							getContributor().fillContextMenuForDefine(manager, selection);
-						} else {
-							ISelection selection = tableDefineEditor.getConstraintViewer().getSelection();
-							getContributor().fillContextMenuForConstraints(manager, selection);
-						}
-						break;
-					case SHEET_DDL:
-						getContributor().fillContextMenuForDDL(manager);
-						break;
-					case SHEET_DATA:
-						getContributor().fillContextMenu(manager);
-						
-						// 拡張ポイントの追加
-						setExtensionPoint(manager);
-						
-						break;
-					default:
-						break;
+				case SHEET_INFO:
+					if (tableDefineEditor.focusDefine()) {
+						ISelection selection = tableDefineEditor.getDefineViewer().getSelection();
+						getContributor().fillContextMenuForDefine(manager, selection);
+					} else {
+						ISelection selection = tableDefineEditor.getConstraintViewer().getSelection();
+						getContributor().fillContextMenuForConstraints(manager, selection);
+					}
+					break;
+				case SHEET_DDL:
+					getContributor().fillContextMenuForDDL(manager);
+					break;
+				case SHEET_DATA:
+					getContributor().fillContextMenu(manager);
+
+					// 拡張ポイントの追加
+					setExtensionPoint(manager);
+
+					break;
+				default:
+					break;
 				}
-				
+
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
-		
+
 		if (tableDefineEditor != null) {
 			Menu menu2 = menuMgr.createContextMenu(tableDefineEditor.getDefineViewer().getControl());
 			tableDefineEditor.getDefineViewer().getControl().setMenu(menu2);
@@ -852,7 +852,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			Menu menu3 = menuMgr.createContextMenu(tableDefineEditor.getConstraintViewer().getControl());
 			tableDefineEditor.getConstraintViewer().getControl().setMenu(menu3);
 			getSite().registerContextMenu(menuMgr, tableDefineEditor.getConstraintViewer());
-			
+
 		}
 		if (ddlViewer != null) {
 			Menu menu4 = menuMgr.createContextMenu(ddlViewer.getTextWidget());
@@ -860,7 +860,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			getSite().registerContextMenu(menuMgr, ddlViewer);
 		}
 	}
-	
+
 	private TableViewerContributor getContributor() {
 		IEditorActionBarContributor contributor = getEditorSite().getActionBarContributor();
 		if (contributor instanceof TableViewerContributor) {
@@ -869,12 +869,12 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			return null;
 		}
 	}
-	
+
 	private void setHeaderColumn(Table table) {
 		if (elements != null) {
 			// TableColumn row = new TableColumn(table, SWT.LEFT);
 			TableColumn row = new TableColumn(table, SWT.RIGHT);
-			
+
 			sortListener = new TableSortListener(this, 0);
 			row.addSelectionListener(sortListener);
 			row.pack();
@@ -889,7 +889,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			}
 		}
 	}
-	
+
 	private void setCellModify(TableViewer viewer, ColumnFilterInfo[] filterInfo, TableKeyEventHandler handler) {
 		if (elements == null)
 			return;
@@ -912,41 +912,41 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 					cellEditor = new TextCellEditor(table, i);
 					cellEditor.getControl().addKeyListener(keyAdapter);
 					cellEditor.getControl().addTraverseListener(keyAdapter);
-					
+
 				}
-				
+
 				// cellEditor.getControl().addFocusListener(new
 				// CellFocusAdapter(element));
 				cellEditor.getControl().addFocusListener(new FocusAdapter() {
-					
+
 					public void focusGained(FocusEvent e) {
 						setInfomationText(EDIT_MODE_ON);
 						isEditing = true; // 編集中フラグをON
 						bars.clearGlobalActionHandlers();
 						bars.updateActionBars();
 					}
-					
+
 					public void focusLost(FocusEvent e) {
 						setInfomationText(EDIT_MODE_OFF);
 						isEditing = false; // 編集中フラグをOFF
 					}
 				});
-				
+
 				// Validatorを使うと、入力エラーの場合、入力した値が消えるため、以下の処理は行なわない
 				// cellEditor.setValidator(new CellEditorValidator(config,
 				// viewer, i));
 				cellEditors[i] = cellEditor;
-				
+
 			}
 		}
 		viewer.setColumnProperties(properties);
 		// viewer.setCellModifier(new CellModifier(viewer, tableNode,
 		// filterInfo));
 		viewer.setCellModifier(new CellModifier(this, filterInfo, handler));
-		
+
 		viewer.setCellEditors(cellEditors);
 	}
-	
+
 	private void columnsPack(Table table) {
 		table.setVisible(false);
 		TableColumn[] cols = table.getColumns();
@@ -955,7 +955,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		}
 		table.setVisible(true);
 	}
-	
+
 	public void dispose() {
 		DbPlugin.getDefault().getPreferenceStore().removePropertyChangeListener(this);
 		getEditorSite().getPage().removeSelectionListener(this);
@@ -972,7 +972,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		saveConditionHistory();
 		super.dispose();
 	}
-	
+
 	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException {
 		super.init(site, editorInput);
 		try {
@@ -982,10 +982,10 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				this.tableNode = input.getTable();
 				String partName = this.tableNode.getSqlTableName();
 				setPartName(partName);
-				
+
 				// input.setToolTipText("[" + input.getConfig().getDbName() + "]
 				// " + partName); //$NON-NLS-1$ //$NON-NLS-2$
-				
+
 				StringBuffer sb = new StringBuffer();
 				sb.append("["); //$NON-NLS-1$
 				sb.append(input.getConfig().getDbName());
@@ -997,36 +997,36 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 					sb.append("]"); //$NON-NLS-1$
 				}
 				input.setToolTipText(sb.toString());
-				
+
 				setStatusMessage(input.getToolTipText());
-				
+
 			}
-			
+
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);
 		}
 	}
-	
+
 	// Where条件入力部からの実行
 	protected void updateTableViewer(String condition, int offset, int limit) {
-		
+
 		// limit=0 の場合は、無制限の検索となるため、その場合offset=0に初期化する
 		if (limit == 0) {
 			offset = 0;
 		}
-		
+
 		// ORDER BYオプションをつけるかどうか
 		RecordSearchJob job = new RecordSearchJob(this, condition, getOrderByString(), offset, limit);
 		job.setPriority(RecordSearchJob.SHORT);
 		job.setUser(true);
 		job.schedule();
 	}
-	
+
 	// JOBクラスから呼ばれるメソッド
 	public void updateTableViewer(String condition, TableElement[] elements, String responseTime, boolean doCalculate) {
 		try {
 			viewer.setInput(elements);
-			
+
 			TableColumn col = viewer.getTable().getColumn(0);
 			col.pack();// 先頭の幅をパック
 			TableDefaultSortListener defaultSortListener = new TableDefaultSortListener(this, 0);
@@ -1039,7 +1039,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			col.removeSelectionListener(defaultSortListener);
 			sortListener = new TableSortListener(this, 0);
 			col.addSelectionListener(sortListener);
-			
+
 			// カラム幅を固定にしない場合は、再度カラムパックを呼ぶ
 			if (!isLockedColumnWidth) {
 				columnsPack(table);
@@ -1048,9 +1048,9 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				job.setPriority(TableFilterJob.SHORT);
 				job.setUser(false); // ダイアログを出す
 				job.schedule();
-				
+
 			}
-			
+
 			// unformatすることで、重複を除く。
 			String unformated = SQLFormatter.unformat(condition);
 			// 一致した条件を一度削除し、最上位に移動させる
@@ -1060,32 +1060,32 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			}
 			conditionHistory.add(0, unformated); // 先頭に追加
 			conditionComb.add(unformated, 0); // 先頭に追加
-			
+
 			conditionComb.select(0);// 先頭を選択する
 			// 最大値を超えた分を削除する
 			removeOverHistory();
-			
+
 			// 応答時間
 			setResponseTime(responseTime);
-			
+
 			// レコード件数の表示
 			int dispCnt = elements.length - 1;
 			setTotalCount(dispCnt, -1); //$NON-NLS-1$
-			
+
 			// レコード件数の計算
 			RecordCountForTableJob job2 = new RecordCountForTableJob(Transaction.getInstance(config), tableNode, condition, dispCnt, doCalculate);
 			job2.setUser(false);
 			job2.schedule();
-			
+
 		} catch (Exception e) {
 			DbPlugin.log(e);
 		}
 	}
-	
+
 	private Object lock = new Object();
-	
+
 	public void createResultPage(IDBConfig config, ITable iTable, boolean isSearch) throws NotFoundColumnInfoException {
-		
+
 		synchronized (lock) {
 			// EditorInputにあるTableを再設定する
 			TableViewEditorInput input = new TableViewEditorInput(config, iTable);
@@ -1096,14 +1096,14 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				String maxRecordMessage = ""; //$NON-NLS-1$
 				TimeWatcher time = new TimeWatcher();
 				time.start();
-				
+
 				boolean doCalculate = false;
 				try {
 					// ----------------------------------------------------------------------------------
 					// この時点ではテーブルのカラム情報が無いため、offset, limitを指定した検索はできない
 					// ----------------------------------------------------------------------------------
 					elements = TableManager.invoke(config, iTable);
-					
+
 				} catch (MaxRecordException e) {
 					elements = e.getTableElements();
 					doCalculate = true;
@@ -1117,20 +1117,20 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				} finally {
 					time.stop();
 				}
-				
+
 				// -----------------------------------------------
 				// 最初の検索時に、最大表示件数をEditorに設定する
 				// -----------------------------------------------
 				limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
-				
+
 				// データ表示部の作成(事前にlimitに値を入れておく)
 				createMainPage();
-				
+
 				// メッセージを設定
 				setInfomationText(maxRecordMessage);
-				
+
 				setResponseTime(time.getTotalTime());// 応答時間
-				
+
 				if (elements != null) {
 					// カラム情報の読み込み
 					TreeView view = (TreeView) DbPlugin.findView(DbPluginConstant.VIEW_ID_TreeView);
@@ -1138,7 +1138,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 					job3.setPriority(LoadingColumnInfoJob.SHORT);
 					job3.setUser(false);
 					job3.schedule();
-					
+
 					// 表示件数の設定
 					int dispCnt = elements.length - 1;
 					setTotalCount(dispCnt, -1); //$NON-NLS-1$
@@ -1146,34 +1146,34 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 					job2.setPriority(RecordCountForTableJob.LONG);
 					job2.setUser(false);
 					job2.schedule();
-					
+
 				}
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
 	}
-	
+
 	public void editTableElement(Object element, int column) {
 		viewer.cancelEditing();
 		viewer.editElement(element, column);
 	}
-	
+
 	public TableViewer getViewer() {
 		return viewer;
 	}
-	
+
 	public void setInfomationText(String text) {
 		infoLabel.setText(text);
 		// infoLabel.pack(true);
 		computeSize(infoLabelItem);
-		
+
 	}
-	
+
 	public TableElement getHeaderTableElement() {
 		Object obj = viewer.getInput();
 		if (obj instanceof TableElement[]) {
@@ -1187,47 +1187,47 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			return null;
 		}
 	}
-	
+
 	public ITable getTableNode() {
 		return tableNode;
 	}
-	
+
 	protected void initializeViewerFont(ISourceViewer viewer) {
 		StyledText styledText = viewer.getTextWidget();
 		styledText.setFont(DbPlugin.getDefaultFont());
 	}
-	
+
 	public void setFocus() {
 		setResponseTime(responseTime);
 		// 追加機能(DBツリーとリンクさせる)
 		DbPlugin.fireStatusChangeListener(selection, IStatusChangeListener.EVT_LinkTable);
 		IActionBars bars = getEditorSite().getActionBars();
 		bars.clearGlobalActionHandlers();
-		
+
 		switch (getActivePage()) {
-			case SHEET_INFO:
-				tableDefineEditor.setFocus();
-				break;
-			
-			case SHEET_DDL:// DDLシート
-				setDDLString();
-				setGlobalActionForDDL(bars);
-				break;
-			
-			case SHEET_DATA:// Editorシート
-				setGlobalActionForEditor(bars);
-				if (conditionComb != null)
-					conditionComb.setFocus();
-				break;
-			
-			default:
-				break;
+		case SHEET_INFO:
+			tableDefineEditor.setFocus();
+			break;
+
+		case SHEET_DDL:// DDLシート
+			setDDLString();
+			setGlobalActionForDDL(bars);
+			break;
+
+		case SHEET_DATA:// Editorシート
+			setGlobalActionForEditor(bars);
+			if (conditionComb != null)
+				conditionComb.setFocus();
+			break;
+
+		default:
+			break;
 		}
-		
+
 		bars.updateActionBars();
 		setStatusMessage(getEditorInput().getToolTipText());
 	}
-	
+
 	void setDDLString() {
 		try {
 			ISQLCreatorFactory factory = AbstractSQLCreatorFactory.getFactory(config, tableNode);
@@ -1236,13 +1236,13 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			DbPlugin.log(e);
 		}
 	}
-	
+
 	void setGlobalActionForDDL(IActionBars bars) {
 		bars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(), new GlobalAction(ddlViewer, ITextOperationTarget.SELECT_ALL));
 		bars.setGlobalActionHandler(ActionFactory.COPY.getId(), new GlobalAction(ddlViewer, ITextOperationTarget.COPY));
 		insertRecordAction.setEnabled(false); // ショートカット対象のActionを無効
 	}
-	
+
 	void setGlobalActionForEditor(IActionBars bars) {
 		bars.setGlobalActionHandler("zigen.plugin.db.actions.InsertRecordAction", insertRecordAction); //$NON-NLS-1$
 		bars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(), selectAllRecordAction);
@@ -1250,23 +1250,23 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		bars.setGlobalActionHandler(ActionFactory.COPY.getId(), copyAction);
 		bars.setGlobalActionHandler(ActionFactory.PASTE.getId(), pasteAction);
 		insertRecordAction.setEnabled(true); // ショートカット対象のActionを有効
-		
+
 	}
-	
+
 	public SourceViewer getLogViewer() {
 		return logViewer;
 	}
-	
+
 	protected void AddContentAssist() {
 		; // Eclipse 3.1では実装不可
 	}
-	
+
 	public IDBConfig getDBConfig() {
 		return config;
 	}
-	
+
 	private TableDefineEditor tableDefineEditor;
-	
+
 	private void createDefinPage() {
 		Composite composite = new Composite(getContainer(), SWT.NONE);
 		composite.setLayout(new FillLayout());
@@ -1275,23 +1275,23 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		tableDefineEditor.createWidget();
 		int index = addPage(composite);
 		setPageText(index, Messages.getString("TableViewEditorFor31.28")); //$NON-NLS-1$
-		
+
 	}
-	
+
 	public void doSave(IProgressMonitor monitor) {
 		try {
 			String newTableName = tableDefineEditor.getTableName();
 			String newRemarks = tableDefineEditor.getTableComment();
 			AbstractSQLThread invoker = new ModifyTableThread(tableNode, newTableName, newRemarks);
 			invoker.run();
-			
+
 			TableViewEditorInput input = (TableViewEditorInput) getEditorInput();
 			String partName = this.tableNode.getSqlTableName();
 			setPartName(partName);
-			
+
 			// input.setToolTipText("[" + input.getConfig().getDbName() + "] " +
 			// partName); //$NON-NLS-1$ //$NON-NLS-2$
-			
+
 			StringBuffer sb = new StringBuffer();
 			sb.append("["); //$NON-NLS-1$
 			sb.append(input.getConfig().getDbName());
@@ -1303,47 +1303,47 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				sb.append("]"); //$NON-NLS-1$
 			}
 			input.setToolTipText(sb.toString());
-			
+
 			setStatusMessage(input.getToolTipText());
 			// 変更通知(OFF)
 			setDirty(false);
-			
+
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);
 		}
 	}
-	
+
 	boolean dirty;
-	
+
 	public void doSaveAs() {}
-	
+
 	public boolean isDirty() {
 		return dirty;
 	}
-	
+
 	public void setDirty(boolean value) {
 		dirty = value;
 		firePropertyChange(PROP_DIRTY);
 	}
-	
+
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
-	
+
 	public void changeColumnColor(Column column) {
 		changeColorJob.setSelectedColumn(column);
 		changeColorJob.schedule();
-		
+
 	}
-	
+
 	public void changeColumnColor() {
 		changeColorJob.setTable(table);
 		changeColorJob.schedule();
 	}
-	
+
 	public void selectionChanged(IWorkbenchPart part, ISelection _selection) {
 		if (_selection != null && _selection instanceof StructuredSelection) {
-			
+
 			if (part instanceof TreeView) {
 				TreeView tree = (TreeView) part;
 				if (tree.isLinkingEnabled() && _selection.equals(this.selection)) {
@@ -1355,7 +1355,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 						// DbPlugin.log(e);
 					}
 				}
-				
+
 				Object obj = ((StructuredSelection) _selection).getFirstElement();
 				if (obj != null) {
 					if (obj instanceof Column) {
@@ -1372,14 +1372,14 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 							changeColumnColor(null);
 						}
 					}
-					
+
 				}
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	public void statusChanged(Object obj, int status) {
 		if (status == IStatusChangeListener.EVT_RefreshTable) {
 			if (obj instanceof ITable) {
@@ -1410,7 +1410,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			}
 		}
 	}
-	
+
 	public void propertyChange(PropertyChangeEvent event) {
 		if (sqlConfiguration != null && ddlViewer != null) {
 			StyledTextUtil.changeColor(colorManager, ddlViewer.getTextWidget());
@@ -1423,42 +1423,42 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				pingColumnItem.setSelection(isLockedColumnWidth);
 		}
 	}
-	
+
 	public TableDefineEditor getTableDefineEditor() {
 		return tableDefineEditor;
 	}
-	
+
 	public String getCondition() {
 		return whereString;
 	}
-	
+
 	public ColumnFilterInfo[] getFilterInfos() {
 		return filterInfos;
 	}
-	
+
 	// DB Tree ViewのSelection
 	public void setSelection(ISelection selection) {
 		this.selection = selection;
 	}
-	
+
 	protected IStatusLineManager getIStatusLineManager() {
 		IEditorSite vieweSite = super.getEditorSite();
 		IActionBars actionBars = vieweSite.getActionBars();
 		return actionBars.getStatusLineManager();
-		
+
 	}
-	
+
 	public void setStatusMessage(String message) {
 		getIStatusLineManager().setMessage(message);
 	}
-	
+
 	public void setStatusErrorMessage(String message) {
 		getIStatusLineManager().setErrorMessage(message);
 	}
-	
+
 	private boolean hasOrderBy() {
 		SqlTokenizer tokenizer = new SqlTokenizer(whereString, DbPlugin.getSqlFormatRult());
-		
+
 		for (Iterator it = tokenizer; it.hasNext();) {
 			Token token = (Token) it.next();
 			if (token.getType() == TokenUtil.TYPE_KEYWORD) {
@@ -1469,7 +1469,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		}
 		return false;
 	}
-	
+
 	public String getOrderByString() {
 		if (!hasOrderBy()) {
 			TreeMap map = new TreeMap();
@@ -1499,19 +1499,19 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		} else {
 			return null;
 		}
-		
+
 	}
-	
+
 	static Object loadingColumnInfolock = new Object();
-	
+
 	boolean isLodingColumnInfo = false;
-	
+
 	class LoadingColumnInfoJob extends RefreshColumnJob {
-		
+
 		public LoadingColumnInfoJob(TreeViewer treeViewer, ITable table) {
 			super(treeViewer, table);
 		}
-		
+
 		protected IStatus run(IProgressMonitor monitor) {
 			Connection con = null;
 			try {
@@ -1521,13 +1521,13 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				// Transaction.getInstance(config).getConnection();
 				con = ConnectionManager.getConnection(config);
 				monitor.beginTask(Messages.getString("TableViewEditorFor31.0"), 10); //$NON-NLS-1$
-				
+
 				synchronized (loadingColumnInfolock) {
 					// カラム情報をロード
 					if (!table.isExpanded()) {
-						
+
 						monitor.beginTask(Messages.getString("TableViewEditorFor31.34"), 6); //$NON-NLS-1$
-						
+
 						if (!super.loadColumnInfo(monitor, con, table)) {
 							table.setExpanded(false);
 							return Status.CANCEL_STATUS;
@@ -1549,18 +1549,18 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 									throw new IllegalStateException(Messages.getString("TableViewEditorFor31.30")); //$NON-NLS-1$
 								}
 							}
-							
+
 						}
 					}
 				}
-				
+
 				// フィルターボタンを有効にする
 				showResults(new SetEnabledAction(table));
 				if (monitor.isCanceled()) {
 					return Status.CANCEL_STATUS;
 				}
 				monitor.done();
-				
+
 			} catch (NotFoundColumnInfoException e) {
 				table.removeChildAll(); // 子ノードを全て削除
 				showResults(new RefreshTreeNodeAction(treeViewer, table)); // 再描画
@@ -1570,40 +1570,40 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				table.removeChildAll(); // 子ノードを全て削除
 				showResults(new RefreshTreeNodeAction(treeViewer, table)); // 再描画
 				showErrorMessage(Messages.getString("TableViewEditorFor31.32"), e); //$NON-NLS-1$
-				
+
 			} catch (Exception e) {
 				showErrorMessage(Messages.getString("TableViewEditorFor31.33"), e); //$NON-NLS-1$
-				
+
 			} finally {
 				// カラム読み込み中フラグを戻す
 				isLodingColumnInfo = false;
-				
+
 				ConnectionManager.closeConnection(con);
 			}
-			
+
 			return Status.OK_STATUS;
 		}
-		
+
 		protected class SetEnabledAction implements Runnable {
-			
+
 			ITable table;
-			
+
 			public SetEnabledAction(ITable table) {
 				this.table = table;
 			}
-			
+
 			public void run() {
 				try {
 					IActionBars bars = getEditorSite().getActionBars();
 					bars.clearGlobalActionHandlers();
-					
+
 					Column[] columns = table.getColumns();
 					ColumnFilterInfo[] newfilterInfos = new ColumnFilterInfo[columns.length];
 					for (int i = 0; i < columns.length; i++) {
 						Column col = columns[i];
-						
+
 						newfilterInfos[i] = new ColumnFilterInfo(col);
-						
+
 						if (filterInfos != null) {
 							// 設定済みのFilter情報を引き継ぐ
 							for (int j = 0; j < filterInfos.length; j++) {
@@ -1614,16 +1614,16 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 							}
 						}
 					}
-					
+
 					filterInfos = newfilterInfos;
 					setCellModify(viewer, filterInfos, handler);// セルモディファイの設定
 					setGlobalActionForEditor(bars);
-					
+
 					// ------------------------------------------
 					// コードアシスト only Eclipse 3.2
 					// ------------------------------------------
 					AddContentAssist();
-					
+
 					if (!isExistDDLPage) {
 						isExistDDLPage = true;
 						createDDLPage();
@@ -1632,41 +1632,41 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 						isExistDefinePage = true;
 						createDefinPage();
 					}
-					
+
 					tableDefineEditor.updateWidget();
 					setDirty(false);// 変更完了通知
-					
+
 					// コンテキストメニュー作成
 					hookContextMenu();
-					
+
 					// コントロールを有効化する
 					setEnabled(true);
-					
+
 					conditionComb.setFocus();
 				} catch (Exception e) {
 					DbPlugin.log(e);
 				}
-				
+
 			}
-			
+
 			private void setEnabled(boolean b) {
 				conditionComb.setEnabled(b);
 				searchItem.setEnabled(b);
 				filterItem.setEnabled(b);
 				pingColumnItem.setEnabled(b);
 				getContributor().setEnabled(b);
-				
+
 				addToolItem.setEnabled(b);
 				// deleteToolItem.setEnabled(b);
-				
+
 			}
 		}
 	}
-	
+
 	boolean isExistDDLPage = false;
-	
+
 	boolean isExistDefinePage = false;
-	
+
 	public void setEnabled(boolean enabled) {
 		table.setEnabled(enabled);
 		conditionComb.setEnabled(enabled);
@@ -1674,20 +1674,20 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		filterItem.setEnabled(enabled);
 		pingColumnItem.setEnabled(enabled);
 	}
-	
+
 	public int getRecordLimit() {
 		return limit;
 	}
-	
+
 	public int getRecordOffset() {
 		return offset;
 	}
-	
-	
+
+
 	private List extensionList = new ArrayList();
-	
+
 	private void setExtensionPoint(IMenuManager manager) {
-		
+
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		// 拡張ポイントを取得
 		IExtensionPoint point = registry.getExtensionPoint(DbPlugin.getDefault().getBundle().getSymbolicName() + ".tableEditor");
@@ -1697,17 +1697,17 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			IConfigurationElement[] elements = extensions[i].getConfigurationElements();
 			add(manager, elements);
 		}
-		
+
 	}
-	
+
 	private void add(IMenuManager menu, IConfigurationElement[] elems) {
-		
+
 		try {
 			for (int k = 0; k < elems.length; k++) {
-				
+
 				IConfigurationElement element = elems[k];
 				String name = element.getName();
-				
+
 				if ("contributor".equals(name)) {
 					try {
 						// class属性で指定されたクラスの
@@ -1717,10 +1717,10 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 						action.setActiveEditor(this);
 						action.selectionChanged(viewer.getSelection());
 						extensionList.add(action);
-						
+
 						String menubarPath = element.getAttribute("menubarPath");
 						IMenuManager subMenu = menu.findMenuUsingPath(menubarPath);
-						
+
 						if (subMenu != null) {
 							subMenu.add(action);
 							add(subMenu, element.getChildren());
@@ -1742,7 +1742,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 								}
 							}
 						}
-						
+
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -1755,23 +1755,23 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 						menu.add(subMenu);
 						add(subMenu, element.getChildren());
 					}
-					
+
 				} else if ("separator".equals(name)) {
 					String _name = element.getAttribute("name");
 					menu.add(new Separator(_name));
-					
+
 				} else if ("groupMarker".equals(name)) {
 					String _name = element.getAttribute("name");
 					menu.add(new GroupMarker(_name));
-					
+
 				}
-				
+
 			}
 		} catch (Exception e) {
 			DbPlugin.log(e);
 		}
 	}
-	
+
 	private void disposeExtensionPoint() {
 		// 拡張しているリスナーを破棄する
 		for (Iterator iter = extensionList.iterator(); iter.hasNext();) {
@@ -1780,6 +1780,6 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			action = null;
 		}
 	}
-	
+
 
 }

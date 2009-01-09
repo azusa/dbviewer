@@ -28,6 +28,7 @@ import zigen.plugin.db.ui.actions.GlobalAction;
  * 
  */
 public class SourceEditorContributor extends MultiPageEditorActionBarContributor {
+
 	private SourceEditor editor;
 
 	private SourceViewer viewer;
@@ -45,8 +46,7 @@ public class SourceEditorContributor extends MultiPageEditorActionBarContributor
 
 	}
 
-	private void createActions() {
-	}
+	private void createActions() {}
 
 	public void fillContextMenu(IMenuManager manager) {
 		manager.add(new GlobalAction(viewer, ITextOperationTarget.UNDO));
@@ -64,17 +64,15 @@ public class SourceEditorContributor extends MultiPageEditorActionBarContributor
 	}
 
 	// ツールバー拡張
-	public void contributeToToolBar(IToolBarManager toolBarManager) {
-	}
+	public void contributeToToolBar(IToolBarManager toolBarManager) {}
 
-	public void setActivePage(IEditorPart activeEditor) {
-	}
+	public void setActivePage(IEditorPart activeEditor) {}
 
 	public void setActiveEditor(IEditorPart target) {
 		super.setActiveEditor(target);
 		if (target instanceof SourceEditor) {
 			editor = (SourceEditor) target;
-			//viewer = editor.sourceViewer;
+			// viewer = editor.sourceViewer;
 		}
 	}
 

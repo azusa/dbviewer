@@ -47,7 +47,7 @@ public class PasteRecordDataAction extends TableViewEditorAction implements IWor
 			TableKeyAdapter keyAdapter = new TableKeyAdapter(handler);
 			keyAdapter.createNewElement();
 
-			//editor.getViewer().getTable().notifyListeners(SWT.Selection, null); // 選択状態を通知
+			// editor.getViewer().getTable().notifyListeners(SWT.Selection, null); // 選択状態を通知
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);
@@ -57,9 +57,7 @@ public class PasteRecordDataAction extends TableViewEditorAction implements IWor
 			// 選択状態を再度通知する
 			editor.getViewer().getControl().notifyListeners(SWT.Selection, null);
 			/*
-			 * if (editor instanceof TableViewEditorFor31) { //
-			 * 貼り付け後、ActionをRefleshする ((TableViewEditorFor31)
-			 * editor).refleshAction(); }
+			 * if (editor instanceof TableViewEditorFor31) { // 貼り付け後、ActionをRefleshする ((TableViewEditorFor31) editor).refleshAction(); }
 			 */
 		}
 
@@ -90,14 +88,11 @@ public class PasteRecordDataAction extends TableViewEditorAction implements IWor
 
 	protected IWorkbenchWindow window;
 
-	public void selectionChanged(IAction action, ISelection selection) {
-	}
+	public void selectionChanged(IAction action, ISelection selection) {}
 
-	public void run(IAction action) {
-	}
+	public void run(IAction action) {}
 
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	public void init(IWorkbenchWindow window) {
 		this.window = window;

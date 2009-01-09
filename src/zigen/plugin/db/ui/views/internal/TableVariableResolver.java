@@ -13,7 +13,7 @@ import zigen.plugin.db.ui.contentassist.ContentAssistUtil;
 import zigen.plugin.db.ui.contentassist.ContentInfo;
 
 public class TableVariableResolver extends TemplateVariableResolver {
-	
+
 	protected String[] resolveAll(TemplateContext context) {
 		ContentInfo ci = new ContentInfo(ContentAssistUtil.getIDBConfig());
 		String[] proposals = null;
@@ -28,10 +28,10 @@ public class TableVariableResolver extends TemplateVariableResolver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return proposals;
 	}
-	
+
 	/*
 	 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#isUnambiguous(org.eclipse.jface.text.templates.TemplateContext)
 	 */

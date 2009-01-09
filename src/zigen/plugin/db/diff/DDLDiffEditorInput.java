@@ -12,6 +12,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
 public class DDLDiffEditorInput implements IEditorInput {
+
 	private String tooltip;
 
 	private String name;
@@ -29,7 +30,7 @@ public class DDLDiffEditorInput implements IEditorInput {
 		this.tooltip = Messages.getString("DDLDiffEditorInput.1"); //$NON-NLS-1$
 		this.diffs = diffs;
 		this.isTableDiff = isTableDiff;
-		
+
 	}
 
 	public boolean exists() {

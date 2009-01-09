@@ -47,11 +47,9 @@ public class SaveSQLAction extends SQLSourceViewerAction {
 				dialog.setFileName(fSQLSourceViewer.getSqlFileName());
 			}
 
-			dialog.setFilterExtensions(new String[] {
-					"*.sql", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
-					});
-			dialog.setFilterNames(new String[] {
-					Messages.getString("SaveSQLAction.3"), Messages.getString("SaveSQLAction.4") //$NON-NLS-1$ //$NON-NLS-2$
+			dialog.setFilterExtensions(new String[] {"*.sql", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
+			});
+			dialog.setFilterNames(new String[] {Messages.getString("SaveSQLAction.3"), Messages.getString("SaveSQLAction.4") //$NON-NLS-1$ //$NON-NLS-2$
 					});
 			String fileName = dialog.open();
 
@@ -81,7 +79,7 @@ public class SaveSQLAction extends SQLSourceViewerAction {
 	public void write(String fileName, String saveData) throws Exception {
 		PrintStream pout = null;
 		try {
-			
+
 			String charset = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_SQL_FILE_CHARSET);
 			pout = new PrintStream(new FileOutputStream(fileName), true, charset);
 			pout.print(saveData);

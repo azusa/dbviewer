@@ -8,12 +8,13 @@ package zigen.plugin.db.ext.oracle.internal;
 import java.io.Serializable;
 
 public class OracleCommentInfo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected String schemaName;
 
 	protected String tableName;
-	
+
 	protected String remarks;
 
 	public String getSchemaName() {
@@ -35,8 +36,7 @@ public class OracleCommentInfo implements Serializable {
 	/**
 	 * コンストラクタ
 	 */
-	public OracleCommentInfo() {
-	}
+	public OracleCommentInfo() {}
 
 	public String getRemarks() {
 		return remarks;

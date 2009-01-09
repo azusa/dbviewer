@@ -56,9 +56,7 @@ public class TableTypeSearchAction implements Runnable {
 				String[] tableTypes = schema.getDataBase().getTableType();
 
 				for (int i = 0; i < tableTypes.length; i++) {
-					String[] types = new String[] {
-						tableTypes[i]
-					};
+					String[] types = new String[] {tableTypes[i]};
 
 					if ("SEQUENCE".equals(tableTypes[i])) { //$NON-NLS-1$
 						switch (DBType.getType(schema.getDbConfig())) {

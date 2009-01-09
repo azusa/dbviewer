@@ -50,7 +50,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		return sb.toString();
 	}
-	
+
 	public boolean isSupportPager() {
 		return true;
 	}
@@ -59,17 +59,17 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
 		sb.append(table.getSqlTableName());
-		
+
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
 		String orderBy = conditions[1];
-		
-		
+
+
 		if (condition != null && !"".equals(condition.trim())) { //$NON-NLS-1$
 			sb.append(" WHERE "); //$NON-NLS-1$
 			sb.append(condition);
 		}
-		
+
 		// ORDER BY
 		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
 			sb.append(" " + orderBy); //$NON-NLS-1$
@@ -79,12 +79,11 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" LIMIT ");
 			sb.append(limit);
 			sb.append(" OFFSET ");
-			sb.append(offset-1);
+			sb.append(offset - 1);
 		}
 		return sb.toString();
 	}
-	
-	
+
 
 	public String VisibleColumnSizePattern() {
 		return ".*CHAR|^VARCHAR.*|^DECIMAL|^FLOAT|^DOUBLE|^REAL|^TIMESTAMP|^TIME|.*VARYING"; //$NON-NLS-1$
@@ -92,8 +91,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String[] getSupportColumnType() {
-		return new String[] {
-				"BOOL", //$NON-NLS-1$
+		return new String[] {"BOOL", //$NON-NLS-1$
 				"CHAR", //$NON-NLS-1$
 				"INT4", //$NON-NLS-1$
 				"INT8", //$NON-NLS-1$
@@ -108,7 +106,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 				"TIME", //$NON-NLS-1$
 				"TIMESTAMP", //$NON-NLS-1$
 				"TEXT" //$NON-NLS-1$
-				
+
 		};
 	}
 
@@ -165,9 +163,9 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnTableDDL(String commnets) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON TABLE "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -180,9 +178,9 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON COLUMN "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -230,7 +228,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(")"); //$NON-NLS-1$
 		}
 		if (column.getDefaultValue() != null && !"".equals(column.getDefaultValue())) {// DEFAULT
-																						// //$NON-NLS-1$
+			// //$NON-NLS-1$
 			sb.append(" DEFAULT "); //$NON-NLS-1$
 			sb.append(column.getDefaultValue());
 		}
@@ -241,9 +239,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" NULL"); //$NON-NLS-1$
 		}
 
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 
@@ -289,11 +285,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb3.append(" DROP NOT NULL"); //$NON-NLS-1$
 		}
 
-		return new String[] {
-				sb.toString(),
-				sb2.toString(),
-				sb3.toString()
-		};
+		return new String[] {sb.toString(), sb2.toString(), sb3.toString()};
 	}
 
 	public String[] createDropColumnDDL(Column column, boolean cascadeConstraints) {
@@ -304,9 +296,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.encodeQuotation(column.getName()));
 		// MySQL では未サポート
 		// sb.append(" CASCADE CONSTRAINTS ");
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 
@@ -326,9 +316,9 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		// sb.append(".");
 		sb.append(indexName);
 		sb.append(" ON "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -455,7 +445,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		return sb.toString();
 
 	}
-	
+
 	public String createDDL() {
 		StringBuffer sb = new StringBuffer();
 
@@ -474,7 +464,6 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getColumnComment());
 		return sb.toString();
 	}
-	
 
 
 	/**
@@ -489,12 +478,12 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(StringUtil.padding(column.getColumnName(), 28));
 
 		String typeName = column.getTypeName().toUpperCase();
-		
+
 		// 大文字にした後に比較する
-		if("BPCHAR".equals(typeName)){
+		if ("BPCHAR".equals(typeName)) {
 			sb.append("CHAR");
-			
-		}else{
+
+		} else {
 			sb.append(typeName);
 		}
 
@@ -508,7 +497,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		return sb.toString();
 	}
-	
+
 	protected String getViewDDL_SQL(String owner, String view) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT");
@@ -518,8 +507,8 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("    WHERE");
 		sb.append("        schemaname = '" + SQLUtil.encodeQuotation(owner) + "'");
 		sb.append("        AND viewname = '" + SQLUtil.encodeQuotation(view) + "'");
-		return sb.toString();		
+		return sb.toString();
 	}
 
-	
+
 }

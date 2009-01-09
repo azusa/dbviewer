@@ -98,6 +98,7 @@ public class PlsqlEditor extends SqlEditor implements IPlsqlEditor, IPropertyCha
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+
 			public void menuAboutToShow(IMenuManager manager) {
 				getContributor().fillContextMenu(manager);
 			}

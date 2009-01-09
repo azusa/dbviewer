@@ -64,23 +64,23 @@ public class DBType {
 		final String DB_ORACLE = "oracle"; //$NON-NLS-1$
 		final String DB_SYMFOWARE = "symfoware"; //$NON-NLS-1$
 		final String DB_MYSQL = "mysql"; // com.mysql.jdbc.Driver
-											// //$NON-NLS-1$
+		// //$NON-NLS-1$
 		final String DB_HIRDB = "hirdb"; // JP.co.Hitachi.soft.HiRDB.JDBC.PrdbDriver
-											// //$NON-NLS-1$
+		// //$NON-NLS-1$
 		final String DB_SYBASE = "sybase"; // com.sybase.jdbc.SybDriver
-											// //$NON-NLS-1$
+		// //$NON-NLS-1$
 		final String DB_DERBY = "derby"; // :org.apache.derby.jdbc.ClientDriver
-											// //$NON-NLS-1$
+		// //$NON-NLS-1$
 		final String DB_SQLITE = "sqlite"; // //$NON-NLS-1$
 		final String DB_H2 = "h2"; // org.h2.Driver //$NON-NLS-1$
 		final String DB_POSTGRESQL = "postgresql"; // org.postgresql.Driver
-													// //$NON-NLS-1$
+		// //$NON-NLS-1$
 		final String DB_DB2 = "db2"; // com.ibm.db2.jcc.DB2Driver
-										// //$NON-NLS-1$
+		// //$NON-NLS-1$
 		final String DB_SQLSERVER = "sqlserver"; // com.microsoft.jdbc.sqlserver.SQLServerDriver,
-													// //$NON-NLS-1$
+		// //$NON-NLS-1$
 		final String DB_HSQLDB = "hsqldb"; // org.hsqldb.jdbcDriver
-											// //$NON-NLS-1$
+		// //$NON-NLS-1$
 		final String DB_INTERBASE = "interbase"; //$NON-NLS-1$
 
 		driverName = driverName.toLowerCase();// è¨ï∂éöïœä∑

@@ -91,7 +91,7 @@ public class SqlEditorContributor extends TextEditorActionContributor {
 		manager.add(copyAction);
 		manager.add(selectAllRecordAction);
 		manager.add(createCSVForQueryAction);
-		//manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		// manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	// ツールバーを追加する場合にオーバーライドする

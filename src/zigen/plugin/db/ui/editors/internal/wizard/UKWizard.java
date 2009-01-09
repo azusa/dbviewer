@@ -43,8 +43,6 @@ public class UKWizard extends DefaultWizard implements IConfirmDDLWizard {
 		String constraintName = page1.txtConstraintName.getText();
 		Column[] columns = (Column[]) page1.selectedList.toArray(new Column[0]);
 		String sql = factory.createCreateConstraintUKDDL(constraintName, columns);
-		return new String[] {
-			sql
-		};
+		return new String[] {sql};
 	}
 }

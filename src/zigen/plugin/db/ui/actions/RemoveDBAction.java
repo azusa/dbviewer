@@ -33,6 +33,7 @@ import zigen.plugin.db.ui.views.TreeContentProvider;
  * 
  */
 public class RemoveDBAction extends Action implements Runnable {
+
 	TreeViewer viewer = null;
 
 	/**
@@ -87,14 +88,13 @@ public class RemoveDBAction extends Action implements Runnable {
 						viewer.getControl().notifyListeners(SWT.Selection, null);
 
 						DbPlugin.fireStatusChangeListener(db.getDbConfig(), IStatusChangeListener.EVT_RemoveSchemaFilter);
-						
+
 					}
 				}
-				
 
-				
+
 				DbPlugin.fireStatusChangeListener(viewer, IStatusChangeListener.EVT_UpdateDataBaseList);
-				
+
 
 			}
 

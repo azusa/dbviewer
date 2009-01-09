@@ -23,6 +23,7 @@ import zigen.plugin.db.ui.editors.exceptions.NotFoundDBConfigException;
 public class Transaction {
 
 	private class TransactionElement {
+
 		IDBConfig config = null;
 
 		Connection con = null;
@@ -62,8 +63,7 @@ public class Transaction {
 	/**
 	 * コンストラクタ
 	 */
-	private Transaction() {
-	}
+	private Transaction() {}
 
 	private void create() {
 		// DBConfigの存在チェック
@@ -104,8 +104,8 @@ public class Transaction {
 				element.con.setAutoCommit(false);
 			}
 		}
-		
-		//System.out.println("Transaction#コミットの状態は " + element.con.getAutoCommit() + ", @" + element.con.toString());
+
+		// System.out.println("Transaction#コミットの状態は " + element.con.getAutoCommit() + ", @" + element.con.toString());
 		return element.con;
 
 	}
@@ -125,7 +125,7 @@ public class Transaction {
 		TransactionElement element = (TransactionElement) map.get(config.getDbName());
 		element.count = element.count + rowAffected;
 	}
-	
+
 	public void resetCount() throws Exception {
 		TransactionElement element = (TransactionElement) map.get(config.getDbName());
 		element.count = 0;

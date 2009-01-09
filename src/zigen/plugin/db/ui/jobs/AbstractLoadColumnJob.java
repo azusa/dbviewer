@@ -36,7 +36,7 @@ import zigen.plugin.db.ui.internal.Synonym;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 
 abstract public class AbstractLoadColumnJob extends AbstractJob {
-	
+
 	public AbstractLoadColumnJob(String msg) {
 		super(msg);
 	}
@@ -44,17 +44,17 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 	protected boolean loadColumnInfo(IProgressMonitor monitor, Connection con, ITable table) throws Exception {
 		TimeWatcher tw = new TimeWatcher();
 		tw.start();
-		
+
 		TableColumn[] columns = null;
 		TablePKColumn[] pks = null;
 		TableFKColumn[] fks = null;
 		TableConstraintColumn[] cons = null;
 		TableIDXColumn[] uidxs = null;
 		TableIDXColumn[] nonuidxs = null;
-		
-		IDBConfig config = table.getDbConfig();		
+
+		IDBConfig config = table.getDbConfig();
 		boolean convertUnicode = config.isConvertUnicode();
-		
+
 		String schemaName = table.getSchemaName();
 		String tableName = table.getName();
 
@@ -85,61 +85,61 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 
 		if (SchemaSearcher.isSupport(con)) {
 			monitor.subTask(Messages.getString("RefreshColumnJob.6")); //$NON-NLS-1$
-			//columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);
-			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);		
+			// columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);
+			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
 			columns = factory.execute(con, schemaName, tableName);
-			
+
 			monitor.worked(1);
 
 			monitor.subTask("Search for PrimaryKey..."); //$NON-NLS-1$
-//			pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
-			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);		
+			// pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
+			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);
 			pks = constraintFactory.getPKColumns(con, schemaName, tableName);
-			
+
 			monitor.worked(1);
 
 			monitor.subTask(Messages.getString("RefreshColumnJob.8")); //$NON-NLS-1$
-			//fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
+			// fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
 			fks = constraintFactory.getFKColumns(con, schemaName, tableName);
-			
+
 			monitor.worked(1);
 
 			switch (DBType.getType(con.getMetaData())) {
 			case DBType.DB_TYPE_ORACLE:
 
 				monitor.subTask(Messages.getString("RefreshColumnJob.9")); //$NON-NLS-1$
-//				cons = OracleConstraintSearcher.getConstraintColumns(con, schemaName, tableName);
+				// cons = OracleConstraintSearcher.getConstraintColumns(con, schemaName, tableName);
 				cons = constraintFactory.getConstraintColumns(con, schemaName, tableName);
-				
+
 				monitor.worked(1);
-// <-- modify start response up
-//				monitor.subTask(Messages.getString("RefreshColumnJob.10")); //$NON-NLS-1$
-//				uidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, true);
-//				monitor.worked(1);
-//
-//				monitor.subTask(Messages.getString("RefreshColumnJob.11")); //$NON-NLS-1$
-//				nonuidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, false);
-//				monitor.worked(1);
-				
+				// <-- modify start response up
+				// monitor.subTask(Messages.getString("RefreshColumnJob.10")); //$NON-NLS-1$
+				// uidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, true);
+				// monitor.worked(1);
+				//
+				// monitor.subTask(Messages.getString("RefreshColumnJob.11")); //$NON-NLS-1$
+				// nonuidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, false);
+				// monitor.worked(1);
+
 				monitor.subTask(Messages.getString("RefreshColumnJob.10"));//$NON-NLS-1$
 				TableIDXColumn[][] indexies = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName);
 				uidxs = indexies[0];
 				nonuidxs = indexies[1];
 				monitor.worked(2);
-// -->
-				
+				// -->
+
 				break;
 			default:
 				monitor.subTask(Messages.getString("RefreshColumnJob.12")); //$NON-NLS-1$
 				monitor.worked(1);
 
 				monitor.subTask(Messages.getString("RefreshColumnJob.13")); //$NON-NLS-1$
-//				uidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, true);
+				// uidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, true);
 				uidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, true);
 				monitor.worked(1);
 
 				monitor.subTask(Messages.getString("RefreshColumnJob.14")); //$NON-NLS-1$
-//				nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, false);
+				// nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, false);
 				nonuidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, false);
 				monitor.worked(1);
 
@@ -148,36 +148,36 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 
 		} else {
 			monitor.subTask(Messages.getString("RefreshColumnJob.15")); //$NON-NLS-1$
-			//columns = ColumnSearcher.execute(con, null, tableName, convertUnicode);
-			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);		
+			// columns = ColumnSearcher.execute(con, null, tableName, convertUnicode);
+			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
 			columns = factory.execute(con, null, tableName);
-			
+
 			monitor.worked(1);
 
 			monitor.subTask(Messages.getString("RefreshColumnJob.16")); //$NON-NLS-1$
-			//pks = ConstraintSearcher.getPKColumns(con, null, tableName);
-			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);		
+			// pks = ConstraintSearcher.getPKColumns(con, null, tableName);
+			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);
 			pks = constraintFactory.getPKColumns(con, null, tableName);
-			
-			
+
+
 			monitor.worked(1);
 
 			monitor.subTask(Messages.getString("RefreshColumnJob.17")); //$NON-NLS-1$
-			//fks = ConstraintSearcher.getFKColumns(con, null, tableName);
+			// fks = ConstraintSearcher.getFKColumns(con, null, tableName);
 			fks = constraintFactory.getFKColumns(con, null, tableName);
-			
+
 			monitor.worked(1);
 
 			monitor.subTask(Messages.getString("RefreshColumnJob.18")); //$NON-NLS-1$
 			monitor.worked(1);
 
 			monitor.subTask(Messages.getString("RefreshColumnJob.19")); //$NON-NLS-1$
-			//uidxs = ConstraintSearcher.getUniqueIDXColumns(con, null, tableName, true);
+			// uidxs = ConstraintSearcher.getUniqueIDXColumns(con, null, tableName, true);
 			uidxs = constraintFactory.getUniqueIDXColumns(con, null, tableName, true);
 			monitor.worked(1);
 
 			monitor.subTask(Messages.getString("RefreshColumnJob.20")); //$NON-NLS-1$
-			//nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, null, tableName, false);
+			// nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, null, tableName, false);
 			nonuidxs = constraintFactory.getUniqueIDXColumns(con, null, tableName, false);
 			monitor.worked(1);
 		}
@@ -211,9 +211,9 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			}
 		}
 
-		
+
 		removeDeleteColumn(table, newColumnList); // 削除されたカラムを削除する処理
-		table.setExpanded(true); 				// カラム情報の読み込み完了
+		table.setExpanded(true); // カラム情報の読み込み完了
 
 		tw.stop();
 		System.out.println("loadColumnInfo " + tw.getTotalTime());
@@ -221,9 +221,8 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 	}
 
 
-
 	// 削除されたカラムをTable要素から削除する
-	private void removeDeleteColumn(ITable table, List newColumnList){
+	private void removeDeleteColumn(ITable table, List newColumnList) {
 		TreeLeaf[] leafs = table.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {
 			TreeLeaf leaf = leafs[i];
@@ -232,8 +231,8 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			}
 		}
 	}
-	
-	
+
+
 	private void addColumn(ITable table, TableColumn w_column, TablePKColumn w_pk, TableFKColumn[] w_fks) {
 		switch (DBType.getType(table.getDbConfig())) {
 		case DBType.DB_TYPE_ORACLE:

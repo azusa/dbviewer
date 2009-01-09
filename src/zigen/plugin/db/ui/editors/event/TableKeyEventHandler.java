@@ -162,9 +162,9 @@ public class TableKeyEventHandler {
 			// table.showColumn(table.getColumn(columnIndex));
 
 			// 順番入れかえることで、うまくスクロール＋編集モードになる
-			if(columnIndex == 1){
+			if (columnIndex == 1) {
 				table.showColumn(table.getColumn(0)); // 行番号を見えるようにする
-			}else{
+			} else {
 				table.showColumn(table.getColumn(columnIndex));
 			}
 			viewer.editElement(element, columnIndex);
@@ -177,7 +177,7 @@ public class TableKeyEventHandler {
 	 * 
 	 */
 	public void updateColumn(TableElement element, int col, Object newValue) {
-		
+
 		// TableElementの値を更新し、編集済みリストに追加
 		element.updateItems(col - 1, newValue);// row分-1する
 		// テーブル・ビューワを更新
@@ -196,17 +196,15 @@ public class TableKeyEventHandler {
 	 * Row番号のカラムのPack
 	 */
 	private void columnsPack() {
-/*
-		table.setVisible(false);
-
-		TableColumn[] cols = table.getColumns();
-		cols[0].pack();
-
-		table.setVisible(true);
-*/
+	/*
+	 * table.setVisible(false);
+	 * 
+	 * TableColumn[] cols = table.getColumns(); cols[0].pack();
+	 * 
+	 * table.setVisible(true);
+	 */
 	}
 
-	
 
 	/**
 	 * 入力チェックおよび更新データをTableElementに登録する
@@ -223,10 +221,10 @@ public class TableKeyEventHandler {
 			throw new IllegalStateException("CellEditorが設定されていません"); //$NON-NLS-1$
 		int columnIndex = -1;
 		if (editor instanceof TextCellEditor) {
-			TextCellEditor tce = (TextCellEditor)editor;
+			TextCellEditor tce = (TextCellEditor) editor;
 			newValue = tce.getInputValue();
 			columnIndex = tce.getColumnIndex();
-			
+
 		}
 		Object oldValue = element.getItems()[col - 1];// row分 index-1 したカラム番号
 		if (!oldValue.equals(newValue)) {
@@ -252,7 +250,7 @@ public class TableKeyEventHandler {
 		return true;
 
 	}
-	
+
 	public boolean validateAll() {
 		// log.debug("validateAll");
 		try {
@@ -267,13 +265,12 @@ public class TableKeyEventHandler {
 				zigen.plugin.db.core.TableColumn[] columns = element.getColumns();
 				String msg = null;
 				for (int col = 0; col < columns.length; col++) {
-//					
-//					if(!validate(row, col+1)){
-//						return false;
-//					}
-						
-						
-					
+					//					
+					// if(!validate(row, col+1)){
+					// return false;
+					// }
+
+
 					Object[] items = element.getItems();
 					msg = factory.validate(columns[col], items[col]);
 					if (msg != null) {
@@ -295,20 +292,20 @@ public class TableKeyEventHandler {
 	public boolean updateDataBase(TableElement element) throws Exception {
 		try {
 			PasteRecordMonitor.isPasting();
-			
-			//TimeWatcher tw = new TimeWatcher();
-			//tw.start();
+
+			// TimeWatcher tw = new TimeWatcher();
+			// tw.start();
 			Display display = Display.getDefault();
 			// データベース更新フラグをOFFにする
 			element.setUpdatedDataBase(false);
 			if (element.isNew()) {
 				if (validateAll()) {
 					// INSERTの場合のみ同一データが存在する場合は登録できないようにする
-					if(hasSameRecord(element)){
+					if (hasSameRecord(element)) {
 						return false;
-					}else{
+					} else {
 						display.syncExec(new RecordUpdateThread(editor, element));
-					}		
+					}
 					// Row番号のカラム幅をPack
 					columnsPack();
 				} else {
@@ -326,15 +323,15 @@ public class TableKeyEventHandler {
 				;
 			}
 			// データベース更新後、コピー可能にするために選択状態にし、Listenerへ通知する
-			viewer.getTable().select(getSelectedRow());	// 修正行にフォーカスを当てる
+			viewer.getTable().select(getSelectedRow()); // 修正行にフォーカスを当てる
 			viewer.getControl().notifyListeners(SWT.Selection, null);
 
-			//tw.stop();
-			
+			// tw.stop();
+
 			// データベース更新フラグをONにする
 			element.setUpdatedDataBase(true);
-			
-			return true;	// 更新していない場合でもエラーでなければTrueを返す
+
+			return true; // 更新していない場合でもエラーでなければTrueを返す
 
 		} catch (ZeroUpdateException e) {
 			return false;
@@ -345,12 +342,12 @@ public class TableKeyEventHandler {
 	}
 
 	// 同じデータが登録済みかどうかチェックする
-	public boolean hasSameRecord(TableElement element) throws Exception{
+	public boolean hasSameRecord(TableElement element) throws Exception {
 		Connection con = TransactionForTableEditor.getInstance(config).getConnection();
 		TableElement registedElem = TableElementSearcher.findElement(con, element, true);
 		return registedElem != null ? true : false;
 	}
-	
+
 	/**
 	 * テーブルに新規登録用のレコードを表示する
 	 * 
@@ -392,33 +389,33 @@ public class TableKeyEventHandler {
 	 * コネクションの開放
 	 */
 	public void dispose() {
-		// trans.cloesConnection();
+	// trans.cloesConnection();
 	}
 
-//	public void createNewRecord(Object[] items) throws Exception {
-//		// String nullSymbol =
-//		// DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
-//		TableElement elem = getHeaderTableElement();
-//		ITable tbl = elem.getTable();
-//		int count = table.getItems().length;
-//		TableElement newElement = new TableNewElement(tbl, count + 1, elem.getColumns(), items, elem.getUniqueColumns());
-//		// レコードの追加
-//		TableViewerManager.insert(viewer, newElement);
-//
-//		// 修正したカラムとして設定する
-//		for (int i = 0; i < items.length; i++) {
-//			newElement.addMofiedColumn(i);
-//		}
-//
-//		// 選択行を変更しておく 2007-09-06 ZIGEN
-//		table.setSelection(count);
-//
-//		// 更新する 2007-06-19 ZIGEN
-//		updateDataBase(newElement);
-//
-//		// １カラム目(Rowを除いたもの）を編集
-//		editTableElement(count, 1); // 最終レコードの1カラム目を編集
-//
-//	}
+	// public void createNewRecord(Object[] items) throws Exception {
+	// // String nullSymbol =
+	// // DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
+	// TableElement elem = getHeaderTableElement();
+	// ITable tbl = elem.getTable();
+	// int count = table.getItems().length;
+	// TableElement newElement = new TableNewElement(tbl, count + 1, elem.getColumns(), items, elem.getUniqueColumns());
+	// // レコードの追加
+	// TableViewerManager.insert(viewer, newElement);
+	//
+	// // 修正したカラムとして設定する
+	// for (int i = 0; i < items.length; i++) {
+	// newElement.addMofiedColumn(i);
+	// }
+	//
+	// // 選択行を変更しておく 2007-09-06 ZIGEN
+	// table.setSelection(count);
+	//
+	// // 更新する 2007-06-19 ZIGEN
+	// updateDataBase(newElement);
+	//
+	// // １カラム目(Rowを除いたもの）を編集
+	// editTableElement(count, 1); // 最終レコードの1カラム目を編集
+	//
+	// }
 
 }

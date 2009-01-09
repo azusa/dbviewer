@@ -23,6 +23,7 @@ import zigen.plugin.db.ui.internal.DataBase;
  * 
  */
 public class ShowDriverVersionAction extends Action implements Runnable {
+
 	StructuredViewer viewer = null;
 
 	/**
@@ -53,7 +54,7 @@ public class ShowDriverVersionAction extends Action implements Runnable {
 				sb.append("Driver version : " + config.getDriverVersion());
 				sb.append("\n\n");
 				sb.append(config.getDatabaseProductVersion());
-				
+
 				DbPlugin.getDefault().showInformationMessage(sb.toString()); //$NON-NLS-1$
 
 			} catch (Exception e) {

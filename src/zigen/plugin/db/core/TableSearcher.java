@@ -72,7 +72,7 @@ public class TableSearcher {
 				sb.append("        TABLE_NAME");
 				sb.append("        ,TABLE_TYPE");
 				sb.append(" ,TABLE_COMMENT REMARKS");
-				//sb.append(" ,'' REMARKS");
+				// sb.append(" ,'' REMARKS");
 				sb.append("    FROM");
 				sb.append("        information_schema.TABLES");
 				sb.append("    WHERE");
@@ -161,11 +161,11 @@ public class TableSearcher {
 
 			DatabaseMetaData objMet = con.getMetaData();
 			if (SchemaSearcher.isSupport(con)) {
-				rs = objMet.getTables(null, schemaPattern, tablePattern, new String[] { type });
+				rs = objMet.getTables(null, schemaPattern, tablePattern, new String[] {type});
 
 			} else {
 				// 第1引数からそれぞれデータベース名、スキーマ名、テーブル名、テーブルの型
-				rs = objMet.getTables(null, "%", tablePattern, new String[] { type }); //$NON-NLS-1$
+				rs = objMet.getTables(null, "%", tablePattern, new String[] {type}); //$NON-NLS-1$
 			}
 
 			if (rs.next()) {
@@ -215,8 +215,8 @@ public class TableSearcher {
 }
 
 class TableInfoSorter implements Comparator {
-	public TableInfoSorter() {
-	}
+
+	public TableInfoSorter() {}
 
 	public int compare(Object o1, Object o2) {
 

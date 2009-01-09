@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 public class StringUtil {
+
 	/**
 	 * 最後の単語の開始オフセットを取得する
 	 * 

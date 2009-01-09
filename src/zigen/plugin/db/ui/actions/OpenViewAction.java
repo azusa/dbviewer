@@ -19,6 +19,7 @@ import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.ui.views.SQLExecuteView;
 
 public class OpenViewAction extends Action {
+
 	private final IWorkbenchWindow window;
 
 	private int instanceNum;
@@ -28,7 +29,7 @@ public class OpenViewAction extends Action {
 	private IDBConfig config;
 
 	private SQLExecuteView view;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -56,12 +57,12 @@ public class OpenViewAction extends Action {
 			if (part instanceof SQLExecuteView) {
 				SQLExecuteView sv = (SQLExecuteView) part;
 				// 起動元のデータベースロック状態を引き継ぐ
-				sv.setLockedDataBase(view.isLockedDataBase());	
-				
+				sv.setLockedDataBase(view.isLockedDataBase());
+
 				sv.setCommitMode(config, config.isAutoCommit());
 				// sv.updateCombo(config);
-				
-			
+
+
 			}
 
 		} catch (PartInitException e) {

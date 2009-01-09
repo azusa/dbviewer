@@ -28,6 +28,7 @@ public class ExpWizardPage1CellModifier implements ICellModifier {
 	public boolean canModify(Object element, String property) {
 		return true;
 	}
+
 	public Object getValue(Object element, String property) {
 		TableItem item = (TableItem) element;
 		// return item.getText();

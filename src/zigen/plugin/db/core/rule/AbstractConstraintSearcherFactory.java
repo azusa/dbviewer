@@ -25,7 +25,7 @@ import zigen.plugin.db.core.rule.oracle.OracleConstraintSearcharFactory;
  * 
  */
 public abstract class AbstractConstraintSearcherFactory implements IConstraintSearcherFactory {
-	
+
 	public static final String getIndexTypeName(int indexType) {
 		switch (indexType) {
 		case TABLE_INDEX_STATISTIC:
@@ -40,7 +40,7 @@ public abstract class AbstractConstraintSearcherFactory implements IConstraintSe
 			return "TABLE_INDEX_UNKNOWN"; //$NON-NLS-1$
 		}
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 

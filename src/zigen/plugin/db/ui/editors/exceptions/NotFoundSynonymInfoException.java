@@ -6,11 +6,11 @@
 package zigen.plugin.db.ui.editors.exceptions;
 
 public class NotFoundSynonymInfoException extends Exception {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public NotFoundSynonymInfoException(String message) {
 		super(message);
 	}
-	
+
 }

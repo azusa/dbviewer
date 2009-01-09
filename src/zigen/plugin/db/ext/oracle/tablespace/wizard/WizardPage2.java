@@ -85,6 +85,7 @@ public class WizardPage2 extends DefaultWizardPage {
 		dbBlockSizeText.addFocusListener(new TextSelectionListener());
 		dbBlockSizeText.addVerifyListener(verifyListener);
 		dbBlockSizeText.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
@@ -120,11 +121,7 @@ public class WizardPage2 extends DefaultWizardPage {
 		table.setLinesVisible(true); // ラインを表示
 
 		// テーブルヘッダの設定
-		String[] headers = {
-				HEADER_TABLENAME,
-				HEADER_PCTFREE,
-				HEADER_RECORD
-		};
+		String[] headers = {HEADER_TABLENAME, HEADER_PCTFREE, HEADER_RECORD};
 		setHeaderColumn(table, headers);
 
 		// String[] properties = new String[] { "1", "2", "3" };
@@ -132,11 +129,7 @@ public class WizardPage2 extends DefaultWizardPage {
 		tableViewer.setColumnProperties(headers);
 
 		// 各カラムに設定するセル・エディタの配列
-		CellEditor[] editors = new CellEditor[] {
-				null,
-				new TextCellEditor(table),
-				new TextCellEditor(table)
-		};
+		CellEditor[] editors = new CellEditor[] {null, new TextCellEditor(table), new TextCellEditor(table)};
 
 		for (int i = 0; i < editors.length; i++) {
 			if (editors[i] != null) {

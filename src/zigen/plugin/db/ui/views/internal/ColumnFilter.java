@@ -17,7 +17,7 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.OracleColumn;
 
 public class ColumnFilter extends ViewerFilter {
-	
+
 	// デフォルトは、大/小文字区別しない
 	boolean caseSensitive = false;
 
@@ -26,12 +26,12 @@ public class ColumnFilter extends ViewerFilter {
 	public ColumnFilter(String text) {
 		this(text, false);
 	}
-	
+
 	public ColumnFilter(String text, boolean canSensitive) {
 		this.text = text;
 		this.caseSensitive = canSensitive;
 	}
-	
+
 	public boolean select(Viewer viewer, Object parent, Object element) {
 		if (text != null && !"".equals(text)) { //$NON-NLS-1$
 			if (element instanceof Column) {

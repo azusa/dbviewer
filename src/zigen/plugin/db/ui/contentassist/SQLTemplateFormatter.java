@@ -19,37 +19,39 @@ import zigen.plugin.db.preference.SQLTemplatesPreferencePage;
 public class SQLTemplateFormatter {
 
 	IDocument fDocument;
+
 	int originalOffset;
+
 	IPreferenceStore ps;
-	
-	public SQLTemplateFormatter(IDocument doc, int originalOffset){
+
+	public SQLTemplateFormatter(IDocument doc, int originalOffset) {
 		this.fDocument = doc;
 		this.originalOffset = originalOffset;
 		ps = DbPlugin.getDefault().getPreferenceStore();
 	}
-	
+
 	public String format(String templatePattern) {
 		try {
 			int line = fDocument.getLineOfOffset(originalOffset);
 			int lineOffset = fDocument.getLineOffset(line);
 			int formattOffset = originalOffset - lineOffset;
-			
+
 			boolean onPatch = ps.getBoolean(SQLFormatPreferencePage.P_FORMAT_PATCH);
 			int type = ps.getInt(SQLFormatPreferencePage.P_USE_FORMATTER_TYPE);
 			boolean useCodeFormatter = ps.getBoolean(SQLTemplatesPreferencePage.TEMPLATES_USE_CODEFORMATTER);
 
-			if(useCodeFormatter){
-				templatePattern = SQLFormatter.format(templatePattern, type, onPatch, formattOffset);	
+			if (useCodeFormatter) {
+				templatePattern = SQLFormatter.format(templatePattern, type, onPatch, formattOffset);
 				templatePattern = reConvert(templatePattern);
 			}
-			
+
 			return templatePattern;
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 		return templatePattern;
 	}
-	
+
 	String reConvert(String sql) {
 		StringBuffer sb = new StringBuffer();
 		StringTokenizer tokenizer = new StringTokenizer(sql, " ");
@@ -73,31 +75,31 @@ public class SQLTemplateFormatter {
 					preIndent = indent;
 					indent = 0;
 
-				} else if(wk.startsWith("{")){
+				} else if (wk.startsWith("{")) {
 					isStart = true;
 					sb.append(StringUtil.indent(token, indent));
 					preIndent = indent;
 					indent = 0;
-					
-				} else if(wk.startsWith("}")){
+
+				} else if (wk.startsWith("}")) {
 					isEnd = true;
 					sb.append(StringUtil.indent(token, indent));
 					preIndent = indent;
-					indent = 0;	
+					indent = 0;
 				} else {
 					if (sb.length() == 0) {
 						sb.append(token);
-					} else if(isDoru || isStart){
+					} else if (isDoru || isStart) {
 						sb.append(StringUtil.indent(token, indent));
 						isDoru = false;
 						isStart = false;
-						
-					} else if(isEnd){
+
+					} else if (isEnd) {
 						sb.append(" ");
 						sb.append(StringUtil.indent(token, indent));
 						isEnd = false;
-				
-					}else{
+
+					} else {
 						sb.append(" ");
 						sb.append(StringUtil.indent(token, indent));
 					}

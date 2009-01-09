@@ -18,8 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * StatusLineContributionItemクラス.
- * org.eclipse.ui.internal.util.StatusLineContributionItemのソースを流用し一部変更
+ * StatusLineContributionItemクラス. org.eclipse.ui.internal.util.StatusLineContributionItemのソースを流用し一部変更
  * 
  * @author ZIGEN
  * @version 1.0

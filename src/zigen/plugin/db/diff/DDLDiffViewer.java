@@ -75,12 +75,12 @@ public class DDLDiffViewer extends TextMergeViewer {
 
 						SQLCodeConfiguration config = getSourceViewerConfiguration(sourceViewer);
 						sourceViewer.configure(config);
-						
-						//IDocument doc = sourceViewer.getDocument();
-						//IDocumentPartitioner partitioner = new FastPartitioner(new SQLPartitionScanner(), new String[] { SQLPartitionScanner.SQL_STRING, SQLPartitionScanner.SQL_COMMENT });
-						//partitioner.connect(doc);
-						//config.updatePreferences(doc);
-						
+
+						// IDocument doc = sourceViewer.getDocument();
+						// IDocumentPartitioner partitioner = new FastPartitioner(new SQLPartitionScanner(), new String[] { SQLPartitionScanner.SQL_STRING, SQLPartitionScanner.SQL_COMMENT });
+						// partitioner.connect(doc);
+						// config.updatePreferences(doc);
+
 					} catch (RuntimeException e) {
 						e.printStackTrace();
 					}
@@ -99,7 +99,7 @@ public class DDLDiffViewer extends TextMergeViewer {
 		sqlConfiguration = new SQLCodeConfiguration(colorManager);
 
 		// Žè“®‚ÅŒÄ‚Ô
-		//sqlConfiguration.getReconciler(sourceViewer);
+		// sqlConfiguration.getReconciler(sourceViewer);
 
 		return sqlConfiguration;
 	}

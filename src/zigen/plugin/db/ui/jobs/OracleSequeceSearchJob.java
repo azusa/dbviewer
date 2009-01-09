@@ -51,7 +51,7 @@ public class OracleSequeceSearchJob extends AbstractJob {
 			showResults(new RefreshTreeNodeAction(viewer, folder, RefreshTreeNodeAction.MODE_NOTHING)); // çƒï`âÊ
 
 			monitor.done();
-			
+
 		} catch (Exception e) {
 			folder.setExpanded(false);
 			showErrorMessage(Messages.getString("OracleSequeceSearchJob.1"), e); //$NON-NLS-1$

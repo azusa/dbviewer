@@ -12,16 +12,13 @@ import zigen.plugin.db.ui.views.internal.ColorManager;
 
 public class LineNumberRulerColumnUtil {
 
-	public static void changeColor(ColorManager manager,
-			LineNumberRulerColumn rulerColumn) {
+	public static void changeColor(ColorManager manager, LineNumberRulerColumn rulerColumn) {
 
 		if (rulerColumn != null) {
 			// îwåiêF
-			rulerColumn.setBackground(manager
-					.getColor(SQLEditorPreferencePage.P_COLOR_BACK));
+			rulerColumn.setBackground(manager.getColor(SQLEditorPreferencePage.P_COLOR_BACK));
 
-			rulerColumn.setForeground(manager
-					.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT));
+			rulerColumn.setForeground(manager.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT));
 		}
 	}
 }

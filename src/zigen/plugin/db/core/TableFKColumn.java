@@ -17,8 +17,9 @@ import java.io.Serializable;
  * 
  */
 public class TableFKColumn extends TablePKColumn implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	// reference‘¤‚Ì’è‹`
 	private String pkSchema = null;
 

@@ -25,6 +25,7 @@ import zigen.plugin.db.ui.internal.DataBase;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
  */
 public class ShutDownDBAction extends Action implements Runnable {
+
 	TreeViewer viewer = null;
 
 	/**

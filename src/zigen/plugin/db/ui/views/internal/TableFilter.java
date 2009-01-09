@@ -20,22 +20,23 @@ import zigen.plugin.db.ui.internal.OracleSource;
 import zigen.plugin.db.ui.internal.Synonym;
 
 public class TableFilter extends ViewerFilter {
+
 	boolean caseSensitive = false;
 
 	String text;
-	
+
 	Pattern pattern;
-	
+
 	public TableFilter(String text) {
 		this(text, false);
 	}
-	
+
 	public TableFilter(String text, boolean canSensitive) {
 		this.text = text;
 		this.caseSensitive = canSensitive;
 		createPattern();
 	}
-	
+
 	private void createPattern() {
 		try {
 			pattern = PatternUtil.getPattern(text, caseSensitive);
@@ -44,7 +45,7 @@ public class TableFilter extends ViewerFilter {
 			throw e;
 		}
 	}
-	
+
 	public boolean select(Viewer viewer, Object parent, Object element) {
 		if (text != null && !"".equals(text)) { //$NON-NLS-1$
 			if (element instanceof Bookmark) {

@@ -28,6 +28,7 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
 public class CopySelectStatementAction implements IViewActionDelegate {
+
 	private ISelection selection = null;
 
 	private IViewPart viewPart;
@@ -77,7 +78,7 @@ public class CopySelectStatementAction implements IViewActionDelegate {
 							sb.append(tableName);
 							sb.append(".");
 							sb.append(col.getName());
-							
+
 
 						} else {
 							sb.append(", ");
@@ -110,20 +111,13 @@ public class CopySelectStatementAction implements IViewActionDelegate {
 
 		sql = SQLFormatter.format(sql, type, onPatch);
 
-		 Clipboard clipboard = ClipboardUtils.getInstance();
-		 TextTransfer text_transfer = TextTransfer.getInstance();
-				
-		 clipboard.setContents(new Object[] {
-		 sql
-		 }, new Transfer[] {
-		 text_transfer
-		 });
-		
+		Clipboard clipboard = ClipboardUtils.getInstance();
+		TextTransfer text_transfer = TextTransfer.getInstance();
+
+		clipboard.setContents(new Object[] {sql}, new Transfer[] {text_transfer});
+
 		/*
-		 * SQLExecuteView view = (SQLExecuteView)
-		 * DbPlugin.findView(DbPluginConstant.VIEW_ID_SQLExecute,
-		 * DbPlugin.getSecondarlyId()); if (view == null) { view =
-		 * (SQLExecuteView)
+		 * SQLExecuteView view = (SQLExecuteView) DbPlugin.findView(DbPluginConstant.VIEW_ID_SQLExecute, DbPlugin.getSecondarlyId()); if (view == null) { view = (SQLExecuteView)
 		 * DbPlugin.findView(DbPluginConstant.VIEW_ID_SQLExecute); }
 		 * 
 		 * view.setSqlText(sql); view.setFocus();

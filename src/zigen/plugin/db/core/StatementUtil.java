@@ -23,8 +23,7 @@ public class StatementUtil {
 	 * デフォルトコンストラクタ
 	 * 
 	 */
-	private StatementUtil() {
-	}
+	private StatementUtil() {}
 
 	public static final void close(Statement st) {
 		if (st == null)

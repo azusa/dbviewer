@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.TableColumn;
  * 
  */
 abstract class DefaultWizardPage extends WizardPage {
+
 	protected int LEVEL_FIELD_WIDTH = 20;
 
 	protected int TEXT_FIELD_WIDTH = 50;

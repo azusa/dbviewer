@@ -32,25 +32,25 @@ import zigen.sql.parser.ast.ASTUnion;
 import zigen.sql.parser.ast.ASTUpdateStatement;
 
 public class DefaultProcessor {
-	
+
 	protected List proposals;
-	
+
 	protected ProcessorInfo pinfo;
-	
+
 	protected String wordGroup;
-	
+
 	protected String word;
-	
+
 	protected int offset;
-	
+
 	protected boolean isAfterPeriod;
-	
+
 	protected int currentScope;
-	
+
 	protected INode currentNode;
-	
+
 	protected DbPluginFormatRule rule;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -70,46 +70,46 @@ public class DefaultProcessor {
 		this.currentNode = pinfo.getCurrentNode();
 		this.rule = DbPluginFormatRule.getInstance();
 	}
-	
+
 	protected ASTSelectStatement findParentASTSelectStatement(INode node) {
 		return (ASTSelectStatement) ASTUtil2.findParent(node, "ASTSelectStatement"); //$NON-NLS-1$
 	}
-	
+
 	protected ASTInsertStatement findParentASTInsertStatement(INode node) {
 		return (ASTInsertStatement) ASTUtil2.findParent(node, "ASTInsertStatement"); //$NON-NLS-1$
 	}
-	
+
 	protected ASTUpdateStatement findParentASTUpdateStatement(INode node) {
 		return (ASTUpdateStatement) ASTUtil2.findParent(node, "ASTUpdateStatement"); //$NON-NLS-1$
 	}
-	
+
 	protected ASTDeleteStatement findParentASTDeleteStatement(INode node) {
 		return (ASTDeleteStatement) ASTUtil2.findParent(node, "ASTDeleteStatement"); //$NON-NLS-1$
 	}
-	
+
 	protected ASTFrom findASTFrom(ASTSelectStatement node) {
 		return (ASTFrom) node.getChild("ASTFrom");
 	}
-	
+
 	protected ASTSelect findASTSelect(ASTSelectStatement node) {
 		return (ASTSelect) node.getChild("ASTSelect");
 	}
-	
+
 	protected ASTFrom findASTFrom(ASTDeleteStatement node) {
 		return (ASTFrom) ASTUtil2.findFirstChild(node, "ASTFrom"); //$NON-NLS-1$
 	}
-	
+
 	protected ASTSelectStatement findASTSelectStatement(ASTUnion node) {
 		return (ASTSelectStatement) ASTUtil2.findFirstChild(node, "ASTSelectStatement"); //$NON-NLS-1$
 	}
-	
+
 	protected ASTTable findASTTable(ASTInsertStatement node) {
 		// INESRT INTO TBL SELECT * FROM TBL の場合を考慮して
 		// INTOを探してからTBLを取得する
 		ASTInto into = (ASTInto) ASTUtil2.findFirstChild(node, "ASTInto"); //$NON-NLS-1$
 		return (ASTTable) ASTUtil2.findFirstChild(into, "ASTTable"); //$NON-NLS-1$
 	}
-	
+
 	protected ASTTable findASTTable(ASTUpdateStatement node) {
 		// UPDATEはASTUpdateStatement直下で判断する
 		if (node.getChildrenSize() > 0) {
@@ -122,7 +122,7 @@ public class DefaultProcessor {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * ASTFromListから別名が一致するINodeを取得する
 	 * 
@@ -143,7 +143,7 @@ public class DefaultProcessor {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * FromList配下を取得
 	 * 
@@ -159,9 +159,9 @@ public class DefaultProcessor {
 			}
 		}
 		return (INode[]) list.toArray(new INode[0]);
-		
+
 	}
-	
+
 	/**
 	 * カンマを除いた子ノードの数
 	 * 
@@ -178,7 +178,7 @@ public class DefaultProcessor {
 		}
 		return cnt;
 	}
-	
+
 	protected void createTableProposal(TableInfo[] infos, ASTAlias[] target) {
 		if (target != null) {
 			List list = new ArrayList();
@@ -205,7 +205,7 @@ public class DefaultProcessor {
 			SQLProposalCreator2.addProposal(proposals, (TableInfo[]) list.toArray(new TableInfo[0]), pinfo);
 		}
 	}
-	
+
 	protected TableInfo findTableInfo(TableInfo[] info, String target) {
 		for (int i = 0; i < info.length; i++) {
 			TableInfo ti = info[i];
@@ -215,15 +215,15 @@ public class DefaultProcessor {
 		}
 		return null;
 	}
-	
+
 	protected void createColumnProposal(INode target) {
 		if (target != null) {
 			if (target instanceof ASTTable) {
 				createColumn((ASTTable) target);
-				
+
 			} else if (target instanceof ASTSelectStatement) {
 				createColumn((ASTSelectStatement) target);
-				
+
 			} else if (target instanceof ASTParentheses) {
 				// 最初のSelect文を探す
 				ASTSelectStatement select = (ASTSelectStatement) ASTUtil2.findFirstChild(target, "ASTSelectStatement"); //$NON-NLS-1$
@@ -234,32 +234,32 @@ public class DefaultProcessor {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	void createColumn(ASTTable target) {
 		if (target != null) {
 			ContentInfo ci = new ContentInfo(ContentAssistUtil.getIDBConfig());
 			if (ci.isConnected()) {
-				
+
 				String schemaName = ((ASTTable) target).getSchemaName();
 				String tableName = ((ASTTable) target).getTableName();
 				Column[] cols = ci.getColumns(schemaName, tableName);
 				SQLProposalCreator2.addProposal(proposals, cols, pinfo);
 			}
 		}
-		
+
 	}
-	
+
 	void createColumn(ASTSelectStatement target) {
 		if (target != null) {
 			String alias = target.getAliasName();
 			ASTSelect selectList = findASTSelect(target);
-			
+
 			// ここではカンマの分の配列があるから削除しなければならない
 			int count = getSizeRemoveComma(selectList);
 			String[][] colInfo = new String[count][2];
-			
+
 			int index = 0;
 			for (int i = 0; i < selectList.getChildrenSize(); i++) {
 				INode node = selectList.getChild(i);
@@ -268,24 +268,24 @@ public class DefaultProcessor {
 					ASTColumn column = (ASTColumn) node;
 					String columnName = column.getAliasName();
 					sb.append(columnName);
-					
+
 					if (alias != null) {
 						sb.append(Messages.getString("DefaultProcessor.14")); //$NON-NLS-1$
 						sb.append(alias);
 						sb.append(Messages.getString("DefaultProcessor.15")); //$NON-NLS-1$
 						sb.append(columnName);
 					}
-					
+
 					colInfo[index][0] = columnName;
 					colInfo[index][1] = sb.toString(); // display用
-					
+
 					index++;
 				}
 			}
 			// 副問合せの場合
 			SQLProposalCreator2.addProposal(proposals, colInfo, pinfo);
 		}
-		
+
 	}
-	
+
 }

@@ -49,7 +49,7 @@ public class DDLDiffForSourceAction extends Action implements Runnable {
 
 					if (index == 0) {
 						left = s;
-						
+
 						index++;
 					} else if (index == 1) {
 						right = s;
@@ -83,14 +83,14 @@ public class DDLDiffForSourceAction extends Action implements Runnable {
 
 	protected OracleSourceDetailInfo getOracleSourceDetailInfo(OracleSource source) {
 		OracleSourceDetailInfo sourceDetail = null;
-		//OracleSourceErrorInfo[] sourceErrors = null;
+		// OracleSourceErrorInfo[] sourceErrors = null;
 		try {
 			Connection con = Transaction.getInstance(source.getDbConfig()).getConnection();
 			String owner = source.getOracleSourceInfo().getOwner();
 			String type = source.getOracleSourceInfo().getType();
 			String name = source.getOracleSourceInfo().getName();
-			sourceDetail = OracleSourceDetailSearcher.execute(con, owner, name, type, false);			
-			//sourceErrors = OracleSourceErrorSearcher.execute(con, owner, name, type);
+			sourceDetail = OracleSourceDetailSearcher.execute(con, owner, name, type, false);
+			// sourceErrors = OracleSourceErrorSearcher.execute(con, owner, name, type);
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

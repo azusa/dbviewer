@@ -73,14 +73,14 @@ public class ChangeColorJob extends AbstractJob {
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
 			monitor.beginTask("Change Color...", rowSize);
-			
+
 			if (store.getBoolean(PreferencePage.P_CHANGE_NULL_COLOR)) {
 				String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
 
-				
+
 				for (int i = 0; i < rowSize; i++) {
 					monitor.worked(1);
-					
+
 					ChangeColorRecord thread;
 					if (tableNode != null) {
 						thread = new ChangeColorRecord(table, i, columnSize, tableNode);

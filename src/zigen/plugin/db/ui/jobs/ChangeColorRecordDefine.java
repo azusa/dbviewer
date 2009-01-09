@@ -39,7 +39,7 @@ public class ChangeColorRecordDefine implements Runnable {
 	public ChangeColorRecordDefine(Table table, int rowIndex, int columnSize) {
 		this(table, rowIndex, columnSize, null);
 	}
-	
+
 	public ChangeColorRecordDefine(Table table, int rowIndex, int columnSize, ITable tableNode) {
 		this.table = table;
 		this.rowIndex = rowIndex;
@@ -58,7 +58,7 @@ public class ChangeColorRecordDefine implements Runnable {
 		// s”Ô†‚Ì”wŒiF‚ğ•ÏX
 		item.setBackground(0, bgcolor); // ”wŒiF
 		for (int k = 0; k < columnSize - 1; k++) {
-			item.setForeground(k + 1, black);   // •¶šF(•)
+			item.setForeground(k + 1, black); // •¶šF(•)
 			item.setBackground(k + 1, bgcolor); // ”wŒiF
 		}
 	}
@@ -67,10 +67,10 @@ public class ChangeColorRecordDefine implements Runnable {
 		this.selectedColumn = column;
 	}
 
-	public void setNullSymbol(String nullSymbol){
+	public void setNullSymbol(String nullSymbol) {
 		this.nullSymbol = nullSymbol;
 	}
-	
+
 	public void setBlue(Color blue) {
 		this.blue = blue;
 	}

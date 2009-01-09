@@ -299,7 +299,7 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 		BigDecimal value = rs.getBigDecimal(icol);
 		if (rs.wasNull())
 			return nullSymbol;
-		//return toStringForDisplay(value); // 1.0 ¨ 1 ‚É•ÏŠ·
+		// return toStringForDisplay(value); // 1.0 ¨ 1 ‚É•ÏŠ·
 		return value.toString(); // BigDecimal‚Å‚Í©“®“I‚É1.0¨1‚É•ÏŠ·‚³‚ê‚é
 	}
 
@@ -695,5 +695,5 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 			return num.toString();
 		}
 	}
-	
+
 }

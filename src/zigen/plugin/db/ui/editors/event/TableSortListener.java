@@ -76,7 +76,7 @@ public class TableSortListener extends SelectionAdapter {
 			try {
 				table.setSortColumn(col);
 				table.setSortDirection(SWT.UP);
-					
+
 			} catch (Throwable ex) {
 				;// Eclipse3.1ではNoSuchMethodExceptionが発生
 			}
@@ -101,6 +101,7 @@ public class TableSortListener extends SelectionAdapter {
 	}
 
 	protected class TableColumnSorter extends ViewerSorter {
+
 		boolean isDesc = false;
 
 		int index;
@@ -151,28 +152,28 @@ public class TableSortListener extends SelectionAdapter {
 						// 数値変換できる場合は、数値比較を行う
 						BigDecimal d1 = new BigDecimal(v1); // 数値変換
 						BigDecimal d2 = new BigDecimal(v2); // 数値変換
-						
-                        if (isDesc) {
-                            return (d2.compareTo(d1)); // 降順
-                        } else {
-                            return (d1.compareTo(d2)); // 昇順
-                        }
 
-//						if (d1.doubleValue() < d2.doubleValue()) {
-//							if (isDesc) {
-//								return (1);
-//							} else {
-//								return (-1);
-//							}
-//						} else if (d2.doubleValue() < d1.doubleValue()) {
-//							if (isDesc) {
-//								return (-1);
-//							} else {
-//								return (1);
-//							}
-//						} else {
-//							return (0);
-//						}
+						if (isDesc) {
+							return (d2.compareTo(d1)); // 降順
+						} else {
+							return (d1.compareTo(d2)); // 昇順
+						}
+
+						// if (d1.doubleValue() < d2.doubleValue()) {
+						// if (isDesc) {
+						// return (1);
+						// } else {
+						// return (-1);
+						// }
+						// } else if (d2.doubleValue() < d1.doubleValue()) {
+						// if (isDesc) {
+						// return (-1);
+						// } else {
+						// return (1);
+						// }
+						// } else {
+						// return (0);
+						// }
 
 					} catch (NumberFormatException ex) {
 						// 数値変換できない場合は、文字列比較を行う

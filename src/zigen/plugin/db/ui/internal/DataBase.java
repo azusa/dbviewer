@@ -19,21 +19,21 @@ import zigen.plugin.db.core.IDBConfig;
  * 
  */
 public class DataBase extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	IDBConfig dbConfig = null;
-	
+
 	boolean isConnected = false; // 接続状態であればtrue
-	
+
 	boolean isSchemaSupport = false; // スキーマサポートか
-	
+
 	String defaultSchema;
-	
+
 	String[] tableType = null;
-	
+
 	Connection con = null;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -43,7 +43,7 @@ public class DataBase extends TreeNode {
 		super(dbConfig.getDbName());
 		this.dbConfig = dbConfig;
 	}
-	
+
 	/**
 	 * IDBConfigの取得
 	 * 
@@ -52,7 +52,7 @@ public class DataBase extends TreeNode {
 	public IDBConfig getDbConfig() {
 		return this.dbConfig;
 	}
-	
+
 	// ↓ [002] 2005/08/05 追加 ZIGEN
 	/**
 	 * DBConfigの設定 DB接続情報変更時にconfigを上書きするために実装
@@ -62,18 +62,18 @@ public class DataBase extends TreeNode {
 	public void setDbConfig(IDBConfig dbConfig) {
 		this.setName(dbConfig.getDbName());
 		this.dbConfig = dbConfig;
-		
+
 	}
-	
+
 	// ↑ [002] 2005/08/05 追加 ZIGEN
-	
+
 	/**
 	 * @return isConnected を戻します。
 	 */
 	public boolean isConnected() {
 		return isConnected;
 	}
-	
+
 	/**
 	 * @param isConnected
 	 *            isConnected を設定。
@@ -81,14 +81,14 @@ public class DataBase extends TreeNode {
 	public void setConnected(boolean isConnected) {
 		this.isConnected = isConnected;
 	}
-	
+
 	/**
 	 * @return defaultSchema を戻します。
 	 */
 	public String getDefaultSchema() {
 		return defaultSchema;
 	}
-	
+
 	/**
 	 * @param defaultSchema
 	 *            defaultSchema を設定。
@@ -96,14 +96,14 @@ public class DataBase extends TreeNode {
 	public void setDefaultSchema(String defaultSchema) {
 		this.defaultSchema = defaultSchema;
 	}
-	
+
 	/**
 	 * @return isSchemaSupport を戻します。
 	 */
 	public boolean isSchemaSupport() {
 		return isSchemaSupport;
 	}
-	
+
 	/**
 	 * @param isSchemaSupport
 	 *            isSchemaSupport を設定。
@@ -111,14 +111,14 @@ public class DataBase extends TreeNode {
 	public void setSchemaSupport(boolean isSchemaSupport) {
 		this.isSchemaSupport = isSchemaSupport;
 	}
-	
+
 	/**
 	 * @return tableType を戻します。
 	 */
 	public String[] getTableType() {
 		return tableType;
 	}
-	
+
 	/**
 	 * @param tableType
 	 *            tableType を設定。
@@ -126,7 +126,7 @@ public class DataBase extends TreeNode {
 	public void setTableType(String[] tableType) {
 		this.tableType = tableType;
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -135,7 +135,7 @@ public class DataBase extends TreeNode {
 	public DataBase() {
 		super();
 	}
-	
+
 	public Object clone() {
 		DataBase inst = new DataBase();
 		inst.name = this.name == null ? null : new String(this.name);
@@ -153,7 +153,7 @@ public class DataBase extends TreeNode {
 		}
 		return inst;
 	}
-	
+
 	/**
 	 * 以下のequalsメソッドは変更しないこと
 	 */
@@ -174,7 +174,7 @@ public class DataBase extends TreeNode {
 		} else {
 			return false;
 		}
-		
+
 	}
-	
+
 }

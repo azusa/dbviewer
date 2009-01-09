@@ -112,9 +112,9 @@ public class SQLServerSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public boolean supportsDropColumnCascadeConstraints() {
 		return false;
 	}
-	
+
 	// SQLServer=true
-	public boolean supportsRollbackDDL(){
+	public boolean supportsRollbackDDL() {
 		return true;
 	}
 }

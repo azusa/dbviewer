@@ -36,7 +36,7 @@ public class OracleConstraintSearcharFactory extends DefaultConstraintSearcherFa
 		sb.append("        ,CON.SEARCH_CONDITION"); //$NON-NLS-1$
 		sb.append("        ,CON.TABLE_NAME"); //$NON-NLS-1$
 		sb.append("        ,DECODE(CON.CONSTRAINT_TYPE, 'P','PRIMARY KEY', 'R','FOREIGN KEY', 'C','CHECK', 'U', 'UNIQUE', 'UNKNOWN') CONSTRAINT_TYPE");
-		
+
 		sb.append("    FROM"); //$NON-NLS-1$
 		sb.append("        ALL_INDEXES IND"); //$NON-NLS-1$
 		sb.append("        ,ALL_CONSTRAINTS CON"); //$NON-NLS-1$
@@ -52,8 +52,8 @@ public class OracleConstraintSearcharFactory extends DefaultConstraintSearcherFa
 		sb.append("        AND CON.TABLE_NAME = IND.TABLE_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_NAME = IND.INDEX_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_TYPE NOT IN('P','R')"); // PK,
-																		// FKà»äOÇëŒè€
-																		// //$NON-NLS-1$
+		// FKà»äOÇëŒè€
+		// //$NON-NLS-1$
 		return sb.toString();
 
 	}

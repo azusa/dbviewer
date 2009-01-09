@@ -24,6 +24,7 @@ import zigen.plugin.db.DbPlugin;
 public class TransactionForTableEditor {
 
 	private class TransactionElement {
+
 		IDBConfig config = null;
 
 		Connection con = null;
@@ -68,8 +69,7 @@ public class TransactionForTableEditor {
 	/**
 	 * コンストラクタ
 	 */
-	private TransactionForTableEditor() {
-	}
+	private TransactionForTableEditor() {}
 
 	private void create() {
 		TransactionElement elem = null;
@@ -110,8 +110,8 @@ public class TransactionForTableEditor {
 		// element.con.setAutoCommit(false);
 		// }
 		// }
-		
-		//System.out.println("TransactionForTableEditor#コミットの状態は " + element.con.getAutoCommit() + ", @" + element.con.toString());
+
+		// System.out.println("TransactionForTableEditor#コミットの状態は " + element.con.getAutoCommit() + ", @" + element.con.toString());
 		return element.con;
 
 	}

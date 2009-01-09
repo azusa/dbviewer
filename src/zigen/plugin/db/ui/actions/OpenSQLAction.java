@@ -28,7 +28,7 @@ import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/08 ZIGEN create.
  * 
  */
-public class OpenSQLAction extends SQLSourceViewerAction{
+public class OpenSQLAction extends SQLSourceViewerAction {
 
 	/**
 	 * コンストラクタ
@@ -54,11 +54,9 @@ public class OpenSQLAction extends SQLSourceViewerAction{
 			if (fSQLSourceViewer.getSqlFileName() != null) {
 				dialog.setFileName(fSQLSourceViewer.getSqlFileName());
 			}
-			dialog.setFilterExtensions(new String[] {
-					"*.sql", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
+			dialog.setFilterExtensions(new String[] {"*.sql", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
 			});
-			dialog.setFilterNames(new String[] {
-					Messages.getString("OpenSQLAction.4"), Messages.getString("OpenSQLAction.5") //$NON-NLS-1$ //$NON-NLS-2$
+			dialog.setFilterNames(new String[] {Messages.getString("OpenSQLAction.4"), Messages.getString("OpenSQLAction.5") //$NON-NLS-1$ //$NON-NLS-2$
 					});
 			String fileName = dialog.open();
 
@@ -67,7 +65,7 @@ public class OpenSQLAction extends SQLSourceViewerAction{
 				return;
 
 			File file = new File(fileName);
-			
+
 			String charset = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_SQL_FILE_CHARSET);
 			if (file.exists() && file.canRead()) {
 				String sqlData = InputStreamUtil.toString(new FileInputStream(file), charset);

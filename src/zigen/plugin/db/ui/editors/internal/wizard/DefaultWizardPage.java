@@ -101,6 +101,7 @@ abstract class DefaultWizardPage extends WizardPage {
 	}
 
 	protected class ConstraintsColumnLabelProvider extends LabelProvider implements ITableLabelProvider {
+
 		// private ImageCacher imageCacher = ImageCacher.getInstance();
 
 		public String getColumnText(Object element, int columnIndex) {
@@ -122,6 +123,7 @@ abstract class DefaultWizardPage extends WizardPage {
 	}
 
 	protected class ConstraintsColumnContentProvider implements IStructuredContentProvider {
+
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof Column[]) {
 				return (Column[]) inputElement;
@@ -129,11 +131,9 @@ abstract class DefaultWizardPage extends WizardPage {
 			return null;
 		}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
-		public void dispose() {
-		}
+		public void dispose() {}
 
 	}
 

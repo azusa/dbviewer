@@ -23,47 +23,46 @@ import zigen.plugin.db.ui.internal.TreeNode;
 
 public class AddColumnAction extends TableViewEditorAction {
 
-    private TableViewer tableViewer;
-    
-    public AddColumnAction() {
-        this.setText(Messages.getString("AddColumnAction.0")); //$NON-NLS-1$
-        this.setToolTipText(Messages.getString("AddColumnAction.1")); //$NON-NLS-1$
-        this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLUMN_ADD));
-    }
+	private TableViewer tableViewer;
 
-    public void run() {
+	public AddColumnAction() {
+		this.setText(Messages.getString("AddColumnAction.0")); //$NON-NLS-1$
+		this.setToolTipText(Messages.getString("AddColumnAction.1")); //$NON-NLS-1$
+		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLUMN_ADD));
+	}
 
-        IDBConfig config = editor.getDBConfig();
-        ITable tableNode = editor.getTableNode();
-        ISQLCreatorFactory factory = AbstractSQLCreatorFactory.getFactory(config, tableNode);
+	public void run() {
 
-        zigen.plugin.db.core.TableColumn tCol = new zigen.plugin.db.core.TableColumn();
-        Column col = new Column();
-        col.setColumn(tCol);
-        col.setParent((TreeNode) tableNode);
+		IDBConfig config = editor.getDBConfig();
+		ITable tableNode = editor.getTableNode();
+		ISQLCreatorFactory factory = AbstractSQLCreatorFactory.getFactory(config, tableNode);
 
-        Shell shell = DbPlugin.getDefault().getShell();
+		zigen.plugin.db.core.TableColumn tCol = new zigen.plugin.db.core.TableColumn();
+		Column col = new Column();
+		col.setColumn(tCol);
+		col.setParent((TreeNode) tableNode);
 
-        /*
-         * TableDefineInputDialog dialog = new TableDefineInputDialog(shell, factory, tableNode, col, true); if (dialog.open() != Window.OK) { }
-         */
+		Shell shell = DbPlugin.getDefault().getShell();
 
-        //int column = tableNode.getChildrens().length;
-        
-        ColumnWizard wizard = new ColumnWizard(factory, tableNode, col, true);
-        WizardDialog dialog2 = new WizardDialog(shell, wizard);
-        int ret = dialog2.open();
-        if (ret == IDialogConstants.OK_ID) {
+		/*
+		 * TableDefineInputDialog dialog = new TableDefineInputDialog(shell, factory, tableNode, col, true); if (dialog.open() != Window.OK) { }
+		 */
 
-//            if(tableViewer != null){
-//                tableViewer.getTable().setSelection(column);
-//            }
-        }
+		// int column = tableNode.getChildrens().length;
+		ColumnWizard wizard = new ColumnWizard(factory, tableNode, col, true);
+		WizardDialog dialog2 = new WizardDialog(shell, wizard);
+		int ret = dialog2.open();
+		if (ret == IDialogConstants.OK_ID) {
 
-    }
+			// if(tableViewer != null){
+			// tableViewer.getTable().setSelection(column);
+			// }
+		}
 
-    public void setTableViewer(TableViewer tableViewer) {
-        this.tableViewer = tableViewer;
-    }
+	}
+
+	public void setTableViewer(TableViewer tableViewer) {
+		this.tableViewer = tableViewer;
+	}
 
 }

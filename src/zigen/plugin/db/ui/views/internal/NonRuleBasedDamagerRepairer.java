@@ -26,8 +26,7 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	protected IDocument fDocument;
 
 	/**
-	 * The default text attribute if non is returned as data by the current
-	 * token
+	 * The default text attribute if non is returned as data by the current token
 	 */
 	protected TextAttribute fDefaultTextAttribute;
 
@@ -48,9 +47,7 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	}
 
 	/**
-	 * Returns the end offset of the line that contains the specified offset or
-	 * if the offset is inside a line delimiter, the end offset of the next
-	 * line.
+	 * Returns the end offset of the line that contains the specified offset or if the offset is inside a line delimiter, the end offset of the next line.
 	 * 
 	 * @param offset
 	 *            the offset whose line end offset must be computed
@@ -74,8 +71,7 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	}
 
 	/**
-	 * @see IPresentationDamager#getDamageRegion(ITypedRegion, DocumentEvent,
-	 *      boolean)
+	 * @see IPresentationDamager#getDamageRegion(ITypedRegion, DocumentEvent, boolean)
 	 */
 	public IRegion getDamageRegion(ITypedRegion partition, DocumentEvent event, boolean documentPartitioningChanged) {
 		if (!documentPartitioningChanged) {
@@ -104,8 +100,7 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 	}
 
 	/**
-	 * @see IPresentationRepairer#createPresentation(TextPresentation,
-	 *      ITypedRegion)
+	 * @see IPresentationRepairer#createPresentation(TextPresentation, ITypedRegion)
 	 */
 	public void createPresentation(TextPresentation presentation, ITypedRegion region) {
 		addRange(presentation, region.getOffset(), region.getLength(), fDefaultTextAttribute);

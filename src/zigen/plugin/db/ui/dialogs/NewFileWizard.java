@@ -9,8 +9,9 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 public class NewFileWizard extends Wizard implements INewWizard {
 
 	private WizardNewFileCreationPage page;
+
 	private IStructuredSelection selection;
-	
+
 	public boolean performFinish() {
 		page.createNewFile();
 		return true;
@@ -20,8 +21,8 @@ public class NewFileWizard extends Wizard implements INewWizard {
 		// TODO 自動生成されたメソッド・スタブ
 		this.selection = selection;
 	}
-	
-	public void addPages(){
+
+	public void addPages() {
 		page = new WizardNewFileCreationPage("ファイルの保存", selection);
 		addPage(page);
 	}

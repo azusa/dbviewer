@@ -29,39 +29,39 @@ import zigen.plugin.db.core.Transaction;
  * 
  */
 public class ContentAssistTable extends TreeNode implements ITable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected IDBConfig dbConfig;
-	
+
 	protected DataBase dataBase;
-	
+
 	protected Schema schema;
-	
+
 	protected ITable table;
-	
+
 	protected Folder folder;
-	
+
 	public ContentAssistTable(IDBConfig dbConfig, String schemaName, String tableName) {
 		super(tableName);
 		this.dbConfig = dbConfig;
 		this.dataBase = new DataBase(dbConfig);
 		// スキーマサポートかどうか判定
 		setSchemaSupport(dataBase);
-		
+
 		if (dataBase.isSchemaSupport()) {
 			// this.schema = new Schema(dbConfig.getSchema().toUpperCase());
 			this.schema = new Schema(schemaName);
 		}
 		this.table = new Table(tableName);
-		
+
 	}
-	
+
 	public ContentAssistTable(Table table) {
 		super();
 		copy(table);
 	}
-	
+
 	private void setSchemaSupport(DataBase dataBase) {
 		try {
 			Connection con = Transaction.getInstance(dbConfig).getConnection();
@@ -71,34 +71,34 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			DbPlugin.log(e);
 		}
 	}
-	
+
 	public void copy(Table original) {
 		name = new String(original.getName());
-		
+
 		// DataBase要素のコピー（DBConfigもコピーされる)
 		dataBase = (DataBase) original.getDataBase().clone();
-		
+
 		// DBConfigのコピー先の参照を設定
 		dbConfig = dataBase.getDbConfig();
-		
+
 		if (original.getSchema() != null) {
 			schema = (Schema) original.getSchema().clone();
 		}
 		table = (Table) original.clone();
-		
+
 		folder = (Folder) original.getFolder().clone();
-		
+
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
-		
+
 	}
-	
+
 	private Column[] convertColumns(TreeLeaf[] leafs) {
 		List list = new ArrayList(leafs.length);
 		for (int i = 0; i < leafs.length; i++) {
@@ -107,13 +107,13 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			}
 		}
 		return (Column[]) list.toArray(new Column[0]);
-		
+
 	}
-	
+
 	public Column[] getColumns() {
 		return convertColumns(getChildrens());
 	}
-	
+
 	public String getLabel() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(name);
@@ -123,13 +123,13 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			sb.append("]");
 		}
 		return sb.toString();
-		
+
 	}
-	
+
 	public String getRemarks() {
 		return table.getRemarks();
 	}
-	
+
 	public String getSchemaName() {
 		if (schema != null) {
 			return schema.getName();
@@ -137,7 +137,7 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * スキーマ対応の場合はスキーマ名.テーブル名を返す
 	 */
@@ -158,35 +158,35 @@ public class ContentAssistTable extends TreeNode implements ITable {
 		}
 		return sb.toString();
 	}
-	
+
 	public boolean isSchemaSupport() {
 		return dataBase.isSchemaSupport();
 	}
-	
+
 	public ITable getTable() {
 		return table;
 	}
-	
+
 	public void setTable(ITable table) {
 		this.table = table;
 	}
-	
+
 	public DataBase getDataBase() {
 		return dataBase;
 	}
-	
+
 	public void setDataBase(DataBase dataBase) {
 		this.dataBase = dataBase;
 	}
-	
+
 	public Schema getSchema() {
 		return schema;
 	}
-	
+
 	public void setSchema(Schema schema) {
 		this.schema = schema;
 	}
-	
+
 	// public Folder getFolder() {
 	// return folder;
 	// }
@@ -194,15 +194,15 @@ public class ContentAssistTable extends TreeNode implements ITable {
 	// public void setFolder(Folder folder) {
 	// this.folder = folder;
 	// }
-	
+
 	public IDBConfig getDbConfig() {
 		return dbConfig;
 	}
-	
+
 	public void setDbConfig(IDBConfig dbConfig) {
 		this.dbConfig = dbConfig;
 	}
-	
+
 	public TableFKColumn[] getTableFKColumns() {
 		if (table != null) {
 			return table.getTableFKColumns();
@@ -210,7 +210,7 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public TablePKColumn[] getTablePKColumns() {
 		if (table != null) {
 			return table.getTablePKColumns();
@@ -218,7 +218,7 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public TableIDXColumn[] getTableUIDXColumns() {
 		if (table != null) {
 			return table.getTableUIDXColumns();
@@ -226,7 +226,7 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public TableIDXColumn[] getTableNonUIDXColumns() {
 		if (table != null) {
 			return table.getTableNonUIDXColumns();
@@ -234,23 +234,23 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public void setTableFKColumns(TableFKColumn[] tableFKColumns) {
 		this.table.setTableFKColumns(tableFKColumns);
 	}
-	
+
 	public void setTablePKColumns(TablePKColumn[] tablePKColumns) {
 		this.table.setTablePKColumns(tablePKColumns);
 	}
-	
+
 	public void setTableUIDXColumns(TableIDXColumn[] tableUIDXColumns) {
 		this.table.setTableUIDXColumns(tableUIDXColumns);
 	}
-	
+
 	public void setTableNonUIDXColumns(TableIDXColumn[] tableNonUIDXColumns) {
 		this.table.setTableNonUIDXColumns(tableNonUIDXColumns);
 	}
-	
+
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[ContentsAssistTable:");
@@ -277,36 +277,36 @@ public class ContentAssistTable extends TreeNode implements ITable {
 		buffer.append("]");
 		return buffer.toString();
 	}
-	
+
 	public String getFolderName() {
 		// 下位互換処理
 		if (folder == null)
 			return "TABLE";
-		
+
 		return folder.getName();
 	}
-	
+
 	boolean isEnabled = true;
-	
+
 	public boolean isEnabled() {
 		return isEnabled;
 	}
-	
+
 	public void setEnabled(boolean b) {
 		this.isEnabled = b;
 	}
-	
+
 	public void setRemarks(String remarks) {
 		throw new UnsupportedOperationException("ContentAssistTable#setRemarksは実装されていません");
 	}
-	
+
 	public TableConstraintColumn[] getTableConstraintColumns() {
 		return table.getTableConstraintColumns();
 	}
-	
+
 	public void setTableConstraintColumns(TableConstraintColumn[] tableConstraintColumns) {
 		table.setTableConstraintColumns(tableConstraintColumns);
 	}
-	
+
 
 }

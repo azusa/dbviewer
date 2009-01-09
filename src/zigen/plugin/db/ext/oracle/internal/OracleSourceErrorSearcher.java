@@ -49,7 +49,7 @@ public class OracleSourceErrorSearcher {
 			rs = st.executeQuery(getSQL(owner, name, type));
 
 			list = new ArrayList();
-			
+
 			while (rs.next()) {
 				OracleSourceErrorInfo info = new OracleSourceErrorInfo();
 				info.setOwner(rs.getString("OWNER")); //$NON-NLS-1$
@@ -69,7 +69,7 @@ public class OracleSourceErrorSearcher {
 			StatementUtil.close(st);
 		}
 
-		return (OracleSourceErrorInfo[])list.toArray(new OracleSourceErrorInfo[0]);
+		return (OracleSourceErrorInfo[]) list.toArray(new OracleSourceErrorInfo[0]);
 
 	}
 

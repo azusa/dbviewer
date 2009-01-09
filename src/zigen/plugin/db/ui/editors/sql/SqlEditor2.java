@@ -75,7 +75,7 @@ import zigen.plugin.db.ui.views.internal.SQLToolBarForSqlEditor;
 public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryViewEditor, IStatusChangeListener, IDocumentListener {
 
 	public void documentAboutToBeChanged(DocumentEvent event) {
-		// TODO 自動生成されたメソッド・スタブ
+	// TODO 自動生成されたメソッド・スタブ
 	}
 
 	public void documentChanged(DocumentEvent event) {
@@ -114,7 +114,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 
 	SashForm sash;
 
-	int[] defaultWeight = { 700, 300 };
+	int[] defaultWeight = {700, 300};
 
 	boolean isFocusResultView = false;
 
@@ -175,6 +175,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		getSourceViewerDecorationSupport(viewer);
 
 		viewer.getTextWidget().addFocusListener(new FocusAdapter() {
+
 			public void focusGained(FocusEvent e) {
 				IActionBars bars = getEditorSite().getActionBars();
 				setGlobalActionForEditor(bars);
@@ -199,6 +200,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		viewer.setLabelProvider(new TableViewLabelProvider());
 
 		table.addKeyListener(new KeyAdapter() {
+
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.F2) {
 					// レコード選択を解除し、先頭のカラムを編集状態にする
@@ -210,6 +212,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		});
 
 		table.addFocusListener(new FocusAdapter() {
+
 			public void focusGained(FocusEvent e) {
 				if (table.getSelectionIndex() == -1) {
 					table.select(0); // 未選択の場合は、強制的に1レコード目を選択
@@ -227,6 +230,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		});
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent e) {
 				selectionChangeHandler(e);
 			}
@@ -249,6 +253,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		getSite().setSelectionProvider(viewer);
 
 		table.addControlListener(new ControlListener() {
+
 			public void controlMoved(ControlEvent e) {
 				int[] weight = sash.getWeights();
 				if (weight[0] != 1000) {
@@ -256,13 +261,12 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 				}
 			}
 
-			public void controlResized(ControlEvent e) {
-			}
+			public void controlResized(ControlEvent e) {}
 		});
 
-		if (elements == null){
+		if (elements == null) {
 			setResultVisible(false);
-		}else{
+		} else {
 			setResultVisible(true);
 		}
 		hookContextMenu();
@@ -337,13 +341,14 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 				cellEditor.getControl().addKeyListener(keyAdapter);
 				cellEditor.getControl().addTraverseListener(keyAdapter);
 				cellEditor.getControl().addFocusListener(new FocusAdapter() {
+
 					public void focusGained(FocusEvent e) {
 						bars.clearGlobalActionHandlers();
 						bars.updateActionBars();
 					}
 
 					public void focusLost(FocusEvent e) {
-						// setInfomationText(EDIT_MODE_OFF); non message
+					// setInfomationText(EDIT_MODE_OFF); non message
 					}
 				});
 				cellEditors[i] = cellEditor;
@@ -352,6 +357,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		}
 		viewer.setColumnProperties(properties);
 		viewer.setCellModifier(new ICellModifier() {
+
 			public boolean canModify(Object element, String property) {
 				return true;
 			}
@@ -375,8 +381,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 				return null;
 			}
 
-			public void modify(Object element, String property, Object value) {
-			}
+			public void modify(Object element, String property, Object value) {}
 
 		});
 		viewer.setCellEditors(cellEditors);
@@ -467,7 +472,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 	}
 
 	public void setTotalCount(int dispCount, long totalCount) {
-		// TODO 自動生成されたメソッド・スタブ
+	// TODO 自動生成されたメソッド・スタブ
 
 	}
 
@@ -475,7 +480,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		if (visibled) {
 			sash.setWeights(defaultWeight);
 		} else {
-			sash.setWeights(new int[] { 100, 0 });
+			sash.setWeights(new int[] {100, 0});
 		}
 	}
 
@@ -512,6 +517,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+
 			public void menuAboutToShow(IMenuManager manager) {
 				if (isFocusResultView) {
 					getContributor().fillContextMenuForResultView(manager);
@@ -549,7 +555,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		}
 		return super.getAdapter(adapter);
 	}
-	
+
 	public int getRecordLimit() {
 		return 0;
 	}

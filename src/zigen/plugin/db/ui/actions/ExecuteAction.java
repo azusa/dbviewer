@@ -43,9 +43,9 @@ public class ExecuteAction implements IObjectActionDelegate {
 			throw new RuntimeException("Required IStructuredSelection."); //$NON-NLS-1$
 		}
 	}
-	
-	public void run(IAction action){
-		
+
+	public void run(IAction action) {
+
 	}
 
 }

@@ -9,17 +9,20 @@ import org.eclipse.jface.action.Action;
 
 import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
-public class SQLSourceViewerAction extends Action{
+public class SQLSourceViewerAction extends Action {
+
 	protected SQLSourceViewer fSQLSourceViewer;
-	
-	public SQLSourceViewerAction(SQLSourceViewer SourceViewer){
+
+	public SQLSourceViewerAction(SQLSourceViewer SourceViewer) {
 		this.fSQLSourceViewer = SourceViewer;
 	}
-	public SQLSourceViewerAction(SQLSourceViewer SourceViewer, String text, int style){
+
+	public SQLSourceViewerAction(SQLSourceViewer SourceViewer, String text, int style) {
 		super(text, style);
 		this.fSQLSourceViewer = SourceViewer;
 	}
-    public void setSQLSourceViewer(SQLSourceViewer viewer) {
-        this.fSQLSourceViewer = viewer;
-    }
+
+	public void setSQLSourceViewer(SQLSourceViewer viewer) {
+		this.fSQLSourceViewer = viewer;
+	}
 }

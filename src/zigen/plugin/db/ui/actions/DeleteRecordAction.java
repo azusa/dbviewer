@@ -98,12 +98,9 @@ public class DeleteRecordAction extends TableViewEditorAction {
 						int row = DeleteSQLInvoker.invoke(con, table, uniqueColumns, uniqueItems);
 						// レスポンス優先のため、ログに記録しない。
 						/*
-						if (row > 0) {
-							TableEditorLogUtil.successLog(sql);
-						} else {
-							TableEditorLogUtil.failureLog(sql);
-						}*/
-						
+						 * if (row > 0) { TableEditorLogUtil.successLog(sql); } else { TableEditorLogUtil.failureLog(sql); }
+						 */
+
 						rowAffected += row;
 						// 2006/11/24 ZIGEN modify start end;
 
@@ -111,7 +108,7 @@ public class DeleteRecordAction extends TableViewEditorAction {
 				}
 			}
 			tw.stop();
-			
+
 			if (DbPlugin.getDefault().confirmDialog(rowAffected + Messages.getString("DeleteRecordAction.0"))) { //$NON-NLS-1$
 				// コミット
 				trans.commit();
@@ -140,7 +137,7 @@ public class DeleteRecordAction extends TableViewEditorAction {
 
 			// 削除レスポンスを向上
 			TableViewerManager.remove(viewer, selection.toArray());
-			
+
 			TableElement[] elements = (TableElement[]) viewer.getInput();
 			int dispCnt = elements.length - 1;
 			editor.setTotalCount(dispCnt, -1); //$NON-NLS-1$

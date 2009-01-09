@@ -54,7 +54,7 @@ public class ImpDBConfigWizard extends Wizard {
 				if (item.isChecked()) {
 					// 設定を保存する
 					saveDBConfig(item.getConfig());
-					
+
 				}
 			}
 
@@ -94,7 +94,7 @@ public class ImpDBConfigWizard extends Wizard {
 				// 追加 2007/11/22
 				viewer.expandToLevel(provider.getRoot(), 1);
 				viewer.refresh();
-				
+
 				// 追加したデータエースに選択を与える
 				viewer.setSelection(new StructuredSelection(registDb), true);
 			}

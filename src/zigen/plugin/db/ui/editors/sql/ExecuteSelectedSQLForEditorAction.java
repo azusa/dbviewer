@@ -10,16 +10,17 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextSelection;
 
 
-public class ExecuteSelectedSQLForEditorAction extends AbstractExecuteSQLForEditorAction{
+public class ExecuteSelectedSQLForEditorAction extends AbstractExecuteSQLForEditorAction {
+
 	public ExecuteSelectedSQLForEditorAction(SqlEditor2 editor) {
 		super(editor);
 	}
 
-	protected String targetSql(IDocument doc){		
-		TextSelection selection = (TextSelection)editor.getSelectionProvider().getSelection();
-		if(selection != null){
+	protected String targetSql(IDocument doc) {
+		TextSelection selection = (TextSelection) editor.getSelectionProvider().getSelection();
+		if (selection != null) {
 			return selection.getText();
-		}else{
+		} else {
 			return null;
 		}
 	}

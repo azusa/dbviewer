@@ -43,9 +43,7 @@ public class CheckWizard extends DefaultWizard implements IConfirmDDLWizard {
 		String constraintName = page1.txtConstraintName.getText();
 		String check = page1.sqlViewer.getDocument().get();
 		String sql = factory.createCreateConstraintCheckDDL(constraintName, check);
-		return new String[] {
-			sql
-		};
+		return new String[] {sql};
 
 	}
 

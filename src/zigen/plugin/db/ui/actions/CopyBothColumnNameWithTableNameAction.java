@@ -50,30 +50,30 @@ public class CopyBothColumnNameWithTableNameAction extends AbstractCopyAction {
 					if (index > 0) {
 						sb.append(", ");//$NON-NLS-1$
 					}
-						if (tableRemarks == null || "".equals(tableRemarks.trim())) {
-							sb.append(tableName);
-						} else {
-							sb.append(tableName);
-							sb.append("(");
-							sb.append(tableRemarks);
-							sb.append(")");
-						}
-						sb.append(".");//$NON-NLS-1$
-						if (remarks == null || "".equals(remarks.trim())) {
-							sb.append(columnName);
-						} else {
-							sb.append(columnName);
-							sb.append("(");
-							sb.append(remarks);
-							sb.append(")");
-						}
+					if (tableRemarks == null || "".equals(tableRemarks.trim())) {
+						sb.append(tableName);
+					} else {
+						sb.append(tableName);
+						sb.append("(");
+						sb.append(tableRemarks);
+						sb.append(")");
+					}
+					sb.append(".");//$NON-NLS-1$
+					if (remarks == null || "".equals(remarks.trim())) {
+						sb.append(columnName);
+					} else {
+						sb.append(columnName);
+						sb.append("(");
+						sb.append(remarks);
+						sb.append(")");
+					}
 
 					index++;
 				}
 
 			}
 
-			clipboard.setContents(new Object[] { sb.toString() }, new Transfer[] { TextTransfer.getInstance() });
+			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

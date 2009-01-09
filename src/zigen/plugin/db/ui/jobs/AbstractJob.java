@@ -41,12 +41,12 @@ public abstract class AbstractJob extends Job {
 	protected void showSyncResults(Runnable action) {
 		Display.getDefault().syncExec(action);
 	}
-	
-	
+
+
 	protected void showMessage(IStatusLineManager statusLineManager, String message) {
 		Display.getDefault().asyncExec(new ShowInformationMessageAction(statusLineManager, message));
 	}
-	
+
 	protected void showWarningMessage(IStatusLineManager statusLineManager, String message) {
 		Display.getDefault().asyncExec(new ShowWarningMessageAction(statusLineManager, message));
 	}
@@ -54,8 +54,8 @@ public abstract class AbstractJob extends Job {
 	protected void showErrorMessage(IStatusLineManager statusLineManager, String message, Throwable e) {
 		Display.getDefault().asyncExec(new ShowErrorMessageAction(message, e));
 	}
-	
-	
+
+
 	protected void showWarningMessage(String message) {
 		Display.getDefault().asyncExec(new ShowWarningMessageAction(message));
 	}
@@ -85,15 +85,17 @@ public abstract class AbstractJob extends Job {
 	// }
 	// }
 
-	
+
 	public class ShowInformationMessageAction implements Runnable {
+
 		String msg = null;
+
 		IStatusLineManager statusLineManager;
-		
+
 		public ShowInformationMessageAction(String msg) {
 			this.msg = msg;
 		}
-		
+
 		public ShowInformationMessageAction(IStatusLineManager statusLineManager, String msg) {
 			this.msg = msg;
 			this.statusLineManager = statusLineManager;
@@ -101,26 +103,29 @@ public abstract class AbstractJob extends Job {
 
 		public void run() {
 			try {
-				if(statusLineManager == null){
+				if (statusLineManager == null) {
 					DbPlugin.getDefault().showInformationMessage(msg);
-				}else{
+				} else {
 					statusLineManager.setMessage(msg);
 				}
-				
+
 			} catch (Exception e) {
 				DbPlugin.log(e);
 			}
 		}
 	}
+
 	public class ShowWarningMessageAction implements Runnable {
+
 		String msg = null;
+
 		IStatusLineManager statusLineManager;
 
 		public ShowWarningMessageAction(String msg) {
 			this.msg = msg;
 		}
-		
-		
+
+
 		public ShowWarningMessageAction(IStatusLineManager statusLineManager, String msg) {
 			this.msg = msg;
 			this.statusLineManager = statusLineManager;
@@ -128,9 +133,9 @@ public abstract class AbstractJob extends Job {
 
 		public void run() {
 			try {
-				if(statusLineManager == null){
+				if (statusLineManager == null) {
 					DbPlugin.getDefault().showWarningMessage(msg);
-				}else{
+				} else {
 					statusLineManager.setErrorMessage(msg);
 				}
 			} catch (Exception e) {
@@ -140,17 +145,18 @@ public abstract class AbstractJob extends Job {
 	}
 
 	public class ShowErrorMessageAction implements Runnable {
+
 		Throwable e;
 
 		String msg;
 
-		
+
 		public ShowErrorMessageAction(String msg, Throwable e) {
 			this.msg = msg;
 			this.e = e;
 		}
 
-		
+
 		public void run() {
 			try {
 				JobException je = new JobException(msg, e);

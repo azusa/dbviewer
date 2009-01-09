@@ -23,14 +23,14 @@ import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/12 ZIGEN create.
  */
-abstract public class AbstractExecuteSQLAction extends SQLSourceViewerAction  implements Runnable {
+abstract public class AbstractExecuteSQLAction extends SQLSourceViewerAction implements Runnable {
 
 	private static int MAX_BYTES_SIZE = 1024 * 1024;
 
 	protected IDBConfig config;
 
 	protected IDocument doc;
-	
+
 	protected int offset;
 
 	protected int viewer;
@@ -68,19 +68,16 @@ abstract public class AbstractExecuteSQLAction extends SQLSourceViewerAction  im
 			job.setPriority(SqlExecJob.INTERACTIVE);
 			job.setUser(false); // ダイアログを出さない
 			job.schedule();
-			
-			
-//			SQLが成功する場合のみ書き込みを行なうようにする
-//			addHistory(sql);
 
-			
-			
+
+			// SQLが成功する場合のみ書き込みを行なうようにする
+			// addHistory(sql);
+
+
 			/*
 			 * int size = sql.getBytes().length; if(size >= MAX_BYTES_SIZE){
 			 * 
-			 * StringBuffer sb = new StringBuffer(); sb.append("実行するSQL文が");
-			 * //$NON-NLS-1$ sb.append(MAX_BYTES_SIZE / 1024);
-			 * sb.append("KB以上ある為、SQL履歴に格納されませんでした"); //$NON-NLS-1$
+			 * StringBuffer sb = new StringBuffer(); sb.append("実行するSQL文が"); //$NON-NLS-1$ sb.append(MAX_BYTES_SIZE / 1024); sb.append("KB以上ある為、SQL履歴に格納されませんでした"); //$NON-NLS-1$
 			 * 
 			 * DbPlugin.getDefault().showWaringMessage(sb.toString());
 			 * 

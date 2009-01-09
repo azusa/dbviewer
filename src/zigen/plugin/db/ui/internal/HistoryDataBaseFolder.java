@@ -17,11 +17,11 @@ import zigen.plugin.db.core.IDBConfig;
  * 
  */
 public class HistoryDataBaseFolder extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private IDBConfig config;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -31,7 +31,7 @@ public class HistoryDataBaseFolder extends TreeNode {
 		super();
 		this.config = config;
 	}
-	
+
 	public String getName() {
 		if (config != null) {
 			return config.getDbName();
@@ -39,9 +39,9 @@ public class HistoryDataBaseFolder extends TreeNode {
 			return null;
 		}
 	}
-	
+
 	// equals メソッドはオーバライドしない
-	
+
 	/**
 	 * Returns <code>true</code> if this <code>HistoryFolder</code> is the same as the o argument.
 	 * 

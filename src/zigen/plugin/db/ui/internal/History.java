@@ -20,13 +20,13 @@ import zigen.plugin.db.core.SQLHistory;
  * 
  */
 public class History extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-	
+
 	protected SQLHistory sqlHistory;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -35,13 +35,13 @@ public class History extends TreeNode {
 	public History(SQLHistory history) {
 		this.sqlHistory = history;
 	}
-	
+
 	public SQLHistory getSqlHistory() {
 		return sqlHistory;
 	}
-	
+
 	public static final int MAX_LEN = 100;
-	
+
 	/*
 	 * public String getDate() { return dateFormat.format(history.getDate()); }
 	 */
@@ -49,9 +49,9 @@ public class History extends TreeNode {
 	public String getTime() {
 		return timeFormat.format(sqlHistory.getDate());
 	}
-	
+
 	public String getName() {
-		
+
 		StringBuffer sb = new StringBuffer();
 		String shortSql = getShortSql();
 		if (!"".equals(shortSql)) {
@@ -59,12 +59,12 @@ public class History extends TreeNode {
 			sb.append(" ");
 			sb.append(getShortSql());
 		}
-		
+
 		return sb.toString();
 	}
-	
+
 	private String getShortSql() {
-		
+
 		// String sql = SQLFormatter.unformat(sqlHistory.getSql());
 		String sql = sqlHistory.getSql(); // レスポンス悪化のため、Unformatしない
 		if (sql == null)
@@ -75,11 +75,11 @@ public class History extends TreeNode {
 			return sql;
 		}
 	}
-	
+
 	public IDBConfig getDbConfig() {
 		return sqlHistory.getConfig();
 	}
-	
+
 	/**
 	 * Returns <code>true</code> if this <code>History</code> is the same as the o argument.
 	 * 
@@ -102,5 +102,5 @@ public class History extends TreeNode {
 		return ((this.timeFormat == null ? castedObj.timeFormat == null : this.timeFormat.equals(castedObj.timeFormat)) && (this.sqlHistory == null ? castedObj.sqlHistory == null : this.sqlHistory
 				.equals(castedObj.sqlHistory)));
 	}
-	
+
 }

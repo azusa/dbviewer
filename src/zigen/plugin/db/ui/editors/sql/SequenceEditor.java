@@ -94,10 +94,7 @@ public class SequenceEditor extends EditorPart implements IPropertyChangeListene
 		errorText.setBackground(white);
 		errorText.setForeground(red);
 
-		sash.setWeights(new int[] {
-				100,
-				0
-		});
+		sash.setWeights(new int[] {100, 0});
 
 		// hookContextMenu();
 	}
@@ -158,17 +155,17 @@ public class SequenceEditor extends EditorPart implements IPropertyChangeListene
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE"); //$NON-NLS-1$
 		sb.append(" SEQUENCE "); //$NON-NLS-1$
-		
-		if(StringUtil.isNumeric(sequenceInfo.getSequece_owner())){
+
+		if (StringUtil.isNumeric(sequenceInfo.getSequece_owner())) {
 			sb.append("\"");
 			sb.append(sequenceInfo.getSequece_owner());
 			sb.append("\"");
-			
-		}else{
+
+		} else {
 			sb.append(sequenceInfo.getSequece_owner());
 		}
-		
-		
+
+
 		sb.append("."); //$NON-NLS-1$
 		sb.append(sequenceInfo.getSequence_name());
 		sb.append(LINE_SEP);
@@ -219,11 +216,9 @@ public class SequenceEditor extends EditorPart implements IPropertyChangeListene
 		}
 	}
 
-	public void doSave(IProgressMonitor monitor) {
-	}
+	public void doSave(IProgressMonitor monitor) {}
 
-	public void doSaveAs() {
-	}
+	public void doSaveAs() {}
 
 	public boolean isDirty() {
 		return false;
@@ -234,8 +229,8 @@ public class SequenceEditor extends EditorPart implements IPropertyChangeListene
 	}
 
 	public void setFocus() {
-		// TODO Auto-generated method stub
-		// setGlobalAction();
+	// TODO Auto-generated method stub
+	// setGlobalAction();
 	}
 
 	public void dispose() {

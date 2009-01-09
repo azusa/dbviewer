@@ -104,6 +104,7 @@ public class RecordSearchJob extends AbstractJob {
 	}
 
 	protected class ShowResultAction implements Runnable {
+
 		String condition = null;
 
 		TableElement[] elements = null;

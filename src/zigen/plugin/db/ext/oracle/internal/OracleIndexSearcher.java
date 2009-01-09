@@ -66,7 +66,7 @@ public class OracleIndexSearcher {
 		sb.append("        AND T.TABLE_NAME = CONS.TABLE_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND T.INDEX_NAME = CONS.CONSTRAINT_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CONS.CONSTRAINT_NAME IS NULL"); //$NON-NLS-1$
-		
+
 
 		return sb.toString();
 
@@ -125,9 +125,9 @@ public class OracleIndexSearcher {
 			StatementUtil.close(st);
 		}
 	}
-	
+
 	// ResponseUpÇÃà◊Ç…ÅAàÍâÒÇ≈ï‘Ç∑
-	
+
 	private static String getIndexQuery(String schemaPattern, String tableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT"); //$NON-NLS-1$
@@ -150,11 +150,11 @@ public class OracleIndexSearcher {
 		sb.append("                    AND IND.INDEX_NAME = COL.INDEX_NAME"); //$NON-NLS-1$
 		sb.append("                    AND IND.TABLE_OWNER = COL.TABLE_OWNER"); //$NON-NLS-1$
 		sb.append("                    AND IND.TABLE_NAME = COL.TABLE_NAME"); //$NON-NLS-1$
-//		if (!uniqueIndex) {
-//			sb.append("                    AND IND.UNIQUENESS = 'NONUNIQUE'"); //$NON-NLS-1$
-//		} else {
-//			sb.append("                    AND IND.UNIQUENESS = 'UNIQUE'"); //$NON-NLS-1$
-//		}
+		// if (!uniqueIndex) {
+		// sb.append(" AND IND.UNIQUENESS = 'NONUNIQUE'"); //$NON-NLS-1$
+		// } else {
+		// sb.append(" AND IND.UNIQUENESS = 'UNIQUE'"); //$NON-NLS-1$
+		// }
 		sb.append("                    AND IND.TABLE_OWNER = '" + SQLUtil.encodeQuotation(schemaPattern) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("                    AND IND.TABLE_NAME = '" + SQLUtil.encodeQuotation(tableName) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("        ) T, ALL_CONSTRAINTS CONS"); //$NON-NLS-1$
@@ -162,18 +162,18 @@ public class OracleIndexSearcher {
 		sb.append("        AND T.TABLE_NAME = CONS.TABLE_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND T.INDEX_NAME = CONS.CONSTRAINT_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CONS.CONSTRAINT_NAME IS NULL"); //$NON-NLS-1$
-		
+
 
 		return sb.toString();
 
 	}
 
-	
+
 	public static TableIDXColumn[][] getIDXColumns(Connection con, String schemaPattern, String tableName) throws Exception {
 
 		ResultSet rs = null;
 		Statement st = null;
-		
+
 		List uniquelist = new ArrayList();
 		List nonUniquelist = new ArrayList();
 		try {
@@ -200,11 +200,11 @@ public class OracleIndexSearcher {
 					}
 					// indexTypeÇí«â¡
 					column.setIndexType(rs.getString("INDEX_TYPE")); //$NON-NLS-1$
-					
-					
-					if(!column.isNonUnique()){
+
+
+					if (!column.isNonUnique()) {
 						uniquelist.add(column);
-					}else{
+					} else {
 						nonUniquelist.add(column);
 					}
 
@@ -213,15 +213,15 @@ public class OracleIndexSearcher {
 			}
 			Collections.sort(uniquelist, new ConstraintSeqSorter());
 			Collections.sort(uniquelist, new ConstraintNameSorter());
-			
+
 			Collections.sort(nonUniquelist, new ConstraintSeqSorter());
 			Collections.sort(nonUniquelist, new ConstraintNameSorter());
-			
-			
+
+
 			TableIDXColumn[] uind = (TableIDXColumn[]) uniquelist.toArray(new TableIDXColumn[uniquelist.size()]);
 			TableIDXColumn[] nuind = (TableIDXColumn[]) nonUniquelist.toArray(new TableIDXColumn[nonUniquelist.size()]);
-			
-			TableIDXColumn[][] result = new TableIDXColumn[][]{uind, nuind};
+
+			TableIDXColumn[][] result = new TableIDXColumn[][] {uind, nuind};
 			return result;
 
 		} catch (SQLException e) {

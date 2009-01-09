@@ -17,9 +17,9 @@ import zigen.plugin.db.core.IDBConfig;
  * 
  */
 public class View extends Table implements ITable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -29,7 +29,7 @@ public class View extends Table implements ITable {
 		super(name);
 		this.remarks = remarks;
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -38,7 +38,7 @@ public class View extends Table implements ITable {
 	public View(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -47,7 +47,7 @@ public class View extends Table implements ITable {
 	public View() {
 		super();
 	}
-	
+
 	/**
 	 * 以下のequalsメソッドは変更しないこと
 	 */
@@ -61,22 +61,22 @@ public class View extends Table implements ITable {
 		if (o.getClass() != getClass()) {
 			return false;
 		}
-		
+
 		View castedObj = (View) o;
 		IDBConfig config = castedObj.getDbConfig();
 		Schema schema = castedObj.getSchema();
-		
+
 		// 追加 2007/08/20
 		if (config == null) {
 			System.err.println("View#equals() DBConfigを取得できませんでした。");
 			return false;
 		}
-		
+
 		if (castedObj.getName().equals(getName()) && config.equals(getDbConfig()) && schema.equals(getSchema())) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
 }

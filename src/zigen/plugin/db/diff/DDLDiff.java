@@ -7,24 +7,24 @@ package zigen.plugin.db.diff;
 
 
 public class DDLDiff extends DDLNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	DDL leftDDL;
-	
+
 	IDDL rightDDL;
-	
+
 	public DDLDiff(DDL leftContent, DDL rightContent) {
 		this.leftDDL = leftContent;
 		this.rightDDL = rightContent;
-		
+
 		// 表示用のテーブル名を設定
 		if (leftContent != null)
 			this.name = leftContent.targetName;
 		if (rightContent != null)
 			this.name = rightContent.targetName;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -45,7 +45,7 @@ public class DDLDiff extends DDLNode {
 			return TYPE_NOTHING;
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -58,7 +58,7 @@ public class DDLDiff extends DDLNode {
 			return rightDDL.getTargetName();
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -71,7 +71,7 @@ public class DDLDiff extends DDLNode {
 			return null;
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -84,7 +84,7 @@ public class DDLDiff extends DDLNode {
 			return null;
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -98,10 +98,10 @@ public class DDLDiff extends DDLNode {
 		sb.append(getLeftDBName());
 		sb.append("] "); //$NON-NLS-1$
 		sb.append(leftDDL.getDisplayedName());
-		
+
 		return sb.toString();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -117,7 +117,7 @@ public class DDLDiff extends DDLNode {
 		sb.append(rightDDL.getDisplayedName());
 		return sb.toString();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -127,9 +127,9 @@ public class DDLDiff extends DDLNode {
 		if (this.leftDDL == null)
 			return ""; //$NON-NLS-1$
 		return leftDDL.getDbName();
-		
+
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -140,7 +140,7 @@ public class DDLDiff extends DDLNode {
 			return ""; //$NON-NLS-1$
 		return rightDDL.getDbName();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -149,7 +149,7 @@ public class DDLDiff extends DDLNode {
 	public boolean isComparisonFailure() {
 		return leftDDL != null && rightDDL != null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -158,7 +158,7 @@ public class DDLDiff extends DDLNode {
 	public IDDL getLeftDDL() {
 		return leftDDL;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -167,7 +167,7 @@ public class DDLDiff extends DDLNode {
 	public IDDL getRightDDL() {
 		return rightDDL;
 	}
-	
+
 	public String getType() {
 		if (leftDDL != null) {
 			return leftDDL.getType();
@@ -175,5 +175,5 @@ public class DDLDiff extends DDLNode {
 			return rightDDL.getType();
 		}
 	}
-	
+
 }

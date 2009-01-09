@@ -56,6 +56,7 @@ import zigen.plugin.db.ui.jobs.AbstractJob;
 import zigen.plugin.db.ui.views.TableSearchThread;
 
 public class DDLDiffForFolderJob extends AbstractJob {
+
 	public static final String TargetFolderPattern = "^TABLE|^VIEW|^SYNONYM|^ALIAS"; //$NON-NLS-1$
 
 	public static final String TargetFolderPattern2 = "^FUNCTION|^PROCEDURE|^PACKAGE"; //$NON-NLS-1$
@@ -186,7 +187,7 @@ public class DDLDiffForFolderJob extends AbstractJob {
 			Schema schema = targetFolder.getSchema(); // スキーマサポートしていないDBではNULLになります。
 
 			// String[] tableTypes = schema.getDataBase().getTableType();
-			String[] tableTypes = new String[] { targetFolder.getName() };
+			String[] tableTypes = new String[] {targetFolder.getName()};
 
 			for (int i = 0; i < tableTypes.length; i++) {
 				if (monitor.isCanceled()) {
@@ -196,7 +197,7 @@ public class DDLDiffForFolderJob extends AbstractJob {
 				int totalWork = 0;
 				String currentType = tableTypes[i];
 
-				String[] types = new String[] { currentType };
+				String[] types = new String[] {currentType};
 
 				if (currentType.toUpperCase().matches(TargetFolderPattern)) {
 					TableInfo[] tables = new TableInfo[0];
@@ -346,33 +347,32 @@ public class DDLDiffForFolderJob extends AbstractJob {
 			break;
 		}
 
-		
-		
+
 		IDBConfig config = table.getDbConfig();
-		IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);		
+		IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
 		TableColumn[] columns = factory.execute(con, schemaName, tableName);
 
-		//TableColumn[] columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);
-		//pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
-		//fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
-		
-		IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);	
+		// TableColumn[] columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);
+		// pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
+		// fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
+
+		IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);
 		pks = constraintFactory.getPKColumns(con, schemaName, tableName);
 		fks = constraintFactory.getFKColumns(con, schemaName, tableName);
-		
+
 
 		if (!table.getFolderName().equals("VIEW")) { //$NON-NLS-1$
 
 			switch (DBType.getType(con.getMetaData())) {
 			case DBType.DB_TYPE_ORACLE:
-//				cons = OracleConstraintSearcher.getConstraintColumns(con, schemaName, tableName);
+				// cons = OracleConstraintSearcher.getConstraintColumns(con, schemaName, tableName);
 				cons = constraintFactory.getConstraintColumns(con, schemaName, tableName);
 				uidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, true);
 				nonuidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, false);
 				break;
 			default:
-				//uidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, true);
-				//nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, false);
+				// uidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, true);
+				// nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, false);
 				uidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, true);
 				nonuidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, false);
 				break;
@@ -434,8 +434,7 @@ public class DDLDiffForFolderJob extends AbstractJob {
 
 	public class ShowDiffView implements Runnable {
 
-		public ShowDiffView() {
-		}
+		public ShowDiffView() {}
 
 		public void run() {
 			try {
@@ -446,9 +445,9 @@ public class DDLDiffForFolderJob extends AbstractJob {
 				IWorkbenchPage page = DbPlugin.getDefault().getPage();
 				IEditorPart editor = IDE.openEditor(page, input, DDLDiffEditor.ID, true);
 
-//				if (editor instanceof DDLDiffEditor) {
-//					DDLDiffEditor dEditor = (DDLDiffEditor) editor;
-//				}
+				// if (editor instanceof DDLDiffEditor) {
+				// DDLDiffEditor dEditor = (DDLDiffEditor) editor;
+				// }
 
 			} catch (Exception e) {
 				DbPlugin.log(e);

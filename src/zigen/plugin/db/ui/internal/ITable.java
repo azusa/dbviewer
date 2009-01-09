@@ -74,5 +74,5 @@ public interface ITable extends INode {
 	public abstract Folder getFolder();
 
 	public abstract void setRemarks(String remarks);
-	
+
 }

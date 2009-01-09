@@ -45,8 +45,7 @@ import org.xml.sax.SAXException;
 import zigen.plugin.db.core.SchemaInfo;
 
 /**
- * DBDialogSettingクラス. org.eclipse.jface.dialogs.DialogSettingsクラスに
- * 保存したSectionを削除するメソッドを追加したクラス。
+ * DBDialogSettingクラス. org.eclipse.jface.dialogs.DialogSettingsクラスに 保存したSectionを削除するメソッドを追加したクラス。
  * 
  * original source:org.eclipse.jface.dialogs.DialogSettings
  * 
@@ -56,6 +55,7 @@ import zigen.plugin.db.core.SchemaInfo;
  * 
  */
 public class DBDialogSettings implements IDBDialogSettings {
+
 	private String name;
 
 	private Map sections;
@@ -63,7 +63,7 @@ public class DBDialogSettings implements IDBDialogSettings {
 	private Map items;
 
 	private Map arrayItems;
-	
+
 	private Map schemaInfoItems;
 
 	private final String TAG_SECTION = "section";//$NON-NLS-1$
@@ -77,16 +77,16 @@ public class DBDialogSettings implements IDBDialogSettings {
 	private final String TAG_LIST = "list";//$NON-NLS-1$
 
 	private final String TAG_ITEM = "item";//$NON-NLS-1$
-	
+
 
 	private final String TAG_SCHEMA_LIST = "schemas";//$NON-NLS-1$
+
 	private final String TAG_SCHEMA = "schema";//$NON-NLS-1$
+
 	private final String TAG_CHECKED = "checked";//$NON-NLS-1$
-	
+
 	/**
-	 * Create an empty dialog settings which loads and saves its content to a
-	 * file. Use the methods <code>load(String)</code> and
-	 * <code>store(String)</code> to load and store this dialog settings.
+	 * Create an empty dialog settings which loads and saves its content to a file. Use the methods <code>load(String)</code> and <code>store(String)</code> to load and store this dialog settings.
 	 * 
 	 * @param sectionName
 	 *            the name of the section in the settings.
@@ -128,7 +128,7 @@ public class DBDialogSettings implements IDBDialogSettings {
 	public String[] getArray(String key) {
 		return (String[]) arrayItems.get(key);
 	}
-	
+
 	/*
 	 * (non-Javadoc) Method declared on IDialogSettings.
 	 */
@@ -276,7 +276,7 @@ public class DBDialogSettings implements IDBDialogSettings {
 				Element child = (Element) l.item(i);
 				String key = child.getAttribute(TAG_KEY);
 				NodeList list = child.getElementsByTagName(TAG_ITEM);
-				
+
 				List valueList = new ArrayList();
 				for (int j = 0; j < list.getLength(); j++) {
 					Element node = (Element) list.item(j);
@@ -289,16 +289,16 @@ public class DBDialogSettings implements IDBDialogSettings {
 				arrayItems.put(key, value);
 			}
 		}
-		
+
 		l = root.getElementsByTagName(TAG_SCHEMA_LIST);
 		for (int i = 0; i < l.getLength(); i++) {
 			Node n = l.item(i);
 			if (root == n.getParentNode()) {
 				Element child = (Element) l.item(i);
 				String key = child.getAttribute(TAG_KEY);
-				
+
 				NodeList list = child.getElementsByTagName(TAG_SCHEMA);
-				
+
 				List valueList = new ArrayList();
 				for (int j = 0; j < list.getLength(); j++) {
 					Element node = (Element) list.item(j);
@@ -307,8 +307,8 @@ public class DBDialogSettings implements IDBDialogSettings {
 						s.setName(node.getAttribute(TAG_NAME));
 						s.setChecked(new Boolean(node.getAttribute(TAG_CHECKED)).booleanValue());
 						valueList.add(s);
-						//valueList.add(node.getAttribute(TAG_VALUE));
-						
+						// valueList.add(node.getAttribute(TAG_VALUE));
+
 					}
 				}
 				SchemaInfo[] value = new SchemaInfo[valueList.size()];
@@ -316,9 +316,8 @@ public class DBDialogSettings implements IDBDialogSettings {
 				schemaInfoItems.put(key, value);
 			}
 		}
-		
-		
-		
+
+
 		l = root.getElementsByTagName(TAG_SECTION);
 		for (int i = 0; i < l.getLength(); i++) {
 			Node n = l.item(i);
@@ -336,7 +335,7 @@ public class DBDialogSettings implements IDBDialogSettings {
 	public void put(String key, String[] value) {
 		arrayItems.put(key, value);
 	}
-	
+
 	/*
 	 * (non-Javadoc) Method declared on IDialogSettings.
 	 */
@@ -437,7 +436,7 @@ public class DBDialogSettings implements IDBDialogSettings {
 		}
 
 		for (Iterator i = arrayItems.keySet().iterator(); i.hasNext();) {
-			String key = (String)i.next();
+			String key = (String) i.next();
 			Element child = document.createElement(TAG_LIST);
 			root.appendChild(child);
 			child.setAttribute(TAG_KEY, key == null ? "" : key); //$NON-NLS-1$
@@ -451,24 +450,24 @@ public class DBDialogSettings implements IDBDialogSettings {
 				}
 			}
 		}
-		
+
 		for (Iterator i = schemaInfoItems.keySet().iterator(); i.hasNext();) {
-			String key = (String)i.next();
+			String key = (String) i.next();
 			Element child = document.createElement(TAG_SCHEMA_LIST);
 			root.appendChild(child);
 			child.setAttribute(TAG_KEY, key == null ? "" : key); //$NON-NLS-1$
-			SchemaInfo[] value = (SchemaInfo[])schemaInfoItems.get(key);
-			if(value != null){
+			SchemaInfo[] value = (SchemaInfo[]) schemaInfoItems.get(key);
+			if (value != null) {
 				for (int index = 0; index < value.length; index++) {
 					Element c = document.createElement(TAG_SCHEMA);
 					child.appendChild(c);
 					SchemaInfo schema = value[index];
 					c.setAttribute(TAG_NAME, schema.getName()); //$NON-NLS-1$
 					c.setAttribute(TAG_CHECKED, String.valueOf(schema.isChecked())); //$NON-NLS-1$   
-											
+
 				}
 			}
-			
+
 		}
 		for (Iterator i = sections.values().iterator(); i.hasNext();) {
 			((DBDialogSettings) i.next()).save(document, root);

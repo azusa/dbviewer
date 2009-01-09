@@ -20,17 +20,17 @@ import zigen.plugin.db.ui.editors.exceptions.NotFoundSynonymInfoException;
 import zigen.plugin.db.ui.internal.ITable;
 
 public class LoadColumnsJob extends AbstractLoadColumnJob {
-	
+
 	TreeViewer viewer;
-	
+
 	ITable[] tables;
-	
+
 	IDBConfig config;
-	
+
 	int total = 0;
-	
+
 	StringBuffer err = new StringBuffer();
-	
+
 	public LoadColumnsJob(TreeViewer viewer, IDBConfig config, ITable[] tables) {
 		super("Loading All column information...");
 		this.viewer = viewer;
@@ -40,16 +40,16 @@ public class LoadColumnsJob extends AbstractLoadColumnJob {
 			this.total = tables.length * 6;
 		}
 	}
-	
+
 	protected IStatus run(IProgressMonitor monitor) {
 		TimeWatcher tw = new TimeWatcher();
 		tw.start();
 		Connection con = null;
 		try {
 			con = ConnectionManager.getConnection(config);
-			
+
 			monitor.beginTask("Refresh Column...", total);
-			
+
 			for (int i = 0; i < tables.length; i++) {
 				ITable table = tables[i];
 				if (!table.isExpanded()) {
@@ -63,28 +63,28 @@ public class LoadColumnsJob extends AbstractLoadColumnJob {
 						}
 					} else {
 						loadTable(monitor, con, table, total);
-						
+
 					}
 				}
-				
+
 			}
-			
+
 		} catch (InterruptedException e) {
 			return Status.CANCEL_STATUS;
-			
+
 		} catch (Exception e) {
 			showErrorMessage(Messages.getString("RefreshColumnJob.2"), e);// //$NON-NLS-1$
 			return Status.CANCEL_STATUS;
-			
+
 		} finally {
 			ConnectionManager.closeConnection(con);
 			monitor.done();
-			
+
 		}
 		tw.stop();
 		return Status.OK_STATUS;
 	}
-	
+
 	private void loadTable(IProgressMonitor monitor, Connection con, ITable table, int total) throws Exception {
 		try {
 			monitor.subTask(Messages.getString("LoadColumnsJob.3") + table.getSqlTableName()); //$NON-NLS-1$
@@ -94,20 +94,20 @@ public class LoadColumnsJob extends AbstractLoadColumnJob {
 					table.setExpanded(false);
 					throw new InterruptedException();
 				}
-				
+
 				table.setExpanded(true);
 				// showResults(new RefreshTreeNodeAction(viewer, table));
 				// ƒJƒ‰ƒ€‚ð“WŠJ‚·‚é
 				showResults(new RefreshTreeNodeAction(viewer, table, RefreshTreeNodeAction.MODE_EXPAND));
 			}
-			
+
 		} catch (NotFoundSynonymInfoException e) {
 			table.setEnabled(false);
 			table.removeChildAll(); // Žqƒm[ƒh‚ð‘S‚Äíœ
 			showResults(new RefreshTreeNodeAction(viewer, table)); // Ä•`‰æ
 			// showErrorMessage(Messages.getString("RefreshColumnJob.1"), e);// //$NON-NLS-1$
 			throw e;
-			
+
 		} catch (Exception e) {
 			table.setExpanded(false);
 			// showErrorMessage(Messages.getString("RefreshColumnJob.2"), e);// //$NON-NLS-1$

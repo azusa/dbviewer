@@ -34,11 +34,11 @@ public interface IConstraintSearcherFactory {
 	public static final int TABLE_INDEX_OTHER = 3; // 上記以外インデックス．
 
 	TablePKColumn[] getPKColumns(Connection con, String schemaPattern, String tableName) throws Exception;
-	
+
 	TableFKColumn[] getFKColumns(Connection con, String schemaPattern, String tableName) throws Exception;
-	
+
 	TableIDXColumn[] getUniqueIDXColumns(Connection con, String schemaPattern, String tableName, boolean unique) throws Exception;
-	
+
 	TableConstraintColumn[] getConstraintColumns(Connection con, String schemaPattern, String tableName) throws Exception;
 
 }

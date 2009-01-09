@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Display;
  * 
  */
 public class ClipboardUtils {
+
 	private static Clipboard clipboard;
 
 	public static Clipboard getInstance() {

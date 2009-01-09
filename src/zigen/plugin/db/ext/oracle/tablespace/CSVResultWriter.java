@@ -24,6 +24,7 @@ import zigen.plugin.db.DbPlugin;
  * 
  */
 public class CSVResultWriter {
+
 	private char demiliter = ',';
 
 	private boolean append = false;
@@ -33,8 +34,7 @@ public class CSVResultWriter {
 	// private List csvList = null;
 	private String[] headers = null;
 
-	public CSVResultWriter() {
-	}
+	public CSVResultWriter() {}
 
 	public CSVResultWriter(char demiliter) {
 		this.demiliter = demiliter;

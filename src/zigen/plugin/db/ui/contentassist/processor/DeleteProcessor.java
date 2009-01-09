@@ -28,10 +28,10 @@ public class DeleteProcessor extends DefaultProcessor {
 		String[] modifiers = rule.getKeywordNames();
 		try {
 			ContentInfo ci = new ContentInfo(ContentAssistUtil.getIDBConfig());
-			
-			if(ci.isConnected()){
-				
-				TableInfo[] tinfos = ci.getTableInfo(); // 	テーブル情報リスト取得
+
+			if (ci.isConnected()) {
+
+				TableInfo[] tinfos = ci.getTableInfo(); // テーブル情報リスト取得
 
 				ASTFrom fromList = super.findASTFrom(st);
 				int fromItemCount = fromList != null ? super.getSizeRemoveComma(fromList) : 0;
@@ -39,8 +39,7 @@ public class DeleteProcessor extends DefaultProcessor {
 				switch (currentScope) {
 				case SqlParser.SCOPE_DELETE:
 					// Deleteのあとは、Fromのみ表示
-					modifiers = new String[]{
-						"from" //$NON-NLS-1$
+					modifiers = new String[] {"from" //$NON-NLS-1$
 					};
 					break;
 

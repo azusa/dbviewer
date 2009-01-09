@@ -19,8 +19,8 @@ import zigen.plugin.db.ui.actions.ConfirmConnectDBAction;
 public class ScriptExecJob extends SqlExecJob {
 
 	public ScriptExecJob(Transaction trans, String sqlString, String secondarlyId) {
-	    super(trans, sqlString, secondarlyId);
-	    super.setName(Messages.getString("ScriptExecJob.0")); //$NON-NLS-1$
+		super(trans, sqlString, secondarlyId);
+		super.setName(Messages.getString("ScriptExecJob.0")); //$NON-NLS-1$
 	}
 
 	protected IStatus run(IProgressMonitor monitor) {

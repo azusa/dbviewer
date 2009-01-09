@@ -34,8 +34,7 @@ public class BookmarkTransfer extends ByteArrayTransfer {
 
 	private static BookmarkTransfer instance = new BookmarkTransfer();
 
-	public BookmarkTransfer() {
-	}
+	public BookmarkTransfer() {}
 
 	public static BookmarkTransfer getInstance() {
 		return instance;
@@ -86,15 +85,11 @@ public class BookmarkTransfer extends ByteArrayTransfer {
 	}
 
 	protected String[] getTypeNames() {
-		return new String[] {
-			MYTYPENAME
-		};
+		return new String[] {MYTYPENAME};
 	}
 
 	protected int[] getTypeIds() {
-		return new int[] {
-			MYTYPEID
-		};
+		return new int[] {MYTYPEID};
 	}
 
 }

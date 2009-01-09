@@ -29,13 +29,13 @@ public class TableElementSearcher extends TableManager {
 			ITable table = element.getTable();
 
 			pks = table.getTablePKColumns();
-			
+
 			if (pks == null || pks.length == 0) {
 				// PK‚ª–³‚¢ê‡‚Ì‘Î‰
 				// Å‰‚ÌUniqueIndex‚Ì‚İÌ—p‚·‚é
 				uidxs = ConstraintUtil.getFirstUniqueIndex(table.getTableUIDXColumns());
 			}
-			
+
 			pst = createPreparedStatement(con, element, isNew);
 
 			rs = pst.executeQuery();

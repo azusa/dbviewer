@@ -92,11 +92,11 @@ public class BookmarkManager extends DefaultXmlManager {
 				Bookmark bm = (Bookmark) leaf;
 
 				bm.removeChildAll(); // ƒJƒ‰ƒ€‚ğ‚·‚×‚Äíœ
-				
+
 				TableColumn tColumn = new TableColumn();
 				tColumn.setColumnName(DbPluginConstant.TREE_LEAF_LOADING);
 				bm.addChild(new Column(tColumn));
-			
+
 				bm.setExpanded(false);
 
 			} else if (leaf instanceof TreeNode) {

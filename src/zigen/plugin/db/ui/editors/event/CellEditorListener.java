@@ -18,6 +18,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
  * 
  */
 public class CellEditorListener implements ICellEditorListener {
+
 	private TextCellEditor cellEditor;
 
 	/**
@@ -49,15 +50,14 @@ public class CellEditorListener implements ICellEditorListener {
 	 * @see org.eclipse.jface.viewers.ICellEditorListener#cancelEditor()
 	 */
 	public void cancelEditor() {
-		// 確定後フォーカス時の編集を不可能にする
-		// viewer.setCellEditors(null);
+	// 確定後フォーカス時の編集を不可能にする
+	// viewer.setCellEditors(null);
 	}
 
 	/*
 	 * (非 Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ICellEditorListener#editorValueChanged(boolean,
-	 *      boolean)
+	 * @see org.eclipse.jface.viewers.ICellEditorListener#editorValueChanged(boolean, boolean)
 	 */
 	public void editorValueChanged(boolean oldValidState, boolean newValidState) {
 		; // 何もしない

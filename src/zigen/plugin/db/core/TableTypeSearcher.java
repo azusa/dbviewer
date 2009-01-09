@@ -51,8 +51,8 @@ public class TableTypeSearcher {
 			switch (DBType.getType(con.getMetaData())) {
 			case DBType.DB_TYPE_ORACLE:
 				list.add("SEQUENCE"); //$NON-NLS-1$
-				//ここを追加する場合は、コード補完の場合の処理を見直すこと。
-				//list.add("INDEX"); // ADD //$NON-NLS-1$
+				// ここを追加する場合は、コード補完の場合の処理を見直すこと。
+				// list.add("INDEX"); // ADD //$NON-NLS-1$
 				// コード補完で、Functionも表示する
 				list.add("FUNCTION"); //$NON-NLS-1$
 				break;
@@ -79,7 +79,7 @@ public class TableTypeSearcher {
 			}
 			// 未サポートのDB用
 			return (String[]) list.toArray(new String[0]);
-			
+
 		} catch (Exception e) {
 			throw e;
 

@@ -13,6 +13,7 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.Transaction;
 
 abstract public class AbstractExecuteSQLForEditorAction extends Action implements Runnable {
+
 	protected SqlEditor2 editor;
 
 	public AbstractExecuteSQLForEditorAction(SqlEditor2 editor) {
@@ -25,17 +26,17 @@ abstract public class AbstractExecuteSQLForEditorAction extends Action implement
 		IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 		String sql = targetSql(doc);
 		if (sql != null && sql.trim().length() > 0) {
-			editor.toolBar.setDisplayResultChecked(true);	//Œ‹‰ÊView‚ð•\Ž¦
-			
+			editor.toolBar.setDisplayResultChecked(true); // Œ‹‰ÊView‚ð•\Ž¦
+
 			SqlExecJob2 job = new SqlExecJob2(editor, trans, targetSql(doc));
 			job.setUser(false);
 			job.schedule();
-		}else{
+		} else {
 			DbPlugin.getDefault().showWarningMessage("Please input SQL.");
 		}
 	}
 
 	abstract protected String targetSql(IDocument doc);
 
-	
+
 }

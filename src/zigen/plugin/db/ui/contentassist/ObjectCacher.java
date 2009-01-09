@@ -54,6 +54,7 @@ public class ObjectCacher {
 
 	private void starttimer() {
 		new Timer(true).schedule(new TimerTask() {
+
 			public void run() {
 				map.remove(key);
 				key = null;

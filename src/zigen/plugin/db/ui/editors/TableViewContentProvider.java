@@ -18,21 +18,20 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  */
 public class TableViewContentProvider implements IStructuredContentProvider {
+
 	Object[] contents;
 
-//	TableViewer viewer;
+	// TableViewer viewer;
 
-	public TableViewContentProvider() {
-	}
+	public TableViewContentProvider() {}
 
 	/*
 	 * (”ñ Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
-	 *      java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-//		this.viewer = (TableViewer) viewer;
+		// this.viewer = (TableViewer) viewer;
 		if (newInput instanceof Object[]) {
 			contents = (Object[]) newInput;
 		} else {

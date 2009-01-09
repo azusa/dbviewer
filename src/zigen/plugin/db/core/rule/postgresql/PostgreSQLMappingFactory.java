@@ -39,9 +39,9 @@ public class PostgreSQLMappingFactory extends DefaultMappingFactory implements I
 		// 旧Driverでも表示だけするなら、以下のコメントを外す
 		// case ORACLE_TIMESTAMP: // -100
 		// return getTimestamp(rs, icol);
-		case Types.REAL: // 一般的にはfloat   PostgreSQLのfloat4
+		case Types.REAL: // 一般的にはfloat PostgreSQLのfloat4
 			return getFloat(rs, icol);
-			//return getBigDecimal(rs, icol);
+			// return getBigDecimal(rs, icol);
 		default:
 			return super.getObject(rs, icol);
 		}
@@ -57,7 +57,7 @@ public class PostgreSQLMappingFactory extends DefaultMappingFactory implements I
 			switch (type) {
 			case Types.REAL:
 				setFloat(pst, icol, str);
-				//setBigDecimal(pst, icol, str);
+				// setBigDecimal(pst, icol, str);
 				break;
 			default:
 				super.setObject(pst, icol, column, value);

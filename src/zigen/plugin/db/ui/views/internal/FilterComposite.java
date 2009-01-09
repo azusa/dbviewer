@@ -24,8 +24,8 @@ public class FilterComposite {
 
 	protected PluginSettingsManager pluginMgr = DbPlugin.getDefault().getPluginSettingsManager();
 
-//	boolean checkFilterPattern;
-	
+	// boolean checkFilterPattern;
+
 	Button visibleCheck;
 
 	Text filterText;
@@ -42,7 +42,7 @@ public class FilterComposite {
 		group.setText(groupName);
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group.setLayout(new GridLayout(1, false));
-		
+
 		Composite innerPanel1 = new Composite(group, SWT.NONE);
 		GridLayout gridLayout = new GridLayout(1, false);
 		gridLayout.marginHeight = 0;
@@ -56,6 +56,7 @@ public class FilterComposite {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		visibleCheck.setLayoutData(data);
 		visibleCheck.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				if (visibleCheck.getSelection()) {
 					filterText.setEnabled(true);
@@ -83,8 +84,8 @@ public class FilterComposite {
 		label.setText(Messages.getString("FilterComposite.1")); //$NON-NLS-1$
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		label.setLayoutData(data);
-		
-		
+
+
 		Composite innerPanel2 = new Composite(group, SWT.NONE);
 		gridLayout = new GridLayout(3, false);
 		gridLayout.marginHeight = 0;
@@ -100,6 +101,7 @@ public class FilterComposite {
 		data = new GridData();
 		regularExpressions.setLayoutData(data);
 		regularExpressions.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				label.setVisible(!regularExpressions.getSelection());
 			}
@@ -112,15 +114,15 @@ public class FilterComposite {
 		data = new GridData();
 		data.horizontalAlignment = GridData.END;
 		caseSensitive.setLayoutData(data);
-		
+
 
 	}
-	
+
 	private void setEnabled(boolean b) {
 		filterText.setEnabled(b);
 		regularExpressions.setEnabled(b);
 		caseSensitive.setEnabled(b);
 	}
 
-	
+
 }

@@ -10,6 +10,7 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.OracleColumn;
 
 public class ColumnFilterInfo {
+
 	private Column column;
 
 	private TableColumn fTableColumn;
@@ -21,9 +22,8 @@ public class ColumnFilterInfo {
 		this.fTableColumn = col.getColumn();
 	}
 
-	public ColumnFilterInfo() {
-	}
-	
+	public ColumnFilterInfo() {}
+
 	public boolean isChecked() {
 		return checked;
 	}
@@ -63,10 +63,10 @@ public class ColumnFilterInfo {
 			return column.getRemarks();
 		}
 	}
-	
+
 	// ï¿Ç—èáéwíË
 	private int sortNo = 0;
-	
+
 	private boolean isDesc = false;
 
 	public int getSortNo() {
@@ -93,6 +93,6 @@ public class ColumnFilterInfo {
 		this.column = col;
 		this.fTableColumn = col.getColumn();
 	}
-	
+
 
 }

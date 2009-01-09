@@ -6,11 +6,11 @@
 package zigen.plugin.db.ui.editors.exceptions;
 
 public class NotFoundColumnInfoException extends Exception {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public NotFoundColumnInfoException(String message) {
 		super(message);
 	}
-	
+
 }

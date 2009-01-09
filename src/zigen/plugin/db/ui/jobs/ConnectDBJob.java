@@ -48,12 +48,12 @@ public class ConnectDBJob extends AbstractJob {
 	}
 
 	protected IStatus run(IProgressMonitor monitor) {
-		
+
 		try {
 			synchronized (viewer) {
-				//TimeWatcher tw = new TimeWatcher(); tw.start();
+				// TimeWatcher tw = new TimeWatcher(); tw.start();
 				monitor.beginTask("Connect DataBase...", 3);
-				//monitor.worked(1);
+				// monitor.worked(1);
 
 				IDBConfig config = db.getDbConfig();
 
@@ -66,7 +66,7 @@ public class ConnectDBJob extends AbstractJob {
 
 				if (timeout > 0) {
 					th.join(timeout * 1000); // 5秒のタイムアウトを設定
-				}else{
+				} else {
 					th.join();
 				}
 				if (monitor.isCanceled()) {
@@ -111,18 +111,18 @@ public class ConnectDBJob extends AbstractJob {
 				// 利用可能なテーブルタイプを取得
 				String[] tableTypes = TableTypeSearcher.execute(con);
 				monitor.worked(1);
-				
+
 				db.setTableType(tableTypes);
 
 				if (db.isSchemaSupport()) {
-					//TimeWatcher tw2 = new TimeWatcher(); tw2.start();
+					// TimeWatcher tw2 = new TimeWatcher(); tw2.start();
 					String[] schemas = SchemaSearcher.execute(con);
-					
+
 					addSchemas(db, schemas);
 
 				} else {
 					for (int i = 0; i < tableTypes.length; i++) {
-						String[] type = new String[] { tableTypes[i] };
+						String[] type = new String[] {tableTypes[i]};
 
 						if (tableTypes[i].toUpperCase().matches(VisibleFolderPattern)) {
 							addTables(db, tableTypes[i], TableSearcher.execute(con, null, type));
@@ -138,7 +138,6 @@ public class ConnectDBJob extends AbstractJob {
 				db.setConnected(true);
 
 
-				
 				// 結果反映
 				showResults(new RefreshTreeNodeAction(viewer, db, RefreshTreeNodeAction.MODE_EXPAND));
 
@@ -160,8 +159,8 @@ public class ConnectDBJob extends AbstractJob {
 
 	private void addSchemas(DataBase db, String[] schemas) throws Exception {
 
-		
-		//boolean onlyDefaultSchema = db.getDbConfig().isOnlyDefaultSchema();
+
+		// boolean onlyDefaultSchema = db.getDbConfig().isOnlyDefaultSchema();
 		boolean onlyDefaultSchema = false; // スキーマフィルターにより未使用
 
 		for (int i = 0; i < schemas.length; i++) {
@@ -181,7 +180,7 @@ public class ConnectDBJob extends AbstractJob {
 
 				if (viewer instanceof TreeViewer) {
 					// スキーマ配下検索ジョブ
-					//TimeWatcher tw = new TimeWatcher(); tw.start();
+					// TimeWatcher tw = new TimeWatcher(); tw.start();
 					TableTypeSearchJob job = new TableTypeSearchJob(viewer, schema);
 					job.setPriority(TableTypeSearchJob.SHORT);
 					job.schedule();

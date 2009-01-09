@@ -15,9 +15,9 @@ package zigen.plugin.db.ui.internal;
  * 
  */
 public class OracleFunction extends OracleSource {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -26,7 +26,7 @@ public class OracleFunction extends OracleSource {
 	public OracleFunction(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -35,5 +35,5 @@ public class OracleFunction extends OracleSource {
 	public OracleFunction() {
 		super();
 	}
-	
+
 }

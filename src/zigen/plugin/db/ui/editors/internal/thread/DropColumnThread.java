@@ -10,6 +10,7 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
 public class DropColumnThread extends AbstractSQLThread {
+
 	private Column column;
 
 	private boolean cascadeConstraints;

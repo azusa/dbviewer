@@ -29,12 +29,13 @@ import zigen.plugin.db.DbPlugin;
  * 
  */
 public class SQLEditorPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+
 	public static final String DESC = Messages.getString("SQLEditorPreferencePage.0"); //$NON-NLS-1$
 
 	public static final String P_COLOR_KEYWORD = "SQLEditorPreferencePage.ColorKeyword"; //$NON-NLS-1$
 
 	public static final String P_COLOR_FUNCTION = "SQLEditorPreferencePage.ColorFunction"; //$NON-NLS-1$
-	
+
 	public static final String P_COLOR_COMMENT = "SQLEditorPreferencePage.ColorComment"; //$NON-NLS-1$
 
 	public static final String P_COLOR_STRING = "SQLEditorPreferencePage.ColorString"; //$NON-NLS-1$
@@ -51,17 +52,16 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 
 	public static final String P_COLOR_FIND_SCOPE = "SQLEditorPreferencePage.ColorFindScope"; //$NON-NLS-1$
 
-    public static final String P_COLOR_CURSOR_LINE = "SQLEditorPreferencePage.CursorLine"; //$NON-NLS-1$
+	public static final String P_COLOR_CURSOR_LINE = "SQLEditorPreferencePage.CursorLine"; //$NON-NLS-1$
 
 	// public static final String P_LINE_DEMILITER =
 	// "SQLEditorPreferencePage.LineDemiliter";
 
 	public static final String P_SQL_DEMILITER = "SQLEditorPreferencePage.SqlDemiliter"; //$NON-NLS-1$
 
-	//public static final String P_FORMAT_PATCH = "SQLEditorPreferencePage.FormatPatch"; //$NON-NLS-1$
+	// public static final String P_FORMAT_PATCH = "SQLEditorPreferencePage.FormatPatch"; //$NON-NLS-1$
 
-	public void init(IWorkbench workbench) {
-	}
+	public void init(IWorkbench workbench) {}
 
 	public SQLEditorPreferencePage() {
 		super(GRID);
@@ -70,33 +70,21 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 	}
 
 	// 改行コードの扱い
-	private String[][] radioLine = new String[][] {
-			new String[] {
-					"CR+LF (Windows)", "\r\n" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			new String[] {
-					"LF (Unix)", "\n" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			new String[] {
-					"CR (Mac)", "\r" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-	};
+	private String[][] radioLine = new String[][] {new String[] {"CR+LF (Windows)", "\r\n" //$NON-NLS-1$ //$NON-NLS-2$
+	}, new String[] {"LF (Unix)", "\n" //$NON-NLS-1$ //$NON-NLS-2$
+	}, new String[] {"CR (Mac)", "\r" //$NON-NLS-1$ //$NON-NLS-2$
+	},};
 
 	// SQL区切り
-	private String[][] radioSql = new String[][] {
-			new String[] {
-					Messages.getString("SQLEditorPreferencePage.18"), "/" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			new String[] {
-					Messages.getString("SQLEditorPreferencePage.20"), ";" //$NON-NLS-1$ //$NON-NLS-2$
-			}
-	};
+	private String[][] radioSql = new String[][] {new String[] {Messages.getString("SQLEditorPreferencePage.18"), "/" //$NON-NLS-1$ //$NON-NLS-2$
+	}, new String[] {Messages.getString("SQLEditorPreferencePage.20"), ";" //$NON-NLS-1$ //$NON-NLS-2$
+	}};
 
 	public void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
 		addOption1(parent);
 		addOption2(parent);
-		//addOption3(parent);
+		// addOption3(parent);
 	}
 
 	private void addOption1(Composite parent) {
@@ -122,7 +110,7 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 		addField(new ColorFieldEditor(P_COLOR_SELECT_BACK, Messages.getString("SQLEditorPreferencePage.29"), grp)); //$NON-NLS-1$
 		addField(new ColorFieldEditor(P_COLOR_MATCHING, Messages.getString("SQLEditorPreferencePage.30"), grp)); //$NON-NLS-1$
 		addField(new ColorFieldEditor(P_COLOR_FIND_SCOPE, Messages.getString("SQLEditorPreferencePage.34"), grp)); //$NON-NLS-1$
-        addField(new ColorFieldEditor(P_COLOR_CURSOR_LINE, Messages.getString("SQLEditorPreferencePage.37"), grp)); //$NON-NLS-1$
+		addField(new ColorFieldEditor(P_COLOR_CURSOR_LINE, Messages.getString("SQLEditorPreferencePage.37"), grp)); //$NON-NLS-1$
 
 	}
 
@@ -148,25 +136,25 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 
 	}
 
-//	private void addOption3(Composite parent) {
-//		Group group = new Group(parent, SWT.NONE);
-//		FillLayout layout = new FillLayout(SWT.HORIZONTAL);
-//		layout.marginHeight = 4;
-//		layout.marginWidth = 4;
-//		group.setLayout(layout);
-//		group.setText(Messages.getString("SQLEditorPreferencePage.31")); //$NON-NLS-1$
-//		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-//		gd.horizontalSpan = 2;
-//		group.setLayoutData(gd);
-//		Composite grp = new Composite(group, SWT.NONE);
-//		grp.setLayout(new GridLayout(2, false));
-//
-//		StringBuffer sb = new StringBuffer();
-//		sb.append(Messages.getString("SQLEditorPreferencePage.36")); //$NON-NLS-1$
-//		addField(new BooleanFieldEditor(P_FORMAT_PATCH, sb.toString(), grp));
-//
-//		Label label = new Label(grp, SWT.NONE);
-//		label.setText(Messages.getString("SQLEditorPreferencePage.35")); //$NON-NLS-1$
-//	}
+	// private void addOption3(Composite parent) {
+	// Group group = new Group(parent, SWT.NONE);
+	// FillLayout layout = new FillLayout(SWT.HORIZONTAL);
+	// layout.marginHeight = 4;
+	// layout.marginWidth = 4;
+	// group.setLayout(layout);
+	// group.setText(Messages.getString("SQLEditorPreferencePage.31")); //$NON-NLS-1$
+	// GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+	// gd.horizontalSpan = 2;
+	// group.setLayoutData(gd);
+	// Composite grp = new Composite(group, SWT.NONE);
+	// grp.setLayout(new GridLayout(2, false));
+	//
+	// StringBuffer sb = new StringBuffer();
+	// sb.append(Messages.getString("SQLEditorPreferencePage.36")); //$NON-NLS-1$
+	// addField(new BooleanFieldEditor(P_FORMAT_PATCH, sb.toString(), grp));
+	//
+	// Label label = new Label(grp, SWT.NONE);
+	// label.setText(Messages.getString("SQLEditorPreferencePage.35")); //$NON-NLS-1$
+	// }
 
 }

@@ -92,13 +92,13 @@ public class DriverSearcherThread implements Runnable {
 					return;
 				}
 			} catch (NoClassDefFoundError ex) {
-				//DbPlugin.log(ex);
+				// DbPlugin.log(ex);
 			} catch (ClassNotFoundException ex) {
-				//DbPlugin.log(ex);
+				// DbPlugin.log(ex);
 			} catch (SecurityException ex) {
-				//DbPlugin.log(ex);
+				// DbPlugin.log(ex);
 			} catch (Throwable ex) {
-				//DbPlugin.log(ex);
+				// DbPlugin.log(ex);
 			}
 		}
 	}

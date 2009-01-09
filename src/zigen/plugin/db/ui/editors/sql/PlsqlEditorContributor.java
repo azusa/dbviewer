@@ -25,8 +25,7 @@ public class PlsqlEditorContributor extends SqlEditorContributor {
 	 * コンストラクタ
 	 * 
 	 */
-	public PlsqlEditorContributor() {
-	}
+	public PlsqlEditorContributor() {}
 
 	public void init(IActionBars bars, IWorkbenchPage page) {
 		super.init(bars, page);
@@ -62,13 +61,12 @@ public class PlsqlEditorContributor extends SqlEditorContributor {
 		super.contributeToToolBar(manager);
 	}
 
-	public void contributeToMenu(IMenuManager menu) {
-	}
+	public void contributeToMenu(IMenuManager menu) {}
 
 	public void setActivePage(IEditorPart target) {
 		if (target != null && target instanceof PlsqlEditor) {
 			sqlViewer = ((PlsqlEditor) target).sqlViewer;
-			
+
 		}
 	}
 

@@ -65,7 +65,7 @@ public class CopyNodeNameAction extends Action {
 					sb.append(folder.getName());
 					sb.append("]");
 					sb.append(DbPluginConstant.LINE_SEP);
-					
+
 				} else if (obj instanceof DDLNode) {
 					DDLNode node = (DDLNode) obj;
 					if (index == 0) {
@@ -82,7 +82,7 @@ public class CopyNodeNameAction extends Action {
 			}
 
 			if (index > 0) {
-				clipboard.setContents(new Object[] { sb.toString() }, new Transfer[] { TextTransfer.getInstance() });
+				clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 			}
 
 		} catch (Exception e) {

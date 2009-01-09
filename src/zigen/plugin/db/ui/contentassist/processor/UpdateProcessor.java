@@ -28,9 +28,9 @@ public class UpdateProcessor extends DefaultProcessor {
 		String[] modifiers = rule.getKeywordNames();
 		try {
 			ContentInfo ci = new ContentInfo(ContentAssistUtil.getIDBConfig());
-			
-			if(ci.isConnected()){
-				TableInfo[] tinfos = ci.getTableInfo(); // 	テーブル情報リスト取得
+
+			if (ci.isConnected()) {
+				TableInfo[] tinfos = ci.getTableInfo(); // テーブル情報リスト取得
 				ASTTable table = findASTTable(st);
 				switch (currentScope) {
 				case SqlParser.SCOPE_UPDATE:

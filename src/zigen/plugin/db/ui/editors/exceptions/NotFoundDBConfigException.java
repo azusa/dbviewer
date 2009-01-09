@@ -6,11 +6,11 @@
 package zigen.plugin.db.ui.editors.exceptions;
 
 public class NotFoundDBConfigException extends RuntimeException {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public NotFoundDBConfigException(String message) {
 		super(message);
 	}
-	
+
 }

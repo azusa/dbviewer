@@ -11,6 +11,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.widgets.TableColumn;
 
 public class TableColumnContorolListener extends ControlAdapter {
+
 	private TableViewer viewer = null;
 
 	private int columnIndex;

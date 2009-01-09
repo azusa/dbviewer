@@ -28,6 +28,7 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  */
 public class CopyTableNameWithRemarksAction extends Action implements Runnable {
+
 	// private final String LINE_SEP = System.getProperty("line.separator");
 
 	StructuredViewer viewer = null;
@@ -65,24 +66,20 @@ public class CopyTableNameWithRemarksAction extends Action implements Runnable {
 					} else {
 						sb.append(", " + table.getName()); //$NON-NLS-1$
 					}
-					
+
 					String remarks = table.getRemarks();
-					if(remarks != null && !"".equals(remarks.trim())){ //$NON-NLS-1$
+					if (remarks != null && !"".equals(remarks.trim())) { //$NON-NLS-1$
 						sb.append("("); //$NON-NLS-1$
 						sb.append(remarks);
 						sb.append(")"); //$NON-NLS-1$
 					}
-					
+
 					index++;
 				}
 
 			}
 
-			clipboard.setContents(new Object[] {
-				sb.toString()
-			}, new Transfer[] {
-				TextTransfer.getInstance()
-			});
+			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

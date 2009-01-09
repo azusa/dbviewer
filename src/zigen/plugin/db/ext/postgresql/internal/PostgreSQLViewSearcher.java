@@ -69,7 +69,7 @@ public class PostgreSQLViewSearcher {
 		sb.append("    WHERE");
 		sb.append("        schemaname = '" + SQLUtil.encodeQuotation(owner) + "'");
 		sb.append("        AND viewname = '" + SQLUtil.encodeQuotation(view) + "'");
-		return sb.toString();		
+		return sb.toString();
 	}
 
 }

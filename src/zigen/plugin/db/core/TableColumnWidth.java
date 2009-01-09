@@ -24,8 +24,7 @@ public class TableColumnWidth {
 
 	private int[] widths;
 
-	public TableColumnWidth() {
-	}
+	public TableColumnWidth() {}
 
 	public String getSchema() {
 		return schema;

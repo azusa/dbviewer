@@ -114,9 +114,9 @@ public class ColumnFilterDialog extends Dialog {
 			setReturnCode(buttonId);
 			close();
 		} else if (buttonId == IDialogConstants.OK_ID) {
-			
-//			int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
-			
+
+			// int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
+
 			RecordSearchJob job1 = new RecordSearchJob(editor, editor.getCondition(), editor.getOrderByString(), editor.offset, editor.limit);
 			job1.setPriority(RecordSearchJob.SHORT);
 			job1.setUser(true);
@@ -151,9 +151,9 @@ public class ColumnFilterDialog extends Dialog {
 	Button regularExpressions;
 
 	Button caseSensitive;
-	
+
 	boolean isFilterPattern;
-	
+
 	String filterPattern;
 
 	protected Control createDialogArea(Composite parent) {
@@ -180,14 +180,15 @@ public class ColumnFilterDialog extends Dialog {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		visibleCheck.setLayoutData(data);
-		visibleCheck.addSelectionListener(new SelectionAdapter(){
+		visibleCheck.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
-				if(visibleCheck.getSelection()){
+				if (visibleCheck.getSelection()) {
 					filterText.setEnabled(true);
 					regularExpressions.setEnabled(true);
 					caseSensitive.setEnabled(true);
 					filter(filterText.getText());
-				}else{
+				} else {
 					filterText.setEnabled(false);
 					regularExpressions.setEnabled(false);
 					caseSensitive.setEnabled(false);
@@ -195,7 +196,7 @@ public class ColumnFilterDialog extends Dialog {
 				}
 				isFilterPattern = visibleCheck.getSelection();
 			}
-			
+
 		});
 
 		// Label label2 = new Label(innerPanel1, SWT.NONE);
@@ -210,8 +211,9 @@ public class ColumnFilterDialog extends Dialog {
 		filterText.addFocusListener(new TextSelectionListener());
 		filterText.setFont(DbPlugin.getDefaultFont());
 		filterText.addKeyListener(new KeyAdapter() {
+
 			public void keyReleased(KeyEvent e) {
-				// filter(filterText.getText());
+			// filter(filterText.getText());
 			}
 
 		});
@@ -226,13 +228,13 @@ public class ColumnFilterDialog extends Dialog {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		// data.horizontalAlignment = GridData.END;
 		innerPanel2.setLayoutData(data);
-		
-		
+
+
 		final Label label = new Label(innerPanel2, SWT.NONE);
 		label.setText(Messages.getString("ColumnFilterDialog.23")); //$NON-NLS-1$
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		label.setLayoutData(data);
-		
+
 
 		regularExpressions = new Button(innerPanel2, SWT.CHECK);
 		regularExpressions.setEnabled(false);
@@ -241,13 +243,14 @@ public class ColumnFilterDialog extends Dialog {
 		data = new GridData();
 		// data.horizontalAlignment = GridData.END;
 		regularExpressions.setLayoutData(data);
-		regularExpressions.addSelectionListener(new SelectionAdapter(){
+		regularExpressions.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				label.setVisible(!regularExpressions.getSelection());
 			}
 		});
 
-		
+
 		caseSensitive = new Button(innerPanel2, SWT.CHECK);
 		caseSensitive.setEnabled(false);
 		caseSensitive.setText(Messages.getString("ColumnFilterDialog.17")); //$NON-NLS-1$
@@ -267,13 +270,13 @@ public class ColumnFilterDialog extends Dialog {
 		// TableViewerにスクロールを表示させるために以下の設定を行う(重要)
 		columnTableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		
+
 		Label label3 = new Label(tableComposite, SWT.NONE);
 		label3.setText(Messages.getString("ColumnFilterDialog.12")); //$NON-NLS-1$
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		label3.setLayoutData(data);
 
-		
+
 		Table table = columnTableViewer.getTable();
 		table.setFont(DbPlugin.getDefaultFont());
 
@@ -283,7 +286,7 @@ public class ColumnFilterDialog extends Dialog {
 		setHeaderColumn(table, headers);
 
 		columnTableViewer.setColumnProperties(new String[] { // "dummy",
-						// "check",
+				// "check",
 						// "check",
 						// "check",
 						// "check",
@@ -305,19 +308,7 @@ public class ColumnFilterDialog extends Dialog {
 
 		CheckboxCellEditor checkEditor = new CheckboxCellEditor(table);
 		CheckboxCellEditor checkEditor2 = new CheckboxCellEditor(table);
-		CellEditor[] editors = new CellEditor[] {
-				null,
-				checkEditor,
-				checkEditor2,
-				checkEditor2,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null
-		};
+		CellEditor[] editors = new CellEditor[] {null, checkEditor, checkEditor2, checkEditor2, null, null, null, null, null, null, null};
 
 		columnTableViewer.setCellEditors(editors);
 		columnTableViewer.setCellModifier(new ColumnSelectCellModifier());
@@ -327,32 +318,31 @@ public class ColumnFilterDialog extends Dialog {
 		columnTableViewer.setInput(editor.filterInfos);
 		columnsPack(table);
 
-		
+
 		// デフォルトの設定
 		filterPattern = (editor.filterPattern == null) ? "" : editor.filterPattern; //$NON-NLS-1$
 		filterText.setText(filterPattern);
-		
+
 		visibleCheck.setSelection(editor.checkFilterPattern);
-		
-		
-		//<-- これは実行しない(Filterパターンの検索が走ってしまうため）
-		//visibleCheck.notifyListeners(SWT.Selection, null);
-		if(visibleCheck.getSelection()){
+
+
+		// <-- これは実行しない(Filterパターンの検索が走ってしまうため）
+		// visibleCheck.notifyListeners(SWT.Selection, null);
+		if (visibleCheck.getSelection()) {
 			filterText.setEnabled(true);
 			regularExpressions.setEnabled(true);
 			caseSensitive.setEnabled(true);
-		}else{
+		} else {
 			filterText.setEnabled(false);
 			regularExpressions.setEnabled(false);
 			caseSensitive.setEnabled(false);
 		}
 		isFilterPattern = visibleCheck.getSelection();
 		// -->
-		
+
 		return composite;
 	}
-	
-	
+
 
 	private void selectAllHandler() {
 		for (int i = 0; i < columnTableViewer.getTable().getItemCount(); i++) {
@@ -365,9 +355,9 @@ public class ColumnFilterDialog extends Dialog {
 	private void removeAllHandler() {
 		for (int i = 0; i < columnTableViewer.getTable().getItemCount(); i++) {
 			ColumnFilterInfo info = (ColumnFilterInfo) columnTableViewer.getElementAt(i);
-			if(info.isPrimaryKey()){
+			if (info.isPrimaryKey()) {
 				info.setChecked(true);
-			}else{
+			} else {
 				info.setChecked(false);
 			}
 		}
@@ -540,8 +530,7 @@ public class ColumnFilterDialog extends Dialog {
 
 	private class ColumnSelectCellModifier implements ICellModifier {
 
-		public ColumnSelectCellModifier() {
-		}
+		public ColumnSelectCellModifier() {}
 
 		public boolean canModify(Object element, String property) {
 			return true;
@@ -567,8 +556,7 @@ public class ColumnFilterDialog extends Dialog {
 			if (property == "check" && !info.isPrimaryKey()) { //$NON-NLS-1$
 				info.setChecked(((Boolean) value).booleanValue());
 				// テーブル・ビューワを更新
-				columnTableViewer.update(element, new String[] {
-					"check"}); //$NON-NLS-1$
+				columnTableViewer.update(element, new String[] {"check"}); //$NON-NLS-1$
 
 			} else if (property == "sort") { //$NON-NLS-1$
 				int current = info.getSortNo();
@@ -576,12 +564,10 @@ public class ColumnFilterDialog extends Dialog {
 				if (current == 0) {
 					info.setSortNo(++currentSortNumber);
 					info.setDesc(false);
-					columnTableViewer.update(element, new String[] {
-						"sort"}); //$NON-NLS-1$
+					columnTableViewer.update(element, new String[] {"sort"}); //$NON-NLS-1$
 				} else if (!info.isDesc()) {
 					info.setDesc(true);
-					columnTableViewer.update(element, new String[] {
-						"sort"}); //$NON-NLS-1$
+					columnTableViewer.update(element, new String[] {"sort"}); //$NON-NLS-1$
 				} else if (info.isDesc()) {
 					info.setSortNo(0);
 					updateAll();
@@ -609,8 +595,7 @@ public class ColumnFilterDialog extends Dialog {
 			info.setSortNo(++cnt);
 		}
 		currentSortNumber = cnt;
-		columnTableViewer.update(infos, new String[] {
-			"sort"}); //$NON-NLS-1$
+		columnTableViewer.update(infos, new String[] {"sort"}); //$NON-NLS-1$
 	}
 
 	// /**
@@ -622,9 +607,10 @@ public class ColumnFilterDialog extends Dialog {
 
 
 	private void filter(String condition) {
-		
-		if(!visibleCheck.getSelection()) return; // 条件が無い場合は抜ける
-		
+
+		if (!visibleCheck.getSelection())
+			return; // 条件が無い場合は抜ける
+
 		for (int i = 0; i < columnTableViewer.getTable().getItemCount(); i++) {
 			ColumnFilterInfo info = (ColumnFilterInfo) columnTableViewer.getElementAt(i);
 			if (!info.isPrimaryKey()) {
@@ -679,6 +665,7 @@ public class ColumnFilterDialog extends Dialog {
 
 
 	class AutoDelayFilterListener extends AutoDelayListener {
+
 		private static final int delayTime = 300;
 
 		public AutoDelayFilterListener() {
@@ -687,6 +674,7 @@ public class ColumnFilterDialog extends Dialog {
 
 		public Runnable createExecutAction() {
 			return new Runnable() {
+
 				public void run() {
 					try {
 						filterPattern = filterText.getText();

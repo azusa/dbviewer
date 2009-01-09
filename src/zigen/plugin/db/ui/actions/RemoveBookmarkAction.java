@@ -28,6 +28,7 @@ import zigen.plugin.db.ui.views.TreeContentProvider;
  * 
  */
 public class RemoveBookmarkAction extends Action implements Runnable {
+
 	// private BookmarkManager bookMarkMgr =
 	// DbPlugin.getDefault().getBookmarkManager();
 

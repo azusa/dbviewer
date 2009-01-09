@@ -3,12 +3,12 @@
  * ライセンス：Eclipse Public License - v 1.0 
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
-    package zigen.plugin.db.ui.editors.sql;
+package zigen.plugin.db.ui.editors.sql;
 
 import zigen.plugin.db.core.IDBConfig;
 
-public interface ISqlEditor{
-	
-    public IDBConfig getConfig();
-    
+public interface ISqlEditor {
+
+	public IDBConfig getConfig();
+
 }

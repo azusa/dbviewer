@@ -19,15 +19,15 @@ import java.util.List;
  * 
  */
 public class TreeNode extends TreeLeaf {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected List children;
-	
+
 	protected boolean isRoot;
-	
+
 	protected boolean isExpanded = false; // 展開済みかどうか（キャッシュの判定用）
-	
+
 	/**
 	 * デフォルトコンストラクタ.
 	 * 
@@ -36,7 +36,7 @@ public class TreeNode extends TreeLeaf {
 	public TreeNode() {
 		this(null, false);
 	}
-	
+
 	/**
 	 * コンストラクタ. このコンストラクタを使用するとisRootがfalseで設定されます
 	 * 
@@ -45,7 +45,7 @@ public class TreeNode extends TreeLeaf {
 	public TreeNode(String name) {
 		this(name, false);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -57,7 +57,7 @@ public class TreeNode extends TreeLeaf {
 		children = new ArrayList();
 		this.isRoot = isRoot;
 	}
-	
+
 	/**
 	 * 子の追加
 	 * 
@@ -68,7 +68,7 @@ public class TreeNode extends TreeLeaf {
 		child.setParent(this);
 		child.setLevel(level + 1);
 	}
-	
+
 	/**
 	 * 子の削除
 	 * 
@@ -80,7 +80,7 @@ public class TreeNode extends TreeLeaf {
 			child.setParent(null);
 		}
 	}
-	
+
 	/**
 	 * 子をすべて削除
 	 */
@@ -91,7 +91,7 @@ public class TreeNode extends TreeLeaf {
 			removeChild(elem);
 		}
 	}
-	
+
 	/**
 	 * 子を取得
 	 * 
@@ -100,7 +100,7 @@ public class TreeNode extends TreeLeaf {
 	public TreeLeaf[] getChildrens() {
 		return (TreeLeaf[]) children.toArray(new TreeLeaf[children.size()]);
 	}
-	
+
 	// 追加メソッド 2003.
 	public TreeLeaf getChild(String name) {
 		TreeLeaf[] elements = getChildrens();
@@ -112,7 +112,7 @@ public class TreeNode extends TreeLeaf {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 子を持っているかを返す
 	 * 
@@ -121,7 +121,7 @@ public class TreeNode extends TreeLeaf {
 	public boolean hasChildren() {
 		return children.size() > 0;
 	}
-	
+
 	/**
 	 * invisibleRootか返す
 	 * 
@@ -130,7 +130,7 @@ public class TreeNode extends TreeLeaf {
 	public boolean isRoot() {
 		return isRoot;
 	}
-	
+
 	/**
 	 * 展開されているかどうかを返す
 	 * 
@@ -139,7 +139,7 @@ public class TreeNode extends TreeLeaf {
 	public boolean isExpanded() {
 		return isExpanded;
 	}
-	
+
 	/**
 	 * 展開状態かどうかを設定する
 	 * 
@@ -148,23 +148,23 @@ public class TreeNode extends TreeLeaf {
 	public void setExpanded(boolean isExpanded) {
 		this.isExpanded = isExpanded;
 	}
-	
+
 	public void setChildren(List children) {
 		this.children = children;
-		
+
 		// parentを再設定
 		for (Iterator iter = children.iterator(); iter.hasNext();) {
 			TreeNode node = (TreeNode) iter.next();
 			node.setParent(this);
 			node.setLevel(level + 1);
 		}
-		
+
 	}
-	
+
 	public List getChildren() {
 		return this.children;
 	}
-	
+
 	/**
 	 * Returns <code>true</code> if this <code>TreeNode</code> is the same as the o argument.
 	 * 
@@ -186,5 +186,5 @@ public class TreeNode extends TreeLeaf {
 		TreeNode castedObj = (TreeNode) o;
 		return ((this.children == null ? castedObj.children == null : this.children.equals(castedObj.children)) && (this.isRoot == castedObj.isRoot));
 	}
-	
+
 }

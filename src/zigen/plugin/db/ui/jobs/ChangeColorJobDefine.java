@@ -41,9 +41,9 @@ public class ChangeColorJobDefine extends AbstractJob {
 	protected Color white;
 
 	protected Color lightblue;
-	
+
 	protected Column selectedColumn;
-	
+
 	public ChangeColorJobDefine(Table targetTable) {
 		this(targetTable, null);
 	}
@@ -73,9 +73,9 @@ public class ChangeColorJobDefine extends AbstractJob {
 
 				for (int i = 0; i < rowSize; i++) {
 					ChangeColorRecordDefine thread;
-					if(tableNode != null){
-						thread = new ChangeColorRecordDefine(table, i, columnSize, tableNode);						
-					}else{
+					if (tableNode != null) {
+						thread = new ChangeColorRecordDefine(table, i, columnSize, tableNode);
+					} else {
 						thread = new ChangeColorRecordDefine(table, i, columnSize);
 					}
 					thread.setNullSymbol(nullSymbol);

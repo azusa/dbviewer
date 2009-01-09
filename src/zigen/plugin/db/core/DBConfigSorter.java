@@ -18,10 +18,10 @@ import java.util.Comparator;
  * 
  */
 public class DBConfigSorter implements Comparator {
+
 	boolean isDesc = false;
 
-	public DBConfigSorter() {
-	}
+	public DBConfigSorter() {}
 
 	/*
 	 * (”ñ Javadoc)

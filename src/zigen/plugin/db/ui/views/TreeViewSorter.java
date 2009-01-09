@@ -27,13 +27,13 @@ import zigen.plugin.db.ui.internal.Root;
 public class TreeViewSorter extends ViewerSorter {
 
 	public int compare(Viewer viewer, Object e1, Object e2) {
-		if(e1 instanceof Root){
+		if (e1 instanceof Root) {
 			return (-1);
-			
-		}else if(e2 instanceof Root){
-				return (1);
-		
-		}else if (e1 instanceof BookmarkFolder && e2 instanceof BookmarkFolder) {
+
+		} else if (e2 instanceof Root) {
+			return (1);
+
+		} else if (e1 instanceof BookmarkFolder && e2 instanceof BookmarkFolder) {
 			String a = e1.toString();
 			String b = e2.toString();
 			return a.compareTo(b);

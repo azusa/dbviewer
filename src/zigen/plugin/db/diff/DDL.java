@@ -14,8 +14,9 @@ import zigen.plugin.db.core.rule.ISQLCreatorFactory;
 import zigen.plugin.db.ui.internal.ITable;
 
 public class DDL implements IDDL, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	boolean isSchemaSupport;
 
 	String dbName;
@@ -27,11 +28,10 @@ public class DDL implements IDDL, Serializable {
 	String ddl;
 
 	ITable table;
-	
-	public DDL(){
-	}
 
-	
+	public DDL() {}
+
+
 	public DDL(ITable table) {
 		setTable(table);
 	}
@@ -51,7 +51,9 @@ public class DDL implements IDDL, Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#getDisplayedName()
 	 */
 	public String getDisplayedName() {
@@ -64,76 +66,96 @@ public class DDL implements IDDL, Serializable {
 		return sb.toString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#getDbName()
 	 */
 	public String getDbName() {
 		return dbName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#setDbName(java.lang.String)
 	 */
 	public void setDbName(String dbName) {
 		this.dbName = dbName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#getDdl()
 	 */
 	public String getDdl() {
 		return ddl;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#setDdl(java.lang.String)
 	 */
 	public void setDdl(String ddl) {
 		this.ddl = ddl;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#getSchemaName()
 	 */
 	public String getSchemaName() {
 		return schemaName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#setSchemaName(java.lang.String)
 	 */
 	public void setSchemaName(String schemaName) {
 		this.schemaName = schemaName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#getTargetName()
 	 */
 	public String getTargetName() {
 		return targetName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#setTargetName(java.lang.String)
 	 */
 	public void setTargetName(String tableName) {
 		this.targetName = tableName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#isSchemaSupport()
 	 */
 	public boolean isSchemaSupport() {
 		return isSchemaSupport;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see zigen.plugin.db.diff.IDDL#setSchemaSupport(boolean)
 	 */
 	public void setSchemaSupport(boolean isSchemaSupport) {
 		this.isSchemaSupport = isSchemaSupport;
 	}
-	
+
 	public String getType() {
 		return table.getFolderName();
 	}

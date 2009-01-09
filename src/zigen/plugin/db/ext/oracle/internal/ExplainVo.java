@@ -8,8 +8,9 @@ package zigen.plugin.db.ext.oracle.internal;
 import java.io.Serializable;
 
 public class ExplainVo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private java.math.BigDecimal id;
 
 	private java.math.BigDecimal parent_id;
@@ -37,8 +38,7 @@ public class ExplainVo implements Serializable {
 	/**
 	 * コンストラクタ
 	 */
-	public ExplainVo() {
-	}
+	public ExplainVo() {}
 
 	public java.math.BigDecimal getId() {
 		return this.id;

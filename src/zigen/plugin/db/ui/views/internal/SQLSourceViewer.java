@@ -50,6 +50,7 @@ import zigen.plugin.db.ui.views.ISQLOperationTarget;
 import zigen.plugin.db.ui.views.SQLExecuteView;
 
 public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTarget {
+
 	SQLHistoryManager mgr = DbPlugin.getDefault().getHistoryManager();
 
 	protected IDBConfig config;
@@ -62,7 +63,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 
 	protected boolean isFormatPreExecute;
 
-	// protected boolean isLockedDataBase = false;	
+	// protected boolean isLockedDataBase = false;
 
 	public SQLSourceViewer(Composite parent, IVerticalRuler ruler, IOverviewRuler overviewRuler, boolean showsAnnotationOverview, int styles) {
 		// super(parent, ruler, styles);
@@ -70,9 +71,9 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		this.preferenceStore = DbPlugin.getDefault().getPreferenceStore();
 		super.appendVerifyKeyListener(new VerifyKeyAdapter());
 
-//		 super.getTextWidget().addKeyListener(new CurrentSqlListener());
-//		 super.getTextWidget().addMouseListener(new CurrentSqlListener());
-//		super.addTextListener(new CurrentSqlListener());// こちらは駄目
+		// super.getTextWidget().addKeyListener(new CurrentSqlListener());
+		// super.getTextWidget().addMouseListener(new CurrentSqlListener());
+		// super.addTextListener(new CurrentSqlListener());// こちらは駄目
 
 	}
 
@@ -123,7 +124,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		switch (operation) {
 		case ISQLOperationTarget.FORMAT:
 			doFormat();
-			
+
 			return;
 		case ISQLOperationTarget.UNFORMAT:
 			doUnFormat();
@@ -478,7 +479,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		getDocument().set(""); //$NON-NLS-1$
 	}
 
-	
+
 	public IDBConfig getDbConfig() {
 		return config;
 	}
@@ -531,6 +532,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 	// }
 
 	public class VerifyKeyAdapter implements VerifyKeyListener {
+
 		public void verifyKey(VerifyEvent event) {
 
 			// ENTER キーの取得
@@ -542,9 +544,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 					int offset = text.getCaretOffset();
 					if (offset > 0) {
 						char c = doc.getChar(offset - 1);
-						if (demiliter.equals(new String(new char[] {
-							c
-						}))) {
+						if (demiliter.equals(new String(new char[] {c}))) {
 							// if (c == '/') {
 							// 1行分のテキストを取得する
 							IRegion region = doc.getLineInformationOfOffset(offset);

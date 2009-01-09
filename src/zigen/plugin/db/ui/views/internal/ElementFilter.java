@@ -16,6 +16,7 @@ import zigen.plugin.db.core.PatternUtil;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 
 public class ElementFilter extends ViewerFilter {
+
 	boolean regularExpressions = false;
 
 	boolean caseSensitive = false;

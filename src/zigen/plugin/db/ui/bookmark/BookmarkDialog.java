@@ -81,6 +81,7 @@ public class BookmarkDialog extends Dialog {
 
 	// ’Ç‰Á
 	class BookmarkFilter extends ViewerFilter {
+
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			if (element instanceof Root)
 				return false;
@@ -146,9 +147,7 @@ public class BookmarkDialog extends Dialog {
 		viewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE);
 
 		int dragOption = DND.DROP_DEFAULT | DND.DROP_MOVE | DND.DROP_COPY;
-		Transfer[] transfers = new Transfer[] {
-			TreeLeafListTransfer.getInstance()
-		};
+		Transfer[] transfers = new Transfer[] {TreeLeafListTransfer.getInstance()};
 		viewer.addDragSupport(dragOption, transfers, new DragBookmarkAdapter(viewer));
 		viewer.addDropSupport(dragOption, transfers, new DropBookmarkAdapter(viewer));
 
@@ -170,6 +169,7 @@ public class BookmarkDialog extends Dialog {
 		viewer.getTree().setLayoutData(data);
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				tableSelectionChangedHandler(event);
 			}
@@ -189,18 +189,21 @@ public class BookmarkDialog extends Dialog {
 		removeBtn = WidgetUtil.createButton(composite, SWT.PUSH, Messages.getString("BookmarkDialog.4"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 
 		newBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				addButtonPressedHandler();
 			}
 		});
 
 		editBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				editButtonPressedHandler();
 			}
 		});
 
 		removeBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				removeButtonPressedHandler();
 			}
@@ -214,11 +217,11 @@ public class BookmarkDialog extends Dialog {
 		// removeBtn.setEnabled(size > 0);
 
 		Object element = (Object) ((IStructuredSelection) event.getSelection()).getFirstElement();
-		
-		if(element instanceof BookmarkRoot){
+
+		if (element instanceof BookmarkRoot) {
 			editBtn.setEnabled(true);
 			removeBtn.setEnabled(false);
-		}else if (element instanceof BookmarkFolder) {
+		} else if (element instanceof BookmarkFolder) {
 			editBtn.setEnabled(true);
 			removeBtn.setEnabled(true);
 		} else if (element instanceof Bookmark) {

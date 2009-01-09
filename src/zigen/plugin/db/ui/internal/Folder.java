@@ -15,9 +15,9 @@ package zigen.plugin.db.ui.internal;
  * 
  */
 public class Folder extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -26,11 +26,11 @@ public class Folder extends TreeNode {
 	public Folder(String name) {
 		super(name);
 	}
-	
+
 	public Folder() {
 		super();
 	}
-	
+
 	/**
 	 * 要素を更新
 	 * 
@@ -39,13 +39,13 @@ public class Folder extends TreeNode {
 	public void update(String name) {
 		this.name = name;
 	}
-	
+
 	public Object clone() {
 		Folder inst = new Folder();
 		inst.name = this.name == null ? null : new String(this.name);
 		return inst;
 	}
-	
+
 	// equals メソッドはオーバライドしない
-	
+
 }

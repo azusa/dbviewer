@@ -42,7 +42,7 @@ public class ChangeColorRecord implements Runnable {
 	public ChangeColorRecord(Table table, int rowIndex, int columnSize) {
 		this(table, rowIndex, columnSize, null);
 	}
-	
+
 	public ChangeColorRecord(Table table, int rowIndex, int columnSize, ITable tableNode) {
 		this.table = table;
 		this.rowIndex = rowIndex;
@@ -52,10 +52,11 @@ public class ChangeColorRecord implements Runnable {
 
 	public void run() {
 		try {
-			
-			if(table.isDisposed()) return;
 
-			
+			if (table.isDisposed())
+				return;
+
+
 			TableItem item = table.getItem(rowIndex);
 			TableElement elem = (TableElement) item.getData();
 			TableColumn[] tableColmns = elem.getColumns();
@@ -83,14 +84,14 @@ public class ChangeColorRecord implements Runnable {
 				}
 			} else {
 				// カラム選択モード
-				
+
 				// <-- 2007/12/27 zigen
 				// 1行しか無い場合は、カラム選択が見えないので、選択状態をクリアする
-				if(table.getItemCount() <= 1){
+				if (table.getItemCount() <= 1) {
 					table.setSelection(-1);
 				}
 				// -->
-								
+
 				ITable targetTable = selectedColumn.getTable();
 				for (int k = 0; k < columnSize - 1; k++) {
 					TableColumn tCol = tableColmns[k];
@@ -100,7 +101,6 @@ public class ChangeColorRecord implements Runnable {
 						item.setForeground(k + 1, black); // 文字色
 						item.setBackground(k + 1, glay); // 背景色
 						table.showColumn(table.getColumn(k + 1)); // カラム表示(自動スクロール)
-						
 
 
 					} else {
@@ -115,7 +115,7 @@ public class ChangeColorRecord implements Runnable {
 
 					}
 				}
-				
+
 			}
 		} catch (Exception e) {
 			// 以下のエラーはログ出力のみとする
@@ -127,10 +127,10 @@ public class ChangeColorRecord implements Runnable {
 		this.selectedColumn = column;
 	}
 
-	public void setNullSymbol(String nullSymbol){
+	public void setNullSymbol(String nullSymbol) {
 		this.nullSymbol = nullSymbol;
 	}
-	
+
 	public void setBlue(Color blue) {
 		this.blue = blue;
 	}

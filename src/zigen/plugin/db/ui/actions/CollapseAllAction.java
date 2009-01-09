@@ -19,9 +19,9 @@ import zigen.plugin.db.DbPlugin;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
  */
 public class CollapseAllAction extends Action implements Runnable {
-	
+
 	TreeViewer viewer = null;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -32,15 +32,15 @@ public class CollapseAllAction extends Action implements Runnable {
 		this.setText("Collapse All");
 		this.setToolTipText("Collapse All");
 		this.setEnabled(true);
-		
+
 		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLLAPSE_ALL));
 	}
-	
+
 	/**
 	 * Action実行時の処理
 	 */
 	public void run() {
 		viewer.collapseAll();
 	}
-	
+
 }

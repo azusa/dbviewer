@@ -91,8 +91,7 @@ public class FKWizardPage2 extends PKWizardPage {
 	protected void createTableList() {
 		try {
 			Connection con = Transaction.getInstance(config).getConnection();
-			TableInfo[] tables = TableSearcher.execute(con, tableNode.getSchemaName(), new String[] {
-				"TABLE"}); //$NON-NLS-1$
+			TableInfo[] tables = TableSearcher.execute(con, tableNode.getSchemaName(), new String[] {"TABLE"}); //$NON-NLS-1$
 			for (int i = 0; i < tables.length; i++) {
 				TableInfo info = tables[i];
 				refTableList.add(info);
@@ -105,11 +104,11 @@ public class FKWizardPage2 extends PKWizardPage {
 	protected void createColumnList(String tableName) {
 		try {
 			Connection con = Transaction.getInstance(config).getConnection();
-//			boolean isConvertUnicode = config.isConvertUnicode();
-			
-//			zigen.plugin.db.core.TableColumn[] columns = ColumnSearcher.execute(con, tableNode.getSchemaName(), tableName, isConvertUnicode);
+			// boolean isConvertUnicode = config.isConvertUnicode();
+
+			// zigen.plugin.db.core.TableColumn[] columns = ColumnSearcher.execute(con, tableNode.getSchemaName(), tableName, isConvertUnicode);
 			IDBConfig config = tableNode.getDbConfig();
-			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);		
+			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
 			zigen.plugin.db.core.TableColumn[] columns = factory.execute(con, tableNode.getSchemaName(), tableName);
 			columnList = new ArrayList(); // ‰Šú‰»
 			for (int i = 0; i < columns.length; i++) {
@@ -164,6 +163,7 @@ public class FKWizardPage2 extends PKWizardPage {
 		}
 
 		comboRefTable.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent evt) {
 				int index = comboRefTable.getSelectionIndex();
 				TableInfo tableInfo = (TableInfo) refTableList.get(index);

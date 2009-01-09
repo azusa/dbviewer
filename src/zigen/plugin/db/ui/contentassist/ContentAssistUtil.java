@@ -141,25 +141,18 @@ public class ContentAssistUtil {
 
 			if (part instanceof SqlEditor) {
 				SqlEditor editorPart = (SqlEditor) part;
-				//IEditorInput input = editorPart.getEditorInput();
+				// IEditorInput input = editorPart.getEditorInput();
 				/*
-				Object obj = input.getAdapter(IResource.class);
-				if (obj instanceof IResource) {
-					IResource rs = (IResource) obj;
-					IDBConfig config = ResourceUtil.getDBConfig(rs);
-					if (config == null) {
-						DbPlugin.getDefault().showWarningMessage(Messages.getString("ContentAssistUtil.0")); //$NON-NLS-1$
-					} else {
-						return config;
-					}
-				}*/
-				if(editorPart instanceof ISqlEditor){
-					return ((ISqlEditor)editorPart).getConfig();
-				}else{
+				 * Object obj = input.getAdapter(IResource.class); if (obj instanceof IResource) { IResource rs = (IResource) obj; IDBConfig config = ResourceUtil.getDBConfig(rs); if (config == null) {
+				 * DbPlugin.getDefault().showWarningMessage(Messages.getString("ContentAssistUtil.0")); //$NON-NLS-1$ } else { return config; } }
+				 */
+				if (editorPart instanceof ISqlEditor) {
+					return ((ISqlEditor) editorPart).getConfig();
+				} else {
 					return null;
 				}
-				
-				
+
+
 			} else if (part instanceof SQLExecuteView) {
 				SQLExecuteView viewPart = (SQLExecuteView) part;
 				return viewPart.getConfig();
@@ -195,7 +188,7 @@ public class ContentAssistUtil {
 
 			// ÉJÉâÉÄåüçıÇÕîÒìØä˙èàóùÇ…ÇµÇ»Ç¢(ïœçXÇµÇ»Ç¢Ç±Ç∆)
 			display.syncExec((Runnable) new ColumnSearchAction(contentTable));
-			
+
 
 			break;
 		default:

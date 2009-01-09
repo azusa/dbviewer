@@ -12,6 +12,7 @@ import zigen.plugin.db.core.rule.ISQLCreatorFactory;
 import zigen.plugin.db.ui.internal.ITable;
 
 public class ModifyTableThread extends AbstractSQLThread {
+
 	private String newTableName;
 
 	private String newRemarks;
@@ -21,6 +22,7 @@ public class ModifyTableThread extends AbstractSQLThread {
 		this.newTableName = newTableName;
 		this.newRemarks = newRemarks;
 	}
+
 	public String[] createSQL(ISQLCreatorFactory factory, ITable table) {
 		List list = new ArrayList();
 
@@ -33,6 +35,7 @@ public class ModifyTableThread extends AbstractSQLThread {
 		return (String[]) list.toArray(new String[0]);
 
 	}
+
 	// RefreshTableのために、新しいテーブル名を設定しておくこと
 	public void doAfterExecuteUpdate(ITable table) {
 		table.setName(newTableName);

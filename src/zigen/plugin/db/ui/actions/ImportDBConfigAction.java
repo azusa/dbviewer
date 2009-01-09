@@ -41,7 +41,7 @@ public class ImportDBConfigAction extends Action implements Runnable {
 	 */
 	public ImportDBConfigAction(TreeViewer viewer) {
 		this.viewer = viewer;
-		
+
 		this.setText(Messages.getString("ImportDBConfigAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("ImportDBConfigAction.1")); //$NON-NLS-1$
 		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_IMPORT));
@@ -72,7 +72,7 @@ public class ImportDBConfigAction extends Action implements Runnable {
 
 				} else {
 					DbPlugin.getDefault().showWarningMessage(Messages.getString("ImportDBConfigAction.3")); // throw
-																											// //$NON-NLS-1$
+					// //$NON-NLS-1$
 				}
 
 			}
@@ -94,11 +94,9 @@ public class ImportDBConfigAction extends Action implements Runnable {
 	private File save(Shell shell, String defaultFileName) {
 		FileDialog dialog = new FileDialog(shell, SWT.ON_TOP);
 		dialog.setFileName(defaultFileName);
-		dialog.setFilterExtensions(new String[] {
-				"*.xml", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
+		dialog.setFilterExtensions(new String[] {"*.xml", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
 		});
-		dialog.setFilterNames(new String[] {
-				Messages.getString("ImportDBConfigAction.7"), Messages.getString("ImportDBConfigAction.8") //$NON-NLS-1$ //$NON-NLS-2$
+		dialog.setFilterNames(new String[] {Messages.getString("ImportDBConfigAction.7"), Messages.getString("ImportDBConfigAction.8") //$NON-NLS-1$ //$NON-NLS-2$
 				});
 		String fileName = dialog.open();
 		if (fileName != null) {

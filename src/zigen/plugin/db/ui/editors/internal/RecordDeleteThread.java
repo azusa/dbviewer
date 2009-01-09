@@ -38,7 +38,7 @@ public class RecordDeleteThread implements Runnable {
 
 	private ITable table;
 
-	/// Žg‚í‚ê‚Ä–³‚¢
+	// / Žg‚í‚ê‚Ä–³‚¢
 	private RecordDeleteThread(ITableViewEditor editor, ITable table) {
 		this.editor = editor;
 		this.viewer = editor.getViewer();

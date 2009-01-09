@@ -67,7 +67,7 @@ public class XmlController {
 			bookmarkManager.save();
 			bookmarkManager = null;
 		}
-		
+
 		// SQL—š—ğ‚ÍƒŠƒAƒ‹ƒ^ƒCƒ€‚Å•Û‘¶‚·‚é
 		if (historyManager != null) {
 			historyManager.save();

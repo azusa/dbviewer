@@ -15,18 +15,20 @@ import zigen.plugin.db.core.Transaction;
 import zigen.plugin.db.ui.views.TreeView;
 
 public class ChangeTransactionIsolationLevelAction implements Runnable {
+
 	private IDBConfig config;
-	
+
 	public ChangeTransactionIsolationLevelAction(IDBConfig config) {
 		this.config = config;
 	}
 
-	public void setMessageForTreeView(String message){
-		TreeView view = (TreeView)DbPlugin.findView(DbPluginConstant.VIEW_ID_TreeView);
-		if(view != null){
+	public void setMessageForTreeView(String message) {
+		TreeView view = (TreeView) DbPlugin.findView(DbPluginConstant.VIEW_ID_TreeView);
+		if (view != null) {
 			view.setStatusMessage(config, message);
 		}
 	}
+
 	public void run() {
 		try {
 			Transaction trans = Transaction.getInstance(config);
@@ -47,7 +49,7 @@ public class ChangeTransactionIsolationLevelAction implements Runnable {
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.1")); //$NON-NLS-1$
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.2")); //$NON-NLS-1$
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.3")); //$NON-NLS-1$
-//					DbPlugin.getDefault().showInformationMessage(sb.toString());
+					// DbPlugin.getDefault().showInformationMessage(sb.toString());
 					setMessageForTreeView(sb.toString());
 
 				} else {
@@ -64,7 +66,7 @@ public class ChangeTransactionIsolationLevelAction implements Runnable {
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.6")); //$NON-NLS-1$
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.7")); //$NON-NLS-1$
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.8")); //$NON-NLS-1$
-//					DbPlugin.getDefault().showInformationMessage(sb.toString());
+					// DbPlugin.getDefault().showInformationMessage(sb.toString());
 					setMessageForTreeView(sb.toString());
 
 				} else {
@@ -81,7 +83,7 @@ public class ChangeTransactionIsolationLevelAction implements Runnable {
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.11")); //$NON-NLS-1$
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.12")); //$NON-NLS-1$
 					sb.append(Messages.getString("ChangeTransactionIsolationLevelAction.13")); //$NON-NLS-1$
-//					DbPlugin.getDefault().showInformationMessage(sb.toString());
+					// DbPlugin.getDefault().showInformationMessage(sb.toString());
 					setMessageForTreeView(sb.toString());
 
 				} else {

@@ -26,7 +26,7 @@ import zigen.plugin.db.ui.internal.ITable;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/12/04 ZIGEN create.
  * 
  */
-public class CopyColumnNameWithTableNameAction extends AbstractCopyAction{
+public class CopyColumnNameWithTableNameAction extends AbstractCopyAction {
 
 	public void run(IAction action) {
 		try {
@@ -40,10 +40,10 @@ public class CopyColumnNameWithTableNameAction extends AbstractCopyAction{
 				if (obj instanceof Column) {
 					Column col = (Column) obj;
 					ITable table = col.getTable();
-					
+
 					String tableName = table.getName();
 					String columnName = col.getName();
-					
+
 					if (index == 0) {
 						sb.append(tableName);
 						sb.append(".");//$NON-NLS-1$
@@ -52,19 +52,15 @@ public class CopyColumnNameWithTableNameAction extends AbstractCopyAction{
 						sb.append(", ");//$NON-NLS-1$
 						sb.append(tableName);
 						sb.append(".");//$NON-NLS-1$
-						sb.append(columnName); 
+						sb.append(columnName);
 					}
-					
+
 					index++;
 				}
 
 			}
 
-			clipboard.setContents(new Object[] {
-				sb.toString()
-			}, new Transfer[] {
-				TextTransfer.getInstance()
-			});
+			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

@@ -28,8 +28,7 @@ import zigen.plugin.db.ui.actions.MaxRecordException;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/26 ZIGEN create.
- *        [002] 2005/11/22 ZIGEN •¡”JDBCMapping‚É‘Î‰
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/26 ZIGEN create. [002] 2005/11/22 ZIGEN •¡”JDBCMapping‚É‘Î‰
  * 
  */
 public class SQLInvoker {
@@ -88,10 +87,8 @@ public class SQLInvoker {
 					// <- [002] 2005/11/22 add zigen
 					items[i] = factory.getObject(rs, i + 1);
 					/*
-					 * // ‚±‚±‚ÅŒ©‚Â‚¯‚½CLOB/BLOBŒ^‚ÍgetObject‚µ‚È‚¢(ƒƒ‚ƒŠ‘Îô)
-					 * if(CellEditorType.isFileSaveType(columns[i])){ items[i] =
-					 * CellEditorType.getDataTypeName(columns[i]); }else{
-					 * items[i] = factory.getObject(rs, i + 1); }
+					 * // ‚±‚±‚ÅŒ©‚Â‚¯‚½CLOB/BLOBŒ^‚ÍgetObject‚µ‚È‚¢(ƒƒ‚ƒŠ‘Îô) if(CellEditorType.isFileSaveType(columns[i])){ items[i] = CellEditorType.getDataTypeName(columns[i]); }else{ items[i] =
+					 * factory.getObject(rs, i + 1); }
 					 */
 
 					// [002] 2005/11/22 add zigen -->
@@ -202,7 +199,7 @@ public class SQLInvoker {
 			stmt = con.createStatement();
 
 			if (timeoutSec > 0) {
-				
+
 				try {
 					stmt.setQueryTimeout(timeoutSec);
 				} catch (SQLException e) {

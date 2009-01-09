@@ -25,13 +25,13 @@ import zigen.plugin.db.preference.SQLEditorPreferencePage;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/04/07 ZIGEN create.
- *        [002] 2005/05/29 ZIGEN SQLキーワードのシンタックスハイライトの修正.
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/04/07 ZIGEN create. [002] 2005/05/29 ZIGEN SQLキーワードのシンタックスハイライトの修正.
  * 
  */
-public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScanner{
+public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScanner {
 
 	static class WordDetector implements IWordDetector {
+
 		public boolean isWordPart(char c) {
 			return Character.isJavaIdentifierPart(c);
 		}
@@ -42,6 +42,7 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 	}
 
 	static class WhitespaceDetector implements IWhitespaceDetector {
+
 		public boolean isWhitespace(char character) {
 			return Character.isWhitespace(character);
 		}
@@ -50,12 +51,12 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 	private ColorManager colorManager;
 
 	protected DbPluginFormatRule rule;
-	
+
 	public SQLKeywordScanner(ColorManager colorManager) {
 		this.colorManager = colorManager;
-		
+
 		rule = DbPluginFormatRule.getInstance();
-		
+
 		// getInstanceで一度margeしているため、falseで起動
 		initialize(false);
 	}
@@ -63,22 +64,22 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 	public void initialize() {
 		initialize(true);
 	}
-	
+
 	public void initialize(boolean marge) {
-		
-		if(marge)
+
+		if (marge)
 			rule.margeTemplate();
-		
+
 		// 記号などの色をデフォルト色にするための指定を追加
 		setDefaultReturnToken(new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT))));
-		
+
 		IRule[] rules = new IRule[2];
 		IToken other = new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT)));
 		IToken keyword = new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_KEYWORD), null, SWT.BOLD));
 		IToken function = new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_FUNCTION), null, SWT.BOLD));
 		WordRule wordRule = new WordRule(new WordDetector(), other);
 
-		
+
 		// SQLキーワードのシンタックスハイライト
 		String[] keywords = rule.getKeywordNames();
 		for (int i = 0; i < keywords.length; i++) {
@@ -93,7 +94,7 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 			String name = functions[i];
 			wordRule.addWord(name, function);
 			wordRule.addWord(name.toLowerCase(), function);
-			
+
 		}
 
 		rules[0] = wordRule;

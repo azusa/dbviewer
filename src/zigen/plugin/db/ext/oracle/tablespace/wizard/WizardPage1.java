@@ -42,11 +42,10 @@ import zigen.plugin.db.ui.internal.Schema;
  * 
  */
 public class WizardPage1 extends DefaultWizardPage {
+
 	public static final String HEADER_TABLE = Messages.getString("WizardPage1.0"); //$NON-NLS-1$
 
-	private String[] headers = {
-		HEADER_TABLE
-	};
+	private String[] headers = {HEADER_TABLE};
 
 	private ISelection selection;
 
@@ -109,15 +108,12 @@ public class WizardPage1 extends DefaultWizardPage {
 		gridData = new GridData(GridData.FILL_BOTH);
 		tableViewer.getControl().setLayoutData(gridData);
 
-		String[] properties = new String[] {
-			"check"}; //$NON-NLS-1$
+		String[] properties = new String[] {"check"}; //$NON-NLS-1$
 		// カラム・プロパティの設定
 		tableViewer.setColumnProperties(properties);
 
 		// 各カラムに設定するセル・エディタの配列
-		CellEditor[] editors = new CellEditor[] {
-			new CheckboxCellEditor(table)
-		};
+		CellEditor[] editors = new CellEditor[] {new CheckboxCellEditor(table)};
 
 		// セル・エディタの設定
 		tableViewer.setCellEditors(editors);

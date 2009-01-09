@@ -15,6 +15,7 @@ package zigen.plugin.db.ext.oracle.tablespace;
  * 
  */
 public interface IColumn {
+
 	public abstract int getColumn_length();
 
 	public abstract String getColumn_type();

@@ -31,11 +31,11 @@ public class FillCellEditorUtil {
 	public static int update(Connection con, TableElement tableElement, int colIndex, Object bytes) throws Exception {
 		int rowAffected = 0;
 		tableElement.updateItems(colIndex - 1, bytes);
-		rowAffected = UpdateSQLInvoker
-				.invoke(con, tableElement.getTable(), tableElement.getModifiedColumns(), tableElement.getModifiedItems(), tableElement.getUniqueColumns(), tableElement.getUniqueItems());
-		if(rowAffected > 0){
+		rowAffected = UpdateSQLInvoker.invoke(con, tableElement.getTable(), tableElement.getModifiedColumns(), tableElement.getModifiedItems(), tableElement.getUniqueColumns(),
+				tableElement.getUniqueItems());
+		if (rowAffected > 0) {
 			return rowAffected;
-		}else{
+		} else {
 			throw new ZeroUpdateException("Update Failed.");
 		}
 	}
@@ -44,13 +44,13 @@ public class FillCellEditorUtil {
 		// lobデータをNULLで更新する
 		int rowAffected = 0;
 		tableElement.updateItems(colIndex - 1, null);
-		rowAffected = UpdateSQLInvoker
-				.invoke(con, tableElement.getTable(), tableElement.getModifiedColumns(), tableElement.getModifiedItems(), tableElement.getUniqueColumns(), tableElement.getUniqueItems());
-//		if(rowAffected > 0){
-//			return rowAffected;
-//		}else{
-//			throw new ZeroUpdateException("Update Failed.");
-//		}
+		rowAffected = UpdateSQLInvoker.invoke(con, tableElement.getTable(), tableElement.getModifiedColumns(), tableElement.getModifiedItems(), tableElement.getUniqueColumns(),
+				tableElement.getUniqueItems());
+		// if(rowAffected > 0){
+		// return rowAffected;
+		// }else{
+		// throw new ZeroUpdateException("Update Failed.");
+		// }
 		return rowAffected;
 	}
 
@@ -115,27 +115,27 @@ public class FillCellEditorUtil {
 		}
 	}
 
-//	/**
-//	 * ImageオブジェクトまたはStringオブジェクトを取得するメソッド
-//	 * 
-//	 * @param file
-//	 * @return
-//	 */
-//	public static Object getObject(File file) {
-//		Object obj = null;
-//		if (file.canRead()) {
-//			try {
-//				obj = new Image(Display.getCurrent(), new BufferedInputStream(new FileInputStream(file)));
-//			} catch (Exception e) {
-//				try {
-//					obj = InputStreamUtil.toString(new BufferedInputStream(new FileInputStream(file)));
-//				} catch (Exception e1) {
-//					DbPlugin.log(e1);
-//				}
-//			}
-//		}
-//		return obj;
-//	}
+	// /**
+	// * ImageオブジェクトまたはStringオブジェクトを取得するメソッド
+	// *
+	// * @param file
+	// * @return
+	// */
+	// public static Object getObject(File file) {
+	// Object obj = null;
+	// if (file.canRead()) {
+	// try {
+	// obj = new Image(Display.getCurrent(), new BufferedInputStream(new FileInputStream(file)));
+	// } catch (Exception e) {
+	// try {
+	// obj = InputStreamUtil.toString(new BufferedInputStream(new FileInputStream(file)));
+	// } catch (Exception e1) {
+	// DbPlugin.log(e1);
+	// }
+	// }
+	// }
+	// return obj;
+	// }
 
 	/**
 	 * byte[]またはStringを取得するメソッド
@@ -154,7 +154,7 @@ public class FillCellEditorUtil {
 			IDBConfig config = tableElement.getTable().getDbConfig();
 			con = ConnectionManager.getConnection(config);
 			String sql = SQLCreator.createSelectSql(tableElement, false);
-			
+
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
 			if (rs.next()) {
@@ -165,9 +165,7 @@ public class FillCellEditorUtil {
 				case Types.LONGVARBINARY: // -4
 					// <-- modify start
 					/*
-					 * 2007.4.4 Symfo向けにgetBlobではなくgetBinaryStreamとする Blob blob2 =
-					 * rs.getBlob(colIndex); if (rs.wasNull()) return null; obj =
-					 * InputStreamUtil.toByteArray(blob2.getBinaryStream());
+					 * 2007.4.4 Symfo向けにgetBlobではなくgetBinaryStreamとする Blob blob2 = rs.getBlob(colIndex); if (rs.wasNull()) return null; obj = InputStreamUtil.toByteArray(blob2.getBinaryStream());
 					 * break;
 					 */
 					InputStream is = rs.getBinaryStream(colIndex);

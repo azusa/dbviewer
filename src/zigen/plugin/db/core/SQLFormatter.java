@@ -161,35 +161,35 @@ public class SQLFormatter {
 			String s = null;
 			for (;;) {
 				switch (tokenizer.nextToken()) {
-					case SqlStreamTokenizer.TT_EOF:
-						result[0] = main.toString();
-						result[1] = order.toString();
-						return result;
+				case SqlStreamTokenizer.TT_EOF:
+					result[0] = main.toString();
+					result[1] = order.toString();
+					return result;
 
-					case SqlStreamTokenizer.TT_COMMA:
+				case SqlStreamTokenizer.TT_COMMA:
 
-						if (isOrderCause) {
-							order = new StringBuffer(order.toString().trim());
-							order.append(SqlStreamTokenizer.TT_COMMA);
-							order.append(SqlStreamTokenizer.TT_SPACE);
-						} else {
-							main = new StringBuffer(main.toString().trim());
-							main.append(SqlStreamTokenizer.TT_COMMA);
-							main.append(SqlStreamTokenizer.TT_SPACE);
-						}
-						break;
+					if (isOrderCause) {
+						order = new StringBuffer(order.toString().trim());
+						order.append(SqlStreamTokenizer.TT_COMMA);
+						order.append(SqlStreamTokenizer.TT_SPACE);
+					} else {
+						main = new StringBuffer(main.toString().trim());
+						main.append(SqlStreamTokenizer.TT_COMMA);
+						main.append(SqlStreamTokenizer.TT_SPACE);
+					}
+					break;
 
-					default:
-						s = tokenizer.getToken();
-						if (isOrderCause || "order".equalsIgnoreCase(s)) {
-							isOrderCause = true;
-							order.append(s);
-							// order.append(SqlStreamTokenizer.TT_SPACE);
-						} else {
-							main.append(s);
-							// main.append(SqlStreamTokenizer.TT_SPACE);
-						}
-						break;
+				default:
+					s = tokenizer.getToken();
+					if (isOrderCause || "order".equalsIgnoreCase(s)) {
+						isOrderCause = true;
+						order.append(s);
+						// order.append(SqlStreamTokenizer.TT_SPACE);
+					} else {
+						main.append(s);
+						// main.append(SqlStreamTokenizer.TT_SPACE);
+					}
+					break;
 				}
 
 			}
@@ -245,24 +245,24 @@ class SqlStreamTokenizer extends StreamTokenizer {
 			tokenType = super.nextToken();
 
 			switch (tokenType) {
-				case SqlStreamTokenizer.TT_EOF:
-					tokenType = SqlStreamTokenizer.TT_EOF;
-					token = null;
-					break;
+			case SqlStreamTokenizer.TT_EOF:
+				tokenType = SqlStreamTokenizer.TT_EOF;
+				token = null;
+				break;
 
-				case SqlStreamTokenizer.TT_WORD:
-					token = sval;
-					tokenType = SqlStreamTokenizer.TT_WORD;
-					break;
-				case SqlStreamTokenizer.TT_QUOTE:
-					token = "'" + sval + "'";
-					break;
-				case SqlStreamTokenizer.TT_DOUBLE_QUOTE:
-					token = "\"" + sval + "\"";
-					break;
+			case SqlStreamTokenizer.TT_WORD:
+				token = sval;
+				tokenType = SqlStreamTokenizer.TT_WORD;
+				break;
+			case SqlStreamTokenizer.TT_QUOTE:
+				token = "'" + sval + "'";
+				break;
+			case SqlStreamTokenizer.TT_DOUBLE_QUOTE:
+				token = "\"" + sval + "\"";
+				break;
 
-				default:
-					token = String.valueOf((char) ttype);
+			default:
+				token = String.valueOf((char) ttype);
 			}
 
 		} catch (IOException e) {

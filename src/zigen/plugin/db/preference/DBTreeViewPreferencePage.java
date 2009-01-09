@@ -18,8 +18,7 @@ import zigen.plugin.db.DbPlugin;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create.
- *        [002] 2005/07/30 ZIGEN テーブルおよびカラムのコメント表示有無の追加
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create. [002] 2005/07/30 ZIGEN テーブルおよびカラムのコメント表示有無の追加
  * 
  */
 public class DBTreeViewPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
@@ -30,8 +29,7 @@ public class DBTreeViewPreferencePage extends FieldEditorPreferencePage implemen
 
 	public static final String P_DISPLAY_COL_COMMENT = "DBTreeViewPreferencePage.DisplayColumnComment"; //$NON-NLS-1$
 
-	public void init(IWorkbench workbench) {
-	}
+	public void init(IWorkbench workbench) {}
 
 	public DBTreeViewPreferencePage() {
 		super(GRID);

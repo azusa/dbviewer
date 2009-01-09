@@ -12,6 +12,7 @@ import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.Transaction;
 
 public class TestConnectThread implements Runnable {
+
 	int timeout;
 
 	IDBConfig config;
@@ -19,14 +20,15 @@ public class TestConnectThread implements Runnable {
 	boolean isSuccess = false;
 
 	String message;
-	
+
 	Throwable throwable;
 
 	boolean isAlive = false;
+
 	public TestConnectThread(IDBConfig config, int timeout) {
 		this(config, timeout, false);
 	}
-	
+
 	public TestConnectThread(IDBConfig config, int timeout, boolean isAlive) {
 		this.config = config;
 		this.timeout = timeout;

@@ -38,17 +38,17 @@ public class ExecuteAction implements IObjectActionDelegate {
 	StructuredViewer structuredViewer;
 
 	SQLOutinePage page;
-	
+
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 
-		if(targetPart instanceof ContentOutline){
-			
+		if (targetPart instanceof ContentOutline) {
+
 			ContentOutline outline = (ContentOutline) targetPart;
-			if(outline.getCurrentPage() instanceof SQLOutinePage){
-				this.page = (SQLOutinePage)outline.getCurrentPage();
+			if (outline.getCurrentPage() instanceof SQLOutinePage) {
+				this.page = (SQLOutinePage) outline.getCurrentPage();
 			}
-			
-		}		
+
+		}
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
@@ -78,20 +78,20 @@ public class ExecuteAction implements IObjectActionDelegate {
 				}
 			}
 
-			
+
 			SqlEditor2 editor = page.getEditor();
-			
+
 			editor.toolBar.setDisplayResultChecked(true);
 			CurrentSql cs = page.getCurrentSql();
 			Transaction trans = Transaction.getInstance(editor.getDBConfig());
-			//IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+			// IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 			String sql = cs.getSql().substring(offset, offset + length);
 			if (sql != null && sql.trim().length() > 0) {
 				SqlExecJob2 job = new SqlExecJob2(editor, trans, sql);
 				job.setUser(false);
 				job.schedule();
 			}
-			
+
 		}
 
 	}

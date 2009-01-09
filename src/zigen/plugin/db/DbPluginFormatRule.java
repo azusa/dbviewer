@@ -24,12 +24,15 @@ public class DbPluginFormatRule {
 	private SqlFormatRule fRule;
 
 	private String[] fDefaultKeywords;
+
 	private String[] fDefaultDataTypes;
+
 	private String[] fDefaultFunctions;
 
 	private List fFunctionList;
-	
+
 	private Template[] templates;
+
 	/**
 	 * インスタンス生成
 	 * 
@@ -49,16 +52,16 @@ public class DbPluginFormatRule {
 		fRule = new SqlFormatRule();
 		fRule.setRemoveEmptyLine(true); // 空行を削除する
 		fDefaultFunctions = fRule.getFunctions();
-		
-		
+
+
 		fDefaultKeywords = TokenUtil.KEYWORD;
 		fDefaultDataTypes = TokenUtil.KEYWORD_DATATYPE;
-	
+
 		// Templateに登録している関数をマージする
 		margeTemplate();
 	}
-	
-	public void margeTemplate(){
+
+	public void margeTemplate() {
 		// デフォルトに一度戻す
 		fFunctionList = new LinkedList(Arrays.asList(fDefaultFunctions));
 
@@ -67,43 +70,46 @@ public class DbPluginFormatRule {
 		for (int i = 0; i < templates.length; i++) {
 			Template template = templates[i];
 			String func = template.getName().toUpperCase();
-			if(!fFunctionList.contains(func)){
-				fFunctionList.add(func);	// 大文字で登録する
+			if (!fFunctionList.contains(func)) {
+				fFunctionList.add(func); // 大文字で登録する
 			}
 		}
-		fRule.setFunctions((String[])fFunctionList.toArray(new String[0]));
-		
+		fRule.setFunctions((String[]) fFunctionList.toArray(new String[0]));
+
 	}
-	
+
 	/**
 	 * フォーマッターに登録されている関数＋テンプレート関数
+	 * 
 	 * @return
 	 */
-	public String[] getFunctionNames(){
-		return (String[])fFunctionList.toArray(new String[0]);
+	public String[] getFunctionNames() {
+		return (String[]) fFunctionList.toArray(new String[0]);
 	}
-	
+
 	/**
 	 * SQLキーワード
+	 * 
 	 * @return
 	 */
-	public String[] getKeywordNames(){
+	public String[] getKeywordNames() {
 		return fDefaultKeywords;
 	}
-	
+
 	/**
 	 * データタイプ
+	 * 
 	 * @return
 	 */
-	public String[] getDataTypeNames(){
+	public String[] getDataTypeNames() {
 		return fDefaultDataTypes;
 	}
-	
-	
+
+
 	/**
 	 * デフォルトの関数に戻す
 	 */
-	public void setDefaultFunction(){
+	public void setDefaultFunction() {
 		fRule.setFunctions(fDefaultFunctions);
 	}
 
@@ -111,16 +117,16 @@ public class DbPluginFormatRule {
 		return fRule;
 	}
 
-	public void addFunctions(String[] addFunctions){
+	public void addFunctions(String[] addFunctions) {
 		fRule.addFunctions(addFunctions);
 	}
-	
-	public void subtractFunctions(String[] subtractFunctions){
+
+	public void subtractFunctions(String[] subtractFunctions) {
 		fRule.subtractFunctions(subtractFunctions);
 	}
-	
-	public void setFunctions(String[] functions){
+
+	public void setFunctions(String[] functions) {
 		fRule.setFunctions(functions);
 	}
-	
+
 }

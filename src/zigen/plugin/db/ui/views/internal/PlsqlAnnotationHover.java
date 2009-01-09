@@ -10,8 +10,8 @@ import org.eclipse.jface.text.source.ISourceViewer;
 
 public class PlsqlAnnotationHover implements IAnnotationHover {
 
-    public String getHoverInfo(ISourceViewer sourceViewer, int lineNumber) {
-        return "";
-    }
+	public String getHoverInfo(ISourceViewer sourceViewer, int lineNumber) {
+		return "";
+	}
 
 }

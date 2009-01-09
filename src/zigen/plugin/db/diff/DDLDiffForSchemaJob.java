@@ -57,6 +57,7 @@ import zigen.plugin.db.ui.jobs.AbstractJob;
 import zigen.plugin.db.ui.views.TableSearchThread;
 
 public class DDLDiffForSchemaJob extends AbstractJob {
+
 	public static final String TargetFolderPattern = "^TABLE|^VIEW|^SYNONYM|^ALIAS"; //$NON-NLS-1$
 
 	public static final String TargetFolderPattern2 = "^FUNCTION|^PROCEDURE|^PACKAGE"; //$NON-NLS-1$
@@ -193,9 +194,7 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 				int totalWork = 0;
 				String currentType = tableTypes[i];
 
-				String[] types = new String[] {
-					currentType
-				};
+				String[] types = new String[] {currentType};
 				if (currentType.toUpperCase().matches(TargetFolderPattern)) {
 					TableInfo[] tables = TableSearcher.execute(con, schema.getName(), types);
 					TableSearchThread.addFolderAndTables(con, schema, currentType, tables);
@@ -264,7 +263,7 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 										if (DBType.getType(config) == DBType.DB_TYPE_ORACLE) {
 											if (table.getName().indexOf("BIN$") >= 0) {
 												continue;
-											}else{
+											} else {
 												loadColumn(monitor, con, table, config.isConvertUnicode());
 											}
 										} else {
@@ -317,7 +316,7 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 	}
 
 	private void loadColumn(IProgressMonitor monitor, Connection con, ITable table, boolean convertUnicode) throws Exception {
-		
+
 		TablePKColumn[] pks = null;
 		TableFKColumn[] fks = null;
 		TableConstraintColumn[] cons = null;
@@ -352,29 +351,29 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 			break;
 		}
 
-		//TableColumn[] columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);
+		// TableColumn[] columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);
 		IDBConfig config = table.getDbConfig();
-		IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);		
+		IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
 		TableColumn[] columns = factory.execute(con, schemaName, tableName);
 
 		IConstraintSearcherFactory constraintSearcherFactory = DefaultConstraintSearcherFactory.getFactory(config);
-//		pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
-//		fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
+		// pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
+		// fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
 		pks = constraintSearcherFactory.getPKColumns(con, schemaName, tableName);
 		fks = constraintSearcherFactory.getFKColumns(con, schemaName, tableName);
-		
+
 		if (!table.getFolderName().equals("VIEW")) { //$NON-NLS-1$
 
 			switch (DBType.getType(con.getMetaData())) {
 			case DBType.DB_TYPE_ORACLE:
-//				cons = OracleConstraintSearcher.getConstraintColumns(con, schemaName, tableName);
+				// cons = OracleConstraintSearcher.getConstraintColumns(con, schemaName, tableName);
 				cons = constraintSearcherFactory.getConstraintColumns(con, schemaName, tableName);
 				uidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, true);
 				nonuidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, false);
 				break;
 			default:
-				//uidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, true);
-				//nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, false);
+				// uidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, true);
+				// nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, false);
 				uidxs = constraintSearcherFactory.getUniqueIDXColumns(con, schemaName, tableName, true);
 				nonuidxs = constraintSearcherFactory.getUniqueIDXColumns(con, schemaName, tableName, false);
 				break;
@@ -394,7 +393,7 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 			TableFKColumn[] w_fks = getFKColumns(fks, w_column);
 
 			addChild(con, table, w_column, w_pk, w_fks);
-			
+
 		}
 	}
 
@@ -436,8 +435,7 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 
 	public class ShowDiffView implements Runnable {
 
-		public ShowDiffView() {
-		}
+		public ShowDiffView() {}
 
 		public void run() {
 			try {

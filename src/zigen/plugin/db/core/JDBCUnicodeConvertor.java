@@ -19,8 +19,7 @@ public class JDBCUnicodeConvertor {
 	public static final String convert(String str) {
 
 		/*
-		 * if (str == null || str.length() == 0) { //return new String(str);
-		 * return null; }
+		 * if (str == null || str.length() == 0) { //return new String(str); return null; }
 		 */
 
 		// ‹ó•¶š‚Ìê‡‚ÉNULL‚ğ•Ô‚³‚È‚¢‚æ‚¤‚ÉC³

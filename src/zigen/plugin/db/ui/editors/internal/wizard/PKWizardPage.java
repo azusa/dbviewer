@@ -90,6 +90,7 @@ public class PKWizardPage extends DefaultWizardPage {
 		txtConstraintName.setText(""); //$NON-NLS-1$
 		txtConstraintName.addFocusListener(new TextSelectionListener());
 		txtConstraintName.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				if ("".equals(txtConstraintName.getText())) { //$NON-NLS-1$
 					updateStatus(MSG_REQUIRE_NAME);
@@ -171,6 +172,7 @@ public class PKWizardPage extends DefaultWizardPage {
 		// defineViewer.setSorter(new TreeViewSorter()); // ëIëÇµÇΩèáÇ∆Ç∑ÇÈ
 
 		selectColumnViewer.addDoubleClickListener(new IDoubleClickListener() {
+
 			public void doubleClick(DoubleClickEvent event) {
 				TableItem[] items = table.getSelection();
 				for (int i = 0; i < items.length; i++) {
@@ -185,6 +187,7 @@ public class PKWizardPage extends DefaultWizardPage {
 		});
 
 		addBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				while (!columnList.isEmpty()) {
 					Column col = (Column) columnList.get(0);
@@ -196,6 +199,7 @@ public class PKWizardPage extends DefaultWizardPage {
 		});
 
 		addBtn2.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				TableItem[] items = table2.getSelection();
 				for (int i = 0; i < items.length; i++) {
@@ -209,6 +213,7 @@ public class PKWizardPage extends DefaultWizardPage {
 		});
 
 		addBtn3.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				TableItem[] items = table.getSelection();
 				for (int i = 0; i < items.length; i++) {

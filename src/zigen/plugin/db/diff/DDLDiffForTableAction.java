@@ -76,9 +76,7 @@ public class DDLDiffForTableAction extends Action implements Runnable {
 	private void showDDLDiff() throws Exception {
 
 		IDDLDiff diff = new DDLDiff(new DDL(left), new DDL(right));
-		DDLDiffEditorInput input = new DDLDiffEditorInput(new IDDLDiff[] {
-			diff
-		}, true);
+		DDLDiffEditorInput input = new DDLDiffEditorInput(new IDDLDiff[] {diff}, true);
 		IWorkbenchPage page = DbPlugin.getDefault().getPage();
 		IDE.openEditor(page, input, DDLDiffEditor.ID, true);
 

@@ -35,7 +35,7 @@ public class TreeViewListener implements ITreeViewerListener {
 	private boolean showDialog = true;
 
 	public void treeCollapsed(TreeExpansionEvent event) {
-		// TODO 自動生成されたメソッド・スタブ
+	// TODO 自動生成されたメソッド・スタブ
 	}
 
 	public void treeExpanded(TreeExpansionEvent event) {

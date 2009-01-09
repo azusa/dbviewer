@@ -18,6 +18,7 @@ import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.ui.views.SQLExecuteView;
 
 public class SQLToUpperCaseAction implements IViewActionDelegate {
+
 	private static final String LINE_SEP = System.getProperty("line.separator");
 
 	private ISelection selection;

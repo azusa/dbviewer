@@ -28,9 +28,9 @@ import zigen.plugin.db.ui.views.TableSearchThread;
 
 public class TableTypeSearchJob extends AbstractJob {
 
-	//public static final String VisibleFolderPattern = "^TABLE|^VIEW|^SYNONYM|^ALIAS"; //$NON-NLS-1$
+	// public static final String VisibleFolderPattern = "^TABLE|^VIEW|^SYNONYM|^ALIAS"; //$NON-NLS-1$
 	public static final String VisibleFolderPattern = "^TABLE|^SYNONYM|^ALIAS"; //$NON-NLS-1$
-	
+
 	private TreeViewer viewer;
 
 	private Schema schema;
@@ -54,25 +54,23 @@ public class TableTypeSearchJob extends AbstractJob {
 
 			monitor.beginTask(Messages.getString("TableTypeSearchJob.2"), tableTypes.length); //$NON-NLS-1$
 			for (int i = 0; i < tableTypes.length; i++) {
-				String[] types = new String[] {
-					tableTypes[i]
-				};
-				
+				String[] types = new String[] {tableTypes[i]};
+
 				monitor.subTask(tableTypes[i] + Messages.getString("TableTypeSearchJob.3")); //$NON-NLS-1$
 
 				if (tableTypes[i].toUpperCase().matches(VisibleFolderPattern)) {
 					TableInfo[] tables = TableSearcher.execute(con, schema.getName(), types);
 					TableSearchThread.addFolderAndTables(con, schema, tableTypes[i], tables);
 
-					
-				} else if("VIEW".equals(tableTypes[i].toUpperCase())){
+
+				} else if ("VIEW".equals(tableTypes[i].toUpperCase())) {
 					Folder folder = new Folder();
 					folder.setName(tableTypes[i]);
 					View view = new View();
 					view.setName(DbPluginConstant.TREE_LEAF_LOADING);
 					folder.addChild(view);
 					schema.addChild(folder);
-					
+
 				} else if ("SEQUENCE".equals(tableTypes[i])) { //$NON-NLS-1$
 					// SEQUENCE ‚ÍAOracle‚Ì‚Ý‘Î‰ž
 					switch (DBType.getType(schema.getDbConfig())) {
@@ -92,8 +90,7 @@ public class TableTypeSearchJob extends AbstractJob {
 				monitor.worked(1);
 			}
 
-			
-			
+
 			IDBConfig conifg = schema.getDbConfig();
 			switch (DBType.getType(conifg)) {
 			case DBType.DB_TYPE_ORACLE:
@@ -102,7 +99,7 @@ public class TableTypeSearchJob extends AbstractJob {
 
 				monitor.subTask("SELECT DISTINCT TYPE FROM ALL_SOURCE...");
 				String[] sourceTypes = OracleSourceTypeSearcher.execute(con, owner);
-				
+
 				schema.setSourceType(sourceTypes);
 				for (int i = 0; i < sourceTypes.length; i++) {
 

@@ -35,5 +35,5 @@ public interface IMappingFactory {
 	abstract public void setNullSymbol(String nullSymbol);
 
 	abstract public void setConvertUnicode(boolean convertUnicode);
-	
+
 }

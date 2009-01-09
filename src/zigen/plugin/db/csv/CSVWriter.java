@@ -27,6 +27,7 @@ import zigen.plugin.db.core.Transaction;
  * 
  */
 public class CSVWriter {
+
 	private String DEMILITER = ","; //$NON-NLS-1$
 
 	private IDBConfig config = null;
@@ -44,10 +45,10 @@ public class CSVWriter {
 		this.config = config;
 		this.csvConfig = csvConfig;
 		this.factory = AbstractCsvMappingFactory.getFactory(config, csvConfig.isNonDoubleQuate());
-		
-		
-		if(csvConfig.getSeparator() != null && !"".equals(csvConfig)){
-		    this.DEMILITER = csvConfig.getSeparator();
+
+
+		if (csvConfig.getSeparator() != null && !"".equals(csvConfig)) {
+			this.DEMILITER = csvConfig.getSeparator();
 		}
 
 	}
@@ -90,9 +91,9 @@ public class CSVWriter {
 
 			ResultSetMetaData meta = rs.getMetaData();
 
-			if(!csvConfig.isNonHeader()){
-			    // カラムラベルの書き込み
-			    writeColumnLabel(pout, meta);
+			if (!csvConfig.isNonHeader()) {
+				// カラムラベルの書き込み
+				writeColumnLabel(pout, meta);
 			}
 
 			// カラム値の書き込み

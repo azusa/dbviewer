@@ -19,13 +19,12 @@ import zigen.plugin.db.ext.oracle.internal.OracleSequenceInfo;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- *        [2] 2005/10/10 ZIGEN 長いQueryの場合tooltipが見えなくなるためコメントアウト [3] 2005/10/18
- *        ZIGEN Eclipse3.1.x系でtooltipを設定しないとエラーになる
+ * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create. [2] 2005/10/10 ZIGEN 長いQueryの場合tooltipが見えなくなるためコメントアウト [3] 2005/10/18 ZIGEN Eclipse3.1.x系でtooltipを設定しないとエラーになる
  * 
  */
 
 public class SequenceEditorInput implements IEditorInput {
+
 	private String tooltip;
 
 	private String name;
@@ -35,7 +34,7 @@ public class SequenceEditorInput implements IEditorInput {
 	private OracleSequenceInfo sequenceInfo;
 
 	public SequenceEditorInput(IDBConfig config, OracleSequenceInfo sequenceInfo) {
-		
+
 		super();
 		this.config = config;
 		this.sequenceInfo = sequenceInfo;

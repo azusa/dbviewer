@@ -47,6 +47,7 @@ import zigen.plugin.db.ext.oracle.tablespace.CalcTableSpace;
  * 
  */
 public class WizardPage3 extends DefaultWizardPage {
+
 	public static final String HEADER_SCHEMANAME = Messages.getString("WizardPage3.0"); //$NON-NLS-1$
 
 	public static final String HEADER_TABLENAME = Messages.getString("WizardPage3.1"); //$NON-NLS-1$
@@ -77,15 +78,8 @@ public class WizardPage3 extends DefaultWizardPage {
 
 	public static final int COLUMN_TOTALTABLESPACESIZE = 6;
 
-	public static final String[] headers = {
-			HEADER_TABLENAME,
-			HEADER_INDEXNAME,
-			HEADER_PCTFREE,
-			HEADER_RECORD,
-			HEADER_TABLESPACESIZE,
-			HEADER_SAFECONEFFICIENT,
-			HEADER_TOTALTABLESPACESIZE
-	};
+	public static final String[] headers = {HEADER_TABLENAME, HEADER_INDEXNAME, HEADER_PCTFREE, HEADER_RECORD, HEADER_TABLESPACESIZE, HEADER_SAFECONEFFICIENT,
+			HEADER_TOTALTABLESPACESIZE};
 
 	private Text dbBlockSizeText;
 
@@ -150,6 +144,7 @@ public class WizardPage3 extends DefaultWizardPage {
 		exportCsvBtn.setText(Messages.getString("WizardPage3.13")); //$NON-NLS-1$
 
 		exportCsvBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent event) {
 				exportCsvButtonPressedHandler();
 			}
@@ -168,17 +163,8 @@ public class WizardPage3 extends DefaultWizardPage {
 	 */
 	void exportCsvButtonPressedHandler() {
 		// CSVヘッダー定義
-		String[] headers = {
-				HEADER_SCHEMANAME,
-				HEADER_TABLENAME,
-				HEADER_INDEXNAME,
-				WizardPage2.HEADER_BLOCKSIZE,
-				WizardPage2.HEADER_PCTFREE,
-				HEADER_RECORD,
-				HEADER_TABLESPACESIZE,
-				HEADER_SAFECONEFFICIENT,
-				HEADER_TOTALTABLESPACESIZE
-		};
+		String[] headers = {HEADER_SCHEMANAME, HEADER_TABLENAME, HEADER_INDEXNAME, WizardPage2.HEADER_BLOCKSIZE, WizardPage2.HEADER_PCTFREE, HEADER_RECORD, HEADER_TABLESPACESIZE,
+				HEADER_SAFECONEFFICIENT, HEADER_TOTALTABLESPACESIZE};
 
 		CSVResultWriter writer = new CSVResultWriter();
 		writer.setHeaders(headers);
@@ -190,7 +176,7 @@ public class WizardPage3 extends DefaultWizardPage {
 
 		if (file.exists()) {
 			if (!confirmOverwrite(shell, file.getName())) {
-//				log.debug("上書きをキャンセルしました。"); //$NON-NLS-1$
+				// log.debug("上書きをキャンセルしました。"); //$NON-NLS-1$
 				return;
 			}
 		}
@@ -208,10 +194,8 @@ public class WizardPage3 extends DefaultWizardPage {
 	private File saveCsv(Shell shell, String defaultFileName) {
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 		dialog.setFileName(defaultFileName);
-		dialog.setFilterExtensions(new String[] {
-				"*.csv", "*.*"}); //$NON-NLS-1$ //$NON-NLS-2$
-		dialog.setFilterNames(new String[] {
-				Messages.getString("WizardPage3.18"), Messages.getString("WizardPage3.19")}); //$NON-NLS-1$ //$NON-NLS-2$
+		dialog.setFilterExtensions(new String[] {"*.csv", "*.*"}); //$NON-NLS-1$ //$NON-NLS-2$
+		dialog.setFilterNames(new String[] {Messages.getString("WizardPage3.18"), Messages.getString("WizardPage3.19")}); //$NON-NLS-1$ //$NON-NLS-2$
 		String fileName = dialog.open();
 		// File file = new File(fileName);
 		if (fileName != null) {
@@ -323,7 +307,7 @@ public class WizardPage3 extends DefaultWizardPage {
 				String str = page.dbBlockSizeText.getText();
 				if (str != null && !"".equals(str)) { //$NON-NLS-1$
 					this.dbBlockSize = Integer.parseInt(str);
-//					log.debug("dbBlockSize > " + dbBlockSize); //$NON-NLS-1$
+					// log.debug("dbBlockSize > " + dbBlockSize); //$NON-NLS-1$
 					dbBlockSizeText.setText(str);
 				}
 				tableViewer.setInput(calcurate(tableItems));

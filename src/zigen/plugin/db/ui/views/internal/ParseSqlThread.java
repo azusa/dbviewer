@@ -15,20 +15,24 @@ import zigen.sql.parser.exception.ParserException;
 public class ParseSqlThread implements Runnable {
 
 	INode fNode;
+
 	ASTVisitor2 fVisitor;
+
 	boolean isComplete;
+
 	CurrentSql fCurrentSql;
-	
+
 	protected IDocument fDocument;
+
 	protected int offset;
-	
-	
-	public ParseSqlThread(IDocument document, int offset){
+
+
+	public ParseSqlThread(IDocument document, int offset) {
 		this.offset = offset;
 		this.fDocument = document;
 		fVisitor = new ASTVisitor2();
 	}
-	
+
 	public void run() {
 		try {
 			fCurrentSql = createCurrentSql();
@@ -39,16 +43,16 @@ public class ParseSqlThread implements Runnable {
 			isComplete = true;
 		} catch (ParserException e) {
 			e.printStackTrace();
-		} catch(java.lang.StackOverflowError e){
+		} catch (java.lang.StackOverflowError e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	protected CurrentSql createCurrentSql(){
+
+	protected CurrentSql createCurrentSql() {
 		String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
 		return new CurrentSql(fDocument, offset, demiliter);
-		
+
 	}
 
 	public INode getNode() {
@@ -63,9 +67,10 @@ public class ParseSqlThread implements Runnable {
 		return (fCurrentSql == null) ? null : fCurrentSql.getSql();
 	}
 
-	public int getBeginOffset(){
+	public int getBeginOffset() {
 		return (fCurrentSql == null) ? 0 : fCurrentSql.getBegin();
 	}
+
 	public boolean isComplete() {
 		return isComplete;
 	}

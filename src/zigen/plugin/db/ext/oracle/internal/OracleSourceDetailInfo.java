@@ -8,15 +8,15 @@ package zigen.plugin.db.ext.oracle.internal;
 import java.io.Serializable;
 
 public class OracleSourceDetailInfo extends OracleSourceInfo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private String text;
 
 	/**
 	 * コンストラクタ
 	 */
-	public OracleSourceDetailInfo() {
-	}
+	public OracleSourceDetailInfo() {}
 
 	public String getText() {
 		return this.text;

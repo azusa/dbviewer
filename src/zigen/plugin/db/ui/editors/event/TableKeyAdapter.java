@@ -121,7 +121,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 				handler.selectRow(row);// 更新後選択状態にする
 				e.doit = true;
 			} else {
-//				handler.editTableElement(row, col); // ここで編集すると、エラー箇所での編集が解除されてしまう。
+				// handler.editTableElement(row, col); // ここで編集すると、エラー箇所での編集が解除されてしまう。
 				e.doit = false;
 			}
 		}
@@ -267,8 +267,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 				}
 
 				/*
-				 * } else if (e.stateMask == SWT.CTRL && e.keyCode == 97) { //
-				 * CTL+A で文字選択 text.selectAll(); }
+				 * } else if (e.stateMask == SWT.CTRL && e.keyCode == 97) { // CTL+A で文字選択 text.selectAll(); }
 				 */
 
 				// CTRL+V
@@ -278,12 +277,12 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 					}
 				}
 
-			}else if(e.widget instanceof Button){
+			} else if (e.widget instanceof Button) {
 				if (e.keyCode == SWT.ARROW_UP || e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.ARROW_LEFT || e.keyCode == SWT.ARROW_RIGHT) {
 					arrowEvent(e);
 				}
-				
-				
+
+
 			}
 		} catch (Exception e1) {
 			DbPlugin.getDefault().showErrorDialog(e1);
@@ -378,8 +377,8 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 			job.schedule();
 
 			return true;
-			
-		}else{
+
+		} else {
 			return false;
 		}
 	}
@@ -406,22 +405,24 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 	}
 
 	class UpdateTableAction implements Runnable {
+
 		int recordNo;
+
 		Object[] items;
-		
+
 		public UpdateTableAction(int recordNo, Object[] items) {
 			this.recordNo = recordNo;
 			this.items = items;
 		}
 
 		public void run() {
-//			 ThreadLocalでエラーダイアログの連続表示を制御すること
+			// ThreadLocalでエラーダイアログの連続表示を制御すること
 			PasteRecordMonitor.begin();
 			try {
 				createNewRecord(recordNo, items);
 			} catch (Exception e) {
 				DbPlugin.log(e);
-			} finally{
+			} finally {
 				PasteRecordMonitor.end();
 			}
 		}
@@ -429,16 +430,16 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		private void createNewRecord(int recordNo, Object[] items) throws Exception {
 			ITable tbl = headerTableElement.getTable();
 			int count = table.getItems().length;
-			
+
 			// 表示レコード件数＋１でRecordNoを設定
-			//TableElement newElement = new TableNewElement(tbl, count + 1, headerTableElement.getColumns(), items, headerTableElement.getUniqueColumns());
-			
-//			System.out.println("create " + recordNo);
+			// TableElement newElement = new TableNewElement(tbl, count + 1, headerTableElement.getColumns(), items, headerTableElement.getUniqueColumns());
+
+			// System.out.println("create " + recordNo);
 			TableElement newElement = new TableNewElement(tbl, recordNo, headerTableElement.getColumns(), items, headerTableElement.getUniqueColumns());
-			
+
 			// 同じレコードが登録されている場合は非更新状態(*)にする
-			
-			
+
+
 			// レコードの追加
 			TableViewerManager.insert(handler.viewer, newElement);
 
@@ -458,18 +459,20 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 		}
 	}
-	
+
 	class PasteRecordJob extends AbstractJob {
+
 		StringTokenizer tokenizer;
+
 		int position;
-		
+
 		public PasteRecordJob(StringTokenizer tokenizer, int position) {
 			super("Paste Record Data");
 			this.tokenizer = tokenizer;
 			editor.setEnabled(false); // 非編集モードにする
 			this.position = position;
 		}
-		
+
 		protected IStatus run(IProgressMonitor monitor) {
 			try {
 				synchronized (table) {
@@ -477,15 +480,15 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 					monitor.beginTask("Now Pasting Records...", totalWork);
 					int cnt = 0;
 					int displayCount = 0;
-					
-					
+
+
 					// コピーしたデータのカラムが全て同じかチェックする
 					while (tokenizer.hasMoreTokens()) {
 						cnt++;
 						displayCount++;
 						if (monitor.isCanceled()) {
 							return Status.CANCEL_STATUS;
-						} else {							
+						} else {
 							String record = tokenizer.nextToken();
 							List itemList = new ArrayList();
 							TabTokenizer t = new TabTokenizer(record);
@@ -495,18 +498,18 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 								itemList.add(token);
 							}
 							String[] items = (String[]) itemList.toArray(new String[0]);
-							
+
 							// 1行目がヘッダーかどうかチェックする
-							if(cnt == 1 && isHeaderData(columns, items)){
+							if (cnt == 1 && isHeaderData(columns, items)) {
 								totalWork--; // トータルを1つ減らす
 								displayCount--; // 表示用のカウントを１つ減らす
 								monitor.subTask((displayCount) + "/" + totalWork);
 								monitor.worked(1);
-								
-							}else{
+
+							} else {
 								monitor.subTask((displayCount) + "/" + totalWork);
 								monitor.worked(1);
-								
+
 								Display.getDefault().syncExec(new UpdateTableAction(position++, items));
 							}
 						}
@@ -517,21 +520,22 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 			} catch (Exception e) {
 				showErrorMessage("The error occurred. ", e);
 
-			} finally{
-				Display.getDefault().asyncExec(new Runnable(){
+			} finally {
+				Display.getDefault().asyncExec(new Runnable() {
+
 					public void run() {
 						editor.changeColumnColor();// 明細の背景色を変更
-						editor.setEnabled(true);	
+						editor.setEnabled(true);
 					}
 				});
-				//件数の再計算はここで
+				// 件数の再計算はここで
 				Display.getDefault().asyncExec(new CalcTotalCountAction());
 			}
-			
+
 			return Status.OK_STATUS;
 		}
 
-		private String convertToken(String token){
+		private String convertToken(String token) {
 			if (token == null)
 				token = ""; // 2008/01/30 ZIGEN NULLの場合は、""に変換する
 
@@ -549,7 +553,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 			return token;
 		}
 	}
-	
+
 	private void arrowEvent(KeyEvent e) throws Exception {
 		int row = handler.getSelectedRow(); // 行（先頭は0から)
 		int col = handler.getSelectedCellEditorIndex(); // 現在のカラム

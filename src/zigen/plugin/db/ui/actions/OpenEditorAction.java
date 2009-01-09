@@ -20,8 +20,7 @@ import zigen.plugin.db.ui.jobs.OpenEditorJob;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- *        [2] 2005/11/23 ZIGEN エディター起動時にカラムを読み込むように修正.
+ * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create. [2] 2005/11/23 ZIGEN エディター起動時にカラムを読み込むように修正.
  * 
  * 
  */

@@ -33,8 +33,9 @@ public class SQLTokenizer implements Enumeration {
 	private String demiliter;
 
 	public SQLTokenizer(String str, String demiliter) {
-		if(str == null || str.length() == 0) return;
-			
+		if (str == null || str.length() == 0)
+			return;
+
 		this.text = convertLineSep(str);
 		this.demiliter = demiliter + LINE_SEP;
 
@@ -84,8 +85,9 @@ public class SQLTokenizer implements Enumeration {
 	}
 
 	public int getTokenCount() {
-		if(text == null) return 0;
-		
+		if (text == null)
+			return 0;
+
 		int i = 0;
 		int ret = 1;
 		while ((i = nextDemiliter(i)) < maxPosition) {
@@ -123,13 +125,13 @@ public class SQLTokenizer implements Enumeration {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-		
+
 		// 改行だけの場合は省略する
 		String out = sb.toString().trim();
 		if (out.length() == 0) {
 			return null;
 		} else {
-//			return out;
+			// return out;
 			return StringUtil.convertLineSep(out, DbPluginConstant.LINE_SEP);
 		}
 	}

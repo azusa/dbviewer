@@ -26,84 +26,86 @@ import zigen.plugin.db.ui.internal.ITable;
 
 /**
  * RenameTableActionクラス.
+ * 
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/08 ZIGEN create.
  */
 public class RenameTableAction extends Action implements Runnable {
 
-    private StructuredViewer viewer = null;
-    private IDBConfig config;
-    private ISQLCreatorFactory factory;
-        
-    public RenameTableAction(StructuredViewer viewer) {
-        this.viewer = viewer;
-        this.setText(Messages.getString("RenameTableAction.0")); //$NON-NLS-1$
-        this.setToolTipText(Messages.getString("RenameTableAction.1")); //$NON-NLS-1$
+	private StructuredViewer viewer = null;
 
-    }
+	private IDBConfig config;
 
-    /**
-     * Action実行時の処理
-     */
-    public void run() {
+	private ISQLCreatorFactory factory;
 
-        Object element = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
-        try {
-            if (element instanceof ITable) {
-                ITable table = (ITable) element;
+	public RenameTableAction(StructuredViewer viewer) {
+		this.viewer = viewer;
+		this.setText(Messages.getString("RenameTableAction.0")); //$NON-NLS-1$
+		this.setToolTipText(Messages.getString("RenameTableAction.1")); //$NON-NLS-1$
 
-                Shell shell = DbPlugin.getDefault().getShell();
-                InputDialog dialog = new InputDialog(shell,
-                        Messages.getString("RenameTableAction.2"), Messages.getString("RenameTableAction.3"), table.getName(), null); //$NON-NLS-1$ //$NON-NLS-2$
-                int rc = dialog.open();
-                if (rc == InputDialog.CANCEL) {
-                    return;
-                }
+	}
 
-                String newTableName = dialog.getValue().trim();
-                if (!table.getName().equals(newTableName)) {
-                    String newRemarks = table.getRemarks();
+	/**
+	 * Action実行時の処理
+	 */
+	public void run() {
 
-                    config = table.getDbConfig();
-                    factory = AbstractSQLCreatorFactory.getFactory(config, table);
+		Object element = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
+		try {
+			if (element instanceof ITable) {
+				ITable table = (ITable) element;
 
-                    Transaction trans = Transaction.getInstance(config);
+				Shell shell = DbPlugin.getDefault().getShell();
+				InputDialog dialog = new InputDialog(shell, Messages.getString("RenameTableAction.2"), Messages.getString("RenameTableAction.3"), table.getName(), null); //$NON-NLS-1$ //$NON-NLS-2$
+				int rc = dialog.open();
+				if (rc == InputDialog.CANCEL) {
+					return;
+				}
 
-                    // 実際には、ここではTable名しか変更されない
-                    String[] sqls = createSQL(table, newTableName, newRemarks);
-                    for (int i = 0; i < sqls.length; i++) {
-                        SQLInvoker.execute(trans.getConnection(), sqls[i]);
-                    }
-                    if (!config.isAutoCommit() && factory.supportsRollbackDDL()) {
-                        if (DbPlugin.getDefault().confirmDialog(Messages.getString("RenameTableAction.4"))) { //$NON-NLS-1$
-                            trans.commit();
-                        }
-                    }
-                    DbPlugin.fireStatusChangeListener(table, IStatusChangeListener.EVT_ModifyTableDefine);
+				String newTableName = dialog.getValue().trim();
+				if (!table.getName().equals(newTableName)) {
+					String newRemarks = table.getRemarks();
 
-                    table.setName(newTableName);
-                    viewer.refresh(table);
-                }
-            }
+					config = table.getDbConfig();
+					factory = AbstractSQLCreatorFactory.getFactory(config, table);
 
-        } catch (Exception e) {
-            DbPlugin.getDefault().showErrorDialog(e);
-        }
-    }
+					Transaction trans = Transaction.getInstance(config);
 
-    public String[] createSQL(ITable table, String newTableName, String newRemarks) {
-        List list = new ArrayList();
+					// 実際には、ここではTable名しか変更されない
+					String[] sqls = createSQL(table, newTableName, newRemarks);
+					for (int i = 0; i < sqls.length; i++) {
+						SQLInvoker.execute(trans.getConnection(), sqls[i]);
+					}
+					if (!config.isAutoCommit() && factory.supportsRollbackDDL()) {
+						if (DbPlugin.getDefault().confirmDialog(Messages.getString("RenameTableAction.4"))) { //$NON-NLS-1$
+							trans.commit();
+						}
+					}
+					DbPlugin.fireStatusChangeListener(table, IStatusChangeListener.EVT_ModifyTableDefine);
+
+					table.setName(newTableName);
+					viewer.refresh(table);
+				}
+			}
+
+		} catch (Exception e) {
+			DbPlugin.getDefault().showErrorDialog(e);
+		}
+	}
+
+	public String[] createSQL(ITable table, String newTableName, String newRemarks) {
+		List list = new ArrayList();
 
 
-        if (!table.getRemarks().equals(newRemarks)) {
-            list.add(factory.createCommentOnTableDDL(newRemarks));
-        }
-        if (!table.getName().equals(newTableName)) {
-            list.add(factory.createRenameTableDDL(newTableName));
-        }
-        return (String[]) list.toArray(new String[0]);
+		if (!table.getRemarks().equals(newRemarks)) {
+			list.add(factory.createCommentOnTableDDL(newRemarks));
+		}
+		if (!table.getName().equals(newTableName)) {
+			list.add(factory.createRenameTableDDL(newTableName));
+		}
+		return (String[]) list.toArray(new String[0]);
 
-    }
+	}
 
 }

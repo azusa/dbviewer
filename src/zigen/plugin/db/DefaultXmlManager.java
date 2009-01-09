@@ -53,7 +53,6 @@ public class DefaultXmlManager {
 		}
 		return obj;
 	}
-	
-	
+
 
 }

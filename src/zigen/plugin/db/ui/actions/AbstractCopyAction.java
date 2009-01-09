@@ -35,9 +35,9 @@ abstract public class AbstractCopyAction implements IObjectActionDelegate {
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		if (targetPart instanceof TreeView) {
-			this.treeView = (TreeView)targetPart;
+			this.treeView = (TreeView) targetPart;
 			this.structuredViewer = treeView.getTreeViewer();
-		}else{
+		} else {
 			throw new RuntimeException("Required TreeView"); //$NON-NLS-1$
 		}
 	}
@@ -52,7 +52,7 @@ abstract public class AbstractCopyAction implements IObjectActionDelegate {
 			throw new RuntimeException("Required IStructuredSelection."); //$NON-NLS-1$
 		}
 	}
-	
+
 	abstract public void run(IAction action);
 
 }

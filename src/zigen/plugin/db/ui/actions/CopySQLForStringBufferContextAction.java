@@ -30,6 +30,7 @@ import zigen.plugin.db.core.StringUtil;
  * 
  */
 public class CopySQLForStringBufferContextAction implements IViewActionDelegate {
+
 	private final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
 
 	private ISelection selection;
@@ -64,11 +65,7 @@ public class CopySQLForStringBufferContextAction implements IViewActionDelegate 
 							+ LINE_SEP);
 				}
 
-				clipboard.setContents(new Object[] {
-					sb.toString()
-				}, new Transfer[] {
-					text_transfer
-				});
+				clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {text_transfer});
 			}
 		}
 	}

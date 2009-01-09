@@ -28,6 +28,7 @@ import zigen.plugin.db.ui.views.SQLExecuteView;
  * 
  */
 public class SQLFormatAction extends Action implements Runnable {
+
 	private SQLExecuteView view;
 
 	/**
@@ -61,8 +62,8 @@ public class SQLFormatAction extends Action implements Runnable {
 
 			IPreferenceStore store = DbPlugin.getDefault().getPreferenceStore();
 			String demiliter = store.getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
-			
-			//boolean onPatch = store.getBoolean(SQLEditorPreferencePage.P_FORMAT_PATCH);
+
+			// boolean onPatch = store.getBoolean(SQLEditorPreferencePage.P_FORMAT_PATCH);
 			boolean onPatch = DbPlugin.getDefault().getPreferenceStore().getBoolean(SQLFormatPreferencePage.P_FORMAT_PATCH);
 			int type = DbPlugin.getDefault().getPreferenceStore().getInt(SQLFormatPreferencePage.P_USE_FORMATTER_TYPE);
 
@@ -76,7 +77,7 @@ public class SQLFormatAction extends Action implements Runnable {
 					// BlancoSqlFormatterを使ったSQLフォーマット処理
 					// -----------------------------------------------
 					// sb.append(SQLFormatter.format(sql,onPatch));
-					//sb.append(StringUtil.convertLineSep(SQLFormatter.format(sql, type, onPatch), DbPluginConstant.LINE_SEP));
+					// sb.append(StringUtil.convertLineSep(SQLFormatter.format(sql, type, onPatch), DbPluginConstant.LINE_SEP));
 					sb.append(SQLFormatter.format(sql, type, onPatch));
 
 					if ("/".equals(demiliter)) { //$NON-NLS-1$
@@ -90,12 +91,12 @@ public class SQLFormatAction extends Action implements Runnable {
 			}
 			sv.getDocument().set(sb.toString());
 			tw.stop();
-			view.setStatusMessage("Complete SQL Format. "  + tw.getTotalTime());
+			view.setStatusMessage("Complete SQL Format. " + tw.getTotalTime());
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);
-		} finally{
-			if(tw != null && tw.isStart()){
+		} finally {
+			if (tw != null && tw.isStart()) {
 				tw.stop();
 			}
 		}

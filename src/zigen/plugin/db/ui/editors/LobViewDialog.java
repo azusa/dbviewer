@@ -53,7 +53,7 @@ import zigen.plugin.db.core.TransactionForTableEditor;
 import zigen.plugin.db.ui.editors.internal.FillCellEditorUtil;
 
 public class LobViewDialog extends Dialog {
-	
+
 	private ImageCacher ic = ImageCacher.getInstance();
 
 	protected PluginSettingsManager pluginMgr = DbPlugin.getDefault().getPluginSettingsManager();
@@ -92,7 +92,7 @@ public class LobViewDialog extends Dialog {
 
 	public LobViewDialog(Shell parent, TableElement tableElement, int colIndex) {
 		super(parent);
-        setShellStyle(getShellStyle() |SWT.MAX | SWT.RESIZE); // リサイズ可能
+		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE); // リサイズ可能
 		this.tableElement = tableElement;
 		this.colIndex = colIndex;
 		this.column = tableElement.getColumns()[colIndex - 1];
@@ -120,10 +120,8 @@ public class LobViewDialog extends Dialog {
 	 */
 	private void doExport() {
 		FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-		dialog.setFilterExtensions(new String[] {
-			"*.*"}); //$NON-NLS-1$
-		dialog.setFilterNames(new String[] {
-			Messages.getString("LobViewDialog.4")}); //$NON-NLS-1$
+		dialog.setFilterExtensions(new String[] {"*.*"}); //$NON-NLS-1$
+		dialog.setFilterNames(new String[] {Messages.getString("LobViewDialog.4")}); //$NON-NLS-1$
 		String fileName = dialog.open();
 		if (fileName != null) {
 			File file = new File(fileName);
@@ -157,10 +155,8 @@ public class LobViewDialog extends Dialog {
 	private void doImport() {
 		// if (DbPlugin.getDefault().confirmDialog("データを更新しますが、よろしいですか？")) {
 		FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-		dialog.setFilterExtensions(new String[] {
-			"*.*"}); //$NON-NLS-1$
-		dialog.setFilterNames(new String[] {
-			Messages.getString("LobViewDialog.6")}); //$NON-NLS-1$
+		dialog.setFilterExtensions(new String[] {"*.*"}); //$NON-NLS-1$
+		dialog.setFilterNames(new String[] {Messages.getString("LobViewDialog.6")}); //$NON-NLS-1$
 		String fileName = dialog.open();
 		if (fileName != null) {
 			File file = new File(fileName);
@@ -204,7 +200,7 @@ public class LobViewDialog extends Dialog {
 				if (isClob()) {
 					String str = ByteArrayUtil.toString((byte[]) newData, charsetItem.getText());
 					rowAffected = FillCellEditorUtil.update(trans.getConnection(), tableElement, colIndex, str);
-					
+
 					originalData = str;
 					charsetItem.setEnabled(false);
 
@@ -213,7 +209,7 @@ public class LobViewDialog extends Dialog {
 					originalData = newData;
 					charsetItem.setEnabled(true);
 				}
-				
+
 				trans.commit();
 				orignalText = newText;
 
@@ -231,9 +227,9 @@ public class LobViewDialog extends Dialog {
 				updateItem.setEnabled(false);
 				deleteItem.setEnabled(true);
 				expItem.setEnabled(true);
-				
+
 			} catch (Exception e) {
-				
+
 				DbPlugin.getDefault().showErrorDialog(e);
 			}
 
@@ -253,7 +249,7 @@ public class LobViewDialog extends Dialog {
 				IDBConfig config = tableElement.getTable().getDbConfig();
 				TransactionForTableEditor trans = TransactionForTableEditor.getInstance(config);
 				int rowAffected = 0;
-				
+
 				rowAffected = FillCellEditorUtil.delete(trans.getConnection(), tableElement, colIndex);
 
 				trans.commit();
@@ -268,7 +264,7 @@ public class LobViewDialog extends Dialog {
 				deleteItem.setEnabled(false);
 				expItem.setEnabled(false);
 				charsetItem.setEnabled(false);
-				
+
 			} catch (Exception e) {
 				DbPlugin.getDefault().showErrorDialog(e);
 			}
@@ -293,6 +289,7 @@ public class LobViewDialog extends Dialog {
 		updateItem.setText(Messages.getString("LobViewDialog.16")); //$NON-NLS-1$
 		updateItem.setToolTipText(Messages.getString("LobViewDialog.17")); //$NON-NLS-1$
 		updateItem.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				doUpdate();
 			}
@@ -302,6 +299,7 @@ public class LobViewDialog extends Dialog {
 		deleteItem.setText(Messages.getString("LobViewDialog.18")); //$NON-NLS-1$
 		deleteItem.setToolTipText(Messages.getString("LobViewDialog.19")); //$NON-NLS-1$
 		deleteItem.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				doDelete();
 			}
@@ -313,6 +311,7 @@ public class LobViewDialog extends Dialog {
 		impItem.setText(Messages.getString("LobViewDialog.20")); //$NON-NLS-1$
 		impItem.setToolTipText(Messages.getString("LobViewDialog.21")); //$NON-NLS-1$
 		impItem.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				doImport();
 			}
@@ -322,6 +321,7 @@ public class LobViewDialog extends Dialog {
 		expItem.setText(Messages.getString("LobViewDialog.22")); //$NON-NLS-1$
 		expItem.setToolTipText(Messages.getString("LobViewDialog.23")); //$NON-NLS-1$
 		expItem.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				doExport();
 			}
@@ -403,12 +403,8 @@ public class LobViewDialog extends Dialog {
 		tabFolder = new CTabFolder(composite, SWT.NONE);
 		tabFolder.setLayoutData(gridData);
 		tabFolder.setTabHeight(20);
-		tabFolder.setSelectionBackground(new Color[] {
-				composite.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND),
-				composite.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT)
-		}, new int[] {
-			100
-		}, true);
+		tabFolder.setSelectionBackground(new Color[] {composite.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND),
+				composite.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT)}, new int[] {100}, true);
 		//
 		tabFolder.setSelectionForeground(composite.getDisplay().getSystemColor(SWT.COLOR_TITLE_FOREGROUND));
 		tabFolder.setSimple(true);
@@ -454,6 +450,7 @@ public class LobViewDialog extends Dialog {
 			}
 			tabItem.setText(label);
 			tabItem.addDisposeListener(new DisposeListener() {
+
 				public void widgetDisposed(DisposeEvent e) {
 					try {
 						if (e.getSource() instanceof CTabItem) {
@@ -519,6 +516,7 @@ public class LobViewDialog extends Dialog {
 		tabItem.setText(label);
 		tabItem.setToolTipText(label);
 		tabItem.addDisposeListener(new DisposeListener() {
+
 			public void widgetDisposed(DisposeEvent e) {
 				try {
 					if (e.getSource() instanceof CTabItem) {
@@ -606,8 +604,6 @@ public class LobViewDialog extends Dialog {
 	}
 
 
-
-
 	protected void buttonPressed(int buttonId) {
 		// 閉じるが押下された場合はリターン・コードを設定してダイアログを閉じる
 		if (buttonId == IDialogConstants.CLOSE_ID) {
@@ -645,8 +641,9 @@ public class LobViewDialog extends Dialog {
 		return super.close();
 
 	}
-	
+
 	class DropdownSelectionListener extends SelectionAdapter {
+
 		private ToolItem dropdown;
 
 		private Menu menu;
@@ -688,6 +685,7 @@ public class LobViewDialog extends Dialog {
 			MenuItem menuItem = new MenuItem(menu, SWT.NONE);
 			menuItem.setText(item);
 			menuItem.addSelectionListener(new SelectionAdapter() {
+
 				public void widgetSelected(SelectionEvent event) {
 					MenuItem selected = (MenuItem) event.widget;
 					dropdown.setText(selected.getText());

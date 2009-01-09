@@ -69,12 +69,12 @@ public class TabTokenizer implements Enumeration {
 		}
 
 		currentPosition += (DEMILITER).length();
-		
+
 		// <-- 2008/01/30 ZIGEN ŸŽè‚ÉTRIM‚µ‚È‚¢‚±‚Æ(CharŒ^‚Ìê‡‚ÉŒŸõ‚Å‚«‚È‚­‚È‚è‚Ü‚·)
-		//String out = sb.toString().trim();
+		// String out = sb.toString().trim();
 		String out = sb.toString();
-		//-->
-		
+		// -->
+
 		if (out.length() == 0) {
 			return null;
 		} else {

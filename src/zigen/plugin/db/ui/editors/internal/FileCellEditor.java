@@ -14,10 +14,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 public class FileCellEditor extends DialogCellEditor {
+
 	Button result;
-		
+
 	boolean opened = false;
-	
+
 	public FileCellEditor(Composite parent) {
 		super(parent);
 	}
@@ -37,21 +38,20 @@ public class FileCellEditor extends DialogCellEditor {
 	public void setOpened(boolean opened) {
 		this.opened = opened;
 	}
-	
-    protected Button createButton(Composite parent) {
-        result = new Button(parent, SWT.DOWN);
-        result.setText("..."); //$NON-NLS-1$
-        return result;
-    }
-    
-    public void addKeyListener (KeyListener listener) {
-        result.addKeyListener(listener);
-    }
-    
-    public void addTraverseListener (TraverseListener listener) {
-        result.addTraverseListener(listener);   
-    }
-    
-    
+
+	protected Button createButton(Composite parent) {
+		result = new Button(parent, SWT.DOWN);
+		result.setText("..."); //$NON-NLS-1$
+		return result;
+	}
+
+	public void addKeyListener(KeyListener listener) {
+		result.addKeyListener(listener);
+	}
+
+	public void addTraverseListener(TraverseListener listener) {
+		result.addTraverseListener(listener);
+	}
+
 
 }

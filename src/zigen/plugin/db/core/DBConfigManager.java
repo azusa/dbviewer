@@ -54,18 +54,20 @@ public class DBConfigManager {
 
 	// for Oracle
 	public static final String KEY_CONNECT_AS_SYSDBA = "CONNECT_AS_SYSDBA"; //$NON-NLS-1$
+
 	public static final String KEY_CONNECT_AS_SYSOPEA = "CONNECT_AS_SYSOPEA"; //$NON-NLS-1$
-	
+
 	// for MySQL 5
 	public static final String KEY_CONNECT_AS_INFORMATION_SCHEMA = "CONNECT_AS_INFORMATION_SCHEMA"; //$NON-NLS-1$
-	
+
 	public static final String KEY_DISPLAYED_SCHEMAS = "KEY_DISPLAYED_SCHEMAS"; //$NON-NLS-1$
-	
+
 
 	public static final String KEY_IS_FILTER_PATTERN = "KEY_IS_FILTER_PATTERN"; //$NON-NLS-1$
+
 	public static final String KEY_FILTER_PATTERN = "KEY_FILTER_PATTERN"; //$NON-NLS-1$
-	
-	
+
+
 	/**
 	 * 登録済みデータベース接続定義情報を取得する
 	 * 
@@ -93,7 +95,7 @@ public class DBConfigManager {
 			config.setClassPaths(settings.getArray(KEY_CLASSPATH));
 			config.setCharset(settings.get(KEY_CHARSET)); // charset add
 			config.setConvertUnicode(settings.getBoolean(KEY_CONVUNICODE)); // charset
-																			// add
+			// add
 			config.setAutoCommit(settings.getBoolean(KEY_AUTOCOMMIT));
 
 			boolean b = settings.getBoolean(KEY_ONLYDEFAULTSCHEMA);
@@ -111,15 +113,15 @@ public class DBConfigManager {
 
 			config.setConnectAsSYSDBA(settings.getBoolean(KEY_CONNECT_AS_SYSDBA));
 			config.setConnectAsSYSOPER(settings.getBoolean(KEY_CONNECT_AS_SYSOPEA));
-			
+
 			config.setConnectAsInformationSchema(settings.getBoolean(KEY_CONNECT_AS_INFORMATION_SCHEMA));
-			
+
 			config.setDisplayedSchemas(settings.getSchemaInfos(KEY_DISPLAYED_SCHEMAS));
-			
+
 			config.setCheckFilterPattern(settings.getBoolean(KEY_IS_FILTER_PATTERN));
 			config.setFilterPattern(settings.get(KEY_FILTER_PATTERN));
-			
-			
+
+
 			list.add(config);
 			// configs[i] = config;
 		}
@@ -171,7 +173,7 @@ public class DBConfigManager {
 		}
 	}
 
-	
+
 	/**
 	 * データベース接続定義のコミットモードのみ変更する
 	 * 
@@ -181,11 +183,11 @@ public class DBConfigManager {
 	 */
 	public static void setAutoCommit(IDBConfig oldConfig, boolean isAutoCommit) {
 		IDBDialogSettings section = setting.getSection(oldConfig.getDbName());
-		if(section != null){
+		if (section != null) {
 			section.put(KEY_AUTOCOMMIT, isAutoCommit);
 		}
 	}
-	
+
 	public static boolean hasSection(String dbName) {
 		return setting.hasSection(dbName);
 	}
@@ -224,7 +226,7 @@ public class DBConfigManager {
 			section.put(KEY_CONNECT_AS_SYSDBA, config.isConnectAsSYSDBA());
 			section.put(KEY_CONNECT_AS_SYSOPEA, config.isConnectAsSYSOPER());
 			section.put(KEY_CONNECT_AS_INFORMATION_SCHEMA, config.isConnectAsInformationSchema());
-			
+
 			section.put(KEY_DISPLAYED_SCHEMAS, config.getDisplayedSchemas());
 			section.put(KEY_IS_FILTER_PATTERN, config.isCheckFilterPattern());
 			section.put(KEY_FILTER_PATTERN, config.getFilterPattern());

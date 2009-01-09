@@ -13,6 +13,7 @@ import zigen.plugin.db.core.SQLInvoker;
 import zigen.plugin.db.core.Transaction;
 
 public class TotalRecordCountSearchThread implements Runnable {
+
 	long count = 0;
 
 	int timeoutSec;
@@ -33,7 +34,7 @@ public class TotalRecordCountSearchThread implements Runnable {
 		Connection con = null;
 		try {
 			// カウント取得用に新規のConnectionを取得
-			con = ConnectionManager.getConnection(trans.getConfig());		
+			con = ConnectionManager.getConnection(trans.getConfig());
 			this.count = SQLInvoker.executeQueryTotalCount(con, query, timeoutSec);
 			this.isComplete = true;
 		} catch (Exception e) {

@@ -8,18 +8,18 @@ package zigen.plugin.db.ui.actions;
 import zigen.plugin.db.core.TableElement;
 
 public class MaxRecordException extends Throwable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	TableElement[] elements = null;
-	
+
 	public MaxRecordException(String message, TableElement[] elements) {
 		super(message);
 		this.elements = elements;
 	}
-	
+
 	public TableElement[] getTableElements() {
 		return this.elements;
 	}
-	
+
 }

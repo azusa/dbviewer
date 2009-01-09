@@ -38,6 +38,7 @@ import org.eclipse.swt.widgets.TableColumn;
  * 
  */
 abstract class DefaultWizardPage extends WizardPage {
+
 	protected int LEVEL_FIELD_WIDTH = 20;
 
 	protected int TEXT_FIELD_WIDTH = 50;
@@ -223,15 +224,15 @@ abstract class DefaultWizardPage extends WizardPage {
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
-		// 閉じるの作成
-		// createButton(parent, BUTTON_ID_EXP, "ファイルに保存", false);
-		// createButton(parent, BUTTON_ID_IMP, "データの変更", false);
-		// createButton(parent, BUTTON_ID_DEL, "データの削除", false);
-		// createButton(parent, IDialogConstants.CLOSE_ID,
-		// IDialogConstants.CLOSE_LABEL, true);
+	// 閉じるの作成
+	// createButton(parent, BUTTON_ID_EXP, "ファイルに保存", false);
+	// createButton(parent, BUTTON_ID_IMP, "データの変更", false);
+	// createButton(parent, BUTTON_ID_DEL, "データの削除", false);
+	// createButton(parent, IDialogConstants.CLOSE_ID,
+	// IDialogConstants.CLOSE_LABEL, true);
 
 	}
-	
+
 	protected void createSelectBtn(Composite composite) {
 		Composite c = new Composite(composite, SWT.NULL);
 		GridLayout layout = new GridLayout(2, false);
@@ -243,13 +244,13 @@ abstract class DefaultWizardPage extends WizardPage {
 		final Button selectBtn = new Button(c, SWT.PUSH);
 		selectBtn.setText(Messages.getString("ExpWizardPage1.8")); //$NON-NLS-1$
 		selectBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent event) {
 				if (tableItems != null) {
 					for (int i = 0; i < tableItems.length; i++) {
 						tableItems[i].setChecked(true);
 					}
-					tableViewer.update(tableItems, new String[] {
-						"check"}); //$NON-NLS-1$
+					tableViewer.update(tableItems, new String[] {"check"}); //$NON-NLS-1$
 					setPageComplete(true);
 				}
 			}
@@ -258,13 +259,13 @@ abstract class DefaultWizardPage extends WizardPage {
 		final Button unSelectBtn = new Button(c, SWT.PUSH);
 		unSelectBtn.setText(Messages.getString("ExpWizardPage1.10")); //$NON-NLS-1$
 		unSelectBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent event) {
 				if (tableItems != null) {
 					for (int i = 0; i < tableItems.length; i++) {
 						tableItems[i].setChecked(false);
 					}
-					tableViewer.update(tableItems, new String[] {
-						"check"}); //$NON-NLS-1$
+					tableViewer.update(tableItems, new String[] {"check"}); //$NON-NLS-1$
 					setPageComplete(false);
 				}
 			}

@@ -36,7 +36,7 @@ import zigen.plugin.db.ui.contentassist.SQLContentAssistantProcessor2;
  */
 public class SQLCodeConfiguration extends SourceViewerConfiguration {
 
-    ISQLTokenScanner keyWorkScanner;
+	ISQLTokenScanner keyWorkScanner;
 
 	ColorManager colorManager;
 
@@ -52,22 +52,19 @@ public class SQLCodeConfiguration extends SourceViewerConfiguration {
 	protected ISQLTokenScanner getSQLKeywordScanner() {
 		if (keyWorkScanner == null) {
 			keyWorkScanner = new SQLKeywordScanner(colorManager);
-		}else{
-		    keyWorkScanner.initialize();
+		} else {
+			keyWorkScanner.initialize();
 		}
 		return keyWorkScanner;
 	}
 
-	
+
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		return new String[] {
-				IDocument.DEFAULT_CONTENT_TYPE,
-				SQLPartitionScanner.SQL_COMMENT,
-				SQLPartitionScanner.SQL_STRING
-		};
+		return new String[] {IDocument.DEFAULT_CONTENT_TYPE, SQLPartitionScanner.SQL_COMMENT, SQLPartitionScanner.SQL_STRING};
 	}
 
 	static class SingleTokenScanner extends BufferedRuleBasedScanner {
+
 		public SingleTokenScanner(TextAttribute attribute) {
 			setDefaultReturnToken(new Token(attribute));
 		}
@@ -109,12 +106,12 @@ public class SQLCodeConfiguration extends SourceViewerConfiguration {
 		// reconciler.setRepairer(keywordDR, IDocument.DEFAULT_CONTENT_TYPE);
 		//	
 
-//		// ↓記号の色がデフォルトにならないため、コメントを解除
-//		NonRuleBasedDamagerRepairer defaultDR = new NonRuleBasedDamagerRepairer(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT)));
-//		defaultDR.setDocument(document);
-//		reconciler.setDamager(defaultDR, IDocument.DEFAULT_CONTENT_TYPE);
-//		reconciler.setRepairer(defaultDR, IDocument.DEFAULT_CONTENT_TYPE);
-//		// ここまで
+		// // ↓記号の色がデフォルトにならないため、コメントを解除
+		// NonRuleBasedDamagerRepairer defaultDR = new NonRuleBasedDamagerRepairer(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT)));
+		// defaultDR.setDocument(document);
+		// reconciler.setDamager(defaultDR, IDocument.DEFAULT_CONTENT_TYPE);
+		// reconciler.setRepairer(defaultDR, IDocument.DEFAULT_CONTENT_TYPE);
+		// // ここまで
 
 	}
 
@@ -172,14 +169,9 @@ public class SQLCodeConfiguration extends SourceViewerConfiguration {
 	}
 
 	/*
-	 * 自動編集 public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer
-	 * sourceViewer, String contentType) { IAutoEditStrategy[] parentStrategies =
-	 * super.getAutoEditStrategies(sourceViewer, contentType);
-	 * IAutoEditStrategy[] newStrategies = new
-	 * IAutoEditStrategy[parentStrategies.length+1];
-	 * System.arraycopy(parentStrategies, 0, newStrategies, 0,
-	 * parentStrategies.length); newStrategies[newStrategies.length-1] = new
-	 * SQLAutoEditStrategy();
+	 * 自動編集 public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) { IAutoEditStrategy[] parentStrategies = super.getAutoEditStrategies(sourceViewer,
+	 * contentType); IAutoEditStrategy[] newStrategies = new IAutoEditStrategy[parentStrategies.length+1]; System.arraycopy(parentStrategies, 0, newStrategies, 0, parentStrategies.length);
+	 * newStrategies[newStrategies.length-1] = new SQLAutoEditStrategy();
 	 * 
 	 * return newStrategies; }
 	 */
@@ -188,7 +180,7 @@ public class SQLCodeConfiguration extends SourceViewerConfiguration {
 		ContentFormatter formatter = new ContentFormatter();
 		formatter.setFormattingStrategy(new SQLFormattingStrategy(sourceViewer), IDocument.DEFAULT_CONTENT_TYPE);
 		formatter.setFormattingStrategy(new SQLFormattingStrategy(sourceViewer), SQLPartitionScanner.SQL_STRING);
-		
+
 		return formatter;
 	}
 

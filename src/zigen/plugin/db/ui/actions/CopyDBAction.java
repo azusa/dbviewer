@@ -34,6 +34,7 @@ import zigen.plugin.db.ui.views.TreeContentProvider;
 public class CopyDBAction extends Action implements Runnable {
 
 	public class DBNameValidator implements IInputValidator {
+
 		final String name = Messages.getString("CopyDBAction.0"); //$NON-NLS-1$
 
 		public String isValid(String str) {
@@ -92,12 +93,12 @@ public class CopyDBAction extends Action implements Runnable {
 				if (obj instanceof TreeContentProvider) {
 					TreeContentProvider provider = (TreeContentProvider) obj;
 					DataBase registDb = provider.addDataBase(copyConfig); // データベースを追加する
-					
+
 					viewer.refresh();
-					
+
 					// 追加したデータエースに選択を与える
 					viewer.setSelection(new StructuredSelection(registDb), true);
-					
+
 					viewer.getControl().notifyListeners(SWT.Selection, null);
 				}
 
@@ -108,7 +109,7 @@ public class CopyDBAction extends Action implements Runnable {
 					DbPlugin.getDefault().showErrorDialog(e);
 				}
 
-				
+
 				DbPlugin.fireStatusChangeListener(viewer, IStatusChangeListener.EVT_UpdateDataBaseList);
 
 			}

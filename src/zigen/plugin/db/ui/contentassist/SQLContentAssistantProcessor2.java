@@ -68,26 +68,26 @@ import zigen.sql.parser.exception.ParserException;
  * 
  */
 public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor implements IContentAssistProcessor {
-	
+
 	private static final class ProposalComparator implements Comparator {
-		
+
 		public int compare(Object o1, Object o2) {
 			return ((TemplateProposal) o2).getRelevance() - ((TemplateProposal) o1).getRelevance();
 		}
 	}
-	
+
 	private static final Comparator fgProposalComparator = new ProposalComparator();
-	
+
 	private int current = -1;
-	
+
 	private int scope = -1;
-	
+
 	private INode currentNode;
-	
+
 	private IPreferenceStore preferenceStore;
-	
+
 	private DbPluginFormatRule rule;
-	
+
 	public SQLContentAssistantProcessor2() {
 		this.preferenceStore = DbPlugin.getDefault().getPreferenceStore();
 		this.current = -1;
@@ -95,40 +95,40 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 		this.currentNode = null;
 		this.rule = DbPluginFormatRule.getInstance();
 	}
-	
-	
+
+
 	class SQLParserTimeout extends ParserException {
-		
+
 		private static final long serialVersionUID = 1L;
-		
+
 		public SQLParserTimeout(String message) {
 			super(message, null, 0, 0);
 		}
-		
+
 	}
-	
+
 	private Object lock = new Object();
-	
+
 	boolean isSQLParsing = false;
-	
+
 	class SQLParseThread implements Runnable {
-		
+
 		IDocument doc;
-		
+
 		int offset;
-		
+
 		String demiliter;
-		
+
 		boolean _isComplete = false;
-		
+
 		public SQLParseThread(IDocument doc, int offset, String demiliter) {
 			this.doc = doc;
 			this.offset = offset;
 			this.demiliter = demiliter;
 		}
-		
+
 		public void run() {
-			
+
 			if (isSQLParsing) {
 				return;
 			}
@@ -138,7 +138,7 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 					CurrentSql cs = new CurrentSql(doc, offset, demiliter);
 					String allSql = cs.getSql();
 					if (allSql != null && !"".equals(allSql.trim())) {
-						
+
 						TimeWatcher tw = new TimeWatcher();
 						tw.start();
 						SqlParser parser = new zigen.sql.parser.SqlParser(allSql, DbPlugin.getSqlFormatRult());
@@ -147,7 +147,7 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 						parser.parse(node);
 						node.accept(visitor, null);
 						currentNode = findCurrentNode(visitor, cs.getOffsetSql());
-						
+
 
 						if (currentNode == null) {
 							StringBuffer sb = new StringBuffer();
@@ -165,18 +165,18 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 					_isComplete = true;
 					isSQLParsing = false;
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		public boolean isComplete() {
 			return _isComplete;
 		}
-		
+
 
 	}
-	
+
 	private void parseSql(IDocument doc, int offset, ProcessorInfo pinfo, String demiliter) throws SQLParserTimeout {
 		zigen.sql.parser.ISqlParser parser = null;
 		zigen.sql.parser.ASTVisitor2 visitor = null;
@@ -187,7 +187,7 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 			Thread th = new Thread(t);
 			th.setPriority(Thread.MIN_PRIORITY);
 			th.start();
-			
+
 			try {
 				if (timeout > 0) {
 					th.join(timeout * 1000); // 1秒のタイムアウトを設定
@@ -197,7 +197,7 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			if (t.isComplete()) {
 				pinfo.setCurrentNode(currentNode);
 				if (currentNode != null) {
@@ -211,16 +211,16 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 				pinfo.setCurrentScope(ISqlParser.SCOPE_DEFAULT);
 				throw new SQLParserTimeout("SQL Parse is timeout.");
 			}
-			
+
 		} finally {
 			if (parser != null)
 				parser = null;
 			if (visitor != null)
 				visitor = null;
 		}
-		
+
 	}
-	
+
 	private INode findCurrentNode(ASTVisitor2 visitor, String offsetSql) {
 		int nodeOffset = StringUtil.endWordPosition(offsetSql);
 		INode node = visitor.findNodeByOffset(nodeOffset);
@@ -230,8 +230,8 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 			return findCurrentNode(visitor, offsetSql.substring(0, nodeOffset));
 		}
 	}
-	
-	
+
+
 	private void addTemplateProposal(List proposals, ICompletionProposal[] templates, ProcessorInfo pinfo) {
 		if (templates != null) {
 			String word = pinfo.getWord();
@@ -245,12 +245,12 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
 					// 候補の追加
 					proposals.add(template);
-					
+
 				}
 			}
 		}
 	}
-	
+
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		List proposals = new ArrayList();
 		try {
@@ -262,20 +262,20 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 			pinfo.setOffset(offset);
 			pinfo.setWord(ContentAssistUtil.getPreviousWord(doc, offset).toLowerCase());
 			pinfo.setWordGroup(ContentAssistUtil.getPreviousWordGroup(doc, offset).toLowerCase());
-			
+
 			if (mode.equals(CodeAssistPreferencePage.MODE_NONE)) {
 				return null;
-				
+
 			} else if (mode.equals(CodeAssistPreferencePage.MODE_KEYWORD)) {
 				// SQLを解析しない場合
 				SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);
 				SQLProposalCreator2.addProposalForFunction(proposals, rule.getFunctionNames(), pinfo);
-				
+
 			} else if (mode.equals(CodeAssistPreferencePage.MODE_PARSE)) {
 				// SQLを解析する場合
 				try {
 					parseSql(doc, offset, pinfo, demiliter);
-					
+
 
 					INode st = null;
 					if ((st = ASTUtil2.findParent(currentNode, "ASTSelectStatement")) != null) { //$NON-NLS-1$
@@ -297,7 +297,7 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 						// 上記に当てはまらない場合
 						// SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);
 					}
-					
+
 				} catch (SQLParserTimeout e) {
 					SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);
 				}
@@ -307,13 +307,13 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 			// ---------------------
 			ICompletionProposal[] templates = super.computeCompletionProposals(viewer, offset);
 			addTemplateProposal(proposals, templates, pinfo);
-			
+
 			// // ---------------------
 			// // 関数Templateの候補を追加
 			// // ---------------------
 			ICompletionProposal[] tFunctions = computeCompletionProposalsForFunction(viewer, offset);
 			addTemplateProposal(proposals, tFunctions, pinfo);
-			
+
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);
@@ -321,8 +321,8 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 		// 配列への変換
 		return (ICompletionProposal[]) proposals.toArray(new ICompletionProposal[0]);
 	}
-	
-	
+
+
 	protected TemplateContext createContext(ITextViewer viewer, IRegion region) {
 		TemplateContextType contextType = getContextType(viewer, region);
 		if (contextType != null) {
@@ -332,7 +332,7 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 		}
 		return null;
 	}
-	
+
 	// <--- 関数用に追加 --
 	public ICompletionProposal[] computeCompletionProposalsForFunction(ITextViewer viewer, int offset) {
 		ITextSelection selection = (ITextSelection) viewer.getSelectionProvider().getSelection();
@@ -357,75 +357,75 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 			if (template.matches(prefix, context.getContextType().getId()))
 				matches.add(createProposalForFunction(template, context, (IRegion) region, getRelevance(template, prefix)));
 		}
-		
+
 		Collections.sort(matches, fgProposalComparator);
-		
+
 		return (ICompletionProposal[]) matches.toArray(new ICompletionProposal[matches.size()]);
 	}
-	
+
 	protected TemplateContext createContextForFunction(ITextViewer viewer, IRegion region) {
 		TemplateContextType contextType = getContextTypeForFunction(viewer, region);
 		if (contextType != null) {
 			IDocument document = viewer.getDocument();
 			// return new DocumentTemplateContext(contextType, document, region.getOffset(), region.getLength());
 			return new SQLTemplateContext(contextType, document, region.getOffset(), region.getLength());
-			
+
 		}
 		return null;
 	}
-	
+
 	protected TemplateContextType getContextTypeForFunction(ITextViewer viewer, IRegion region) {
 		return SQLTemplateEditorUI.getDefault().getContextTypeRegistry().getContextType(SQLContextType.CONTEXT_TYPE_FUNCTION);
 	}
-	
+
 	protected ICompletionProposal createProposalForFunction(Template template, TemplateContext context, IRegion region, int relevance) {
 		return new SQLTemplateProposal(template, context, region, getImageForFunction(template), relevance);
 	}
-	
+
 	protected Image getImageForFunction(Template template) {
 		ImageCacher ic = ImageCacher.getInstance();
 		return ic.getImage(DbPlugin.IMG_CODE_FUNCTION);
 	}
-	
+
 	// --- 関数用に追加 --->
-	
+
 
 	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
 		return null;
 	}
-	
+
 	public char[] getCompletionProposalAutoActivationCharacters() {
 		return new char[] {'.'};
 	}
-	
+
 	public char[] getContextInformationAutoActivationCharacters() {
 		return null;
 	}
-	
+
 	public String getErrorMessage() {
 		return null;
 	}
-	
+
 	public IContextInformationValidator getContextInformationValidator() {
 		return null;
 	}
-	
+
 	public static String[] SQL_OPERATOR = {"=", "<", ">", "IS NULL", "IS NOT NULL", "LIKE", "IN", "EXIST", "(+)", "||", "<=", ">=", "<>", "(", ")", "+", "-", "*", "/"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$ //$NON-NLS-12$ //$NON-NLS-13$ //$NON-NLS-14$ //$NON-NLS-15$ //$NON-NLS-16$ //$NON-NLS-17$ //$NON-NLS-18$ //$NON-NLS-19$
-	
+
 	protected Template[] getTemplates(String contextTypeId) {
 		return SQLTemplateEditorUI.getDefault().getTemplateStore().getTemplates();
 	}
-	
+
 	protected TemplateContextType getContextType(ITextViewer viewer, IRegion region) {
 		return SQLTemplateEditorUI.getDefault().getContextTypeRegistry().getContextType(SQLContextType.CONTEXT_TYPE_SQL);
 	}
-	
+
 	protected Image getImage(Template template) {
 		ImageCacher ic = ImageCacher.getInstance();
 		return ic.getImage(DbPlugin.IMG_CODE_TEMPLATE);
 	}
-	
-	
+
+
 	protected String extractPrefix(ITextViewer viewer, int offset) {
 		IDocument document = viewer.getDocument();
 		int i = offset;
@@ -443,16 +443,16 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 			return ""; //$NON-NLS-1$
 		}
 	}
-	
+
 	protected int getRelevance(Template template, String prefix) {
 		if (template.getName().startsWith(prefix)) {
 			return 200;
 		}
 		return 0;
 	}
-	
+
 	protected ICompletionProposal createProposal(Template template, TemplateContext context, IRegion region, int relevance) {
 		return new SQLTemplateProposal(template, context, region, getImage(template), relevance);
 	}
-	
+
 }

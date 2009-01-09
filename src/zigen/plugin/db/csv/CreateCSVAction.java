@@ -31,6 +31,7 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  */
 public class CreateCSVAction extends Action {
+
 	private StructuredViewer viewer = null;
 
 	private IPreferenceStore store;
@@ -74,11 +75,9 @@ public class CreateCSVAction extends Action {
 				Shell shell = DbPlugin.getDefault().getShell();
 				FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 				dialog.setFileName(table.getName());
-				dialog.setFilterExtensions(new String[] {
-						"*.csv", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
+				dialog.setFilterExtensions(new String[] {"*.csv", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
 				});
-				dialog.setFilterNames(new String[] {
-						Messages.getString("CreateCSVAction.4"), Messages.getString("CreateCSVAction.5") //$NON-NLS-1$ //$NON-NLS-2$
+				dialog.setFilterNames(new String[] {Messages.getString("CreateCSVAction.4"), Messages.getString("CreateCSVAction.5") //$NON-NLS-1$ //$NON-NLS-2$
 						});
 				String fileName = dialog.open();
 
@@ -98,19 +97,19 @@ public class CreateCSVAction extends Action {
 				}
 
 				CSVConfig config = new CSVConfig();
-				
+
 				String encoding = store.getString(CSVPreferencePage.P_ENCODING);
-	            String separator = store.getString(CSVPreferencePage.P_DEMILITER);
-	            boolean nonHeader = store.getBoolean(CSVPreferencePage.P_NON_HEADER);
-	            boolean nonDoubleQuate = store.getBoolean(CSVPreferencePage.P_NON_DOUBLE_QUATE);
-	            
+				String separator = store.getString(CSVPreferencePage.P_DEMILITER);
+				boolean nonHeader = store.getBoolean(CSVPreferencePage.P_NON_HEADER);
+				boolean nonDoubleQuate = store.getBoolean(CSVPreferencePage.P_NON_DOUBLE_QUATE);
+
 				config.setQuery(TableManager.getSQLForCSV(table));
 				config.setCsvEncoding(encoding); // åªç›å≈íË
-	            config.setSeparator(separator);
-	            config.setNonHeader(nonHeader);
-	            config.setNonDoubleQuate(nonDoubleQuate);
+				config.setSeparator(separator);
+				config.setNonHeader(nonHeader);
+				config.setNonDoubleQuate(nonDoubleQuate);
 				config.setCsvFile(fileName);
-				
+
 				CSVWriter writer = new CSVWriter(table.getDbConfig(), config);
 				writer.execute();
 

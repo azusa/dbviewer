@@ -21,59 +21,59 @@ import zigen.plugin.db.core.ClipboardUtils;
 import zigen.plugin.db.core.StringUtil;
 
 public class CopySQLForStringBuffer2ContextAction implements IViewActionDelegate {
-	
+
 	private final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
-	
+
 	private ISelection selection;
-	
+
 	private IViewPart viewPart;
-	
+
 	public void init(IViewPart view) {
 		this.viewPart = view;
-		
+
 	}
-	
+
 	public void run(IAction action) {
 		StringBuffer sb = new StringBuffer();
 		Clipboard clipboard = ClipboardUtils.getInstance();
 		TextTransfer text_transfer = TextTransfer.getInstance();
-		
+
 		if (selection instanceof ITextSelection) {
 			ITextSelection textSelection = (ITextSelection) selection;
 			String text = textSelection.getText();
-			
+
 			if (text.length() > 0) {
 				sb.append("StringBuffer sb = new StringBuffer();"); //$NON-NLS-1$
 				sb.append(LINE_SEP);
-				
+
 				StringTokenizer st = new StringTokenizer(text, LINE_SEP);
 				while (st.hasMoreTokens()) {
 					String token = st.nextToken();
-					
+
 					sb.append("sb.append(\""); //$NON-NLS-1$
 					sb.append(StringUtil.encodeDoubleQuotation(token));
-					
+
 					// if(st.hasMoreTokens()){
 					// sb.append("\\r\\n");
 					// }
-					
+
 					// 最後の行にも改行コードを入れる
 					// sb.append("\\r\\n");
 					// sb.append("\");");//$NON-NLS-1$
-					
+
 					sb.append("\")");//$NON-NLS-1$\
 					sb.append(".append(\"\\r\\n\");"); //$NON-NLS-1$
 					sb.append(LINE_SEP);
 				}
-				
+
 				clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {text_transfer});
 			}
 		}
 	}
-	
+
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
-		
+
 	}
-	
+
 }

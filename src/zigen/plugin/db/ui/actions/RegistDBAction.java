@@ -31,6 +31,7 @@ import zigen.plugin.db.ui.views.TreeContentProvider;
  * 
  */
 public class RegistDBAction extends Action implements Runnable {
+
 	TreeViewer viewer = null;
 
 	/**
@@ -68,21 +69,21 @@ public class RegistDBAction extends Action implements Runnable {
 				DataBase registDb = provider.addDataBase(newConfig); // データベースを追加する
 
 				// 追加 2007/11/22(登録した要素にフォーカスを与える)
-//				Root root = provider.getRoot();
-//				viewer.expandToLevel(root, 1);
-//				TreeLeaf db = root.getChild(newConfig.getDbName());
-//				viewer.reveal(db);
-				
+				// Root root = provider.getRoot();
+				// viewer.expandToLevel(root, 1);
+				// TreeLeaf db = root.getChild(newConfig.getDbName());
+				// viewer.reveal(db);
+
 				viewer.refresh();
-				
+
 				// 追加したデータエースに選択を与える
 				viewer.setSelection(new StructuredSelection(registDb), true);
 			}
 
 			// 選択状態を再度通知する
 			viewer.getControl().notifyListeners(SWT.Selection, null);
-			
-			
+
+
 			DbPlugin.fireStatusChangeListener(viewer, IStatusChangeListener.EVT_UpdateDataBaseList);
 		}
 

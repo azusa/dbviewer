@@ -63,8 +63,8 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 
 	private AddColumnAction addColumnAction;
 
-    private DuplicateColumnAction duplicateColumnAction;
-    
+	private DuplicateColumnAction duplicateColumnAction;
+
 	private EditColumnAction editColumnAction;
 
 	private DropColumnAction deleteColumnAction;
@@ -84,7 +84,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 	private DropConstraintAction dropConstraintAction;
 
 	private IDBConfig config;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -92,7 +92,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 	public TableViewerContributor() {
 		insertRecordAction = new InsertRecordAction();
 		insertRecordAction.setEnabled(false);
-		
+
 		deleteRecordAction = new DeleteRecordAction();
 		selectAllAction = new SelectAllRecordAction();
 		copyRecordDataAction = new CopyRecordDataAction();
@@ -113,9 +113,9 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		addIndexAction = new AddIndexAction();
 		dropIndexAction = new DropIndexAction();
 		dropConstraintAction = new DropConstraintAction();
-		
+
 	}
-	
+
 	public void init(IActionBars bars, IWorkbenchPage page) {
 		super.init(bars, page);
 	}
@@ -134,19 +134,19 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 
 		manager.add(copyStringInsertStatementAction); // Insert文に変換
 		manager.add(createCSVAction);
-		
+
 		// TODO:現在開発中
-		//manager.add(createCSV2Action);
+		// manager.add(createCSV2Action);
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	// メニュー表示
 	public void fillContextMenuForDDL(IMenuManager manager) {
 		reflesh();
-		//manager.add(saveAction);
+		// manager.add(saveAction);
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-	
+
 	// メニュー表示
 	public void fillContextMenuForDefine(IMenuManager manager, ISelection selection) {
 		Object obj = (Object) ((StructuredSelection) selection).getFirstElement();
@@ -154,7 +154,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		manager.add(addColumnAction);
 		manager.add(editColumnAction);
 		manager.add(deleteColumnAction);
-        manager.add(duplicateColumnAction);
+		manager.add(duplicateColumnAction);
 
 		switch (DBType.getType(config)) {
 		case DBType.DB_TYPE_ORACLE:
@@ -298,19 +298,19 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 	}
 
 	public void contributeToMenu(IMenuManager menu) {
-		// Menuバーの更新(Enable/Disable)の方法が未定のため、実装しない
+	// Menuバーの更新(Enable/Disable)の方法が未定のため、実装しない
 
-		// super.contributeToMenu(menu);
-		// IMenuManager editMenu =
-		// menu.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
-		// if(editMenu!=null){
-		// deleteAction.refresh();
-		//    		
-		// editMenu.add(new Separator());
-		// editMenu.add(insertAction);
-		// editMenu.add(deleteAction);
-		//    		
-		// }
+	// super.contributeToMenu(menu);
+	// IMenuManager editMenu =
+	// menu.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
+	// if(editMenu!=null){
+	// deleteAction.refresh();
+	//    		
+	// editMenu.add(new Separator());
+	// editMenu.add(insertAction);
+	// editMenu.add(deleteAction);
+	//    		
+	// }
 
 	}
 
@@ -337,7 +337,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 			createCSVAction.setActiveEditor(editor);
 			createCSV2Action.setActiveEditor(editor);
 			addColumnAction.setActiveEditor(editor);
-			
+
 			editColumnAction.setActiveEditor(editor);
 			duplicateColumnAction.setActiveEditor(editor);
 			deleteColumnAction.setActiveEditor(editor);
@@ -348,7 +348,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 			addIndexAction.setActiveEditor(editor);
 			dropIndexAction.setActiveEditor(editor);
 			dropConstraintAction.setActiveEditor(editor);
-			
+
 		}
 	}
 
@@ -384,8 +384,8 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		super.dispose();
 
 	}
-	
-	public void setEnabled(boolean enabled){
+
+	public void setEnabled(boolean enabled) {
 		insertRecordAction.setEnabled(enabled);
 	}
 

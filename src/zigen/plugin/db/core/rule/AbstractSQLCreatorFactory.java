@@ -57,7 +57,7 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 		}
 
 	}
-	
+
 	public static final ISQLCreatorFactory getFactoryNoCache(IDBConfig config, ITable table) {
 		return getFactoryNoCache(config.getDriverName(), table);
 	}
@@ -69,7 +69,7 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 			throw new IllegalStateException(Messages.getString("AbstractSQLCreatorFactory.Message1")); //$NON-NLS-1$
 		}
 	}
-	
+
 
 	/**
 	 * Factory‚ÌƒLƒƒƒbƒVƒ…‰»

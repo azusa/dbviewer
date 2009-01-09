@@ -17,8 +17,9 @@ import java.io.Serializable;
  * 
  */
 public class OracleTableColumn implements Serializable, IColumn {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected String table_owner;
 
 	protected String table_name;
@@ -34,8 +35,7 @@ public class OracleTableColumn implements Serializable, IColumn {
 	/**
 	 * コンストラクタ
 	 */
-	public OracleTableColumn() {
-	}
+	public OracleTableColumn() {}
 
 	public String getTable_owner() {
 		return this.table_owner;

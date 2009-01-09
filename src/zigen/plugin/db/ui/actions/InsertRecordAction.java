@@ -32,7 +32,7 @@ public class InsertRecordAction extends TableViewEditorAction {
 		this.setText(Messages.getString("InsertRecordAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("InsertRecordAction.1")); //$NON-NLS-1$
 		this.setActionDefinitionId("zigen.plugin.InsertRecordCommand"); //$NON-NLS-1$
-//		this.setImageDescriptor(ISharedImages.IMG_TOOL_NEW_WIZARD);
+		// this.setImageDescriptor(ISharedImages.IMG_TOOL_NEW_WIZARD);
 		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_ADD));
 
 	}
@@ -73,33 +73,33 @@ public class InsertRecordAction extends TableViewEditorAction {
 	 */
 	public static String getDefaultValue(TableColumn column) {
 		String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
-        
+
 		// 初期値を設定するように修正
 		String defaultValue = column.getDefaultValue();
-		
+
 		if (defaultValue != null && !"".equals(defaultValue)) { //$NON-NLS-1$
 
 			if (defaultValue.matches("^'.*'$")) { //$NON-NLS-1$
 				defaultValue = defaultValue.replaceAll("^'|'$", "");// 前後の'を外す //$NON-NLS-1$ //$NON-NLS-2$
 				defaultValue = defaultValue.replaceAll("''", "'");// '' → //$NON-NLS-1$ //$NON-NLS-2$
-																																				// ' 変換
+				// ' 変換
 				return defaultValue;
 			} else if (defaultValue.matches("^\\(.*\\)$")) { //$NON-NLS-1$
 				defaultValue = defaultValue.replaceAll("^\\(|\\)$", "");// 前後の()を外す //$NON-NLS-1$ //$NON-NLS-2$
-				
+
 				// 括弧を外した後に、前後の'を外す
 				if (defaultValue.matches("^'.*'$")) { //$NON-NLS-1$
 					defaultValue = defaultValue.replaceAll("^'|'$", "");// 前後の'を外す //$NON-NLS-1$ //$NON-NLS-2$
 					defaultValue = defaultValue.replaceAll("''", "'");// '' → //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				
+
 				return defaultValue;
-				
+
 			} else {
 				if (defaultValue.equalsIgnoreCase("NULL")) { //$NON-NLS-1$
-				    return nullSymbol; // NULLならばNULL文字を設定
+					return nullSymbol; // NULLならばNULL文字を設定
 				} else if (StringUtil.isNumeric(defaultValue.trim())) {
-				    return defaultValue.trim();
+					return defaultValue.trim();
 				} else {
 					; // 設定しない(SYSDATEなどの関数を初期値に設定している場合)
 					return ""; //$NON-NLS-1$
@@ -108,9 +108,9 @@ public class InsertRecordAction extends TableViewEditorAction {
 
 		} else {
 			if (!column.isNotNull()) {
-			    return nullSymbol; // NULLならばNULL文字を設定
+				return nullSymbol; // NULLならばNULL文字を設定
 			} else {
-			    return ""; //$NON-NLS-1$
+				return ""; //$NON-NLS-1$
 			}
 		}
 	}

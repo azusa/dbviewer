@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Item;
  * 
  */
 public class ImpWizardPage1CellModifier implements ICellModifier {
+
 	private ImpWizardPage1 page;
 
 	public ImpWizardPage1CellModifier(ImpWizardPage1 page) {
@@ -50,16 +51,10 @@ public class ImpWizardPage1CellModifier implements ICellModifier {
 
 			// ↓ 全て選択/全て解除のボタンに対応するため、同じ名前であってもリネームしてコピーされる
 			/*
-			// データベース定義名が既に登録されているかチェック
-			String dbName = item.getDbName();
-			if (item.checked && DBConfigManager.hasSection(dbName)) {
-				item.checked = false; // 選択解除
-				page.setErrorMessage(dbName + "は、既に定義されている為インポートできません");
-			} else {
-				page.setErrorMessage(null);
-			}*/
-			// ↑ 
-
+			 * // データベース定義名が既に登録されているかチェック String dbName = item.getDbName(); if (item.checked && DBConfigManager.hasSection(dbName)) { item.checked = false; // 選択解除 page.setErrorMessage(dbName +
+			 * "は、既に定義されている為インポートできません"); } else { page.setErrorMessage(null); }
+			 */
+			// ↑
 			// １つ以上選択状態であるかチェックする
 			if (page.isSelected()) {
 				page.setPageComplete(true);

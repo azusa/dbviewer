@@ -24,6 +24,7 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  */
 public class TableElement implements Serializable, Cloneable {
+
 	private static final long serialVersionUID = 1L;
 
 	protected ITable table; // テーブル名（テーブルを結合している場合はNULL)
@@ -207,9 +208,8 @@ public class TableElement implements Serializable, Cloneable {
 	}
 
 	/**
-	 * 指定したTableColumnからItemを取得する
-	 * Selectの結果の場合、同名のカラムが存在するため、
-	 * その場合はgetItem(int index)を使用する必要があります
+	 * 指定したTableColumnからItemを取得する Selectの結果の場合、同名のカラムが存在するため、 その場合はgetItem(int index)を使用する必要があります
+	 * 
 	 * @param column
 	 * @return
 	 */

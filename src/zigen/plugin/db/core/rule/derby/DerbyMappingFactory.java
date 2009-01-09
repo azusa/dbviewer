@@ -23,6 +23,7 @@ import zigen.plugin.db.core.rule.IMappingFactory;
  * 
  */
 public class DerbyMappingFactory extends DefaultMappingFactory implements IMappingFactory {
+
 	public static final int TYPES_DERBY_ORG_APACHE_DERBY_CATALOG_ALISASINFO = -4;
 
 	public DerbyMappingFactory(boolean convertUnicode) {

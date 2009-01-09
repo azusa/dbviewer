@@ -18,23 +18,23 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 public class MessageDialogWithToggle2 extends MessageDialogWithToggle {
+
 	private Button toggleButton2 = null;
+
 	private String toggleMessage2 = "Defualt Message";
+
 	private boolean toggleState2;
 
 	public boolean getToggleState2() {
 		return toggleState2;
 	}
 
-	public MessageDialogWithToggle2(Shell parentShell, String dialogTitle,
-			Image image, String message, int dialogImageType,
-			String[] dialogButtonLabels, int defaultIndex,
+	public MessageDialogWithToggle2(Shell parentShell, String dialogTitle, Image image, String message, int dialogImageType, String[] dialogButtonLabels, int defaultIndex,
 			String toggleMessage, boolean toggleState) {
 
-		super(parentShell, dialogTitle, image, message, dialogImageType,
-				dialogButtonLabels, defaultIndex, toggleMessage, toggleState);
+		super(parentShell, dialogTitle, image, message, dialogImageType, dialogButtonLabels, defaultIndex, toggleMessage, toggleState);
 
-		//setShellStyle(getShellStyle() | SWT.RESIZE); // リサイズ可能
+		// setShellStyle(getShellStyle() | SWT.RESIZE); // リサイズ可能
 
 	}
 
@@ -51,6 +51,7 @@ public class MessageDialogWithToggle2 extends MessageDialogWithToggle {
 		button2.setLayoutData(data);
 		button2.setFont(parent.getFont());
 		button2.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				toggleState2 = button2.getSelection();
 			}
@@ -66,15 +67,11 @@ public class MessageDialogWithToggle2 extends MessageDialogWithToggle {
 		this.toggleButton2 = button;
 	}
 
-	public static MessageDialogWithToggle2 open(Shell parent, String title,
-			String message, String toggleMessage, boolean toggleState,
-			String toggleMessage2, boolean toggleState2) {
-		MessageDialogWithToggle2 dialog = new MessageDialogWithToggle2(parent,
-				title, null, // accept the default window icon
-				message, QUESTION, new String[] { IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL }, 0, // yes is the default
+	public static MessageDialogWithToggle2 open(Shell parent, String title, String message, String toggleMessage, boolean toggleState, String toggleMessage2, boolean toggleState2) {
+		MessageDialogWithToggle2 dialog = new MessageDialogWithToggle2(parent, title, null, // accept the default window icon
+				message, QUESTION, new String[] {IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL}, 0, // yes is the default
 				toggleMessage, toggleState);
-		
+
 		dialog.toggleMessage2 = toggleMessage2;
 		dialog.toggleState2 = toggleState2;
 		dialog.open();

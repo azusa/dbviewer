@@ -34,21 +34,22 @@ import zigen.plugin.db.ui.views.ColumnSearchAction;
 import zigen.plugin.db.ui.views.TreeView;
 
 public class CopyCommentStatementAction implements IViewActionDelegate {
+
 	private ISelection selection = null;
 
 	private IViewPart viewPart;
-	
+
 	TreeViewer treeViewer;
 
 	boolean isSelectedColumn = false;
-	
+
 	StringBuffer buffer = new StringBuffer();
 
 	public void init(IViewPart view) {
 		this.viewPart = view;
 
-		if(view instanceof TreeView){
-			treeViewer = ((TreeView)view).getTreeViewer();
+		if (view instanceof TreeView) {
+			treeViewer = ((TreeView) view).getTreeViewer();
 		}
 	}
 
@@ -62,18 +63,18 @@ public class CopyCommentStatementAction implements IViewActionDelegate {
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection ss = (IStructuredSelection) selection;
 
-//				if (!checkLoadColumn(ss)) {
-//					String msg = "カラム情報が未取得のテーブルがあります。取得しますか？";
-//					msg += "\nカラム情報の取得には時間がかかる場合があります。";
-//					if (DbPlugin.getDefault().confirmDialog(msg)) {
-//						new CopyAction(treeViewer, ss).run();
-//					}else{
-//						// 中途半端な状態ではComment文をコピーさせない
-//						return;
-//					}
-//				}else{
-//					new CopyAction(treeViewer, ss).run();
-//				}
+				// if (!checkLoadColumn(ss)) {
+				// String msg = "カラム情報が未取得のテーブルがあります。取得しますか？";
+				// msg += "\nカラム情報の取得には時間がかかる場合があります。";
+				// if (DbPlugin.getDefault().confirmDialog(msg)) {
+				// new CopyAction(treeViewer, ss).run();
+				// }else{
+				// // 中途半端な状態ではComment文をコピーさせない
+				// return;
+				// }
+				// }else{
+				// new CopyAction(treeViewer, ss).run();
+				// }
 
 				new CopyAction(treeViewer, ss).run();
 				setContents(buffer.toString());
@@ -97,24 +98,21 @@ public class CopyCommentStatementAction implements IViewActionDelegate {
 		return true;
 	}
 
-	
+
 	void setContents(String contents) {
 		System.out.println(contents);
 		if (contents.length() > 0) {
 			Clipboard clipboard = ClipboardUtils.getInstance();
-			clipboard.setContents(new Object[] {
-					contents
-			}, new Transfer[] {
-				TextTransfer.getInstance()
-			});
+			clipboard.setContents(new Object[] {contents}, new Transfer[] {TextTransfer.getInstance()});
 		}
 	}
 
 	class CopyAction extends Action {
-		
+
 		IStructuredSelection ss;
+
 		StructuredViewer viewer;
-		
+
 		public CopyAction(StructuredViewer viewer, IStructuredSelection ss) {
 			this.viewer = viewer;
 			this.ss = ss;
@@ -123,18 +121,19 @@ public class CopyCommentStatementAction implements IViewActionDelegate {
 		public void run() {
 			try {
 				IRunnableWithProgress op = new IRunnableWithProgress() {
+
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 						monitor.beginTask(Messages.getString("CopyCommentStatementAction.0"), ss.size()); //$NON-NLS-1$
-						buffer = new StringBuffer(); //clear
+						buffer = new StringBuffer(); // clear
 						int i = 1;
 						for (Iterator iter = ss.iterator(); iter.hasNext();) {
 							if (monitor.isCanceled())
 								throw new InterruptedException();
-							
+
 							Object obj = iter.next();
 							if (obj instanceof ITable) {
 								ITable table = (ITable) obj;
-								
+
 								StringBuffer sb = new StringBuffer();
 								sb.append(Messages.getString("CopyCommentStatementAction.1")); //$NON-NLS-1$
 								sb.append(table.getName());
@@ -142,23 +141,23 @@ public class CopyCommentStatementAction implements IViewActionDelegate {
 								sb.append(i);
 								sb.append(" / "); //$NON-NLS-1$
 								sb.append(ss.size());
-								
+
 								monitor.subTask(sb.toString());
-								 if (!table.isExpanded()) {
-									 // 展開フラグをTrueにする(テーブル要素をキャッシュする）
-									 table.setExpanded(true);
-									 
-									 new ColumnSearchAction(viewer, table).run();
-								 }
-								 
-								 buffer.append(getCommentStatement(table));
+								if (!table.isExpanded()) {
+									// 展開フラグをTrueにする(テーブル要素をキャッシュする）
+									table.setExpanded(true);
+
+									new ColumnSearchAction(viewer, table).run();
+								}
+
+								buffer.append(getCommentStatement(table));
 							}
 							monitor.worked(1);
 							i++;
 						}
-						
+
 						monitor.done();
-						
+
 
 					}
 				};
@@ -188,4 +187,3 @@ public class CopyCommentStatementAction implements IViewActionDelegate {
 		}
 	}
 }
-

@@ -112,14 +112,9 @@ public class DDLDiffEditor extends EditorPart {
 
 			// 最初の項目を選択状態にする
 			TreeItem topItem = treeViewer.getTree().getTopItem();
-			treeViewer.getTree().setSelection(new TreeItem[] {
-				topItem
-			});
+			treeViewer.getTree().setSelection(new TreeItem[] {topItem});
 
-			sash.setWeights(new int[] {
-					30,
-					70
-			});
+			sash.setWeights(new int[] {30, 70});
 
 			// ツールバーを更新させる
 			toolBarManager.update(true);
@@ -186,20 +181,19 @@ public class DDLDiffEditor extends EditorPart {
 				IContainer container = dialog.getContainer();
 				IFile file = container.getFile(new Path(dialog.getSaveFileName()));
 				InputStream is = new ByteArrayInputStream(out.toByteArray());
-				
+
 				if (file.exists()) {
-					if(DbPlugin.getDefault().confirmDialog(Messages.getString("DDLDiffEditor.1"))){ //$NON-NLS-1$
+					if (DbPlugin.getDefault().confirmDialog(Messages.getString("DDLDiffEditor.1"))) { //$NON-NLS-1$
 						file.delete(true, monitor);
-					}else{
+					} else {
 						setDirty(true);
 						return;
 					}
-					
-					
-					
+
+
 				}
 				file.create(is, true, monitor);
-				
+
 				setDirty(false);
 			}
 
@@ -234,8 +228,7 @@ public class DDLDiffEditor extends EditorPart {
 		firePropertyChange(PROP_DIRTY);
 	}
 
-	public void doSaveAs() {
-	}
+	public void doSaveAs() {}
 
 	public boolean isSaveAsAllowed() {
 		return false;
@@ -246,7 +239,7 @@ public class DDLDiffEditor extends EditorPart {
 			setSite(site);
 			setInput(editorInput);
 
-			//System.out.println(editorInput.getClass().getName());
+			// System.out.println(editorInput.getClass().getName());
 			if (editorInput instanceof DDLDiffEditorInput) {
 				DDLDiffEditorInput input = (DDLDiffEditorInput) editorInput;
 				diffs = input.getDiffs();
@@ -271,8 +264,7 @@ public class DDLDiffEditor extends EditorPart {
 		}
 	}
 
-	public void setFocus() {
-	}
+	public void setFocus() {}
 
 	public TreeViewer getTreeViewer() {
 		return treeViewer;
@@ -290,6 +282,7 @@ public class DDLDiffEditor extends EditorPart {
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+
 			public void menuAboutToShow(IMenuManager manager) {
 				getContributor().fillContextMenu(manager);
 			}

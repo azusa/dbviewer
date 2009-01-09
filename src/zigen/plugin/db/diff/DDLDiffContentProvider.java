@@ -62,8 +62,7 @@ class DDLDiffContentProvider implements IMergeViewerContentProvider {
 		return false;
 	}
 
-	public void saveLeftContent(Object input, byte[] bytes) {
-	}
+	public void saveLeftContent(Object input, byte[] bytes) {}
 
 	public String getRightLabel(Object input) {
 		if (input == null)
@@ -91,11 +90,9 @@ class DDLDiffContentProvider implements IMergeViewerContentProvider {
 		return false;
 	}
 
-	public void saveRightContent(Object input, byte[] bytes) {
-	}
+	public void saveRightContent(Object input, byte[] bytes) {}
 
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 

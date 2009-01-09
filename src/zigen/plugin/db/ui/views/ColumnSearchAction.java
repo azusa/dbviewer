@@ -121,40 +121,40 @@ public class ColumnSearchAction implements Runnable {
 				break;
 			}
 
-			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);	
+			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);
 			if (SchemaSearcher.isSupport(con)) {
-				//columns = ColumnSearcher.execute(con, schemaName, tableName, config.isConvertUnicode());
-				IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);		
+				// columns = ColumnSearcher.execute(con, schemaName, tableName, config.isConvertUnicode());
+				IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
 				columns = factory.execute(con, schemaName, tableName);
-				
-				//pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
+
+				// pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
 				pks = constraintFactory.getPKColumns(con, schemaName, tableName);
-				
+
 				if (!isAssist) {
-//					fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
+					// fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
 					fks = constraintFactory.getFKColumns(con, schemaName, tableName);
 					cons = constraintFactory.getConstraintColumns(con, schemaName, tableName);
 					uidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, true);
 					nonuidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, false);
-					
+
 				}
 			} else {
-				//columns = ColumnSearcher.execute(con, null, tableName, config.isConvertUnicode());
-				IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);		
+				// columns = ColumnSearcher.execute(con, null, tableName, config.isConvertUnicode());
+				IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
 				columns = factory.execute(con, null, tableName);
-				
-//				pks = ConstraintSearcher.getPKColumns(con, null, tableName);
+
+				// pks = ConstraintSearcher.getPKColumns(con, null, tableName);
 				pks = constraintFactory.getPKColumns(con, schemaName, tableName);
 
 				if (!isAssist) {
-//					fks = ConstraintSearcher.getFKColumns(con, null, tableName);
-//					uidxs = ConstraintSearcher.getUniqueIDXColumns(con, null, tableName, true);
-//					nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, null, tableName, false);
-				
+					// fks = ConstraintSearcher.getFKColumns(con, null, tableName);
+					// uidxs = ConstraintSearcher.getUniqueIDXColumns(con, null, tableName, true);
+					// nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, null, tableName, false);
+
 					fks = constraintFactory.getFKColumns(con, schemaName, tableName);
 					uidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, true);
 					nonuidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, false);
-					
+
 				}
 			}
 

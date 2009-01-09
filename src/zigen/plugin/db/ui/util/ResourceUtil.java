@@ -22,13 +22,14 @@ public class ResourceUtil {
 			return null;
 		}
 	}
-	
+
 
 	static String getDBConfigName(IResource resource) {
-		
-		if(resource instanceof IFile){
-			String dbName = FileUtil.getDBConfigName((IFile)resource);
-			if(dbName != null) return dbName;
+
+		if (resource instanceof IFile) {
+			String dbName = FileUtil.getDBConfigName((IFile) resource);
+			if (dbName != null)
+				return dbName;
 		}
 		return ProjectUtil.getDBConfigName(resource.getProject());
 	}

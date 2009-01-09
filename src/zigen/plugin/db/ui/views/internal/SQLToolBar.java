@@ -89,56 +89,56 @@ public class SQLToolBar {
 
 	boolean lastAutoFormatMode;
 
-	
-	protected ToolBarContributionItem getToolBarContributionItem1(CoolBarManager coolBarMgr){
+
+	protected ToolBarContributionItem getToolBarContributionItem1(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
 		toolBarMgr.add(openAction);
 		toolBarMgr.add(saveAction);
 		return new ToolBarContributionItem(toolBarMgr);
 	}
-	
-	protected ToolBarContributionItem getToolBarContributionItem2(CoolBarManager coolBarMgr){
+
+	protected ToolBarContributionItem getToolBarContributionItem2(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
 		toolBarMgr.add(allExecAction);
 		toolBarMgr.add(scriptExecAction);
 		toolBarMgr.add(allClearAction);
 		return new ToolBarContributionItem(toolBarMgr);
 	}
-	
-	protected ToolBarContributionItem getToolBarContributionItem3(CoolBarManager coolBarMgr){
+
+	protected ToolBarContributionItem getToolBarContributionItem3(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
 		toolBarMgr.add(backSqlAction);
 		toolBarMgr.add(nextSqlAction);
 		return new ToolBarContributionItem(toolBarMgr);
 	}
-	
-	protected ToolBarContributionItem getToolBarContributionItem4(CoolBarManager coolBarMgr){
+
+	protected ToolBarContributionItem getToolBarContributionItem4(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
 		toolBarMgr.add(commitModeAction);
 		toolBarMgr.add(commitAction);
 		toolBarMgr.add(rollbackAction);
 		return new ToolBarContributionItem(toolBarMgr);
 	}
-	
-	protected ToolBarContributionItem getToolBarContributionItem5(CoolBarManager coolBarMgr){
+
+	protected ToolBarContributionItem getToolBarContributionItem5(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
 		toolBarMgr.add(formatModeAction);
 		return new ToolBarContributionItem(toolBarMgr);
 	}
 
 
-	protected ToolBarContributionItem getToolBarContributionItem6(CoolBarManager coolBarMgr){
+	protected ToolBarContributionItem getToolBarContributionItem6(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
 		toolBarMgr.add(comboContributionItem); //$NON-NLS-1$
 		toolBarMgr.add(lockDataBaseAction);
 		return new ToolBarContributionItem(toolBarMgr);
 	}
-	
-	
+
+
 	public void createPartControl(final Composite parent) {
 		coolBar = new CoolBar(parent, SWT.FLAT);
-//		coolBar = new CoolBar(parent, SWT.NONE);
-		
+		// coolBar = new CoolBar(parent, SWT.NONE);
+
 		FormData data = new FormData();
 		data.top = new FormAttachment(0, 0);
 		data.left = new FormAttachment(0, 0);
@@ -154,8 +154,8 @@ public class SQLToolBar {
 		coolBarMgr.update(true);
 
 		coolBar.addControlListener(new ControlListener() {
-			public void controlMoved(ControlEvent e) {
-			}
+
+			public void controlMoved(ControlEvent e) {}
 
 			public void controlResized(ControlEvent e) {
 				parent.getParent().layout(true);
@@ -163,10 +163,10 @@ public class SQLToolBar {
 			}
 		});
 	}
-	
+
 	public SQLToolBar() {}
 
-	
+
 	public void setSQLSourceViewer(SQLSourceViewer sqlSourceViewer) {
 		fSourceViewer = sqlSourceViewer;
 		openAction.setSQLSourceViewer(sqlSourceViewer);
@@ -221,13 +221,14 @@ public class SQLToolBar {
 	}
 
 	class ComboContributionItem extends ControlContribution {
+
 		boolean isSaveLastDb = false;
-		
+
 		public ComboContributionItem(String id) {
 			super(id);
 		}
-		
-		public void setSaveLastDb(boolean isSave){
+
+		public void setSaveLastDb(boolean isSave) {
 			this.isSaveLastDb = isSave;
 		}
 
@@ -242,6 +243,7 @@ public class SQLToolBar {
 			initializeSelectCombo();
 
 			selectCombo.addSelectionListener(new SelectionAdapter() {
+
 				// ê⁄ë±êÊÇïœçXÇµÇΩèÍçá
 				public void widgetSelected(SelectionEvent e) {
 					IDBConfig config = getConfig();
@@ -251,7 +253,7 @@ public class SQLToolBar {
 					}
 
 					// ViewÇÃèÍçáÇÃÇ›
-					if(isSaveLastDb){
+					if (isSaveLastDb) {
 						lastSelectedDB = config.getDbName();
 						setLastSelectedDBName(lastSelectedDB);
 					}

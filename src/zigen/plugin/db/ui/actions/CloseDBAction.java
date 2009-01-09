@@ -39,6 +39,7 @@ import zigen.plugin.db.ui.internal.DataBase;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
  */
 public class CloseDBAction extends Action implements Runnable {
+
 	TreeViewer viewer = null;
 
 	/**
@@ -65,9 +66,9 @@ public class CloseDBAction extends Action implements Runnable {
 			if (element instanceof DataBase) {
 				DataBase db = (DataBase) element;
 				closeDataBase(db);
-			
+
 				DbPlugin.fireStatusChangeListener(db.getDbConfig(), IStatusChangeListener.EVT_RemoveSchemaFilter);
-				
+
 			}
 		}
 

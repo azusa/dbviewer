@@ -25,16 +25,18 @@ public class SQLSourceViewer2 extends SQLSourceViewer {
 	}
 
 	protected void doAllSQLExecute() {
-		if(isFormatPreExecute) doFormat();
+		if (isFormatPreExecute)
+			doFormat();
 
 		Display display = Display.getDefault();
 		display.syncExec((Runnable) new ExecuteSQLForEditorAction(editor));
 
 	}
-	
+
 	protected void doCurrentSQLExecute() {
 
-		if(isFormatPreExecute) doFormat();
+		if (isFormatPreExecute)
+			doFormat();
 
 		Display display = Display.getDefault();
 		display.syncExec((Runnable) new ExecuteCurrentSQLForEditorAction(editor));
@@ -42,7 +44,8 @@ public class SQLSourceViewer2 extends SQLSourceViewer {
 	}
 
 	protected void doSelectedSQLExecute() {
-		if(isFormatPreExecute) doFormat();
+		if (isFormatPreExecute)
+			doFormat();
 
 		// Ã´∞œØƒëOÇÃRangeÇê›íË
 		Display display = Display.getDefault();

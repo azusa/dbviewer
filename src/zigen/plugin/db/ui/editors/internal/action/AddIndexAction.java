@@ -19,6 +19,7 @@ import zigen.plugin.db.ui.editors.internal.wizard.IndexWizard;
 import zigen.plugin.db.ui.internal.ITable;
 
 public class AddIndexAction extends TableViewEditorAction {
+
 	public AddIndexAction() {
 		this.setText(Messages.getString("AddIndexAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("AddIndexAction.1")); //$NON-NLS-1$

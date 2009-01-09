@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExplainTreeModel implements java.io.Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private ExplainTreeModel parent;
 
 	private List childrenList = new ArrayList();

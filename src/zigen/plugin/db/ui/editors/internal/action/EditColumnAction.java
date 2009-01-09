@@ -36,7 +36,7 @@ public class EditColumnAction extends TableViewEditorAction {
 		this.setText(Messages.getString("EditColumnAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("EditColumnAction.1")); //$NON-NLS-1$
 		// this.setImageDescriptor(ISharedImages.IMG_TOOL_NEW_WIZARD);
-        this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLUMN_EDIT));
+		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLUMN_EDIT));
 	}
 
 	public void run() {

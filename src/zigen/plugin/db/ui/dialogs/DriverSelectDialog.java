@@ -47,7 +47,7 @@ public class DriverSelectDialog extends TitleAreaDialog {
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(title);
-		
+
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
@@ -89,6 +89,7 @@ public class DriverSelectDialog extends TitleAreaDialog {
 
 		// ƒcƒŠ[‚ğ‘I‘ğ‚µ‚½‚Æ‚«‚Ìˆ—
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				selectionChangeHandler(event);
 			}

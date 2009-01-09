@@ -18,7 +18,7 @@ import java.sql.SQLException;
  * 
  */
 public interface IStatementFactory {
-	
+
 	public String getString(int DataType, Object value) throws SQLException;
 
 }

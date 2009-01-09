@@ -36,15 +36,14 @@ import zigen.plugin.db.core.StringUtil;
 public class ExplainResultDialog extends Dialog {
 
 	ImageCacher ic = ImageCacher.getInstance();
-	
+
 	public static final int ID_COPY = -100;
 
 	private ExplainTreeModel model;
 
 	private TreeViewer result;
 
-	private static final String[] HEADER = {
-			"RESULT", "ACCESS_PREDICATES", "FILTER_PREDICATES"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static final String[] HEADER = {"RESULT", "ACCESS_PREDICATES", "FILTER_PREDICATES"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 	public ExplainResultDialog(Shell parent, ExplainTreeModel model) {
 		super(parent);
@@ -61,9 +60,9 @@ public class ExplainResultDialog extends Dialog {
 
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, ID_COPY, Messages.getString("ExplainResultDialog.2"), false); //$NON-NLS-1$
-		//createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		// createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.OK_ID, Messages.getString("ExplainResultDialog.1"), true); //$NON-NLS-1$
-		
+
 	}
 
 	public boolean close() {
@@ -80,11 +79,7 @@ public class ExplainResultDialog extends Dialog {
 			copyResult(sb, provider, model.getChildren(), 0);
 
 			System.out.println(sb.toString());
-			clipboard.setContents(new Object[] {
-				sb.toString()
-			}, new Transfer[] {
-				TextTransfer.getInstance()
-			});
+			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 		} else {
 			super.buttonPressed(buttonId);
 		}
@@ -207,10 +202,10 @@ public class ExplainResultDialog extends Dialog {
 		}
 
 		public Image getColumnImage(Object obj, int index) {
-//			if (obj instanceof ExplainTreeModel) {
-//				ExplainTreeModel model = (ExplainTreeModel) obj;
-//				return ic.getImage(DbPlugin.IMG_CODE_WARNING);
-//			}
+			// if (obj instanceof ExplainTreeModel) {
+			// ExplainTreeModel model = (ExplainTreeModel) obj;
+			// return ic.getImage(DbPlugin.IMG_CODE_WARNING);
+			// }
 			return getImage(obj);
 		}
 
@@ -275,11 +270,9 @@ public class ExplainResultDialog extends Dialog {
 			return getChildren(inputElement);
 		}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
-		public void dispose() {
-		}
+		public void dispose() {}
 
 	}
 

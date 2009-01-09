@@ -34,28 +34,8 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String[] getSupportColumnType() {
-		return new String[] {
-				"BIGINT",
-				"CHAR",
-				"DATE",
-				"DECIMAL",
-				"DOUBLE",
-				"DOUBLE PRECISION",
-				"FLOAT",
-				"INTEGER",
-				"NUMERIC",
-				"REAL",
-				"SMALLINT",
-				"TIME",
-				"TIMESTAMP",
-				"VARCHAR",
-				"CLOB",
-				"LONG VARCHAR",
-				"BLOB",
-				"CHAR FOR BIT DATA",
-				"VARCHAR FOR BIT DATA",
-				"LONG VARCHAR FOR BIT DATA"
-		};
+		return new String[] {"BIGINT", "CHAR", "DATE", "DECIMAL", "DOUBLE", "DOUBLE PRECISION", "FLOAT", "INTEGER", "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "VARCHAR",
+				"CLOB", "LONG VARCHAR", "BLOB", "CHAR FOR BIT DATA", "VARCHAR FOR BIT DATA", "LONG VARCHAR FOR BIT DATA"};
 	}
 
 	public String createRenameTableDDL(String newTableName) {
@@ -129,10 +109,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb2.append(SQLUtil.encodeQuotation(column.getName()));
 			sb2.append(" NOT NULL");
 		}
-		return new String[] {
-				sb.toString(),
-				sb2.toString()
-		};
+		return new String[] {sb.toString(), sb2.toString()};
 
 	}
 
@@ -196,11 +173,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb3.append(" NULL");
 		}
 
-		return new String[] {
-				sb.toString(),
-				sb2.toString(),
-				sb3.toString()
-		};
+		return new String[] {sb.toString(), sb2.toString(), sb3.toString()};
 
 	}
 
@@ -260,14 +233,11 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	 * 
 	 * 
 	 * 
-	 * ALTER TABLE APP.TEST ALTER COLUMN COL2 NOT NULL ALTER TABLE APP.TEST
-	 * ALTER COLUMN COL2 NULL
+	 * ALTER TABLE APP.TEST ALTER COLUMN COL2 NOT NULL ALTER TABLE APP.TEST ALTER COLUMN COL2 NULL
 	 * 
-	 * ALTER TABLE APP.TEST ALTER COLUMN COL2 DEFAULT 1 ALTER TABLE APP.TEST
-	 * ALTER COLUMN COL2 WITH DEFAULT NULL << 実行エラーにはならないが、反映されない
+	 * ALTER TABLE APP.TEST ALTER COLUMN COL2 DEFAULT 1 ALTER TABLE APP.TEST ALTER COLUMN COL2 WITH DEFAULT NULL << 実行エラーにはならないが、反映されない
 	 * 
-	 * //DERBY では、列の型は変更不可 //サイズの変更は、VARCHARのみ（あとは、内部で固定） ALTER TABLE APP.TEST
-	 * ALTER COLUMN COL2 SET DATA TYPE VARCHAR(100)
+	 * //DERBY では、列の型は変更不可 //サイズの変更は、VARCHARのみ（あとは、内部で固定） ALTER TABLE APP.TEST ALTER COLUMN COL2 SET DATA TYPE VARCHAR(100)
 	 */
 
 	// / ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ //
@@ -289,12 +259,11 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(".");
 		sb.append(indexName);
 		sb.append(" ON ");
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
-
 
 
 		sb.append("(");

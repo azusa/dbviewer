@@ -45,7 +45,7 @@ public class DriverLabelProvider extends LabelProvider {
 
 		if (obj instanceof DataBase) {
 			return ic.getImage(DbPlugin.IMG_CODE_DB);
-			
+
 		} else if (obj instanceof Folder) {
 			imageKey = ISharedImages.IMG_OBJ_FOLDER;
 		}

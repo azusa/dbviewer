@@ -52,11 +52,10 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	public static final String P_NO_CONFIRM_CONNECT_DB = "PreferencePage.NoConfirmConnectDB"; //$NON-NLS-1$
 
 	public static final String P_SQL_FILE_CHARSET = "PreferencePage.SqlFileCharset"; //$NON-NLS-1$
-	
+
 	public static final String P_LOCKE_COLUMN_WIDTH = "PreferencePage.LogColumnWidth";//$NON-NLS-1$
 
-	public void init(IWorkbench workbench) {
-	}
+	public void init(IWorkbench workbench) {}
 
 	Combo comb;
 
@@ -118,7 +117,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		label1.setLayoutData(gd);
-		
+
 		addField(new BooleanFieldEditor(P_LOCKE_COLUMN_WIDTH, Messages.getString("PreferencePage.25"), grp)); //$NON-NLS-1$
 
 

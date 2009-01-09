@@ -43,21 +43,21 @@ public class TableViewEditorInput implements IEditorInput {
 		this.name = table.getName();
 		this.tooltip = table.getName() + " [" + config.getUserId() + " : " + config.getDbName() + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-		
-        //input.setToolTipText("[" + input.getConfig().getDbName() + "] " + partName); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        StringBuffer sb = new StringBuffer();
-        sb.append("[");
-        sb.append(config.getDbName());
-        sb.append("] ");
-        sb.append(table.getSqlTableName());
-        if(table.getRemarks() != null && !"".equals(table.getRemarks().trim())){
-        	sb.append(" [");
-        	sb.append(table.getRemarks());
-        	sb.append("]");
-        }
-       this.tooltip = sb.toString();
-       
+
+		// input.setToolTipText("[" + input.getConfig().getDbName() + "] " + partName); //$NON-NLS-1$ //$NON-NLS-2$
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("[");
+		sb.append(config.getDbName());
+		sb.append("] ");
+		sb.append(table.getSqlTableName());
+		if (table.getRemarks() != null && !"".equals(table.getRemarks().trim())) {
+			sb.append(" [");
+			sb.append(table.getRemarks());
+			sb.append("]");
+		}
+		this.tooltip = sb.toString();
+
 	}
 
 	public boolean exists() {
@@ -85,7 +85,7 @@ public class TableViewEditorInput implements IEditorInput {
 	}
 
 	public boolean equals(Object o) {
-	    boolean b = false;
+		boolean b = false;
 		if (o == this)
 			return true;
 
@@ -93,11 +93,7 @@ public class TableViewEditorInput implements IEditorInput {
 			TableViewEditorInput input = (TableViewEditorInput) o;
 
 			if (schemaName != null && input.schemaName != null) {
-				b =  (config.equals(input.config) 
-						&& schemaName.equals(input.schemaName) 
-						&& name.equals(input.name)
-						&& table.getClass() == input.table.getClass()
-				);
+				b = (config.equals(input.config) && schemaName.equals(input.schemaName) && name.equals(input.name) && table.getClass() == input.table.getClass());
 				return b;
 			} else if (schemaName == null && input.schemaName == null) {
 				b = (config.equals(input.config) && name.equals(input.name));

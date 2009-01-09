@@ -79,8 +79,9 @@ import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
  * @since JDK1.4 history Symbol Date Person Note [001] 2005/11/27 ZIGEN create.
  */
 public class HistoryView extends ViewPart implements IStatusChangeListener {
+
 	protected SQLHistoryManager mgr = DbPlugin.getDefault().getHistoryManager();
-	
+
 	protected PluginSettingsManager settringMgr = DbPlugin.getDefault().getPluginSettingsManager();
 
 	protected TreeViewer viewer;
@@ -141,15 +142,11 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 
 		viewer = new TreeViewer(sash, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 
-//		viewer = new TreeViewer(sash, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL);
-		
+		// viewer = new TreeViewer(sash, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL);
+
 		/*
-		 * DND処理はコメントアウト int dragOption = DND.DROP_DEFAULT | DND.DROP_MOVE |
-		 * DND.DROP_COPY; Transfer[] transfers = new Transfer[]{
-		 * TreeLeafListTransfer.getInstance() };
-		 * viewer.addDragSupport(dragOption, transfers, new
-		 * DragBookmarkAdapter(viewer)); viewer.addDropSupport(dragOption,
-		 * transfers, new DropBookmarkAdapter(viewer));
+		 * DND処理はコメントアウト int dragOption = DND.DROP_DEFAULT | DND.DROP_MOVE | DND.DROP_COPY; Transfer[] transfers = new Transfer[]{ TreeLeafListTransfer.getInstance() };
+		 * viewer.addDragSupport(dragOption, transfers, new DragBookmarkAdapter(viewer)); viewer.addDropSupport(dragOption, transfers, new DropBookmarkAdapter(viewer));
 		 */
 
 		HistoryContentProvider hcp = new HistoryContentProvider();
@@ -163,6 +160,7 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		viewer.expandToLevel(folder, 1);
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				selectionChangeHandler(event);
 			}
@@ -185,10 +183,7 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		sourceViewer.setEditable(false);
 		// sourceViewer.getTextWidget().setWordWrap(true);
 
-		sash.setWeights(new int[] {
-				50,
-				50
-		});
+		sash.setWeights(new int[] {50, 50});
 
 		// SelectionProviderに登録(変更を通知させるため）
 		getSite().setSelectionProvider(viewer);
@@ -268,6 +263,7 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 
 		filterComb.addFocusListener(new TextSelectionListener());
 		filterComb.addKeyListener(new KeyAdapter() {
+
 			public void keyPressed(KeyEvent e) {
 				if (e.character == SWT.CR) {
 					e.doit = false;
@@ -280,6 +276,7 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		searchBtn.setText(Messages.getString("HistoryView.2")); //$NON-NLS-1$
 
 		searchBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				filter(filterComb.getText());
 			}
@@ -288,12 +285,12 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		filterHistory = loadFilterHistory();
 		// 初期一覧の作成
 		if (filterHistory != null) {
-			if(filterHistory.size() == 0){
-				filterComb.add("");	
-			}else{
+			if (filterHistory.size() == 0) {
+				filterComb.add("");
+			} else {
 				for (int i = 0; i < filterHistory.size(); i++) {
 					filterComb.add((String) filterHistory.get(i));
-				}	
+				}
 			}
 		}
 	}
@@ -357,6 +354,7 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+
 			public void menuAboutToShow(IMenuManager manager) {
 				fillContextMenu(manager);
 			}
@@ -408,8 +406,7 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 
 		SQLHistoryManager historyManager = DbPlugin.getDefault().getHistoryManager();
 
-		public HistoryDoubleClickHandler() {
-		}
+		public HistoryDoubleClickHandler() {}
 
 		public void doubleClick(DoubleClickEvent event) {
 
@@ -497,8 +494,7 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		fillLocalToolBar(bars.getToolBarManager());
 	}
 
-	void fillLocalPullDown(IMenuManager manager) {
-	}
+	void fillLocalPullDown(IMenuManager manager) {}
 
 	void fillLocalToolBar(IToolBarManager manager) {
 
@@ -509,6 +505,7 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 	}
 
 	public class MyButtonContiribution extends ControlContribution {
+
 		Button button;
 
 		public MyButtonContiribution() {
@@ -542,12 +539,14 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 			horizonItem.setImage(ic.getImage(DbPlugin.IMG_CODE_HORIZONTALLAYOUT));
 
 			verticalItem.addSelectionListener(new SelectionAdapter() {
+
 				public void widgetSelected(SelectionEvent arg0) {
 					sash.setOrientation(SWT.VERTICAL);
 					settringMgr.setValue(PluginSettingsManager.KEY_SQLHISTORY_LAYOUT, "SWT.VERTICAL"); //$NON-NLS-1$
 				}
 			});
 			horizonItem.addSelectionListener(new SelectionAdapter() {
+
 				public void widgetSelected(SelectionEvent arg0) {
 					sash.setOrientation(SWT.HORIZONTAL);
 					settringMgr.setValue(PluginSettingsManager.KEY_SQLHISTORY_LAYOUT, "SWT.HORIZONTAL"); //$NON-NLS-1$

@@ -38,8 +38,7 @@ import zigen.plugin.db.core.TimeWatcher;
 public class DefaultConstraintSearcherFactory extends AbstractConstraintSearcherFactory implements IConstraintSearcherFactory {
 
 
-	public DefaultConstraintSearcherFactory() {
-	}
+	public DefaultConstraintSearcherFactory() {}
 
 	public TablePKColumn[] getPKColumns(Connection con, String schemaPattern, String tableName) throws Exception {
 		List list = new ArrayList();
@@ -76,7 +75,7 @@ public class DefaultConstraintSearcherFactory extends AbstractConstraintSearcher
 			ResultSetUtil.close(rs);
 		}
 	}
-	
+
 	public TableFKColumn[] getFKColumns(Connection con, String schemaPattern, String tableName) throws Exception {
 		List list = new ArrayList();
 		ResultSet rs = null;
@@ -122,7 +121,7 @@ public class DefaultConstraintSearcherFactory extends AbstractConstraintSearcher
 			ResultSetUtil.close(rs);
 		}
 	}
-	
+
 	public TableIDXColumn[] getUniqueIDXColumns(Connection con, String schemaPattern, String tableName, boolean unique) throws Exception {
 		List list = new ArrayList();
 		ResultSet rs = null;
@@ -138,10 +137,10 @@ public class DefaultConstraintSearcherFactory extends AbstractConstraintSearcher
 			}
 			tw.stop();
 
-			
-//			if (log.isDebugEnabled()) {
-//				log.debug("INDEXåüçıéûä‘ÅF" + tw.getTotalTime()); //$NON-NLS-1$
-//			}
+
+			// if (log.isDebugEnabled()) {
+			// log.debug("INDEXåüçıéûä‘ÅF" + tw.getTotalTime()); //$NON-NLS-1$
+			// }
 
 			while (rs.next()) {
 				String indexName = rs.getString("INDEX_NAME"); //$NON-NLS-1$
@@ -179,8 +178,8 @@ public class DefaultConstraintSearcherFactory extends AbstractConstraintSearcher
 			ResultSetUtil.close(rs);
 		}
 	}
-	
-	public TableConstraintColumn[] getConstraintColumns(Connection con, String schemaPattern, String tableName) throws Exception{
+
+	public TableConstraintColumn[] getConstraintColumns(Connection con, String schemaPattern, String tableName) throws Exception {
 		return null;
 	}
 }

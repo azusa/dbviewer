@@ -39,9 +39,7 @@ public class PKWizard extends DefaultWizard {
 		String constraintName = page1.txtConstraintName.getText();
 		Column[] columns = (Column[]) page1.selectedList.toArray(new Column[0]);
 		String sql = factory.createCreateConstraintPKDDL(constraintName, columns);
-		return new String[] {
-			sql
-		};
+		return new String[] {sql};
 	}
 
 }

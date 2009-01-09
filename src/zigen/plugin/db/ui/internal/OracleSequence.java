@@ -17,11 +17,11 @@ import zigen.plugin.db.ext.oracle.internal.OracleSequenceInfo;
  * 
  */
 public class OracleSequence extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private OracleSequenceInfo oracleSequenceInfo;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -30,7 +30,7 @@ public class OracleSequence extends TreeNode {
 	public OracleSequence(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -39,7 +39,7 @@ public class OracleSequence extends TreeNode {
 	public OracleSequence() {
 		super();
 	}
-	
+
 	public String getName() {
 		if (oracleSequenceInfo != null) {
 			return this.oracleSequenceInfo.getSequence_name();
@@ -47,13 +47,13 @@ public class OracleSequence extends TreeNode {
 			return super.name;
 		}
 	}
-	
+
 	public OracleSequenceInfo getOracleSequenceInfo() {
 		return oracleSequenceInfo;
 	}
-	
+
 	public void setOracleSequenceInfo(OracleSequenceInfo oracleSequenceInfo) {
 		this.oracleSequenceInfo = oracleSequenceInfo;
 	}
-	
+
 }

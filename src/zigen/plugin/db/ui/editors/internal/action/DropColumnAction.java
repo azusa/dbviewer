@@ -34,7 +34,7 @@ public class DropColumnAction extends TableViewEditorAction {
 		// テキストやツールチップ、アイコンの設定
 		this.setText(Messages.getString("DropColumnAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("DropColumnAction.1")); //$NON-NLS-1$
-        this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLUMN_DEL));
+		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLUMN_DEL));
 	}
 
 	public void run() {

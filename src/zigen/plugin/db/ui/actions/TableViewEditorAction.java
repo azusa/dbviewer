@@ -19,17 +19,18 @@ import zigen.plugin.db.ui.editors.ITableViewEditor;
 
 
 public abstract class TableViewEditorAction extends Action implements Runnable, ITableViewEditorAction {
-    protected IStructuredSelection selection;
-    
-	public void selectionChanged(ISelection _selection) {
-        if(_selection instanceof IStructuredSelection){
-            this.selection = (IStructuredSelection)_selection;
-        }else{
-            this.selection = null;
-        }
-    }
 
-    protected ITableViewEditor editor;
+	protected IStructuredSelection selection;
+
+	public void selectionChanged(ISelection _selection) {
+		if (_selection instanceof IStructuredSelection) {
+			this.selection = (IStructuredSelection) _selection;
+		} else {
+			this.selection = null;
+		}
+	}
+
+	protected ITableViewEditor editor;
 
 	protected IDBConfig config;
 

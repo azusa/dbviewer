@@ -16,6 +16,7 @@ import zigen.plugin.db.DbPluginConstant;
 import zigen.plugin.db.ui.views.SQLExecuteView;
 
 public class ReplaceSemicron2SuraAction implements IViewActionDelegate {
+
 	private IViewPart viewPart;
 
 	private ISelection selection;

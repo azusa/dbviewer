@@ -43,8 +43,6 @@ public class IndexWizard extends DefaultWizard implements IConfirmDDLWizard {
 		Column[] columns = (Column[]) page1.selectedList.toArray(new Column[0]);
 		int indexType = page1.getIndexType();
 		String sql = factory.createCreateIndexDDL(indexName, columns, indexType);
-		return new String[] {
-			sql
-		};
+		return new String[] {sql};
 	}
 }

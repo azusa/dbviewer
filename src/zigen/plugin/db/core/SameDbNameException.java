@@ -15,9 +15,9 @@ package zigen.plugin.db.core;
  * 
  */
 public class SameDbNameException extends Throwable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * コンストラクタ
 	 * 

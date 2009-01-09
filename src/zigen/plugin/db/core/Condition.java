@@ -27,11 +27,10 @@ public class Condition {
 	private List conditions;
 
 	private String filterPattern;
-	
+
 	private boolean checkFilterPattern;
-	
-	public Condition() {
-	}
+
+	public Condition() {}
 
 	public List getConditions() {
 		return conditions;

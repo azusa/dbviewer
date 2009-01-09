@@ -37,7 +37,7 @@ public class DDLDiffContributor extends MultiPageEditorActionBarContributor {
 
 	// ツールバーを追加する場合にオーバーライドする
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		// ツールバーを作成
+	// ツールバーを作成
 	}
 
 	public void setActivePage(IEditorPart target) {

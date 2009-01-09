@@ -34,7 +34,7 @@ public class UpdateSQLFoldingJob extends AbstractJob {
 	IPreferenceStore st;
 
 	IStatusLineManager statusLineManager;
-	
+
 	public UpdateSQLFoldingJob(ProjectionAnnotationModel model, IDocument document, int offset, IStatusLineManager statusLineManager) {
 		super(Messages.getString("UpdateSQLFoldingJob.0")); //$NON-NLS-1$
 		this.model = model;
@@ -66,7 +66,7 @@ public class UpdateSQLFoldingJob extends AbstractJob {
 			monitor.done();
 			showResults(new UpdateFoldingAction(t.getNode(), t.getBeginOffset()));
 			showMessage(statusLineManager, "Update Folding is complete.");
-			
+
 			return Status.OK_STATUS;
 
 		} catch (Exception e) {
@@ -78,6 +78,7 @@ public class UpdateSQLFoldingJob extends AbstractJob {
 	}
 
 	protected class UpdateFoldingAction implements Runnable {
+
 		INode node;
 
 		int beginOffset;
@@ -108,15 +109,15 @@ public class UpdateSQLFoldingJob extends AbstractJob {
 				if (node instanceof ASTParentheses) {
 					ASTParentheses p = (ASTParentheses) node;
 
-					if(!p.isForFunction()){
-					int _offset = beginOffset + p.getOffset();
-					int _length = p.getEndOffset() - p.getOffset() + 1;
+					if (!p.isForFunction()) {
+						int _offset = beginOffset + p.getOffset();
+						int _length = p.getEndOffset() - p.getOffset() + 1;
 
-					if (_offset >= 0 && _length >= 0) {
-						position = new Position(_offset, _length);
-						model.addAnnotation(new ProjectionAnnotation(), position);
-				
-					}
+						if (_offset >= 0 && _length >= 0) {
+							position = new Position(_offset, _length);
+							model.addAnnotation(new ProjectionAnnotation(), position);
+
+						}
 					}
 				}
 

@@ -68,8 +68,9 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 	protected TreeViewer viewer;
 
 	Label tableFilterLabel;
+
 	Label columnFilterLabel;
-	
+
 	protected Combo tableFilterComb;
 
 	protected Combo columnFilterComb;
@@ -109,10 +110,10 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		gridLayout.horizontalSpacing = 0;
 		gridLayout.verticalSpacing = 2;
 		main.setLayout(gridLayout);
-				
+
 		createFilterBar(main);
 		createTreeArea(main);
-		
+
 		// SelectionProviderÇ…ìoò^(ïœçXÇí ímÇ≥ÇπÇÈÇΩÇﬂÅj
 		getSite().setSelectionProvider(viewer);
 		makeActions();
@@ -130,6 +131,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+
 			public void menuAboutToShow(IMenuManager manager) {
 				fillContextMenu(manager);
 			}
@@ -184,7 +186,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		// DragElementAdapter(viewer));
 
 		int dragOption = DND.DROP_DEFAULT | DND.DROP_MOVE | DND.DROP_COPY;
-		Transfer[] transfers = new Transfer[] { TreeLeafListTransfer.getInstance() };
+		Transfer[] transfers = new Transfer[] {TreeLeafListTransfer.getInstance()};
 		viewer.addDragSupport(dragOption, transfers, new DragBookmarkAdapter(viewer));
 		viewer.addDropSupport(dragOption, transfers, new DropBookmarkAdapter(viewer));
 
@@ -193,7 +195,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		viewer.setLabelProvider(new TreeLabelProvider());
 		viewer.setSorter(new TreeViewSorter());
 		// åüçıÇçÇë¨âª
-		viewer.setUseHashlookup(true); 
+		viewer.setUseHashlookup(true);
 
 		viewer.setInput(getViewSite());
 		// viewer.expandAll(); // Ç∑Ç◊ÇƒìWäJèÛë‘Ç∆Ç∑ÇÈ
@@ -203,6 +205,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		viewer.addTreeListener(new TreeViewListener());
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				selectionChangeHandler(event);
 			}
@@ -219,9 +222,10 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 	protected ImageCacher ic = ImageCacher.getInstance();
 
 	protected Composite tool;
+
 	boolean onColumnFilter = false;
-	
-	
+
+
 	protected void createFilterBar(final Composite parent) {
 		GridData gridData;
 		tool = new Composite(parent, SWT.NONE);
@@ -238,22 +242,22 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		tool.setLayout(gridLayout);
 
 		tool.addControlListener(new ControlListener() {
-			public void controlMoved(ControlEvent e) {
-			}
+
+			public void controlMoved(ControlEvent e) {}
 
 			public void controlResized(ControlEvent e) {
 				parent.getParent().layout(true);
 				parent.layout(true);
 			}
 		});
-		
-		
+
+
 		addTableFilter(tool);
 		addColumnFilter(tool);
-		//onColumnFilter = true;
+		// onColumnFilter = true;
 	}
-	
-	protected void addColumnFilter(Composite tool){
+
+	protected void addColumnFilter(Composite tool) {
 		columnFilterLabel = new Label(tool, SWT.NULL);
 		GridData gridData = new GridData(GridData.FILL);
 		columnFilterLabel.setLayoutData(gridData);
@@ -267,6 +271,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 			// columnFilterComb.addFocusListener(new TextSelectionListener());
 			// // TextÇÃÇ›
 			columnFilterComb.addKeyListener(new KeyAdapter() {
+
 				public void keyPressed(KeyEvent e) {
 					if (e.character == SWT.CR) {
 						e.doit = false;
@@ -278,7 +283,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		} else {
 			columnFilterComb.addKeyListener(new AutoDelayFiltertListener(2));
 		}
-		
+
 		columnFilterHistory = loadColumnFilterHistory();
 
 		// èâä˙àÍóóÇÃçÏê¨
@@ -292,8 +297,8 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 			}
 		}
 	}
-	
-	protected void addTableFilter(Composite tool){
+
+	protected void addTableFilter(Composite tool) {
 		tableFilterLabel = new Label(tool, SWT.NULL);
 		GridData gridData = new GridData(GridData.FILL);
 		tableFilterLabel.setLayoutData(gridData);
@@ -309,6 +314,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 			// tableFilterComb.addFocusListener(new TextSelectionListener()); //
 			// TextÇÃÇ›
 			tableFilterComb.addKeyListener(new KeyAdapter() {
+
 				public void keyPressed(KeyEvent e) {
 					if (e.character == SWT.CR) {
 						e.doit = false;
@@ -319,7 +325,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		} else {
 			tableFilterComb.addKeyListener(new AutoDelayFiltertListener(1));
 		}
-		
+
 
 		tableFilterHistory = loadFilterHistory();
 
@@ -334,7 +340,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 			}
 		}
 
-		
+
 	}
 
 
@@ -360,7 +366,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		removeOverHistory(tableFilterHistory, tableFilterComb);
 
 		// tableFilterComb.setFocus();
-		
+
 
 	}
 
@@ -480,6 +486,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 	}
 
 	class AutoDelayFiltertListener extends AutoDelayListener {
+
 		private static final int delayTime = 300;
 
 		int mode = 1;
@@ -491,6 +498,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 
 		public Runnable createExecutAction() {
 			return new Runnable() {
+
 				public void run() {
 					try {
 						if (mode == 1) {

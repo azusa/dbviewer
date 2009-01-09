@@ -12,12 +12,13 @@ import zigen.plugin.db.ui.actions.MaxRecordException;
 import zigen.plugin.db.ui.jobs.SqlExecJob;
 
 public class SqlExecJob2 extends SqlExecJob {
+
 	SqlEditor2 editor;
-	
+
 	public SqlExecJob2(SqlEditor2 editor, Transaction trans, String sqlString) {
 		super(trans, sqlString, null);
 		this.editor = editor;
-		
+
 	}
 
 	protected void showDBEditor(String query) throws Exception {
@@ -40,6 +41,7 @@ public class SqlExecJob2 extends SqlExecJob {
 	}
 
 	protected class ShowResultAction implements Runnable {
+
 		IDBConfig config = null;
 
 		String query = null;
@@ -73,14 +75,15 @@ public class SqlExecJob2 extends SqlExecJob {
 		}
 
 	}
-	
+
 
 	protected void updateMessage(IDBConfig config, String message, String secondaryId) {
 		Display.getDefault().asyncExec((Runnable) new UpdateStatusMessageAction(message));
 	}
-	
-	
+
+
 	public class UpdateStatusMessageAction implements Runnable {
+
 		private String message;
 
 		public UpdateStatusMessageAction(String message) {

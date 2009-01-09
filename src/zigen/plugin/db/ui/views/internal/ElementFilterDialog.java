@@ -44,12 +44,13 @@ import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.views.TreeView;
 
 public class ElementFilterDialog extends Dialog {
+
 	PluginSettingsManager pluginMgr = DbPlugin.getDefault().getPluginSettingsManager();
-	
+
 	private TreeView treeView;
 
 	FilterComposite filterComposite;
-	
+
 	FolderInfo[] settingFolders = null;
 
 	FolderInfo[] filterFolders = null;
@@ -72,7 +73,7 @@ public class ElementFilterDialog extends Dialog {
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(Messages.getString("ElementFilterDialog.3")); //$NON-NLS-1$
-		
+
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
@@ -101,7 +102,7 @@ public class ElementFilterDialog extends Dialog {
 
 			pluginMgr.setValue(PluginSettingsManager.KEY_ELEM_FILTER_FOLDER_LIST, filterFolders);
 			// Filteré¿çs
-			
+
 		} else if (buttonId == BUTTON_ID_SELECTALL) {
 			for (int i = 0; i < fTableViewer.getTable().getItemCount(); i++) {
 				FolderInfo info = (FolderInfo) fTableViewer.getElementAt(i);
@@ -118,26 +119,26 @@ public class ElementFilterDialog extends Dialog {
 
 		super.buttonPressed(buttonId);
 	}
-	
+
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
-		filterComposite = new FilterComposite(composite, Messages.getString("ElementFilterDialog.0"));	 //$NON-NLS-1$
+		filterComposite = new FilterComposite(composite, Messages.getString("ElementFilterDialog.0")); //$NON-NLS-1$
 		filterComposite.visibleCheck.setSelection(pluginMgr.getValueBoolean(PluginSettingsManager.KEY_ELEM_FILTER_VISIBLE));
 		filterComposite.filterText.setText(pluginMgr.getValueString(PluginSettingsManager.KEY_ELEM_FILTER_PATTERN));
 		filterComposite.regularExpressions.setSelection(pluginMgr.getValueBoolean(PluginSettingsManager.KEY_ELEM_FILTER_REGULAREXP));
 		filterComposite.caseSensitive.setSelection(pluginMgr.getValueBoolean(PluginSettingsManager.KEY_ELEM_FILTER_CASESENSITIVE));
 		filterComposite.visibleCheck.notifyListeners(SWT.Selection, null);
 		filterComposite.regularExpressions.notifyListeners(SWT.Selection, null);
-		
-		settingFolders = (FolderInfo[])pluginMgr.getValue(PluginSettingsManager.KEY_ELEM_FILTER_FOLDER_LIST);
-		if(settingFolders != null){
+
+		settingFolders = (FolderInfo[]) pluginMgr.getValue(PluginSettingsManager.KEY_ELEM_FILTER_FOLDER_LIST);
+		if (settingFolders != null) {
 			for (int i = 0; i < settingFolders.length; i++) {
 				FolderInfo info = settingFolders[i];
 				settingFolderMap.put(info.getName(), info);
 			}
 		}
 		createFolderArea(composite);
-		
+
 		return composite;
 
 	}
@@ -148,7 +149,7 @@ public class ElementFilterDialog extends Dialog {
 		group.setText(Messages.getString("ElementFilterDialog.1")); //$NON-NLS-1$
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group.setLayout(new GridLayout(1, false));
-		
+
 		final Label labe2 = new Label(group, SWT.NONE);
 		labe2.setText(Messages.getString("ElementFilterDialog.2")); //$NON-NLS-1$
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
@@ -184,8 +185,9 @@ public class ElementFilterDialog extends Dialog {
 				fTableViewer.setChecked(info, info.isChecked());
 			}
 		}
-		
+
 		fTableViewer.addCheckStateListener(new ICheckStateListener() {
+
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				FolderInfo info = (FolderInfo) event.getElement();
 				info.setChecked(event.getChecked());
@@ -197,8 +199,8 @@ public class ElementFilterDialog extends Dialog {
 	protected int computeMinimumColumnWidth(GC gc, String string) {
 		return gc.stringExtent(string).x + 10;
 	}
-	
-	
+
+
 	private FolderInfo[] loadFolders() {
 		FolderInfo[] folders = null;
 		boolean isSetting = !settingFolderMap.isEmpty();
@@ -219,7 +221,7 @@ public class ElementFilterDialog extends Dialog {
 					}
 				}
 			}
-			String[] newNames = (String[])newList.toArray(new String[0]);
+			String[] newNames = (String[]) newList.toArray(new String[0]);
 			if (!isSetting) {
 				folders = new FolderInfo[newList.size()];
 				for (int i = 0; i < newList.size(); i++) {
@@ -273,11 +275,9 @@ public class ElementFilterDialog extends Dialog {
 			}
 		}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
-		public void dispose() {
-		}
+		public void dispose() {}
 	}
 
 	public FolderInfo[] getFilterFolders() {

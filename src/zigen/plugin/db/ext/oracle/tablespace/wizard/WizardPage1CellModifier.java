@@ -32,8 +32,7 @@ public class WizardPage1CellModifier implements ICellModifier {
 	/*
 	 * (”ñ Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
-	 *      java.lang.String)
+	 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object, java.lang.String)
 	 */
 	public Object getValue(Object element, String property) {
 		TableItem item = (TableItem) element;
@@ -49,8 +48,7 @@ public class WizardPage1CellModifier implements ICellModifier {
 	/*
 	 * (”ñ Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
-	 *      java.lang.String, java.lang.Object)
+	 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object, java.lang.String, java.lang.Object)
 	 */
 	public void modify(Object element, String property, Object value) {
 		if (element instanceof Item) {

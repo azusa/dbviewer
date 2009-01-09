@@ -35,7 +35,7 @@ public class DuplicateColumnAction extends TableViewEditorAction {
 		// テキストやツールチップ、アイコンの設定
 		this.setText(Messages.getString("DuplicateColumnAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("DuplicateColumnAction.1")); //$NON-NLS-1$
-        this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLUMN_DUPLICATE));
+		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_COLUMN_DUPLICATE));
 	}
 
 	public void run() {

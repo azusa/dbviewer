@@ -44,8 +44,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(typeName);
 
 		// パラメータ無しの型対応(例 NUMBER型)
-		//if (isVisibleColumnSize(typeName)) {
-	    if (isVisibleColumnSize(typeName) && !column.isWithoutParam()) {
+		// if (isVisibleColumnSize(typeName)) {
+		if (isVisibleColumnSize(typeName) && !column.isWithoutParam()) {
 			if (column.getDecimalDigits() == 0) {
 				sb.append("(" + column.getColumnSize() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
@@ -92,39 +92,39 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		return sb.toString();
 	}
-	
-	
-	private void addColumnName(StringBuffer sb){
+
+
+	private void addColumnName(StringBuffer sb) {
 		Column[] cols = table.getColumns();
 		for (int i = 0; i < cols.length; i++) {
 			Column column = cols[i];
-			if(i == 0){
+			if (i == 0) {
 				sb.append(column.getName());
-			}else{
+			} else {
 				sb.append(", ");
-				sb.append(column.getName());				
+				sb.append(column.getName());
 			}
 		}
 	}
-	
-	public boolean isSupportPager(){
+
+	public boolean isSupportPager() {
 		return true;
 	}
-	
+
 	public String createSelectForPager(String _condition, int offset, int limit) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT ");
 		addColumnName(sb);
 		sb.append(" FROM (SELECT W.*, ROWNUM LINE FROM ("); //$NON-NLS-1$
-		
+
 		// <-- 元のSQL
 		sb.append(" SELECT * FROM "); //$NON-NLS-1$
 		sb.append(table.getSqlTableName());
-		
+
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
 		String orderBy = conditions[1];
-		
+
 		if (condition != null && !"".equals(condition.trim())) { //$NON-NLS-1$
 			sb.append(" WHERE " + condition); //$NON-NLS-1$
 		}
@@ -133,20 +133,20 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
 		// -->
-		
-		//sb.append(") W ) T WHERE line BETWEEN ").append(offset).append(" AND ").append(offset + limit);	// MaxReocordExceptionをあえて発生する場合
+
+		// sb.append(") W ) T WHERE line BETWEEN ").append(offset).append(" AND ").append(offset + limit); // MaxReocordExceptionをあえて発生する場合
 		sb.append(") W ) T WHERE line BETWEEN ").append(offset).append(" AND ").append(offset + limit - 1);
-				
+
 		return sb.toString();
 	}
-	
+
 
 	public String VisibleColumnSizePattern() {
 		return "^CHAR|^VARCHAR.*|^NUMBER"; //$NON-NLS-1$
 	}
 
 	public String[] getSupportColumnType() {
-		return new String[] { "CHAR", //$NON-NLS-1$
+		return new String[] {"CHAR", //$NON-NLS-1$
 				"VARCHAR2", //$NON-NLS-1$
 				"NUMBER", //$NON-NLS-1$
 				"DATE", //$NON-NLS-1$
@@ -187,9 +187,9 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnTableDDL(String commnets) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON TABLE "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -202,9 +202,9 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON COLUMN "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -265,7 +265,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 		sb.append(")"); //$NON-NLS-1$
 
-		return new String[] { sb.toString() };
+		return new String[] {sb.toString()};
 
 	}
 
@@ -320,7 +320,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		}
 
-		return new String[] { sb.toString(), sb2.toString(), sb3.toString() };
+		return new String[] {sb.toString(), sb2.toString(), sb3.toString()};
 
 	}
 
@@ -335,7 +335,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" CASCADE CONSTRAINTS "); //$NON-NLS-1$
 		}
 
-		return new String[] { sb.toString() };
+		return new String[] {sb.toString()};
 
 	}
 
@@ -357,12 +357,11 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("."); //$NON-NLS-1$
 		sb.append(indexName);
 		sb.append(" ON "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
-
 
 
 		sb.append("("); //$NON-NLS-1$
@@ -489,8 +488,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		return sb.toString();
 
 	}
-	
-	protected String getViewDDL_SQL(String owner, String view){
+
+	protected String getViewDDL_SQL(String owner, String view) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT TEXT"); //$NON-NLS-1$
 		sb.append(" FROM ALL_VIEWS"); //$NON-NLS-1$
@@ -498,60 +497,60 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(" AND VIEW_NAME = '" + SQLUtil.encodeQuotation(view) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString();
 	}
-	
-//	/**
-//	 * Oralceでは、UniqueIndexをDDLに含めない
-//	 */
-//	protected String getConstraints() {
-//		StringBuffer sb = new StringBuffer();
-//
-//		String pks = getConstraintPKStr();
-//		String[] fks = getConstraintFKStr();
-//		String[] cons = getConstraintOtherStr();
-//		
-//		boolean p = (pks != null && pks.length() > 0);
-//		boolean f = (fks != null && fks.length > 0);
-//		boolean c = (cons != null && cons.length > 0);
-//		
-//		if (pks != null) {
-//			sb.append("    " + pks);
-//			if (f || c ) {
-//				sb.append(",");
-//
-//			}
-//			sb.append(DbPluginConstant.LINE_SEP);
-//		} else {
-//
-//		}
-//
-//		if (fks != null) {
-//			for (int i = 0; i < fks.length; i++) {
-//				if (i == fks.length - 1) {
-//					sb.append("    " + fks[i]);
-//					if (c) {
-//						sb.append(",");
-//					}
-//				} else {
-//					sb.append("    " + fks[i] + ",");
-//				}
-//				sb.append(DbPluginConstant.LINE_SEP);
-//
-//			}
-//		}
-//		
-//		if (cons != null) {
-//			for (int i = 0; i < cons.length; i++) {
-//				if (i == cons.length - 1) {
-//					sb.append("    " + cons[i]);
-//				} else {
-//					sb.append("    " + cons[i] + ",");
-//				}
-//				sb.append(DbPluginConstant.LINE_SEP);
-//
-//			}
-//		}
-//
-//		return sb.toString();
-//	}
+
+	// /**
+	// * Oralceでは、UniqueIndexをDDLに含めない
+	// */
+	// protected String getConstraints() {
+	// StringBuffer sb = new StringBuffer();
+	//
+	// String pks = getConstraintPKStr();
+	// String[] fks = getConstraintFKStr();
+	// String[] cons = getConstraintOtherStr();
+	//		
+	// boolean p = (pks != null && pks.length() > 0);
+	// boolean f = (fks != null && fks.length > 0);
+	// boolean c = (cons != null && cons.length > 0);
+	//		
+	// if (pks != null) {
+	// sb.append(" " + pks);
+	// if (f || c ) {
+	// sb.append(",");
+	//
+	// }
+	// sb.append(DbPluginConstant.LINE_SEP);
+	// } else {
+	//
+	// }
+	//
+	// if (fks != null) {
+	// for (int i = 0; i < fks.length; i++) {
+	// if (i == fks.length - 1) {
+	// sb.append(" " + fks[i]);
+	// if (c) {
+	// sb.append(",");
+	// }
+	// } else {
+	// sb.append(" " + fks[i] + ",");
+	// }
+	// sb.append(DbPluginConstant.LINE_SEP);
+	//
+	// }
+	// }
+	//		
+	// if (cons != null) {
+	// for (int i = 0; i < cons.length; i++) {
+	// if (i == cons.length - 1) {
+	// sb.append(" " + cons[i]);
+	// } else {
+	// sb.append(" " + cons[i] + ",");
+	// }
+	// sb.append(DbPluginConstant.LINE_SEP);
+	//
+	// }
+	// }
+	//
+	// return sb.toString();
+	// }
 
 }

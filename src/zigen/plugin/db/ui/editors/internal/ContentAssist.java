@@ -46,15 +46,15 @@ import zigen.plugin.db.ui.internal.Column;
  * 
  */
 public class ContentAssist {
-	
+
 	private class TableContentProvider implements IStructuredContentProvider {
-		
+
 		Object[] contents;
-		
+
 		public Object[] getElements(Object inputElement) {
 			return contents;
 		}
-		
+
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			if (newInput instanceof Object[]) {
 				contents = (Object[]) newInput;
@@ -62,13 +62,13 @@ public class ContentAssist {
 				contents = null;
 			}
 		}
-		
+
 		public void dispose() {}
-		
+
 	}
-	
+
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
-		
+
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof Column) {
 				Column col = (Column) element;
@@ -76,11 +76,11 @@ public class ContentAssist {
 			}
 			return null;
 		}
-		
+
 		public Image getColumnImage(Object obj, int index) {
 			return getImage(obj);
 		}
-		
+
 		public Image getImage(Object obj) {
 			if (obj instanceof Column) {
 				Column col = (Column) obj;
@@ -93,27 +93,27 @@ public class ContentAssist {
 						return DbPlugin.getDefault().getImage(DbPlugin.IMG_CODE_COLUMN);
 					}
 				}
-				
+
 			}
 			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
-			
+
 		}
 	}
-	
+
 	protected TableContentProvider contentProvider = new TableContentProvider();
-	
+
 	private TableViewer tableViewer;
-	
+
 	private Rectangle rectangle;
-	
+
 	private Display display;
-	
+
 	private Combo comb;
-	
+
 	private zigen.plugin.db.ui.internal.ITable table;
-	
+
 	private Column[] columns;
-	
+
 	public ContentAssist(Combo text, zigen.plugin.db.ui.internal.ITable table) {
 		this.comb = text;
 		this.rectangle = getRectangle(text);
@@ -123,7 +123,7 @@ public class ContentAssist {
 		columns = ci.getColumns(table.getName());
 		createComposite();
 	}
-	
+
 	private Rectangle getRectangle(Combo text) {
 		Rectangle rectangle = new Rectangle(text.getBorderWidth(), 0, 0, 0);
 		// 親をさかのぼって座標を割り出す
@@ -138,9 +138,9 @@ public class ContentAssist {
 		rectangle.x += text.getBounds().x;
 		rectangle.y += text.getBounds().y + 0 + 60;
 		return rectangle;
-		
+
 	}
-	
+
 	private Rectangle getRectangle(Text text) {
 		Rectangle rectangle = new Rectangle(text.getBorderWidth(), text.getLineHeight(), 0, 0);
 		// 親をさかのぼって座標を割り出す
@@ -155,9 +155,9 @@ public class ContentAssist {
 		rectangle.x += text.getBounds().x + text.getCaretLocation().x;
 		rectangle.y += text.getBounds().y + text.getLineHeight();
 		return rectangle;
-		
+
 	}
-	
+
 	protected void createComposite() {
 		final Shell composite = new Shell(display, SWT.ON_TOP);
 		GridLayout gridLayout = new GridLayout();
@@ -168,7 +168,7 @@ public class ContentAssist {
 		gridLayout.horizontalSpacing = 0;
 		gridLayout.verticalSpacing = 0;
 		composite.setLayout(gridLayout);
-		
+
 		tableViewer = new TableViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE);
 		final Table table = tableViewer.getTable();
 		TableLayout tableLayout = new TableLayout();
@@ -178,13 +178,13 @@ public class ContentAssist {
 		// table.setFont(font);
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		tableViewer.getControl().setLayoutData(gridData);
-		
+
 		tableViewer.setContentProvider(contentProvider);
 		tableViewer.setLabelProvider(new TableLabelProvider());
 		tableViewer.setInput(columns);
-		
+
 		table.addFocusListener(new FocusAdapter() {
-			
+
 			public void focusGained(FocusEvent e) {
 				if (table.getSelectionIndex() == -1) {
 					table.select(0);
@@ -192,12 +192,12 @@ public class ContentAssist {
 			}
 		});
 		table.addKeyListener(new KeyAdapter() {
-			
+
 			public void keyPressed(KeyEvent e) {
 				if (e.character == SWT.CR) {
 					TableItem item = table.getItem(table.getSelectionIndex());
 					comb.setText(item.getText());
-					
+
 					e.doit = false;
 					composite.close();
 				}
@@ -209,12 +209,12 @@ public class ContentAssist {
 		composite.open();
 		composite.forceActive();
 		composite.addShellListener(new ShellAdapter() {
-			
+
 			public void shellDeactivated(ShellEvent e) {
 				((Shell) e.getSource()).dispose();
-				
+
 			}
 		});
-		
+
 	}
 }

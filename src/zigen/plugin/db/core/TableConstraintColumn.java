@@ -9,12 +9,13 @@ package zigen.plugin.db.core;
 import java.io.Serializable;
 
 public class TableConstraintColumn extends TableIDXColumn implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private String search_condition;
 
 	private String constraintType;
-	
+
 	public TableConstraintColumn() {
 
 	}

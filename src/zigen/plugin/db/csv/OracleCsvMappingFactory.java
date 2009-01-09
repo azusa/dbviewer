@@ -21,6 +21,7 @@ import java.util.Date;
  * 
  */
 public class OracleCsvMappingFactory extends DefaultCsvMappingFactory implements ICsvMappingFactory {
+
 	/**
 	 * Oracle9iÇ≈å√Ç¢JDBCDriverÇÕÅATIMESTAMPå^ÇÕ-100Çï‘Ç∑
 	 */
@@ -49,14 +50,14 @@ public class OracleCsvMappingFactory extends DefaultCsvMappingFactory implements
 			return NULL;
 		}
 
-//		return timeStampFormat.format(new Date(value.getTime()));
-        String temp = timeStampFormat.format(new Date(value.getTime()));
-        
-        if (!nonDoubleQuate) {
-            return "\"" + temp + "\""; //$NON-NLS-1$ //$NON-NLS-2$
-        }else{
-            return temp;
-        }
+		// return timeStampFormat.format(new Date(value.getTime()));
+		String temp = timeStampFormat.format(new Date(value.getTime()));
+
+		if (!nonDoubleQuate) {
+			return "\"" + temp + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+		} else {
+			return temp;
+		}
 	}
 
 	protected String getTimestamp(ResultSet rs, int icol) throws SQLException {
@@ -67,15 +68,15 @@ public class OracleCsvMappingFactory extends DefaultCsvMappingFactory implements
 			return NULL;
 		}
 
-		//return timeStampFormat2.format(new Date(value.getTime()));
-		
-        String temp = timeStampFormat2.format(new Date(value.getTime()));
-        if (!nonDoubleQuate) {
-            return "\"" + temp + "\""; //$NON-NLS-1$ //$NON-NLS-2$
-        }else{
-            return temp;
-        }
-        
+		// return timeStampFormat2.format(new Date(value.getTime()));
+
+		String temp = timeStampFormat2.format(new Date(value.getTime()));
+		if (!nonDoubleQuate) {
+			return "\"" + temp + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+		} else {
+			return temp;
+		}
+
 
 	}
 

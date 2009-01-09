@@ -8,8 +8,9 @@ package zigen.plugin.db.ext.oracle.internal;
 import java.io.Serializable;
 
 public class OracleSourceErrorInfo extends OracleSourceInfo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private int line;
 
 	private int position;
@@ -19,8 +20,7 @@ public class OracleSourceErrorInfo extends OracleSourceInfo implements Serializa
 	/**
 	 * コンストラクタ
 	 */
-	public OracleSourceErrorInfo() {
-	}
+	public OracleSourceErrorInfo() {}
 
 	public int getLine() {
 		return line;
@@ -56,7 +56,7 @@ public class OracleSourceErrorInfo extends OracleSourceInfo implements Serializa
 			return null;
 		} else {
 			StringBuffer sb = new StringBuffer();
-			//sb.append(Messages.getString("OracleSourceErrorInfo.0") + (line + 1)); //$NON-NLS-1$
+			// sb.append(Messages.getString("OracleSourceErrorInfo.0") + (line + 1)); //$NON-NLS-1$
 			sb.append(Messages.getString("OracleSourceErrorInfo.0") + (line)); //$NON-NLS-1$
 			sb.append(Messages.getString("OracleSourceErrorInfo.1") + position); //$NON-NLS-1$
 			sb.append(", "); //$NON-NLS-1$

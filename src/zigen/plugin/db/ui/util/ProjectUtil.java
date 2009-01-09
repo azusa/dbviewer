@@ -15,7 +15,7 @@ import zigen.plugin.db.properties.DBPropertyPage;
 
 public class ProjectUtil {
 
-	
+
 	public static IDBConfig getDBConfig(IProject project) {
 		String dbName = getDBConfigName(project);
 		if (dbName != null) {
@@ -24,14 +24,14 @@ public class ProjectUtil {
 			return null;
 		}
 	}
-	
+
 
 	static String getDBConfigName(IProject project) {
 		String dbName = null;
 		try {
-			if(project.isOpen()){
+			if (project.isOpen()) {
 				dbName = project.getPersistentProperty(new QualifiedName(DBPropertyPage.QUALIFIER, DBPropertyPage.SELECTED_DB));
-			}else{
+			} else {
 				; // ProjectÇ™ï¬Ç∂ÇƒÇ¢ÇÈÇΩÇﬂÅAâΩÇ‡ÇµÇ‹ÇπÇÒ
 			}
 		} catch (Exception e) {

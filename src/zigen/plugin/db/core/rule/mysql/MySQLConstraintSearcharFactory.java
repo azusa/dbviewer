@@ -21,7 +21,7 @@ public class MySQLConstraintSearcharFactory extends DefaultConstraintSearcherFac
 	public MySQLConstraintSearcharFactory() {
 		super();
 	}
-	
+
 	public TablePKColumn[] getPKColumns(Connection con, String schemaPattern, String tableName) throws Exception {
 		List list = new ArrayList();
 		ResultSet rs = null;
@@ -29,9 +29,9 @@ public class MySQLConstraintSearcharFactory extends DefaultConstraintSearcherFac
 
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
-			
+
 			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
-				
+
 				st = con.createStatement();
 				rs = st.executeQuery(getSQL(schemaPattern, tableName));
 				int i = 0;
@@ -47,20 +47,20 @@ public class MySQLConstraintSearcharFactory extends DefaultConstraintSearcherFac
 				Collections.sort(list, new ConstraintSeqSorter());
 
 				return (TablePKColumn[]) list.toArray(new TablePKColumn[0]);
-				
-			}else{
+
+			} else {
 				// MySQL5ˆÈŠO
 				return super.getPKColumns(con, schemaPattern, tableName);
 			}
-			
+
 		} finally {
 			StatementUtil.close(st);
 			ResultSetUtil.close(rs);
 		}
-		
+
 	}
-	
-	private static String getSQL(String schemaPattern, String tableName){
+
+	private static String getSQL(String schemaPattern, String tableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT");
 		sb.append("        TABLE_SCHEMA AS TABLE_CAT");
@@ -73,8 +73,8 @@ public class MySQLConstraintSearcharFactory extends DefaultConstraintSearcherFac
 		sb.append("        INFORMATION_SCHEMA.STATISTICS");
 		sb.append("    WHERE");
 		sb.append("        INDEX_NAME = 'PRIMARY'");
-		sb.append("        AND TABLE_SCHEMA = '"+SQLUtil.encodeQuotation(schemaPattern)+"'");
-		sb.append("        AND TABLE_NAME = '"+SQLUtil.encodeQuotation(tableName)+"'");
+		sb.append("        AND TABLE_SCHEMA = '" + SQLUtil.encodeQuotation(schemaPattern) + "'");
+		sb.append("        AND TABLE_NAME = '" + SQLUtil.encodeQuotation(tableName) + "'");
 		sb.append("    ORDER BY");
 		sb.append("        TABLE_SCHEMA");
 		sb.append("        ,TABLE_NAME");

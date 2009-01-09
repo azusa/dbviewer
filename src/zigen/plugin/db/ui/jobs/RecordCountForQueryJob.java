@@ -25,6 +25,7 @@ import zigen.plugin.db.ui.editors.QueryViewEditor2;
 import zigen.plugin.db.ui.editors.QueryViewEditorInput;
 
 public class RecordCountForQueryJob extends AbstractJob {
+
 	int timeoutSec = 5; // 5•b
 
 	private Transaction trans;
@@ -63,25 +64,25 @@ public class RecordCountForQueryJob extends AbstractJob {
 			tw.start();
 
 			int timeout = store.getInt(PreferencePage.P_QUERY_TIMEOUT_FOR_COUNT);
-			
+
 			// ITable‚Ínull‚ÅgetFactory‚·‚é(“ÁŽê)
 			ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(trans.getConfig(), null);
 			String q = factory.createCountForQuery(sqlString);
 			System.out.println(q);
-			
+
 			TotalRecordCountSearchThread t = new TotalRecordCountSearchThread(trans, q, timeout);
 			Thread th = new Thread(t);
 			th.start();
 
 			if (timeout > 0) {
 				th.join(timeout * 1000);
-			}else{
+			} else {
 				th.join();
 			}
 			if (monitor.isCanceled()) {
 				return Status.CANCEL_STATUS;
 			}
-		
+
 			if (t.isComplete) {
 				showResults(new SetTotalCountAction(t.count));
 			} else {
@@ -100,6 +101,7 @@ public class RecordCountForQueryJob extends AbstractJob {
 	}
 
 	protected class SetTotalCountAction implements Runnable {
+
 		long count;
 
 		public SetTotalCountAction(long count) {

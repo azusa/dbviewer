@@ -18,11 +18,11 @@ import zigen.plugin.db.ui.editors.exceptions.NotFoundSynonymInfoException;
  * 
  */
 public class Synonym extends Table implements ITable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private SynonymInfo synonymInfo;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -31,7 +31,7 @@ public class Synonym extends Table implements ITable {
 	public Synonym(String name, String remarks) {
 		super(name, remarks);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -40,7 +40,7 @@ public class Synonym extends Table implements ITable {
 	public Synonym(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -49,26 +49,26 @@ public class Synonym extends Table implements ITable {
 	public Synonym() {
 		super();
 	}
-	
+
 	public void update(Synonym node) {
 		super.update(node);
 		this.synonymInfo = node.synonymInfo;
-		
+
 	}
-	
+
 	public SynonymInfo getSynonymInfo() {
 		return synonymInfo;
 	}
-	
+
 	public void setSynonymInfo(SynonymInfo synonymInfo) {
 		this.synonymInfo = synonymInfo;
-		
+
 		// シノニム情報からコメントをRemarkに設定する
 		if (synonymInfo != null) {
 			this.setRemarks(synonymInfo.getComments());
 		}
 	}
-	
+
 	public String getRemarks() {
 		if (synonymInfo != null) {
 			String commenet = synonymInfo.getComments();
@@ -77,7 +77,7 @@ public class Synonym extends Table implements ITable {
 			return ""; //$NON-NLS-1$
 		}
 	}
-	
+
 	public void setRemarks(String remarks) {
 		if (synonymInfo != null) {
 			synonymInfo.setComments(remarks);
@@ -85,7 +85,7 @@ public class Synonym extends Table implements ITable {
 			;
 		}
 	}
-	
+
 	public String getDb_link() {
 		if (synonymInfo != null) {
 			return synonymInfo.getDb_link();
@@ -93,10 +93,10 @@ public class Synonym extends Table implements ITable {
 			return null;
 		}
 	}
-	
+
 	public String getLabel() {
 		StringBuffer sb = new StringBuffer();
-		
+
 		sb.append(this.getName());
 		if (getRemarks() != null && getRemarks().length() > 0) {
 			sb.append(" ["); //$NON-NLS-1$
@@ -104,9 +104,9 @@ public class Synonym extends Table implements ITable {
 			sb.append("]"); //$NON-NLS-1$
 		}
 		return sb.toString();
-		
+
 	}
-	
+
 	// public String getSynonym_name() {
 	// if(synonymInfo != null){
 	// return synonymInfo.getSynonym_name();
@@ -114,7 +114,7 @@ public class Synonym extends Table implements ITable {
 	// return null;
 	// }
 	// }
-	
+
 	public String getTable_name() throws Exception {
 		if (synonymInfo != null) {
 			return synonymInfo.getTable_name();
@@ -122,7 +122,7 @@ public class Synonym extends Table implements ITable {
 			throw new NotFoundSynonymInfoException(Messages.getString("Synonym.4")); //$NON-NLS-1$
 		}
 	}
-	
+
 	public String getTable_owner() throws Exception {
 		if (synonymInfo != null) {
 			return synonymInfo.getTable_owner();
@@ -130,5 +130,5 @@ public class Synonym extends Table implements ITable {
 			throw new NotFoundSynonymInfoException(Messages.getString("Synonym.5")); //$NON-NLS-1$
 		}
 	}
-	
+
 }

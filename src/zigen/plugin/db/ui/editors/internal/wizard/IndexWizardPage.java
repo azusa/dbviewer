@@ -59,6 +59,7 @@ public class IndexWizardPage extends PKWizardPage {
 		txtIndexName.setText(""); //$NON-NLS-1$
 		txtIndexName.addFocusListener(new TextSelectionListener());
 		txtIndexName.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				if ("".equals(txtIndexName.getText())) { //$NON-NLS-1$
 					updateStatus(MSG_REQUIRE_NAME);
@@ -79,6 +80,7 @@ public class IndexWizardPage extends PKWizardPage {
 		chkNonUniqueIndex.setText("NonUnique Index"); //$NON-NLS-1$
 		chkNonUniqueIndex.setSelection(true);
 		chkNonUniqueIndex.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent arg0) {
 				if (chkNonUniqueIndex.getSelection()) {
 					indexType = ISQLCreatorFactory.TYPE_NONUNIQUE_INDEX;
@@ -90,6 +92,7 @@ public class IndexWizardPage extends PKWizardPage {
 		final Button chkUniqueIndex = new Button(base, SWT.RADIO);
 		chkUniqueIndex.setText("Unique Index"); //$NON-NLS-1$
 		chkUniqueIndex.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent arg0) {
 				if (chkUniqueIndex.getSelection()) {
 					indexType = ISQLCreatorFactory.TYPE_UNIQUE_INDEX;
@@ -103,6 +106,7 @@ public class IndexWizardPage extends PKWizardPage {
 			chkBitmapIndex.setText("BitMap Index"); //$NON-NLS-1$
 			chkBitmapIndex.setSelection(false);
 			chkBitmapIndex.addSelectionListener(new SelectionAdapter() {
+
 				public void widgetSelected(SelectionEvent arg0) {
 					if (chkBitmapIndex.getSelection()) {
 						indexType = ISQLCreatorFactory.TYPE_BITMAP_INDEX;

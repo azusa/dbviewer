@@ -59,7 +59,7 @@ public class CopyBothColumnNameAction extends AbstractCopyAction {
 
 			}
 
-			clipboard.setContents(new Object[] { sb.toString() }, new Transfer[] { TextTransfer.getInstance() });
+			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

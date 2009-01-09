@@ -27,11 +27,11 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  */
 public class DeleteFromTableAction extends Action implements Runnable {
-	
+
 	public static final String SQL = "DELETE FROM "; //$NON-NLS-1$
-	
+
 	private StructuredViewer viewer = null;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -41,9 +41,9 @@ public class DeleteFromTableAction extends Action implements Runnable {
 		this.viewer = viewer;
 		this.setText(Messages.getString("DeleteFromTableAction.1")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("DeleteFromTableAction.2")); //$NON-NLS-1$
-		
+
 	}
-	
+
 	/**
 	 * Action実行時の処理
 	 */
@@ -55,26 +55,26 @@ public class DeleteFromTableAction extends Action implements Runnable {
 			IDBConfig config = table.getDbConfig();
 			try {
 				if (DbPlugin.getDefault().confirmDialog(Messages.getString("DeleteFromTableAction.3"))) { //$NON-NLS-1$
-				
+
 					// <-- 障害対応：処理後にコネクションがクローズされています。のエラーがでる。(新しいコネクションを使用する)
 					// con = ConnectionManager.getConnection(config);
 					// con = Transaction.getInstance(config).getConnection();
 					con = ConnectionManager.getConnection(config);
-					
+
 					con.setAutoCommit(false);
 					// SQLInvoker.executeUpdate(table.getDbConfig(), SQL + table.getSqlTableName());
 					// <障害対応>
 					SQLInvoker.executeUpdate(con, SQL + table.getSqlTableName());
 					con.commit();
 				}
-				
+
 			} catch (Exception e) {
 				DbPlugin.getDefault().showErrorDialog(e);
 			} finally {
 				ConnectionManager.closeConnection(con);
 			}
 		}
-		
+
 	}
-	
+
 }

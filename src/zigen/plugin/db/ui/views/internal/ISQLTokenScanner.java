@@ -8,5 +8,6 @@ package zigen.plugin.db.ui.views.internal;
 import org.eclipse.jface.text.rules.ITokenScanner;
 
 public interface ISQLTokenScanner extends ITokenScanner {
-    public void initialize();
+
+	public void initialize();
 }

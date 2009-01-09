@@ -25,18 +25,22 @@ public class PluginSettingsManager extends DefaultXmlManager {
 	public static final String KEY_LOB_CHARSET = "KEY_LOG_CHARSET"; //$NON-NLS-1$
 
 	public static final String KEY_SQLHISTORY_LAYOUT = "KEY_SQLHISTORY_LAYOUT"; //$NON-NLS-1$
-	
+
 	public static final String KEY_LINKED_EDITOR = "KEY_LINKED_EDITOR"; //$NON-NLS-1$
-	
+
 	public static final String KEY_AUTO_FORMAT = "KEY_AUTO_FORMAT"; //$NON-NLS-1$
-	
+
 	// element filter
 	public static final String KEY_ELEM_FILTER_PATTERN = "KEY_ELEM_FILTER_PATTERN"; //$NON-NLS-1$
-	public static final String KEY_ELEM_FILTER_VISIBLE= "KEY_ELEM_FILTER_VISIBLE"; //$NON-NLS-1$
-	public static final String KEY_ELEM_FILTER_REGULAREXP= "KEY_ELEM_FILTER_REGULAREXP"; //$NON-NLS-1$
-	public static final String KEY_ELEM_FILTER_CASESENSITIVE= "KEY_ELEM_FILTER_CASESENSITIVE"; //$NON-NLS-1$
-	public static final String KEY_ELEM_FILTER_FOLDER_LIST= "KEY_ELEM_FILTER_FOLDER_LIST"; //$NON-NLS-1$
-	
+
+	public static final String KEY_ELEM_FILTER_VISIBLE = "KEY_ELEM_FILTER_VISIBLE"; //$NON-NLS-1$
+
+	public static final String KEY_ELEM_FILTER_REGULAREXP = "KEY_ELEM_FILTER_REGULAREXP"; //$NON-NLS-1$
+
+	public static final String KEY_ELEM_FILTER_CASESENSITIVE = "KEY_ELEM_FILTER_CASESENSITIVE"; //$NON-NLS-1$
+
+	public static final String KEY_ELEM_FILTER_FOLDER_LIST = "KEY_ELEM_FILTER_FOLDER_LIST"; //$NON-NLS-1$
+
 	private Map map = null;
 
 	public PluginSettingsManager(IPath path) {
@@ -55,10 +59,10 @@ public class PluginSettingsManager extends DefaultXmlManager {
 			return null;
 		}
 	}
-	
+
 	public boolean getValueBoolean(String key) {
 		boolean b = false;
-		Boolean obj = (Boolean)getValue(key);
+		Boolean obj = (Boolean) getValue(key);
 		if (obj != null)
 			b = obj.booleanValue();
 		return b;
@@ -68,7 +72,7 @@ public class PluginSettingsManager extends DefaultXmlManager {
 		String obj = (String) getValue(key);
 		return obj != null ? obj : "";
 	}
-	
+
 
 	public void setValue(String key, String value) {
 		map.put(key, value);

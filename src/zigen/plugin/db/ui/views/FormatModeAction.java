@@ -18,24 +18,29 @@ import zigen.plugin.db.ui.actions.SQLSourceViewerAction;
 import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
 public class FormatModeAction extends SQLSourceViewerAction implements IMenuCreator {
+
 	protected PluginSettingsManager pluginMgr = DbPlugin.getDefault().getPluginSettingsManager();
 
 	public static final String TEXT_MANUAL = Messages.getString("FormatModeAction.0"); //$NON-NLS-1$
+
 	public static final String TEXT_AUTO = Messages.getString("FormatModeAction.1"); //$NON-NLS-1$
 
 	Menu fMenu;
+
 	Action autoAction;
+
 	Action manualAction;
+
 	boolean isAutoFormat = false;
 
-//	SQLSourceViewer fSQLSourceViewer;
+	// SQLSourceViewer fSQLSourceViewer;
 
 	public FormatModeAction(SQLSourceViewer viewer) {
 		super(viewer, "Format Mode", Action.AS_DROP_DOWN_MENU); //$NON-NLS-1$
 		setMenuCreator(this);
 		this.isAutoFormat = getLastAutoFormatMode();
 
-		if (viewer == null){
+		if (viewer == null) {
 			setFormatMode(isAutoFormat);
 		}
 
@@ -58,13 +63,13 @@ public class FormatModeAction extends SQLSourceViewerAction implements IMenuCrea
 		fSQLSourceViewer.doOperation(ISQLOperationTarget.FORMAT);
 	}
 
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	public Menu getMenu(final Control parent) {
 		fMenu = new Menu(parent);
 
 		autoAction = new Action(TEXT_AUTO, IAction.AS_CHECK_BOX) { //$NON-NLS-1$
+
 			public void run() {
 				if (!isAutoFormat) {
 					isAutoFormat = !isAutoFormat;
@@ -79,6 +84,7 @@ public class FormatModeAction extends SQLSourceViewerAction implements IMenuCrea
 
 		addActionToMenu(fMenu, autoAction);
 		manualAction = new Action(TEXT_MANUAL, IAction.AS_CHECK_BOX) { //$NON-NLS-1$
+
 			public void run() {
 				if (isAutoFormat) {
 					isAutoFormat = !isAutoFormat;

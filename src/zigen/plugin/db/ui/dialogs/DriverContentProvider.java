@@ -37,7 +37,7 @@ public class DriverContentProvider implements ITreeContentProvider {
 				DataBase wk_db = new DataBase();
 				wk_db.setName(config.getDriverName());
 
-				DataBase node = (DataBase)invisibleRoot.getChild(wk_db.getName());
+				DataBase node = (DataBase) invisibleRoot.getChild(wk_db.getName());
 				if (node == null) {
 					invisibleRoot.addChild(wk_db);
 					node = wk_db;
@@ -68,8 +68,7 @@ public class DriverContentProvider implements ITreeContentProvider {
 
 	}
 
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	public Object[] getElements(Object inputElement) {
 		return getChildren(invisibleRoot);

@@ -13,8 +13,9 @@ import zigen.plugin.db.core.SQLHistoryManager;
 import zigen.plugin.db.ui.internal.History;
 
 public class HistoryViewTableFilter extends ViewerFilter {
+
 	SQLHistoryManager mgr = DbPlugin.getDefault().getHistoryManager();
-	
+
 	protected String text;
 
 	public HistoryViewTableFilter(String text) {
@@ -25,7 +26,7 @@ public class HistoryViewTableFilter extends ViewerFilter {
 		if (text != null && !"".equals(text)) { //$NON-NLS-1$
 			if (node instanceof History) {
 				History his = (History) node;
-				//String sql = his.getSqlHistory().getSql();
+				// String sql = his.getSqlHistory().getSql();
 				String sql = mgr.loadContents(his.getSqlHistory());
 				if (sql.toLowerCase().indexOf(text) >= 0) {
 					return true;

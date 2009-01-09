@@ -42,8 +42,7 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 
 	private boolean showDialog = false;
 
-	public TreeDoubleClickHandler() {
-	}
+	public TreeDoubleClickHandler() {}
 
 	public void doubleClick(DoubleClickEvent event) {
 

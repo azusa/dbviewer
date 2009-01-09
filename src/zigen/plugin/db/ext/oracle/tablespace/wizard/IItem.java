@@ -17,6 +17,7 @@ import java.math.BigDecimal;
  * 
  */
 public interface IItem {
+
 	public String getTableName();
 
 	public String getIndexName();

@@ -47,7 +47,7 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 	String saveFileName;
 
 	IContainer container;
-	
+
 	private String title = Messages.getString("ProjectSelectDialog.0"); //$NON-NLS-1$
 
 	public ProjectSelectDialog(Shell parentShell, String text) {
@@ -66,7 +66,7 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
-	
+
 	/*
 	 * (非 Javadoc)
 	 * 
@@ -101,6 +101,7 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 		fileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		fileText.setText(Messages.getString("ProjectSelectDialog.3")); //$NON-NLS-1$
 		fileText.addKeyListener(new KeyAdapter() {
+
 			public void keyReleased(KeyEvent e) {
 				if (fileText.getText().trim().length() == 0) {
 					getButton(IDialogConstants.OK_ID).setEnabled(false);
@@ -126,6 +127,7 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 
 		// ツリーを選択したときの処理
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				selectionChangeHandler(event);
 			}
@@ -141,12 +143,12 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 		return ctl;
 	}
 
-	
+
 	protected void okPressed() {
 		saveFileName = fileText.getText().trim();
 		super.okPressed();
 	}
-	
+
 	private void selectionChangeHandler(SelectionChangedEvent event) {
 		// 選択したものによって表示するメニューを変更
 		Object obj = (Object) ((StructuredSelection) event.getSelection()).getFirstElement();
@@ -154,31 +156,31 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 		if (obj instanceof IAdaptable) {
 			IAdaptable adaptable = (IAdaptable) obj;
 			IResource resource = (IResource) adaptable.getAdapter(IResource.class);
-			
-			if(resource instanceof IProject || resource instanceof IFolder){
-				container = (IContainer)resource;
+
+			if (resource instanceof IProject || resource instanceof IFolder) {
+				container = (IContainer) resource;
 				getButton(IDialogConstants.OK_ID).setEnabled(true);
 
-			}else if (resource instanceof IFile) {
+			} else if (resource instanceof IFile) {
 				IFile file = (IFile) resource;
 				fileText.setText(file.getName());
-				
+
 				container = file.getParent();
 				getButton(IDialogConstants.OK_ID).setEnabled(true);
 
 			}
-		}else{
+		} else {
 
 			getButton(IDialogConstants.OK_ID).setEnabled(false);
 		}
 
 	}
-	
-	private void validate(){
+
+	private void validate() {
 		IContainer container = getContainer();
-		if(container != null){
+		if (container != null) {
 			IFile file = container.getFile(new Path(getSaveFileName()));
-			if(file.exists()){
+			if (file.exists()) {
 				super.setMessage(Messages.getString("ProjectSelectDialog.4"), IMessageProvider.WARNING); //$NON-NLS-1$
 			}
 		}
@@ -187,7 +189,7 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 	protected Point getInitialSize() {
 		return new Point(480, 450);
 	}
-	
+
 	class SourceDirViewerFilter extends ViewerFilter {
 
 		public boolean select(Viewer viewer, Object parentElement, Object element) {

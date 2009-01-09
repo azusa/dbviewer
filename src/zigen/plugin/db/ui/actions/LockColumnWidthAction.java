@@ -19,7 +19,7 @@ import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/26 ZIGEN create.
  * 
  */
-public class LockColumnWidthAction extends SQLSourceViewerAction{
+public class LockColumnWidthAction extends SQLSourceViewerAction {
 
 	/**
 	 * コンストラクタ
@@ -36,13 +36,13 @@ public class LockColumnWidthAction extends SQLSourceViewerAction{
 	 * Action実行時の処理
 	 */
 	public void run() {
-		//fSQLSourceViewer.setLockedDataBase(isChecked());
+	// fSQLSourceViewer.setLockedDataBase(isChecked());
 	}
-	
+
 	public void setChecked(boolean checked) {
 		super.setChecked(checked);
 		// アイコンを変更する
-		
+
 	}
 
 }

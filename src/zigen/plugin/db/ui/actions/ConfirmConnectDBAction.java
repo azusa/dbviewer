@@ -25,11 +25,13 @@ import zigen.plugin.db.ui.views.TreeContentProvider;
 import zigen.plugin.db.ui.views.TreeView;
 
 public class ConfirmConnectDBAction extends Action implements Runnable {
+
 	PluginSettingsManager pluginSettingsManager = DbPlugin.getDefault().getPluginSettingsManager();
+
 	Transaction trans = null;
 
 	IPreferenceStore store;
-	
+
 	public ConfirmConnectDBAction(Transaction trans) {
 		this.trans = trans;
 		this.store = DbPlugin.getDefault().getPreferenceStore();
@@ -38,11 +40,11 @@ public class ConfirmConnectDBAction extends Action implements Runnable {
 	public void run() {
 		try {
 			IDBConfig config = trans.getConfig();
-			
+
 			boolean b = store.getBoolean(PreferencePage.P_NO_CONFIRM_CONNECT_DB);
-			if(b){
+			if (b) {
 				connect(config);
-			}else{
+			} else {
 				StringBuffer sb = new StringBuffer();
 				sb.append(config.getDbName());
 				sb.append(Messages.getString("ConfirmConnectDBAction.1")); //$NON-NLS-1$				
@@ -56,15 +58,14 @@ public class ConfirmConnectDBAction extends Action implements Runnable {
 				}
 			}
 
-		
 
 		} catch (PartInitException e) {
 			DbPlugin.getDefault().showErrorDialog(e);
 		}
 
 	}
-	
-	private void connect(IDBConfig config) throws PartInitException{
+
+	private void connect(IDBConfig config) throws PartInitException {
 		TreeView view = (TreeView) DbPlugin.findView(DbPluginConstant.VIEW_ID_TreeView);
 		if (view == null) {
 			view = (TreeView) DbPlugin.showView(DbPluginConstant.VIEW_ID_TreeView);
@@ -88,7 +89,7 @@ public class ConfirmConnectDBAction extends Action implements Runnable {
 			} catch (InterruptedException e) {
 				DbPlugin.log(e);
 			}
-			
+
 
 		}
 	}

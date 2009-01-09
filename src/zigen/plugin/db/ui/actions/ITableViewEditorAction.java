@@ -10,11 +10,11 @@ import org.eclipse.jface.viewers.ISelection;
 
 import zigen.plugin.db.ui.editors.ITableViewEditor;
 
-public interface ITableViewEditorAction extends IAction{
+public interface ITableViewEditorAction extends IAction {
 
-    public void setActiveEditor(ITableViewEditor targetEditor);
+	public void setActiveEditor(ITableViewEditor targetEditor);
 
-    public void run();
-    
-    public void selectionChanged(ISelection selection);
+	public void run();
+
+	public void selectionChanged(ISelection selection);
 }

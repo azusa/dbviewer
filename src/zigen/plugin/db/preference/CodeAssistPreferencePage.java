@@ -38,8 +38,7 @@ public class CodeAssistPreferencePage extends FieldEditorPreferencePage implemen
 
 	public static final String P_SQL_CODE_ASSIST_AUTO_ACTIVATE_DELAY_TIME = "CodeAssistPreferencePage.SqlCodeAssistAutoActivateDelayTime"; //$NON-NLS-1$
 
-	public void init(IWorkbench workbench) {
-	}
+	public void init(IWorkbench workbench) {}
 
 	public CodeAssistPreferencePage() {
 		super(GRID);
@@ -48,17 +47,10 @@ public class CodeAssistPreferencePage extends FieldEditorPreferencePage implemen
 	}
 
 	public void createFieldEditors() {
-		String[][] labelAndValue = new String[][] {
-				new String[] {
-						Messages.getString("CodeAssistPreferencePage.7"), "0" //$NON-NLS-1$ //$NON-NLS-2$
-				},
-				new String[] {
-						Messages.getString("CodeAssistPreferencePage.9"), "1" //$NON-NLS-1$ //$NON-NLS-2$
-				},
-				new String[] {
-						Messages.getString("CodeAssistPreferencePage.11"), "2" //$NON-NLS-1$ //$NON-NLS-2$
-				},
-		};
+		String[][] labelAndValue = new String[][] {new String[] {Messages.getString("CodeAssistPreferencePage.7"), "0" //$NON-NLS-1$ //$NON-NLS-2$
+		}, new String[] {Messages.getString("CodeAssistPreferencePage.9"), "1" //$NON-NLS-1$ //$NON-NLS-2$
+		}, new String[] {Messages.getString("CodeAssistPreferencePage.11"), "2" //$NON-NLS-1$ //$NON-NLS-2$
+		},};
 
 		addField(new RadioGroupFieldEditor(P_SQL_CODE_ASSIST_MODE, Messages.getString("CodeAssistPreferencePage.2"), labelAndValue.length, labelAndValue, //$NON-NLS-1$
 				getFieldEditorParent()));

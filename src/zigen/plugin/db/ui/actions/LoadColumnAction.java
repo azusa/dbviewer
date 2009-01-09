@@ -28,6 +28,7 @@ import zigen.plugin.db.ui.jobs.OpenEditorJob;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
  */
 public class LoadColumnAction extends Action implements Runnable {
+
 	TreeViewer viewer = null;
 
 	/**
@@ -54,20 +55,20 @@ public class LoadColumnAction extends Action implements Runnable {
 				if (element instanceof Folder) {
 					Folder folder = (Folder) element;
 					IDBConfig config = folder.getDbConfig();
-					
-					if(folder.getName().equalsIgnoreCase("TABLE")){ //$NON-NLS-1$
-						
+
+					if (folder.getName().equalsIgnoreCase("TABLE")) { //$NON-NLS-1$
+
 						TreeLeaf[] ts = folder.getChildrens();
-						
+
 						ITable[] tables = new ITable[ts.length];
 						System.arraycopy(ts, 0, tables, 0, ts.length);
-						
+
 						LoadColumnsJob job = new LoadColumnsJob(viewer, config, tables);
 						job.setPriority(OpenEditorJob.SHORT);
 						job.setUser(true);
 						job.schedule();
 					}
-					
+
 				}
 			}
 

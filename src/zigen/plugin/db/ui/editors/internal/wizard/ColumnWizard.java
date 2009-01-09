@@ -62,11 +62,11 @@ public class ColumnWizard extends DefaultWizard implements IConfirmDDLWizard {
 
 		if (factory.isVisibleColumnSize(page1.cmbColumnType.getText())) {
 			newColumn.setSize(page1.txtColumnSize.getText());
-			
-			if("".equals(page1.txtColumnSize.getText())){
+
+			if ("".equals(page1.txtColumnSize.getText())) {
 				newColumn.getColumn().setWithoutParam(true);
 			}
-			
+
 		}
 		newColumn.setDefaultValue(page1.txtDefualtt.getText());
 		newColumn.setRemark(page1.txtColumnComment.getText());
@@ -84,21 +84,19 @@ public class ColumnWizard extends DefaultWizard implements IConfirmDDLWizard {
 			// カラム名の変更
 			if (!column.getName().equals(newColumn.getName())) {
 				list.add(factory.createRenameColumnDDL(column, newColumn));
-				
+
 			}
 			// カラム型・桁の変更
-			if (!column.getTypeName().equals(newColumn.getTypeName())
-					|| !column.getSize().equals(newColumn.getSize())
-					|| !column.getDefaultValue().equals(newColumn.getDefaultValue())
-					|| column.isNotNull() != newColumn.isNotNull()) {
-				
+			if (!column.getTypeName().equals(newColumn.getTypeName()) || !column.getSize().equals(newColumn.getSize())
+					|| !column.getDefaultValue().equals(newColumn.getDefaultValue()) || column.isNotNull() != newColumn.isNotNull()) {
+
 				String[] sqls = factory.createModifyColumnDDL(column, newColumn);
 				for (int i = 0; i < sqls.length; i++) {
 					list.add(sqls[i]);
 				}
 			}
-			
-			if(!column.getRemarks().equals(newColumn.getRemarks())){
+
+			if (!column.getRemarks().equals(newColumn.getRemarks())) {
 				list.add(factory.createCommentOnColumnDDL(newColumn));// カラムコメントの設定
 			}
 

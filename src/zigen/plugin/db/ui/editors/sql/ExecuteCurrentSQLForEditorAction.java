@@ -13,20 +13,21 @@ import zigen.plugin.db.parser.util.CurrentSql;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
 
 
-public class ExecuteCurrentSQLForEditorAction extends AbstractExecuteSQLForEditorAction{
+public class ExecuteCurrentSQLForEditorAction extends AbstractExecuteSQLForEditorAction {
+
 	public ExecuteCurrentSQLForEditorAction(SqlEditor2 editor) {
 		super(editor);
 	}
 
-	protected String targetSql(IDocument doc){
+	protected String targetSql(IDocument doc) {
 		int offset = editor.getOffset();
 		CurrentSql cs = createCurrentSql(doc, offset);
-		return cs.getSql();	// カーソル位置のあるSQLを実行
+		return cs.getSql(); // カーソル位置のあるSQLを実行
 	}
-	
-	private CurrentSql createCurrentSql(IDocument doc, int offset){
+
+	private CurrentSql createCurrentSql(IDocument doc, int offset) {
 		String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
 		return new CurrentSql(doc, offset, demiliter);
-		
+
 	}
 }

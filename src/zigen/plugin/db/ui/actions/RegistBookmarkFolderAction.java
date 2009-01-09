@@ -31,6 +31,7 @@ public class RegistBookmarkFolderAction extends Action implements Runnable {
 	// DbPlugin.getDefault().getBookmarkManager();
 
 	public class FolderNameValidator implements IInputValidator {
+
 		final String name = Messages.getString("RegistBookmarkFolderAction.0"); //$NON-NLS-1$
 
 		public String isValid(String str) {
@@ -69,7 +70,8 @@ public class RegistBookmarkFolderAction extends Action implements Runnable {
 		Shell shell = DbPlugin.getDefault().getShell();
 		String name = ""; //$NON-NLS-1$
 
-		InputDialog dialog = new InputDialog(shell, Messages.getString("RegistBookmarkFolderAction.6"), Messages.getString("RegistBookmarkFolderAction.7"), name, new FolderNameValidator()); //$NON-NLS-1$ //$NON-NLS-2$
+		InputDialog dialog = new InputDialog(shell,
+				Messages.getString("RegistBookmarkFolderAction.6"), Messages.getString("RegistBookmarkFolderAction.7"), name, new FolderNameValidator()); //$NON-NLS-1$ //$NON-NLS-2$
 
 		int rc = dialog.open();
 		if (rc == InputDialog.CANCEL) {

@@ -19,8 +19,9 @@ import zigen.plugin.db.core.IDBConfig;
  * 
  */
 public class TreeLeaf implements INode, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected int level = 0;
 
 	protected String name;

@@ -102,8 +102,8 @@ public class ColumnWizardPage extends DefaultWizardPage {
 
 		label = new Label(composite, SWT.NULL);
 		label.setText(Messages.getString("ColumnWizardPage1.5")); //$NON-NLS-1$
-		//txtColumnComment = new Text(composite, SWT.BORDER);
-		
+		// txtColumnComment = new Text(composite, SWT.BORDER);
+
 		txtColumnComment = new Text(composite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 
 		// txtTableComment.setLayoutData(new
@@ -124,11 +124,11 @@ public class ColumnWizardPage extends DefaultWizardPage {
 		// gridData2.grabExcessHorizontalSpace = true;
 		// gridData2.grabExcessVerticalSpace = true;
 		txtColumnComment.setLayoutData(gridData2);
-		
-		
+
+
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
-		//txtColumnComment.setLayoutData(gd);
+		// txtColumnComment.setLayoutData(gd);
 
 		if (factory.supportsRemarks()) {
 			txtColumnComment.setText(column.getRemarks());
@@ -177,7 +177,7 @@ public class ColumnWizardPage extends DefaultWizardPage {
 		if (!isAddColumn && !factory.supportsModifyColumnSize(cmbColumnType.getText())) {
 			txtColumnSize.setEnabled(false);
 		}
-		
+
 		chkNotNull = new Button(composite, SWT.CHECK);
 		chkNotNull.setText(Messages.getString("ColumnWizardPage1.8")); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -192,15 +192,15 @@ public class ColumnWizardPage extends DefaultWizardPage {
 		gd.horizontalSpan = 3;
 		txtDefualtt.setLayoutData(gd);
 		txtDefualtt.addFocusListener(new FocusAdapter() {
+
 			public void focusLost(FocusEvent e) {
-				// updateColumn();
+			// updateColumn();
 			}
 		});
 		txtDefualtt.setText(column.getDefaultValue());
 		txtDefualtt.addFocusListener(new TextSelectionListener());
 
 
-		
 		Label dummy = new Label(composite, SWT.NULL);
 		Label label2 = new Label(composite, SWT.NULL);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -209,20 +209,22 @@ public class ColumnWizardPage extends DefaultWizardPage {
 		label2.setLayoutData(gd);
 		label2.setText(Messages.getString("ColumnWizardPage1.10")); //$NON-NLS-1$
 
-		
-		
+
 		txtColumnName.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				validate();
 			}
 		});
 		txtColumnComment.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				validate();
 			}
 		});
 
 		cmbColumnType.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				validate();
 				if (txtColumnSize != null) {
@@ -231,6 +233,7 @@ public class ColumnWizardPage extends DefaultWizardPage {
 			}
 		});
 		cmbColumnType.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				validate();
 				if (txtColumnSize != null) {
@@ -240,24 +243,27 @@ public class ColumnWizardPage extends DefaultWizardPage {
 		});
 
 		txtColumnSize.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				validate();
 			}
 		});
-		chkNotNull.addSelectionListener(new SelectionAdapter(){
+		chkNotNull.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				validate();
 			}
-			
+
 		});
 
 		txtDefualtt.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				validate();
 			}
 		});
 
-		
+
 		// ƒJƒ‰ƒ€‘I‘ð‚ð’Ê’m‚·‚é
 		cmbColumnType.notifyListeners(SWT.Selection, null);
 	}
@@ -273,28 +279,25 @@ public class ColumnWizardPage extends DefaultWizardPage {
 			updateStatus(Messages.getString("ColumnWizardPage1.14")); //$NON-NLS-1$
 		} else {
 
-			if(modified()){
+			if (modified()) {
 				updateStatus(null);
-			}else{
+			} else {
 				setPageComplete(false);
 			}
 		}
 	}
 
-	
-	private boolean modified(){
-		if (!column.getName().equals(txtColumnName.getText().trim())
-				|| !column.getRemarks().equals(txtColumnComment.getText().trim())
-				|| !column.getTypeName().equals(cmbColumnType.getText())
-				|| !column.getSize().equals(txtColumnSize.getText().trim())
-				|| column.isNotNull() != chkNotNull.getSelection()
-				|| !column.getDefaultValue().equals(txtDefualtt.getText().trim())){
+
+	private boolean modified() {
+		if (!column.getName().equals(txtColumnName.getText().trim()) || !column.getRemarks().equals(txtColumnComment.getText().trim())
+				|| !column.getTypeName().equals(cmbColumnType.getText()) || !column.getSize().equals(txtColumnSize.getText().trim())
+				|| column.isNotNull() != chkNotNull.getSelection() || !column.getDefaultValue().equals(txtDefualtt.getText().trim())) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
-	
+
 	protected void setHeaderColumn(Table table) {
 		TableColumn col1 = new TableColumn(table, SWT.NONE);
 		col1.setText("dummy"); //$NON-NLS-1$

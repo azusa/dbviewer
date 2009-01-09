@@ -32,14 +32,17 @@ import zigen.plugin.db.DbPlugin;
  * 
  */
 public class CSVPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
-	public static final String P_ENCODING = "CSVPreferencePage.Encoding"; //$NON-NLS-1$
-	public static final String P_DEMILITER = "CSVPreferencePage.Demiliter"; //$NON-NLS-1$
-	public static final String P_NON_HEADER = "CSVPreferencePage.NonHeader"; //$NON-NLS-1$
-	public static final String P_NON_DOUBLE_QUATE = "CSVPreferencePage.NonDoubleQuate"; //$NON-NLS-1$
-    
 
-	public static String[] encordes = {
-			"MS932", //$NON-NLS-1$
+	public static final String P_ENCODING = "CSVPreferencePage.Encoding"; //$NON-NLS-1$
+
+	public static final String P_DEMILITER = "CSVPreferencePage.Demiliter"; //$NON-NLS-1$
+
+	public static final String P_NON_HEADER = "CSVPreferencePage.NonHeader"; //$NON-NLS-1$
+
+	public static final String P_NON_DOUBLE_QUATE = "CSVPreferencePage.NonDoubleQuate"; //$NON-NLS-1$
+
+
+	public static String[] encordes = {"MS932", //$NON-NLS-1$
 			"ISO-8859-1", //$NON-NLS-1$
 			"ISO2022JP", //$NON-NLS-1$
 			"JIS", //$NON-NLS-1$
@@ -53,15 +56,14 @@ public class CSVPreferencePage extends PreferencePage implements IWorkbenchPrefe
 	};
 
 	private Combo comb;
-	
+
 	private Text txtSeparator;
-	
+
 	private Button checkNonHeader;
-	
+
 	private Button checkNonDoubleQuate;
 
-	public void init(IWorkbench workbench) {
-	}
+	public void init(IWorkbench workbench) {}
 
 	public CSVPreferencePage() {
 		super();
@@ -107,37 +109,37 @@ public class CSVPreferencePage extends PreferencePage implements IWorkbenchPrefe
 			comb.add(defaultString, 0);
 			comb.select(0);
 		}
-		
-        Label label2 = new Label(composite, SWT.NONE);
-        label2.setText(Messages.getString("CSVPreferencePage.7")); //$NON-NLS-1$
-        label2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label label2 = new Label(composite, SWT.NONE);
+		label2.setText(Messages.getString("CSVPreferencePage.7")); //$NON-NLS-1$
+		label2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		txtSeparator = new Text(composite, SWT.BORDER);
 		txtSeparator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+
 		defaultString = getPreferenceStore().getString(P_DEMILITER).trim();
-		if(defaultString != null && !"".equals(defaultString)){ //$NON-NLS-1$
-		    txtSeparator.setText(defaultString);
-		}else{
-		    txtSeparator.setText(","); //$NON-NLS-1$
+		if (defaultString != null && !"".equals(defaultString)) { //$NON-NLS-1$
+			txtSeparator.setText(defaultString);
+		} else {
+			txtSeparator.setText(","); //$NON-NLS-1$
 		}
-        checkNonHeader = new Button(composite, SWT.CHECK);
-        checkNonHeader.setText(Messages.getString("CSVPreferencePage.9")); //$NON-NLS-1$
-        GridData d = new GridData();
-        d.horizontalSpan = 2;
-        checkNonHeader.setLayoutData(d);
-        
-        boolean b = getPreferenceStore().getBoolean(P_NON_HEADER);
-        checkNonHeader.setSelection(b);
-        GridData d2 = new GridData();
-        d2.horizontalSpan = 2;
-        checkNonHeader.setLayoutData(d2);
-        
-        checkNonDoubleQuate = new Button(composite, SWT.CHECK);
-        checkNonDoubleQuate.setText(Messages.getString("CSVPreferencePage.8")); //$NON-NLS-1$
-        
-        boolean b2 = getPreferenceStore().getBoolean(P_NON_DOUBLE_QUATE);
-        checkNonDoubleQuate.setSelection(b2);
-        
+		checkNonHeader = new Button(composite, SWT.CHECK);
+		checkNonHeader.setText(Messages.getString("CSVPreferencePage.9")); //$NON-NLS-1$
+		GridData d = new GridData();
+		d.horizontalSpan = 2;
+		checkNonHeader.setLayoutData(d);
+
+		boolean b = getPreferenceStore().getBoolean(P_NON_HEADER);
+		checkNonHeader.setSelection(b);
+		GridData d2 = new GridData();
+		d2.horizontalSpan = 2;
+		checkNonHeader.setLayoutData(d2);
+
+		checkNonDoubleQuate = new Button(composite, SWT.CHECK);
+		checkNonDoubleQuate.setText(Messages.getString("CSVPreferencePage.8")); //$NON-NLS-1$
+
+		boolean b2 = getPreferenceStore().getBoolean(P_NON_DOUBLE_QUATE);
+		checkNonDoubleQuate.setSelection(b2);
+
 		return parent;
 	}
 
@@ -154,16 +156,16 @@ public class CSVPreferencePage extends PreferencePage implements IWorkbenchPrefe
 		txtSeparator.setText(demiliter);
 		checkNonHeader.setSelection(nonHeader);
 		checkNonDoubleQuate.setSelection(nonDoubleQuate);
-		
-		
+
+
 		super.performDefaults();
 	}
 
 	public boolean performOk() {
 		getPreferenceStore().setValue(P_ENCODING, comb.getText());
-        getPreferenceStore().setValue(P_DEMILITER, txtSeparator.getText());
-        getPreferenceStore().setValue(P_NON_HEADER, checkNonHeader.getSelection());
-        getPreferenceStore().setValue(P_NON_DOUBLE_QUATE, checkNonDoubleQuate.getSelection());
+		getPreferenceStore().setValue(P_DEMILITER, txtSeparator.getText());
+		getPreferenceStore().setValue(P_NON_HEADER, checkNonHeader.getSelection());
+		getPreferenceStore().setValue(P_NON_DOUBLE_QUATE, checkNonDoubleQuate.getSelection());
 		return super.performOk();
 	}
 

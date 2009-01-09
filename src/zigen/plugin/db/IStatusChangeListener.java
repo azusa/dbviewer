@@ -6,6 +6,7 @@
 package zigen.plugin.db;
 
 public interface IStatusChangeListener {
+
 	public static final int EVT_UpdateHistory = 101;
 
 	public static final int EVT_ChangeTransactionMode = 102;
@@ -23,7 +24,7 @@ public interface IStatusChangeListener {
 	public static final int EVT_AddSchemaFilter = 200;
 
 	public static final int EVT_RemoveSchemaFilter = 201;
-	
+
 	public void statusChanged(Object obj, int status);
 
 }

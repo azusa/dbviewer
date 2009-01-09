@@ -19,8 +19,9 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  */
 public class TableHeaderElement extends TableElement implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Query—p‚ÌHeader
 	 * 

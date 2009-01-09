@@ -20,18 +20,18 @@ import zigen.plugin.db.core.IDBConfig;
  * 
  */
 public class Schema extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * ソースタイプ(Oracle用) ※FunctionやPROCEDUREなど
 	 */
 	private String[] sourceTypes;
-	
+
 	public Schema() {
 		super();
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -40,11 +40,11 @@ public class Schema extends TreeNode {
 	public Schema(String name) {
 		super(name);
 	}
-	
+
 	public void update(Schema node) {
 		this.sourceTypes = node.sourceTypes;
 	}
-	
+
 	private Schema getNewSchema(Schema schema) {
 		String schemaName = schema.getName();
 		DataBase db = schema.getDataBase();
@@ -59,7 +59,7 @@ public class Schema extends TreeNode {
 		}
 		return null;
 	}
-	
+
 	private Table[] convertTables(TreeLeaf[] leafs) {
 		List list = new ArrayList(leafs.length);
 		for (int i = 0; i < leafs.length; i++) {
@@ -69,7 +69,7 @@ public class Schema extends TreeNode {
 		}
 		return (Table[]) list.toArray(new Table[0]);
 	}
-	
+
 	/**
 	 * スキーマが所有しているテーブルを取得する
 	 * 
@@ -84,11 +84,11 @@ public class Schema extends TreeNode {
 					return convertTables(folder.getChildrens());
 				}
 			}
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 以下のequalsメソッドは変更しないこと
 	 */
@@ -102,7 +102,7 @@ public class Schema extends TreeNode {
 		if (o.getClass() != getClass()) {
 			return false;
 		}
-		
+
 		/**
 		 * スキーマ名だけでなくDBConfigが同じかどうか確認すること
 		 */
@@ -117,28 +117,28 @@ public class Schema extends TreeNode {
 			System.err.println("Schema#equals() DBConfigを取得できませんでした。");
 			return false;
 		}
-		
+
 		if (castedObj.getName().equals(getName()) && config.equals(getDbConfig())) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 
 	}
-	
+
 	public Object clone() {
 		Schema inst = new Schema();
 		inst.name = this.name == null ? null : new String(this.name);
 		return inst;
 	}
-	
+
 	public String[] getSourceType() {
 		return sourceTypes;
 	}
-	
+
 	public void setSourceType(String[] sourceTypes) {
 		this.sourceTypes = sourceTypes;
 	}
-	
+
 }

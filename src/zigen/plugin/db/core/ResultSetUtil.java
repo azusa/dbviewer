@@ -23,8 +23,7 @@ public class ResultSetUtil {
 	 * デフォルトコンストラクタ
 	 * 
 	 */
-	private ResultSetUtil() {
-	}
+	private ResultSetUtil() {}
 
 	public static final void close(ResultSet rs) {
 		if (rs == null)

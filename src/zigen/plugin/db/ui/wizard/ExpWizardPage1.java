@@ -35,8 +35,7 @@ public class ExpWizardPage1 extends DefaultWizardPage {
 
 	public static final String MSG = Messages.getString("ExpWizardPage1.0"); //$NON-NLS-1$
 
-	private String[] headers = {
-			Messages.getString("ExpWizardPage1.1"), Messages.getString("ExpWizardPage1.2")}; //$NON-NLS-1$ //$NON-NLS-2$
+	private String[] headers = {Messages.getString("ExpWizardPage1.1"), Messages.getString("ExpWizardPage1.2")}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	Root root;
 
@@ -81,16 +80,12 @@ public class ExpWizardPage1 extends DefaultWizardPage {
 		gridData = new GridData(GridData.FILL_BOTH);
 		tableViewer.getControl().setLayoutData(gridData);
 
-		String[] properties = new String[] {
-				"check", ""}; //$NON-NLS-1$ //$NON-NLS-2$
+		String[] properties = new String[] {"check", ""}; //$NON-NLS-1$ //$NON-NLS-2$
 		// カラム・プロパティの設定
 		tableViewer.setColumnProperties(properties);
 
 		// 各カラムに設定するセル・エディタの配列
-		CellEditor[] editors = new CellEditor[] {
-				new CheckboxCellEditor(table),
-				null
-		};
+		CellEditor[] editors = new CellEditor[] {new CheckboxCellEditor(table), null};
 
 		// セル・エディタの設定
 		tableViewer.setCellEditors(editors);

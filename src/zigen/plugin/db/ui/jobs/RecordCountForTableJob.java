@@ -38,7 +38,7 @@ public class RecordCountForTableJob extends AbstractJob {
 	String condition;
 
 	boolean doCalculate = false;
-	
+
 	public RecordCountForTableJob(Transaction trans, ITable table, String condition, int dispCount, boolean doCalculate) {
 		super(Messages.getString("RecordCountForTableJob.0")); //$NON-NLS-1$
 		this.trans = trans;
@@ -49,15 +49,15 @@ public class RecordCountForTableJob extends AbstractJob {
 	}
 
 	protected IStatus run(IProgressMonitor monitor) {
-		//Connection con = null; // レコード件数は独自のコネクションを使う
+		// Connection con = null; // レコード件数は独自のコネクションを使う
 		try {
-			
-			if(!doCalculate){
+
+			if (!doCalculate) {
 				showResults(new SetTotalCountAction(dispCount));
 				return Status.OK_STATUS;
 			}
-			
-			
+
+
 			if (!trans.isConneting()) {
 				Display.getDefault().syncExec(new ConfirmConnectDBAction(trans));
 				if (!trans.isConneting()) {
@@ -71,19 +71,19 @@ public class RecordCountForTableJob extends AbstractJob {
 			}
 
 			int timeout = store.getInt(PreferencePage.P_QUERY_TIMEOUT_FOR_COUNT);
-			
+
 			IDBConfig config = table.getDbConfig();
 			// ITableはnullでgetFactoryする(特殊)
 			ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, null);
 			String q = factory.createCountAll(condition);
-			
+
 			TotalRecordCountSearchThread t = new TotalRecordCountSearchThread(trans, q, timeout);
 			Thread th = new Thread(t);
 			th.start();
 
 			if (timeout > 0) {
 				th.join(timeout * 1000);
-			}else{
+			} else {
 				th.join();
 			}
 			if (monitor.isCanceled()) {
@@ -101,13 +101,14 @@ public class RecordCountForTableJob extends AbstractJob {
 			showResults(new SetTotalCountAction(-1)); // レコード件数を表示しない
 
 		} finally {
-			//ConnectionManager.closeConnection(con);
+			// ConnectionManager.closeConnection(con);
 		}
 		return Status.OK_STATUS;
 
 	}
 
 	protected class SetTotalCountAction implements Runnable {
+
 		long totalCount;
 
 		public SetTotalCountAction(long totalCount) {

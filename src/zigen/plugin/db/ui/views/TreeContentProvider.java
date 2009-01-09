@@ -40,15 +40,13 @@ public class TreeContentProvider implements ITreeContentProvider {
 	private Root root;
 
 	private BookmarkRoot bookmarkRoot;
-	
+
 	private IDBConfig[] dbConfigs;
-	
 
-	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-	}
 
-	public void dispose() {
-	}
+	public void inputChanged(Viewer v, Object oldInput, Object newInput) {}
+
+	public void dispose() {}
 
 	public Object[] getElements(Object inputElement) {
 		if (invisibleRoot == null)
@@ -183,8 +181,8 @@ public class TreeContentProvider implements ITreeContentProvider {
 	public Root getRoot() {
 		return root;
 	}
-	
-	public DataBase[] getDataBases(){
+
+	public DataBase[] getDataBases() {
 		TreeLeaf[] leafs = root.getChildrens();
 		List list = new ArrayList();
 		for (int i = 0; i < leafs.length; i++) {
@@ -193,10 +191,10 @@ public class TreeContentProvider implements ITreeContentProvider {
 				list.add(leaf);
 			}
 		}
-		return (DataBase[])list.toArray(new DataBase[0]);
+		return (DataBase[]) list.toArray(new DataBase[0]);
 	}
-	
-	public DataBase findDataBase(IDBConfig config){
+
+	public DataBase findDataBase(IDBConfig config) {
 		TreeLeaf[] leafs = root.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {
 			TreeLeaf leaf = leafs[i];

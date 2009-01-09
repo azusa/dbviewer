@@ -39,7 +39,7 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		String condition = conditions[0];
 		String orderBy = conditions[1];
 
-		
+
 		if (condition != null && !"".equals(condition.trim())) {
 			sb.append(" WHERE " + condition);
 		}
@@ -48,24 +48,21 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
-		
+
 		/*
-		if (table.getDbConfig().isNoLockMode()) {
-			if (!sb.toString().trim().endsWith("WITH OPTION LOCK_MODE(NL)")) {
-				sb.append(" WITH OPTION LOCK_MODE(NL)");
-			}
-		}*/
+		 * if (table.getDbConfig().isNoLockMode()) { if (!sb.toString().trim().endsWith("WITH OPTION LOCK_MODE(NL)")) { sb.append(" WITH OPTION LOCK_MODE(NL)"); } }
+		 */
 		// テーブル編集エディターからの更新、削除がロックするため、以下を追加する
 		if (!sb.toString().trim().endsWith("WITH OPTION LOCK_MODE(NL)")) {
 			sb.append(" WITH OPTION LOCK_MODE(NL)");
 		}
-		
+
 		// sb.append(" LIMIT " + limit+1); //ダイアログを出す為に＋１
 
 		return sb.toString();
 	}
 
-	public String createCountAll(String condition){
+	public String createCountAll(String condition) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT COUNT(*) FROM ");
 		sb.append(table.getSqlTableName());
@@ -74,17 +71,17 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" WHERE " + condition);
 		}
 		sb.append(" WITH OPTION LOCK_MODE(NL)");
-		
+
 		return sb.toString();
 	}
-	
-	public String createCountForQuery(String query){
+
+	public String createCountForQuery(String query) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(super.createCountForQuery(query));
 		sb.append(" WITH OPTION LOCK_MODE(NL)");
 		return sb.toString();
 	}
-	
+
 	protected String getCreateView() {
 		StringBuffer wk = new StringBuffer();
 		try {
@@ -92,7 +89,7 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			int type = DbPlugin.getDefault().getPreferenceStore().getInt(SQLFormatPreferencePage.P_USE_FORMATTER_TYPE);
 
 			// Symfowareでは、CREATE OR REPLACE は無い
-//			wk.append("CREATE OR REPLACE VIEW "); //$NON-NLS-1$
+			// wk.append("CREATE OR REPLACE VIEW "); //$NON-NLS-1$
 			wk.append("CREATE VIEW "); //$NON-NLS-1$
 			if (isVisibleSchemaName) {
 				wk.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
@@ -130,7 +127,7 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		return null;
 
 	}
-	
+
 	protected String getViewDDL_SQL(String owner, String view) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT");
@@ -140,13 +137,13 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("        ,RDBII_SYSTEM.RDBII_DESCRIPTION D");
 		sb.append("    WHERE");
 		sb.append("        T.TABLE_CODE = D.OBJECT_CODE");
-		sb.append("        AND T.SCHEMA_NAME = '"+ SQLUtil.encodeQuotation(owner)+"'");
-		sb.append("        AND T.TABLE_NAME = '"+ SQLUtil.encodeQuotation(view)+"'");
+		sb.append("        AND T.SCHEMA_NAME = '" + SQLUtil.encodeQuotation(owner) + "'");
+		sb.append("        AND T.TABLE_NAME = '" + SQLUtil.encodeQuotation(view) + "'");
 		sb.append("        AND T.TABLE_TYPE = 'VW'");
 		return sb.toString();
 	}
 
-	
+
 	public String[] createAddColumnDDL(Column column) {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;

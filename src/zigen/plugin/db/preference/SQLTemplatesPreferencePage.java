@@ -21,9 +21,9 @@ public class SQLTemplatesPreferencePage extends TemplatePreferencePage implement
 	public static final String DESC = Messages.getString("SQLTemplatesPreferencePage.0"); //$NON-NLS-1$
 
 	public static final String TEMPLATES_USE_CODEFORMATTER = "org.eclipse.ui.texteditor.templates.preferences.format_templates";
-	
+
 	IPreferenceStore ps;
-	
+
 	public SQLTemplatesPreferencePage() {
 		ps = DbPlugin.getDefault().getPreferenceStore();
 		setPreferenceStore(SQLTemplateEditorUI.getDefault().getPreferenceStore());
@@ -45,10 +45,10 @@ public class SQLTemplatesPreferencePage extends TemplatePreferencePage implement
 	}
 
 	protected void updateViewerInput() {
-		
+
 		boolean useCodeFormatter = ps.getBoolean(SQLTemplatesPreferencePage.TEMPLATES_USE_CODEFORMATTER);
 
-		
+
 		IStructuredSelection selection = (IStructuredSelection) getTableViewer().getSelection();
 		SourceViewer sv = getViewer();
 
@@ -56,10 +56,10 @@ public class SQLTemplatesPreferencePage extends TemplatePreferencePage implement
 			TemplatePersistenceData data = (TemplatePersistenceData) selection.getFirstElement();
 			Template template = data.getTemplate();
 
-			if(useCodeFormatter){
+			if (useCodeFormatter) {
 				SQLTemplateFormatter formatter = new SQLTemplateFormatter(sv.getDocument(), 0);
 				sv.getDocument().set(formatter.format(template.getPattern()));
-			}else{
+			} else {
 				sv.getDocument().set(template.getPattern());
 			}
 		} else {

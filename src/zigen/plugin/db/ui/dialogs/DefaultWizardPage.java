@@ -29,6 +29,7 @@ import zigen.plugin.db.core.IDBConfig;
  * 
  */
 abstract class DefaultWizardPage extends WizardPage {
+
 	protected int LEVEL_FIELD_WIDTH = 20;
 
 	protected int TEXT_FIELD_WIDTH = 50;
@@ -77,7 +78,7 @@ abstract class DefaultWizardPage extends WizardPage {
 		return gc.stringExtent(string).x + 10; // pad 10 to accommodate table
 		// header trimmings
 	}
-	
+
 	protected void updateStatus(String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
@@ -111,7 +112,7 @@ abstract class DefaultWizardPage extends WizardPage {
 			TableColumn col = new TableColumn(table, SWT.NONE, i);
 			col.setText(headers[i]);
 			col.setResizable(true);
-			//col.pack();
+			// col.pack();
 		}
 	}
 
@@ -123,7 +124,6 @@ abstract class DefaultWizardPage extends WizardPage {
 		}
 		table.setVisible(true);
 	}
-
 
 
 	public void setVisible(boolean b) {

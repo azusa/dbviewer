@@ -18,7 +18,7 @@ public interface ITableViewEditor {
 
 	public static final String EDIT_MODE_ON = Messages.getString("ITableViewEditor.1"); //$NON-NLS-1$
 
-	//public static final int SHEET_LOG = -1;
+	// public static final int SHEET_LOG = -1;
 
 	public static final int SHEET_INFO = 2;
 
@@ -43,10 +43,10 @@ public interface ITableViewEditor {
 	public abstract void changeColumnColor(Column column);
 
 	public abstract void changeColumnColor();
-	
+
 	public abstract void setEnabled(boolean enabled);
-	
+
 	public abstract int getRecordOffset();
-	
+
 	public abstract int getRecordLimit();
 }

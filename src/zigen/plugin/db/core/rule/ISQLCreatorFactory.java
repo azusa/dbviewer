@@ -24,6 +24,7 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  */
 public interface ISQLCreatorFactory {
+
 	public static final int TYPE_NONUNIQUE_INDEX = 0;
 
 	public static final int TYPE_UNIQUE_INDEX = 1;
@@ -43,11 +44,11 @@ public interface ISQLCreatorFactory {
 	public boolean supportsRollbackDDL();
 
 	public String createSelect(String condition, int limit);
-	
+
 	public String createSelectForPager(String _condition, int offset, int limit);
-	
+
 	public String createCountAll(String condition);
-	
+
 	public String createCountForQuery(String query);
 
 	public String[] getSupportColumnType();
@@ -87,12 +88,12 @@ public interface ISQLCreatorFactory {
 	public String createCreateConstraintCheckDDL(String constraintName, String check);
 
 	public String createDropConstraintDDL(String constraintName, String type);
-	
+
 	public void setVisibleSchemaName(boolean b);
 
 	public String getTableComment();
-	
+
 	public String getColumnComment();
-	
+
 	public boolean isSupportPager();
 }

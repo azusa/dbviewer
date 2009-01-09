@@ -21,32 +21,37 @@ import zigen.plugin.db.ui.actions.SQLSourceViewerAction;
 import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
 public class CommitModeAction extends SQLSourceViewerAction implements IMenuCreator {
+
 	Menu fMenu;
+
 	Action autoAction;
+
 	Action manualAction;
+
 	boolean isAutoCommit = false;
+
 	IDBConfig config;
 
 	public CommitModeAction(SQLSourceViewer viewer) {
 		super(viewer, "Commit Mode", Action.AS_DROP_DOWN_MENU); //$NON-NLS-1$
 		setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_AUTO));
-		
+
 		setMenuCreator(this);
-		
-		if(viewer != null){
+
+		if (viewer != null) {
 			this.config = viewer.getDbConfig();
 			setCommitMode((config == null) ? false : config.isAutoCommit());
 		}
 	}
-	
+
 	// override
 	public void setSQLSourceViewer(SQLSourceViewer viewer) {
-        this.fSQLSourceViewer = viewer;
-		if(viewer != null){
+		this.fSQLSourceViewer = viewer;
+		if (viewer != null) {
 			this.config = viewer.getDbConfig();
 			setCommitMode((config == null) ? false : config.isAutoCommit());
 		}
-    }
+	}
 
 	public void run() {
 		// ボタン自身を押したときのアクション
@@ -55,13 +60,13 @@ public class CommitModeAction extends SQLSourceViewerAction implements IMenuCrea
 		autoCommitSelectHandler();
 	}
 
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	public Menu getMenu(final Control parent) {
 		fMenu = new Menu(parent);
 
 		autoAction = new Action(Messages.getString("AbstractSQLExecuteView.9"), IAction.AS_CHECK_BOX) { //$NON-NLS-1$
+
 			public void run() {
 				if (!isAutoCommit) {
 					isAutoCommit = !isAutoCommit;
@@ -75,6 +80,7 @@ public class CommitModeAction extends SQLSourceViewerAction implements IMenuCrea
 
 		addActionToMenu(fMenu, autoAction);
 		manualAction = new Action(Messages.getString("AbstractSQLExecuteView.10"), IAction.AS_CHECK_BOX) { //$NON-NLS-1$
+
 			public void run() {
 				if (isAutoCommit) {
 					isAutoCommit = !isAutoCommit;
@@ -89,7 +95,7 @@ public class CommitModeAction extends SQLSourceViewerAction implements IMenuCrea
 
 		return fMenu;
 	}
-	
+
 	private void autoCommitSelectHandler() {
 		if (isAutoCommit()) {
 			Transaction trans = Transaction.getInstance(config);
@@ -107,9 +113,8 @@ public class CommitModeAction extends SQLSourceViewerAction implements IMenuCrea
 		// 全てのSQL実行ビューに通知し、コミットモードをあわせる
 		DbPlugin.fireStatusChangeListener(this, IStatusChangeListener.EVT_ChangeTransactionMode);
 	}
-	
-	
-	
+
+
 	public Menu getMenu(Menu parent) {
 		return null;
 	}

@@ -20,8 +20,8 @@ import org.eclipse.swt.widgets.Table;
 public class TextCellEditor extends org.eclipse.jface.viewers.TextCellEditor {
 
 	private int columnIndex = 0;
-	
-	public TextCellEditor(Table table, int columnIndex){
+
+	public TextCellEditor(Table table, int columnIndex) {
 		super(table);
 		this.columnIndex = columnIndex;
 	}

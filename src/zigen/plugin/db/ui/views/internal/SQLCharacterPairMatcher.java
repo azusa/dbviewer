@@ -19,11 +19,9 @@ public class SQLCharacterPairMatcher implements ICharacterPairMatcher {
 
 	private IDocument doc;
 
-	public void clear() {
-	}
+	public void clear() {}
 
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	public int getAnchor() {
 		return LEFT;

@@ -15,8 +15,7 @@ import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/12 ZIGEN create.
- *        [002] 2005/06/02 ZIGEN ;や/ を付で、実行ボタンを押下した場合を想定
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/12 ZIGEN create. [002] 2005/06/02 ZIGEN ;や/ を付で、実行ボタンを押下した場合を想定
  * 
  */
 public class ExecuteSQLAction extends AbstractExecuteSQLAction implements Runnable {

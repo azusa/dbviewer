@@ -16,7 +16,7 @@ public interface ISQLOperationTarget {
 	static final int CURRENT_EXECUTE = 1004;
 
 	static final int SELECTED_EXECUTE = 1005;
-	
+
 	static final int NEXT_SQL = 1006;
 
 	static final int BACK_SQL = 1007;

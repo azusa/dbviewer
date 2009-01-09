@@ -22,8 +22,8 @@ import zigen.plugin.db.core.StringUtil;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
 import zigen.plugin.db.preference.SQLFormatPreferencePage;
 
-//public class SQLFormattingStrategy implements IFormattingStrategy, IFormattingStrategyExtension {
-public class SQLFormattingStrategy implements IFormattingStrategy{
+// public class SQLFormattingStrategy implements IFormattingStrategy, IFormattingStrategyExtension {
+public class SQLFormattingStrategy implements IFormattingStrategy {
 
 
 	int maxfomatCnt = 10;
@@ -47,13 +47,10 @@ public class SQLFormattingStrategy implements IFormattingStrategy{
 			int firstPosition = calcFirstWordPosition(doc, ts);
 			boolean selectionMode = (ts.getText().length() > 0) ? true : false;
 			return innerformat(content, selectionMode, firstPosition);
-			
+
 			/*
-			if(selectionMode){
-				return innerformat(content, selectionMode, firstPosition);
-			}else{
-				return innerformat(doc.get(), selectionMode, firstPosition);
-			}*/
+			 * if(selectionMode){ return innerformat(content, selectionMode, firstPosition); }else{ return innerformat(doc.get(), selectionMode, firstPosition); }
+			 */
 
 		} else {
 			return content;
@@ -72,7 +69,7 @@ public class SQLFormattingStrategy implements IFormattingStrategy{
 				viewer.revealRange(s.getOffset(), s.getLength());
 		}
 	}
-	
+
 	private int calcFirstWordPosition(IDocument doc, TextSelection selection) {
 		int formattOffset = 0;
 		try {
@@ -80,7 +77,7 @@ public class SQLFormattingStrategy implements IFormattingStrategy{
 				int sOffset = doc.getLineOffset(selection.getStartLine());
 				int firstWordPosition = StringUtil.firstWordPosition(selection.getText());
 				formattOffset = selection.getOffset() - sOffset + firstWordPosition;
-			}else{
+			} else {
 				;
 			}
 		} catch (BadLocationException e) {
@@ -90,7 +87,7 @@ public class SQLFormattingStrategy implements IFormattingStrategy{
 	}
 
 	private String innerformat(String content, boolean selectionMode, int firstPosition) {
-		
+
 		String demiliter = ps.getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
 		boolean onPatch = ps.getBoolean(SQLFormatPreferencePage.P_FORMAT_PATCH);
 		int type = ps.getInt(SQLFormatPreferencePage.P_USE_FORMATTER_TYPE);
@@ -99,7 +96,7 @@ public class SQLFormattingStrategy implements IFormattingStrategy{
 		StringBuffer sb = new StringBuffer();
 		SQLTokenizer st = new SQLTokenizer(content, demiliter);
 
-		
+
 		if (st.getTokenCount() <= maxfomatCnt) {
 			while (st.hasMoreElements()) {
 				String sql = (String) st.nextElement();
@@ -112,9 +109,9 @@ public class SQLFormattingStrategy implements IFormattingStrategy{
 						}
 						sb.append(demiliter);
 						sb.append(DbPluginConstant.LINE_SEP);
-					}else{
+					} else {
 						// 選択モードの場合は改行を追加
-						//sb.append(DbPluginConstant.LINE_SEP);
+						// sb.append(DbPluginConstant.LINE_SEP);
 					}
 				}
 			}
@@ -127,55 +124,34 @@ public class SQLFormattingStrategy implements IFormattingStrategy{
 	}
 
 	public void formatterStarts(String initialIndentation) {
-		// TODO 自動生成されたメソッド・スタブ
+	// TODO 自動生成されたメソッド・スタブ
 
 	}
 
 	public void formatterStops() {
-		// TODO 自動生成されたメソッド・スタブ
+	// TODO 自動生成されたメソッド・スタブ
 
 	}
 
 	/*
-	public void format() {
-		// TODO 自動生成されたメソッド・スタブ
-		if (viewer != null) {
-
-			IDocument doc = viewer.getDocument();
-			TextSelection ts = (TextSelection) viewer.getSelection();
-
-			int firstPosition = calcFirstWordPosition(doc, ts);
-			
-			boolean selectionMode = (ts.getText().length() > 0) ? true : false;
-			
-			String formatted = null;
-			
-			if(selectionMode){
-				formatted = innerformat(ts.getText(), selectionMode, firstPosition);
-			}else{
-				String all = doc.get();
-				ts = new TextSelection(doc, 0, all.length());
-				setSelection(viewer, ts, true);
-				formatted = innerformat(ts.getText(), selectionMode, firstPosition);
-			}
-			
-            try {
-				MultiTextEdit multiTextEdit = new MultiTextEdit();
-				multiTextEdit.addChild(new ReplaceEdit(ts.getOffset(), ts.getLength(), formatted));
-				multiTextEdit.apply(doc);
-			} catch (MalformedTreeException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			} catch (BadLocationException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			}
-			
-		}		
-	}
-
-	public void formatterStarts(IFormattingContext context) {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}*/
+	 * public void format() { // TODO 自動生成されたメソッド・スタブ if (viewer != null) {
+	 * 
+	 * IDocument doc = viewer.getDocument(); TextSelection ts = (TextSelection) viewer.getSelection();
+	 * 
+	 * int firstPosition = calcFirstWordPosition(doc, ts);
+	 * 
+	 * boolean selectionMode = (ts.getText().length() > 0) ? true : false;
+	 * 
+	 * String formatted = null;
+	 * 
+	 * if(selectionMode){ formatted = innerformat(ts.getText(), selectionMode, firstPosition); }else{ String all = doc.get(); ts = new TextSelection(doc, 0, all.length()); setSelection(viewer, ts,
+	 * true); formatted = innerformat(ts.getText(), selectionMode, firstPosition); }
+	 * 
+	 * try { MultiTextEdit multiTextEdit = new MultiTextEdit(); multiTextEdit.addChild(new ReplaceEdit(ts.getOffset(), ts.getLength(), formatted)); multiTextEdit.apply(doc); } catch
+	 * (MalformedTreeException e) { // TODO 自動生成された catch ブロック e.printStackTrace(); } catch (BadLocationException e) { // TODO 自動生成された catch ブロック e.printStackTrace(); }
+	 *  } }
+	 * 
+	 * public void formatterStarts(IFormattingContext context) { // TODO 自動生成されたメソッド・スタブ
+	 *  }
+	 */
 }

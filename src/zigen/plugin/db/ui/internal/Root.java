@@ -15,9 +15,9 @@ package zigen.plugin.db.ui.internal;
  * 
  */
 public class Root extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -26,7 +26,7 @@ public class Root extends TreeNode {
 	public Root() {
 		super();
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -35,7 +35,7 @@ public class Root extends TreeNode {
 	public Root(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 

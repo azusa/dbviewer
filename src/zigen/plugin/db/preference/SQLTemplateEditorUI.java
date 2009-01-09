@@ -20,6 +20,7 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.views.internal.SQLContextType;
 
 public class SQLTemplateEditorUI {
+
 	private static final String CUSTOM_TEMPLATES_KEY = "zigen.plugin.db.preference.SQLTemplateEditorUI"; //$NON-NLS-1$
 
 	private static SQLTemplateEditorUI fInstance;
@@ -28,8 +29,7 @@ public class SQLTemplateEditorUI {
 
 	private ContributionContextTypeRegistry fRegistry;
 
-	private SQLTemplateEditorUI() {
-	}
+	private SQLTemplateEditorUI() {}
 
 	public static SQLTemplateEditorUI getDefault() {
 		if (fInstance == null)
@@ -74,5 +74,5 @@ public class SQLTemplateEditorUI {
 		DbPlugin.getDefault().savePluginPreferences();
 	}
 
-	
+
 }

@@ -35,14 +35,14 @@ public class ImageCacher {
 	private ImageCacher() {
 		this.map = new HashMap();
 	}
-	
+
 	public Image getImage(String imageCode) {
 		if (map.containsKey(imageCode)) {
 			return (Image) map.get(imageCode);
 		} else {
 			createImage(imageCode);
 			return getImage(imageCode);
-//			returnull;
+			// returnull;
 		}
 	}
 
@@ -53,7 +53,7 @@ public class ImageCacher {
 			map.put(imageCode, id.createImage());
 		} else {
 			DbPlugin.log(Messages.getString("ImageCacher.Error") + imageCode); //$NON-NLS-1$
-			
+
 		}
 	}
 

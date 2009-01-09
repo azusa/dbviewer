@@ -51,48 +51,48 @@ public class ConnectionManager {
 			checkIsolution(con);
 
 		}
-		
-		
+
+
 		return con;
 
 	}
-	
-	private static String getDatabaseProductVersion(Connection con){
+
+	private static String getDatabaseProductVersion(Connection con) {
 		String version = "Unknown";
 		try {
 			version = con.getMetaData().getDatabaseProductVersion();
 		} catch (SQLException e) {
-			//System.err.println(e.getMessage());
-		} catch(Error e){
+			// System.err.println(e.getMessage());
+		} catch (Error e) {
 			; // symfoware Ç≈ÇÕ java.lang.AbstractMethodErrorÇ™î≠ê∂Ç∑ÇÈ
 		}
 		return version;
 	}
-	
-	private static int getDatabaseMajorVersion(Connection con){
+
+	private static int getDatabaseMajorVersion(Connection con) {
 		int version = 0;
 		try {
 			version = con.getMetaData().getDatabaseMajorVersion();
 		} catch (SQLException e) {
-			//System.err.println(e.getMessage());
-		} catch(Error e){
+			// System.err.println(e.getMessage());
+		} catch (Error e) {
 			;// symfoware Ç≈ÇÕ java.lang.AbstractMethodErrorÇ™î≠ê∂Ç∑ÇÈ
 		}
 		return version;
 	}
 
-	private static int getDatabaseMinorVersion(Connection con){
+	private static int getDatabaseMinorVersion(Connection con) {
 		int version = 0;
 		try {
 			version = con.getMetaData().getDatabaseMinorVersion();
 		} catch (SQLException e) {
-			//System.err.println(e.getMessage());
-		} catch(Error e){
+			// System.err.println(e.getMessage());
+		} catch (Error e) {
 			;// symfoware Ç≈ÇÕ java.lang.AbstractMethodErrorÇ™î≠ê∂Ç∑ÇÈ
 		}
 		return version;
 	}
-	
+
 	private static void checkIsolution(Connection con) {
 		try {
 			switch (con.getTransactionIsolation()) {

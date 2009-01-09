@@ -15,6 +15,7 @@ import zigen.plugin.db.ui.editors.ITableViewEditor;
 import zigen.plugin.db.ui.editors.TableViewEditorFor31;
 
 public class TableEditorLogUtil {
+
 	private static final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
 
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$

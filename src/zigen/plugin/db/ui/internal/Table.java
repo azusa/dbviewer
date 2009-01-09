@@ -25,21 +25,21 @@ import zigen.plugin.db.core.TablePKColumn;
  * 
  */
 public class Table extends TreeNode implements ITable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	String remarks;
-	
+
 	TablePKColumn[] tablePKColumns = null;
-	
+
 	TableFKColumn[] tableFKColumns = null;
-	
+
 	TableConstraintColumn[] tableConstraintColumns = null;
-	
+
 	TableIDXColumn[] tableUIDXColumns = null;
-	
+
 	TableIDXColumn[] tableNonUIDXColumns = null;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -49,7 +49,7 @@ public class Table extends TreeNode implements ITable {
 		super(name);
 		this.remarks = remarks;
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -58,7 +58,7 @@ public class Table extends TreeNode implements ITable {
 	public Table(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -67,7 +67,7 @@ public class Table extends TreeNode implements ITable {
 	public Table() {
 		super();
 	}
-	
+
 	public void update(Table node) {
 		this.remarks = node.remarks;
 		this.tablePKColumns = node.tablePKColumns;
@@ -75,7 +75,7 @@ public class Table extends TreeNode implements ITable {
 		this.tableUIDXColumns = node.tableUIDXColumns;
 		this.tableNonUIDXColumns = node.tableNonUIDXColumns;
 	}
-	
+
 	/*
 	 * (非 Javadoc)
 	 * 
@@ -83,7 +83,7 @@ public class Table extends TreeNode implements ITable {
 	 */
 	public String getLabel() {
 		StringBuffer sb = new StringBuffer();
-		
+
 		sb.append(this.getName());
 		if (remarks != null && remarks.length() > 0) {
 			sb.append(" [");
@@ -91,9 +91,9 @@ public class Table extends TreeNode implements ITable {
 			sb.append("]");
 		}
 		return sb.toString();
-		
+
 	}
-	
+
 	/*
 	 * (非 Javadoc)
 	 * 
@@ -102,11 +102,11 @@ public class Table extends TreeNode implements ITable {
 	public String getRemarks() {
 		return (remarks == null) ? "" : remarks;
 	}
-	
+
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	
+
 	protected Column[] convertColumns(TreeLeaf[] leafs) {
 		List list = new ArrayList(leafs.length);
 		for (int i = 0; i < leafs.length; i++) {
@@ -116,7 +116,7 @@ public class Table extends TreeNode implements ITable {
 		}
 		return (Column[]) list.toArray(new Column[0]);
 	}
-	
+
 	/**
 	 * テーブルが所有しているカラムを取得する
 	 * 
@@ -125,7 +125,7 @@ public class Table extends TreeNode implements ITable {
 	public Column[] getColumns() {
 		return convertColumns(getChildrens());
 	}
-	
+
 	public String getSqlTableName() {
 		StringBuffer sb = new StringBuffer();
 		StringBuffer wkTable = new StringBuffer();
@@ -136,7 +136,7 @@ public class Table extends TreeNode implements ITable {
 		} else {
 			wkTable.append(name);
 		}
-		
+
 		String tableName = wkTable.toString();
 		if (getDataBase().isSchemaSupport()) {
 			String schemaName = getSchema().getName();
@@ -151,13 +151,13 @@ public class Table extends TreeNode implements ITable {
 				sb.append(".");
 				sb.append(tableName);
 			}
-			
+
 		} else {
 			sb.append(tableName);
 		}
 		return sb.toString();
 	}
-	
+
 	public String getSchemaName() {
 		if (getSchema() != null) {
 			return getSchema().getName();
@@ -165,11 +165,11 @@ public class Table extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public boolean isSchemaSupport() {
 		return getDataBase().isSchemaSupport;
 	}
-	
+
 	/**
 	 * 以下のequalsメソッドは変更しないこと
 	 */
@@ -183,64 +183,64 @@ public class Table extends TreeNode implements ITable {
 		if (o.getClass() != getClass()) {
 			return false;
 		}
-		
+
 		Table castedObj = (Table) o;
 		IDBConfig config = castedObj.getDbConfig();
 		Schema schema = castedObj.getSchema();
-		
+
 		// 追加 2007/08/20
 		if (config == null) {
 			System.err.println("Table#equals() DBConfigを取得できませんでした。");
 			return false;
 		}
-		
+
 		if (castedObj.getName().equals(getName()) && config.equals(getDbConfig()) && schema.equals(getSchema())) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
-	
+
 	public Object clone() {
 		Table inst = new Table();
 		inst.name = this.name == null ? null : new String(this.name);
 		inst.remarks = this.remarks == null ? null : new String(this.remarks);
 		return inst;
 	}
-	
+
 	public TableFKColumn[] getTableFKColumns() {
 		return this.tableFKColumns;
 	}
-	
+
 	public TablePKColumn[] getTablePKColumns() {
 		return this.tablePKColumns;
 	}
-	
+
 	public void setTableFKColumns(TableFKColumn[] tableFKColumns) {
 		this.tableFKColumns = tableFKColumns;
 	}
-	
+
 	public void setTablePKColumns(TablePKColumn[] tablePKColumns) {
 		this.tablePKColumns = tablePKColumns;
 	}
-	
+
 	public TableIDXColumn[] getTableUIDXColumns() {
 		return tableUIDXColumns;
 	}
-	
+
 	public void setTableUIDXColumns(TableIDXColumn[] tableUIDXColumns) {
 		this.tableUIDXColumns = tableUIDXColumns;
 	}
-	
+
 	public TableIDXColumn[] getTableNonUIDXColumns() {
 		return tableNonUIDXColumns;
 	}
-	
+
 	public void setTableNonUIDXColumns(TableIDXColumn[] tableNonUIDXColumns) {
 		this.tableNonUIDXColumns = tableNonUIDXColumns;
 	}
-	
+
 	public String getFolderName() {
 		if (getFolder() != null) {
 			return getFolder().getName();
@@ -248,14 +248,14 @@ public class Table extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public TableConstraintColumn[] getTableConstraintColumns() {
 		return tableConstraintColumns;
 	}
-	
+
 	public void setTableConstraintColumns(TableConstraintColumn[] tableConstraintColumns) {
 		this.tableConstraintColumns = tableConstraintColumns;
 	}
-	
+
 
 }

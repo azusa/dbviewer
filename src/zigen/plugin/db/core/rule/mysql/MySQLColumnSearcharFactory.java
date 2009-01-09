@@ -20,9 +20,9 @@ import zigen.plugin.db.core.rule.DefaultColumnSearcherFactory;
 
 public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 
-	
+
 	static Map typeMap = new TreeMap();
-	
+
 	static {
 		typeMap.put("BIT", new Integer(Types.BIT));
 		typeMap.put("TINYINT", new Integer(Types.TINYINT));
@@ -32,18 +32,18 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		typeMap.put("INTEGER", new Integer(Types.INTEGER));
 		typeMap.put("BIGINT", new Integer(Types.BIGINT));
 		typeMap.put("INT24", new Integer(Types.INTEGER));
-		typeMap.put("REAL",  new Integer(Types.DOUBLE));
-		typeMap.put("FLOAT",  new Integer(Types.REAL));
-		typeMap.put("DECIMAL",  new Integer(Types.DECIMAL));
-		typeMap.put("NUMERIC",  new Integer(Types.DECIMAL));
-		typeMap.put("DOUBLE",  new Integer(Types.DOUBLE));
-		typeMap.put("CHAR",  new Integer(Types.CHAR));
-		typeMap.put("VARCHAR",  new Integer(Types.VARCHAR));
-		typeMap.put("DATE",  new Integer(Types.DATE));
-		typeMap.put("TIME",  new Integer(Types.TIME));
-		typeMap.put("YEAR",  new Integer(Types.DATE));
-		typeMap.put("TIMESTAMP",  new Integer(Types.TIMESTAMP));
-		typeMap.put("DATETIME",  new Integer(Types.TIMESTAMP));
+		typeMap.put("REAL", new Integer(Types.DOUBLE));
+		typeMap.put("FLOAT", new Integer(Types.REAL));
+		typeMap.put("DECIMAL", new Integer(Types.DECIMAL));
+		typeMap.put("NUMERIC", new Integer(Types.DECIMAL));
+		typeMap.put("DOUBLE", new Integer(Types.DOUBLE));
+		typeMap.put("CHAR", new Integer(Types.CHAR));
+		typeMap.put("VARCHAR", new Integer(Types.VARCHAR));
+		typeMap.put("DATE", new Integer(Types.DATE));
+		typeMap.put("TIME", new Integer(Types.TIME));
+		typeMap.put("YEAR", new Integer(Types.DATE));
+		typeMap.put("TIMESTAMP", new Integer(Types.TIMESTAMP));
+		typeMap.put("DATETIME", new Integer(Types.TIMESTAMP));
 		typeMap.put("TINYBLOB", new Integer(Types.BINARY));
 		typeMap.put("BLOB", new Integer(Types.LONGVARBINARY));
 		typeMap.put("MEDIUMBLOB", new Integer(Types.LONGVARBINARY));
@@ -52,25 +52,25 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		typeMap.put("TEXT", new Integer(Types.LONGVARCHAR));
 		typeMap.put("MEDIUMTEXT", new Integer(Types.LONGVARCHAR));
 		typeMap.put("LONGTEXT", new Integer(Types.LONGVARCHAR));
-		typeMap.put("ENUM",  new Integer(Types.CHAR));
-		typeMap.put("SET",  new Integer(Types.CHAR));
-		typeMap.put("GEOMETRY",  new Integer(Types.BINARY));
+		typeMap.put("ENUM", new Integer(Types.CHAR));
+		typeMap.put("SET", new Integer(Types.CHAR));
+		typeMap.put("GEOMETRY", new Integer(Types.BINARY));
 	}
-	
-	private int getJavaType(String typeName){
+
+	private int getJavaType(String typeName) {
 		String key = typeName.toUpperCase();
-		if(typeMap.containsKey(key)){
-			Integer i = (Integer)typeMap.get(key);
+		if (typeMap.containsKey(key)) {
+			Integer i = (Integer) typeMap.get(key);
 			return i.intValue();
-		}else{
+		} else {
 			return java.sql.Types.OTHER;
 		}
 	}
-	
+
 	public MySQLColumnSearcharFactory(boolean convertUnicode) {
 		super(convertUnicode);
 	}
-	
+
 	public TableColumn[] execute(Connection con, String schemaPattern, String tableName) throws Exception {
 		List list = new ArrayList();
 		ResultSet rs = null;
@@ -78,9 +78,9 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
-			
+
 			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
-				
+
 				st = con.createStatement();
 				rs = st.executeQuery(getColumnsSQL(schemaPattern, tableName));
 				int seq = 1;
@@ -94,12 +94,12 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 					column.setColumnSize(rs.getInt("COLUMN_SIZE"));
 					column.setDecimalDigits(rs.getInt("DECIMAL_DIGITS"));
 					column.setDefaultValue(rs.getString("COLUMN_DEF"));
-					
+
 					// -----------------------------------------------------
 					// DATA_TYPEÇ™0Ç≈éÊìæÇ∑ÇÈSQLÇ∆ÇµÇƒÇ¢ÇÈÇΩÇﬂÅAì∆é©ïœä∑Ç∑ÇÈ
 					// -----------------------------------------------------
 					column.setDataType(getJavaType(column.getTypeName())); // Types.VARCHARÇ»Ç«
-					
+
 					String remarks = rs.getString("REMARKS"); //$NON-NLS-1$
 					if (convertUnicode) {
 						remarks = JDBCUnicodeConvertor.convert(remarks);
@@ -110,35 +110,36 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 					} else {
 						column.setNotNull(false);
 					}
-					
+
 					// <!-- [002] èCê≥ ZIGEN 2005/09/17
-					//if (ConstraintSearcher.isPKColumn(pks, column.getColumnName())) {
-					//	column.setUniqueKey(true);
-					//}
+					// if (ConstraintSearcher.isPKColumn(pks, column.getColumnName())) {
+					// column.setUniqueKey(true);
+					// }
 					// log.debug(column);
 					// [002] èCê≥ ZIGEN 2005/09/17 -->
-					//map.put(column.getColumnName(), column);
+					// map.put(column.getColumnName(), column);
 					list.add(column);
 
 					seq++;
 				}
 				return (TableColumn[]) list.toArray(new TableColumn[0]);
-			}else{
+			} else {
 				// MySQL5à»äO
 				return super.execute(con, schemaPattern, tableName);
 			}
-			
+
 		} finally {
 			StatementUtil.close(st);
 			ResultSetUtil.close(rs);
 		}
-		
+
 	}
-	private String getColumnsSQL(String schemaPattern, String tableName) {		
+
+	private String getColumnsSQL(String schemaPattern, String tableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT");
 		sb.append("        COLUMN_NAME");
-		sb.append("        ,0 DATA_TYPE");	//-- dummy
+		sb.append("        ,0 DATA_TYPE"); // -- dummy
 		sb.append("        ,CASE");
 		sb.append("            WHEN LOCATE('unsigned', COLUMN_TYPE) != 0 AND LOCATE('unsigned', DATA_TYPE) = 0 THEN CONCAT(DATA_TYPE, ' unsigned')");
 		sb.append("            ELSE DATA_TYPE");
@@ -146,7 +147,7 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		sb.append("        ,CASE");
 		sb.append("            WHEN CHARACTER_MAXIMUM_LENGTH IS NULL THEN NUMERIC_PRECISION");
 		sb.append("            ELSE CASE");
-		sb.append("                WHEN CHARACTER_MAXIMUM_LENGTH > "+Integer.MAX_VALUE+" THEN " + Integer.MAX_VALUE);
+		sb.append("                WHEN CHARACTER_MAXIMUM_LENGTH > " + Integer.MAX_VALUE + " THEN " + Integer.MAX_VALUE);
 		sb.append("                ELSE CHARACTER_MAXIMUM_LENGTH");
 		sb.append("            END");
 		sb.append("        END AS COLUMN_SIZE");
@@ -167,9 +168,8 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		sb.append("        ,TABLE_NAME");
 		sb.append("        ,ORDINAL_POSITION");
 		return sb.toString();
-		
-	}	
-	
+
+	}
 
 
 }

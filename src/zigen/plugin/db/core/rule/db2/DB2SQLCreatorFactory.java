@@ -33,7 +33,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
 		sb.append(table.getSqlTableName());
-		
+
 
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
@@ -50,8 +50,8 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 		if (limit > 0) {
 			sb.append(" FETCH FIRST " + (limit + 1) + " ROWS ONLY");// ダイアログを出すために＋１
-																	// //$NON-NLS-1$
-																	// //$NON-NLS-2$
+			// //$NON-NLS-1$
+			// //$NON-NLS-2$
 		}
 
 		return sb.toString();
@@ -80,9 +80,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnTableDDL(String commnets) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON TABLE "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -95,9 +95,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON COLUMN "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -138,7 +138,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 
 		if (column.getDefaultValue() != null && !"".equals(column.getDefaultValue())) {// DEFAULT
-																						// //$NON-NLS-1$
+			// //$NON-NLS-1$
 			sb.append(" DEFAULT "); //$NON-NLS-1$
 			sb.append(column.getDefaultValue());
 		}
@@ -149,9 +149,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			; // NULLの場合は未指定
 		}
 
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 
@@ -183,9 +181,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("."); //$NON-NLS-1$
 		sb.append(indexName);
 		sb.append(" ON "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 

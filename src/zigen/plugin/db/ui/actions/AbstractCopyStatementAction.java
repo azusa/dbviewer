@@ -31,10 +31,11 @@ import zigen.plugin.db.ui.views.ColumnSearchAction;
 import zigen.plugin.db.ui.views.TreeView;
 
 abstract public class AbstractCopyStatementAction implements IViewActionDelegate {
+
 	protected ISelection selection = null;
 
-	protected  IViewPart viewPart;
-	
+	protected IViewPart viewPart;
+
 	protected TreeViewer treeViewer;
 
 	protected StringBuffer sb = null;
@@ -42,11 +43,11 @@ abstract public class AbstractCopyStatementAction implements IViewActionDelegate
 	public void init(IViewPart view) {
 		this.viewPart = view;
 		if (view instanceof TreeView) {
-			this.treeViewer = ((TreeView)view).getTreeViewer();
-		}else{
+			this.treeViewer = ((TreeView) view).getTreeViewer();
+		} else {
 			throw new RuntimeException("Required TreeView"); //$NON-NLS-1$
 		}
-		
+
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
@@ -61,20 +62,20 @@ abstract public class AbstractCopyStatementAction implements IViewActionDelegate
 
 				StringBuffer sb = new StringBuffer();
 
-//				if (!checkLoadColumn(ss)) {
-//					String msg = "カラム情報が未取得のテーブルがあります。取得しますか？";
-//					msg += "\nカラム情報の取得には時間がかかる場合があります。";
-//					if (DbPlugin.getDefault().confirmDialog(msg)) {
-//						new CopyAction(treeViewer, ss).run();
-//					}else{
-//						// 中途半端な状態ではComment文をコピーさせない
-//						return;
-//					}
-//				}else{
-//					new CopyAction(treeViewer, ss).run();
-//				}
+				// if (!checkLoadColumn(ss)) {
+				// String msg = "カラム情報が未取得のテーブルがあります。取得しますか？";
+				// msg += "\nカラム情報の取得には時間がかかる場合があります。";
+				// if (DbPlugin.getDefault().confirmDialog(msg)) {
+				// new CopyAction(treeViewer, ss).run();
+				// }else{
+				// // 中途半端な状態ではComment文をコピーさせない
+				// return;
+				// }
+				// }else{
+				// new CopyAction(treeViewer, ss).run();
+				// }
 				new CopyAction(treeViewer, ss).run();
-				
+
 
 			}
 
@@ -96,23 +97,20 @@ abstract public class AbstractCopyStatementAction implements IViewActionDelegate
 		return true;
 	}
 
-	
+
 	void setContents(String contents) {
 		Clipboard clipboard = ClipboardUtils.getInstance();
 		if (contents.length() > 0) {
-			clipboard.setContents(new Object[] {
-					contents
-			}, new Transfer[] {
-				TextTransfer.getInstance()
-			});
+			clipboard.setContents(new Object[] {contents}, new Transfer[] {TextTransfer.getInstance()});
 		}
 	}
 
 	class CopyAction extends Action {
-		
+
 		IStructuredSelection ss;
+
 		StructuredViewer viewer;
-		
+
 		public CopyAction(StructuredViewer viewer, IStructuredSelection ss) {
 			this.viewer = viewer;
 			this.ss = ss;
@@ -121,31 +119,32 @@ abstract public class AbstractCopyStatementAction implements IViewActionDelegate
 		public void run() {
 			try {
 				IRunnableWithProgress op = new IRunnableWithProgress() {
+
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 						monitor.beginTask("Loading Column information...", ss.size());
-						sb = new StringBuffer(); //clear
+						sb = new StringBuffer(); // clear
 						int i = 1;
 						for (Iterator iter = ss.iterator(); iter.hasNext();) {
 							if (monitor.isCanceled())
 								throw new InterruptedException();
-							
+
 							Object obj = iter.next();
 							if (obj instanceof ITable) {
 								ITable table = (ITable) obj;
 								monitor.subTask("Target : " + table + ", " + i + "/" + ss.size());
-								 if (!table.isExpanded()) {
-									 // 展開フラグをTrueにする(テーブル要素をキャッシュする）
-									 table.setExpanded(true);
-									 
-									 new ColumnSearchAction(viewer, table).run();
-								 }
-								 
-								 sb.append(createStatement(table));
+								if (!table.isExpanded()) {
+									// 展開フラグをTrueにする(テーブル要素をキャッシュする）
+									table.setExpanded(true);
+
+									new ColumnSearchAction(viewer, table).run();
+								}
+
+								sb.append(createStatement(table));
 							}
 							monitor.worked(1);
 							i++;
 						}
-						
+
 						monitor.done();
 						setContents(sb.toString());
 					}
@@ -165,4 +164,3 @@ abstract public class AbstractCopyStatementAction implements IViewActionDelegate
 
 	abstract String createStatement(ITable tableNode);
 }
-

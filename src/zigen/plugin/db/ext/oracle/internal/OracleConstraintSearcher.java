@@ -60,8 +60,8 @@ public class OracleConstraintSearcher {
 		sb.append("        AND CON.TABLE_NAME = IND.TABLE_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_NAME = IND.INDEX_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_TYPE NOT IN('P','R')"); // PK,
-																		// FKà»äOÇëŒè€
-																		// //$NON-NLS-1$
+		// FKà»äOÇëŒè€
+		// //$NON-NLS-1$
 		return sb.toString();
 
 	}

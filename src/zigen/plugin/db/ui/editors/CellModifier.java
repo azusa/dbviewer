@@ -30,9 +30,7 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/26 ZIGEN create.
- *        [002] 2005/11/20 ZIGEN 同一行編集時にデットロックになる障害に対応. [003] 2005/11/22 ZIGEN
- *        複数JDBCMapping対応.
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/26 ZIGEN create. [002] 2005/11/20 ZIGEN 同一行編集時にデットロックになる障害に対応. [003] 2005/11/22 ZIGEN 複数JDBCMapping対応.
  * 
  */
 public class CellModifier implements ICellModifier {

@@ -15,9 +15,9 @@ package zigen.plugin.db.ext.oracle.tablespace;
  * 
  */
 public class CalcTableSpaceException extends Exception {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -26,9 +26,9 @@ public class CalcTableSpaceException extends Exception {
 	public CalcTableSpaceException(String message) {
 		super(message);
 	}
-	
+
 	public CalcTableSpaceException(String message, Throwable cause) {
 		super(message, cause);
 	}
-	
+
 }

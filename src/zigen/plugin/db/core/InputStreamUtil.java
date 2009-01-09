@@ -19,6 +19,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 
 public class InputStreamUtil {
+
 	/**
 	 * InputStreamÅ®byte[]ïœä∑
 	 * 
@@ -117,10 +118,9 @@ public class InputStreamUtil {
 	 * @param inputStream
 	 * @throws IOException
 	 */
-//	public static String toString(InputStream inputStream) throws IOException {
-//		return toString(inputStream, "JISAutoDetect"); //$NON-NLS-1$
-//	}
-
+	// public static String toString(InputStream inputStream) throws IOException {
+	// return toString(inputStream, "JISAutoDetect"); //$NON-NLS-1$
+	// }
 	/**
 	 * <CLOBå^óp>inputStreamÇ©ÇÁFileÇ…èoóÕÇ∑ÇÈ
 	 * 

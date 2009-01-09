@@ -25,48 +25,48 @@ import zigen.plugin.db.core.TablePKColumn;
  * 
  */
 public class Bookmark extends TreeNode implements ITable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int TYPE_TABLE = 0;
-	
+
 	public static final int TYPE_VIEW = 1;
-	
+
 	public static final int TYPE_SYNONYM = 2;
-	
+
 	protected IDBConfig dbConfig;
-	
+
 	protected DataBase dataBase;
-	
+
 	protected Schema schema;
-	
+
 	protected Table table;
-	
+
 	protected Folder folder;
-	
+
 	protected int type;
-	
+
 	public Bookmark() {
 		super();
-		
+
 	}
-	
+
 	public void copy(Table original) {
 		name = new String(original.getName());
-		
+
 		// DataBase要素のコピー（DBConfigもコピーされる)
 		dataBase = (DataBase) original.getDataBase().clone();
-		
+
 		// DBConfigのコピー先の参照を設定
 		dbConfig = dataBase.getDbConfig();
-		
+
 		if (original.getSchema() != null) {
 			schema = (Schema) original.getSchema().clone();
 		}
 		table = (Table) original.clone();
-		
+
 		folder = (Folder) original.getFolder().clone();
-		
+
 		if (original instanceof Synonym) {
 			type = TYPE_SYNONYM;
 		} else if (original instanceof View) {
@@ -74,17 +74,17 @@ public class Bookmark extends TreeNode implements ITable {
 		} else {
 			type = TYPE_TABLE;
 		}
-		
+
 	}
-	
+
 	public Bookmark(Table table) {
 		super();
 		copy(table);
-		
+
 		// 展開状態でExportされているため、ここで非展開にする 過去のバージョン用
 		this.isEnabled = false;
 	}
-	
+
 	public void update(Table table) {
 		// this.dbConfig = node.dbConfig;
 		// this.dataBase = node.dataBase;
@@ -94,16 +94,16 @@ public class Bookmark extends TreeNode implements ITable {
 		// this.type = node.type;
 		this.table.update(table);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
-		
+
 	}
-	
+
 	private Column[] convertColumns(TreeLeaf[] leafs) {
 		List list = new ArrayList(leafs.length);
 		for (int i = 0; i < leafs.length; i++) {
@@ -112,13 +112,13 @@ public class Bookmark extends TreeNode implements ITable {
 			}
 		}
 		return (Column[]) list.toArray(new Column[0]);
-		
+
 	}
-	
+
 	public Column[] getColumns() {
 		return convertColumns(getChildrens());
 	}
-	
+
 	public String getLabel() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(name);
@@ -128,9 +128,9 @@ public class Bookmark extends TreeNode implements ITable {
 			sb.append("]");
 		}
 		return sb.toString();
-		
+
 	}
-	
+
 	public String getRemarks() {
 		if (table != null) {
 			return table.getRemarks();
@@ -138,7 +138,7 @@ public class Bookmark extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public String getSchemaName() {
 		if (schema != null) {
 			return schema.getName();
@@ -146,7 +146,7 @@ public class Bookmark extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * スキーマ対応の場合はスキーマ名.テーブル名を返す
 	 */
@@ -162,22 +162,22 @@ public class Bookmark extends TreeNode implements ITable {
 			} else {
 				sb.append(schema.getName() + "." + name);
 			}
-			
+
 
 		} else {
 			sb.append(name);
 		}
 		return sb.toString();
 	}
-	
+
 	public boolean isSchemaSupport() {
 		return dataBase.isSchemaSupport();
 	}
-	
+
 	public ITable getTable() {
 		return (ITable) table;
 	}
-	
+
 	public void setTable(ITable table) {
 		if (table instanceof Table) {
 			this.table = (Table) table;
@@ -185,39 +185,39 @@ public class Bookmark extends TreeNode implements ITable {
 			this.table = null;
 		}
 	}
-	
+
 	public DataBase getDataBase() {
 		return dataBase;
 	}
-	
+
 	public void setDataBase(DataBase dataBase) {
 		this.dataBase = dataBase;
 	}
-	
+
 	public Schema getSchema() {
 		return schema;
 	}
-	
+
 	public void setSchema(Schema schema) {
 		this.schema = schema;
 	}
-	
+
 	public Folder getFolder() {
 		return folder;
 	}
-	
+
 	public void setFolder(Folder folder) {
 		this.folder = folder;
 	}
-	
+
 	public IDBConfig getDbConfig() {
 		return dbConfig;
 	}
-	
+
 	public void setDbConfig(IDBConfig dbConfig) {
 		this.dbConfig = dbConfig;
 	}
-	
+
 	/**
 	 * 所属するBookmarkRootの取得
 	 * 
@@ -226,7 +226,7 @@ public class Bookmark extends TreeNode implements ITable {
 	public BookmarkRoot getBookmarkRoot() {
 		return getBookmarkRoot(this);
 	}
-	
+
 	/**
 	 * 所属するBookmarkFolderの取得
 	 * 
@@ -235,7 +235,7 @@ public class Bookmark extends TreeNode implements ITable {
 	public BookmarkFolder getBookmarkFolder() {
 		return getBookmarkFolder(this);
 	}
-	
+
 	private BookmarkRoot getBookmarkRoot(TreeLeaf leaf) {
 		if (leaf instanceof BookmarkRoot) {
 			return (BookmarkRoot) leaf;
@@ -248,7 +248,7 @@ public class Bookmark extends TreeNode implements ITable {
 			}
 		}
 	}
-	
+
 	private BookmarkFolder getBookmarkFolder(TreeLeaf leaf) {
 		if (leaf instanceof BookmarkFolder) {
 			return (BookmarkFolder) leaf;
@@ -260,7 +260,7 @@ public class Bookmark extends TreeNode implements ITable {
 			}
 		}
 	}
-	
+
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -275,13 +275,14 @@ public class Bookmark extends TreeNode implements ITable {
 			return false;
 		}
 		Bookmark castedObj = (Bookmark) o;
-		
+
 		// tableの等価を追記した
 		return ((this.dbConfig == null ? castedObj.dbConfig == null : this.dbConfig.equals(castedObj.dbConfig))
 				&& (this.dataBase == null ? castedObj.dataBase == null : this.dataBase.equals(castedObj.dataBase))
-				&& (this.schema == null ? castedObj.schema == null : this.schema.equals(castedObj.schema)) && (this.table == null ? castedObj.table == null : this.table.equals(castedObj.table)));
+				&& (this.schema == null ? castedObj.schema == null : this.schema.equals(castedObj.schema)) && (this.table == null ? castedObj.table == null : this.table
+				.equals(castedObj.table)));
 	}
-	
+
 	public TableFKColumn[] getTableFKColumns() {
 		if (table != null) {
 			return table.getTableFKColumns();
@@ -289,7 +290,7 @@ public class Bookmark extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public TablePKColumn[] getTablePKColumns() {
 		if (table != null) {
 			return table.getTablePKColumns();
@@ -297,7 +298,7 @@ public class Bookmark extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public TableIDXColumn[] getTableUIDXColumns() {
 		if (table != null) {
 			return table.getTableUIDXColumns();
@@ -305,7 +306,7 @@ public class Bookmark extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public TableIDXColumn[] getTableNonUIDXColumns() {
 		if (table != null) {
 			return table.getTableNonUIDXColumns();
@@ -313,23 +314,23 @@ public class Bookmark extends TreeNode implements ITable {
 			return null;
 		}
 	}
-	
+
 	public void setTableFKColumns(TableFKColumn[] tableFKColumns) {
 		this.table.setTableFKColumns(tableFKColumns);
 	}
-	
+
 	public void setTablePKColumns(TablePKColumn[] tablePKColumns) {
 		this.table.setTablePKColumns(tablePKColumns);
 	}
-	
+
 	public void setTableUIDXColumns(TableIDXColumn[] tableUIDXColumns) {
 		this.table.setTableUIDXColumns(tableUIDXColumns);
 	}
-	
+
 	public void setTableNonUIDXColumns(TableIDXColumn[] tableNonUIDXColumns) {
 		this.table.setTableNonUIDXColumns(tableNonUIDXColumns);
 	}
-	
+
 	public String getFolderName() {
 		// 下位互換処理
 		if (folder == null) {
@@ -345,7 +346,7 @@ public class Bookmark extends TreeNode implements ITable {
 		}
 		return folder.getName();
 	}
-	
+
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[Bookmark:");
@@ -364,43 +365,43 @@ public class Bookmark extends TreeNode implements ITable {
 		buffer.append("]");
 		return buffer.toString();
 	}
-	
+
 	// boolean isEnabled = true;
 	boolean isEnabled = false;
-	
+
 	public boolean isEnabled() {
 		return isEnabled;
 	}
-	
+
 	public void setEnabled(boolean b) {
 		this.isEnabled = b;
 	}
-	
+
 	public boolean isSynonym() {
 		return type == Bookmark.TYPE_SYNONYM;
 	}
-	
+
 	public int getType() {
 		return type;
 	}
-	
+
 	public void setType(int type) {
 		this.type = type;
 	}
-	
+
 	public void setRemarks(String remarks) {
 		if (table != null) {
 			this.table.setRemarks(remarks);
 		}
 	}
-	
+
 	public TableConstraintColumn[] getTableConstraintColumns() {
 		return table.getTableConstraintColumns();
 	}
-	
+
 	public void setTableConstraintColumns(TableConstraintColumn[] tableConstraintColumns) {
 		table.setTableConstraintColumns(tableConstraintColumns);
 	}
-	
+
 
 }

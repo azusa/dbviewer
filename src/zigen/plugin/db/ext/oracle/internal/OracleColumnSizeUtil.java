@@ -22,8 +22,7 @@ public class OracleColumnSizeUtil {
 
 	private OracleTypeSizeUtil ts;
 
-	public OracleColumnSizeUtil() {
-	}
+	public OracleColumnSizeUtil() {}
 
 	/**
 	 * 行あたりに使用される領域サイズ

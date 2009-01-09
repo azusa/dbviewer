@@ -18,6 +18,7 @@ import java.util.Date;
  * 
  */
 public class TimeWatcher {
+
 	// private static TimeWatcher instance;
 
 	private Date startTime = null;
@@ -41,8 +42,7 @@ public class TimeWatcher {
 	/**
 	 * コンストラクタ
 	 */
-	public TimeWatcher() {
-	}
+	public TimeWatcher() {}
 
 	/**
 	 * リセット処理 ※finally処理で呼び出してください。
@@ -110,8 +110,8 @@ public class TimeWatcher {
 		BigDecimal decimal = new BigDecimal(time);
 		// decimal = decimal.movePointLeft(4);
 		decimal = decimal.setScale(1, BigDecimal.ROUND_UP); // 切上げ
-		//decimal = decimal.setScale(2, BigDecimal.ROUND_UP); // 切上げ (小数2桁)
-		
+		// decimal = decimal.setScale(2, BigDecimal.ROUND_UP); // 切上げ (小数2桁)
+
 		// decimal = decimal.setScale(1, BigDecimal.ROUND_DOWN); // 切捨て
 		// decimal = decimal.setScale(1, BigDecimal.ROUND_UP); // 四捨五入
 		return decimal.toString();

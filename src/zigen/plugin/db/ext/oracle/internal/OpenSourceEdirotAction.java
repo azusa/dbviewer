@@ -80,7 +80,7 @@ public class OpenSourceEdirotAction extends Action implements Runnable {
 
 			sourceDetail = OracleSourceDetailSearcher.execute(con, owner, name, type, true);
 			sourceErrors = OracleSourceErrorSearcher.execute(con, owner, name, type);
-			
+
 			SourceEditorInput input = new SourceEditorInput(source.getDbConfig(), sourceDetail, sourceErrors);
 			IWorkbenchPage page = DbPlugin.getDefault().getPage();
 			IEditorPart editor = IDE.openEditor(page, input, DbPluginConstant.EDITOR_ID_SOURCE, true);

@@ -24,7 +24,7 @@ import zigen.plugin.db.ui.views.SQLExecuteView;
 public class NextSQLExecAction extends Action implements Runnable {
 
 	SQLHistoryManager mgr = DbPlugin.getDefault().getHistoryManager();
-	
+
 	private SQLExecuteView view;
 
 	/**
@@ -50,7 +50,7 @@ public class NextSQLExecAction extends Action implements Runnable {
 		if (history != null) {
 			String sql = mgr.loadContents(history);
 			view.getSqlViewer().getDocument().set(sql);
-			//view.getSqlViewer().setSelectedRange(sql.length(), 0);
+			// view.getSqlViewer().setSelectedRange(sql.length(), 0);
 			view.getSqlViewer().invalidateTextPresentation(); // テキストエディタを再描画
 		} else {
 			view.getSqlViewer().getDocument().set(""); //$NON-NLS-1$

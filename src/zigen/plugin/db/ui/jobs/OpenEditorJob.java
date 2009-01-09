@@ -59,9 +59,7 @@ public class OpenEditorJob extends RefreshColumnJob {
 				// カラム情報をロード
 				// if (!table.isExpanded()) {
 				/*
-				 * for test if (!super.loadColumnInfo(monitor, con,
-				 * config.isConvertUnicode())) { table.setExpanded(false);
-				 * return Status.CANCEL_STATUS; }
+				 * for test if (!super.loadColumnInfo(monitor, con, config.isConvertUnicode())) { table.setExpanded(false); return Status.CANCEL_STATUS; }
 				 */
 
 				// テーブル編集エディター起動時は、カラムを展開しない
@@ -92,7 +90,7 @@ public class OpenEditorJob extends RefreshColumnJob {
 						}
 						// DB未接続状態から接続状態にする、その際にDBノードは展開しない
 						showResults(new RefreshTreeNodeAction(viewer, db, RefreshTreeNodeAction.MODE_COLLAPSE)); // 展開しない
-						
+
 					}
 				}
 				monitor.done();
@@ -113,6 +111,7 @@ public class OpenEditorJob extends RefreshColumnJob {
 	}
 
 	protected class ShowSQLViewerAction implements Runnable {
+
 		ITable table;
 
 		public ShowSQLViewerAction(ITable table) {
@@ -165,6 +164,7 @@ public class OpenEditorJob extends RefreshColumnJob {
 	}
 
 	protected class ShowTableEditorAction implements Runnable {
+
 		ITable table;
 
 		public ShowTableEditorAction(ITable table) {

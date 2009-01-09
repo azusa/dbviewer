@@ -33,13 +33,13 @@ public class CurrentSql {
 	public CurrentSql(IDocument doc, int offset, String demiliter) {
 		this.offset = offset;
 		// modify 2007/10/23 ZIGEN v1.0.4
-		//this.demiliter = demiliter + DbPluginConstant.LINE_SEP;
-        if("/".equals(demiliter)){
-            this.demiliter = DbPluginConstant.LINE_SEP + demiliter + DbPluginConstant.LINE_SEP;
-        }else{
-            this.demiliter = demiliter + DbPluginConstant.LINE_SEP;
-        }
-        // modify end
+		// this.demiliter = demiliter + DbPluginConstant.LINE_SEP;
+		if ("/".equals(demiliter)) {
+			this.demiliter = DbPluginConstant.LINE_SEP + demiliter + DbPluginConstant.LINE_SEP;
+		} else {
+			this.demiliter = demiliter + DbPluginConstant.LINE_SEP;
+		}
+		// modify end
 		parse(doc);
 	}
 
@@ -54,17 +54,17 @@ public class CurrentSql {
 	private void parse(IDocument doc) {
 		try {
 			String text = doc.get();
-			
+
 			if (text == null || "".equals(text) || offset < 0)
 				return;
 
 			String cText = text.substring(0, offset);
 			String nText = StringUtil.convertLineSep(cText, DbPluginConstant.LINE_SEP);
 			int x = nText.length() - cText.length();
-			if(x != 0){
+			if (x != 0) {
 				offset += x;
 			}
-			
+
 			text = StringUtil.convertLineSep(doc.get(), DbPluginConstant.LINE_SEP);
 
 			int len = text.length();
@@ -202,12 +202,12 @@ public class CurrentSql {
 		return begin;
 	}
 
-	
+
 	public int getEnd() {
 		return begin + getLength();
 	}
 
-	public int getLength(){
+	public int getLength() {
 		return (sql != null) ? sql.length() : 0;
 	}
 }

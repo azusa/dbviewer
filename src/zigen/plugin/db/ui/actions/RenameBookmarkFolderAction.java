@@ -49,7 +49,8 @@ public class RenameBookmarkFolderAction extends Action implements Runnable {
 		if (element instanceof BookmarkFolder) {
 			BookmarkFolder folder = (BookmarkFolder) element;
 			try {
-				InputDialog dialog = new InputDialog(shell, Messages.getString("RenameBookmarkFolderAction.2"), Messages.getString("RenameBookmarkFolderAction.3"), folder.getName(), null); //$NON-NLS-1$ //$NON-NLS-2$
+				InputDialog dialog = new InputDialog(shell,
+						Messages.getString("RenameBookmarkFolderAction.2"), Messages.getString("RenameBookmarkFolderAction.3"), folder.getName(), null); //$NON-NLS-1$ //$NON-NLS-2$
 				int rc = dialog.open();
 				if (rc == InputDialog.CANCEL) {
 					return;

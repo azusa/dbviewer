@@ -58,15 +58,15 @@ public class OracleSourceDetailSearcher {
 					info.setType(rs.getString("TYPE")); //$NON-NLS-1$
 
 					String str = rs.getString("TEXT");//$NON-NLS-1$
-					
+
 					int pos = str.toUpperCase().indexOf(info.getName().toUpperCase()); // ソース名のポジションを取得
-					
-					if(visibleSchema){
+
+					if (visibleSchema) {
 						sb.append("CREATE OR REPLACE ").append(info.getType());
 						sb.append(" ").append(info.getOwner()).append(".");
 						sb.append(str.substring(pos));
 
-					}else{
+					} else {
 						sb.append("CREATE OR REPLACE ").append(info.getType());
 						sb.append(" ").append(str.substring(pos));
 					}

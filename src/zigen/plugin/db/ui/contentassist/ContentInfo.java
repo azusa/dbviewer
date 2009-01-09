@@ -145,14 +145,14 @@ public class ContentInfo {
 
 		String[] tableTypes = null;
 		switch (config.getDbType()) {
-			case DBType.DB_TYPE_ORACLE:
-				tableTypes = new String[] {"TABLE", "VIEW", "SYNONYM"}; //$NON-NLS-1$ //$NON-NLS-2$
-				break;
-			default:
-				// <-- 性能を考えて、上記以外のDBは、TABLEとVIEWだけテーブル補完されるように修正
-				tableTypes = new String[] {"TABLE", "VIEW"}; //$NON-NLS-1$ //$NON-NLS-2$
-				// -->
-				break;
+		case DBType.DB_TYPE_ORACLE:
+			tableTypes = new String[] {"TABLE", "VIEW", "SYNONYM"}; //$NON-NLS-1$ //$NON-NLS-2$
+			break;
+		default:
+			// <-- 性能を考えて、上記以外のDBは、TABLEとVIEWだけテーブル補完されるように修正
+			tableTypes = new String[] {"TABLE", "VIEW"}; //$NON-NLS-1$ //$NON-NLS-2$
+			// -->
+			break;
 		}
 		TableInfo[] result = null;
 

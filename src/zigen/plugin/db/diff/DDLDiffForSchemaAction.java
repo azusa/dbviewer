@@ -56,13 +56,13 @@ public class DDLDiffForSchemaAction extends Action implements Runnable {
 			}
 
 			if (index == 2) {
-				
+
 				// ２つ選択されている場合のみ実行
 				DDLDiffForSchemaJob job = new DDLDiffForSchemaJob(viewer, left, right);
-				//job.setPriority(DDLDiffJob.SHORT);
-                job.setPriority(DDLDiffForSchemaJob.SHORT);
-                //job.setPriority(DDLDiffJob.DECORATE);   // もっとも軽い
-                
+				// job.setPriority(DDLDiffJob.SHORT);
+				job.setPriority(DDLDiffForSchemaJob.SHORT);
+				// job.setPriority(DDLDiffJob.DECORATE); // もっとも軽い
+
 				job.setUser(showDialog); // ダイアログを出す
 				job.schedule();
 

@@ -101,26 +101,32 @@ public interface IDBConfig {
 	public void setDatabaseProductMinorVersion(int databaseProductMinorVersion);
 
 	public void setDatabaseProductVersion(String databaseProductVersion);
-	
+
 	// for Oracle
 	public boolean isConnectAsSYSDBA();
+
 	public void setConnectAsSYSDBA(boolean b);
-	
+
 	// for Oracle
 	public boolean isConnectAsSYSOPER();
+
 	public void setConnectAsSYSOPER(boolean b);
-	
+
 	// for MySQL5à»ç~
 	public boolean isConnectAsInformationSchema();
+
 	public void setConnectAsInformationSchema(boolean isConnectAsInformationSchema);
-	
+
 	public SchemaInfo[] getDisplayedSchemas();
+
 	public void setDisplayedSchemas(SchemaInfo[] schemas);
-	
-	
+
+
 	public String getFilterPattern();
+
 	public void setFilterPattern(String filterPattern);
 
 	public boolean isCheckFilterPattern();
+
 	public void setCheckFilterPattern(boolean checkFilterPattern);
 }

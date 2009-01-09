@@ -48,6 +48,7 @@ import zigen.sql.parser.ast.ASTTarget;
 import zigen.sql.parser.ast.ASTType;
 
 public class SqlExecJob extends AbstractJob {
+
 	protected SQLHistoryManager mgr = DbPlugin.getDefault().getHistoryManager();
 
 	protected Transaction trans;
@@ -103,7 +104,7 @@ public class SqlExecJob extends AbstractJob {
 				cnt++;
 				String sql = tokenizer.nextToken();
 				if (sql != null && sql.length() > 0) {
-					
+
 					// 実行するSQLを表示
 					String dispSql = sql.replaceAll("\\r\\n|\\r|\\n", ""); // 改行を取り除く
 					monitor.subTask(cnt + "/" + total + " : " + dispSql); //$NON-NLS-1$ //$NON-NLS-2$
@@ -114,7 +115,7 @@ public class SqlExecJob extends AbstractJob {
 					// Thread.sleep(500);
 
 					monitor.worked(1);
-					
+
 				}
 				if (monitor.isCanceled()) {
 					return Status.CANCEL_STATUS;
@@ -142,7 +143,7 @@ public class SqlExecJob extends AbstractJob {
 		return Status.OK_STATUS; // エラーダイアログを表示するためにOKで返す
 
 	}
-	
+
 	protected ASTStatement findASTStatement(INode root) {
 		int size = root.getChildrenSize();
 		for (int i = 0; i < root.getChildrenSize(); i++) {
@@ -153,7 +154,7 @@ public class SqlExecJob extends AbstractJob {
 		}
 		return null;
 	}
-	
+
 
 	protected ASTCreateStatement findASTCreateStatement(INode node) {
 		int size = node.getChildrenSize();
@@ -187,16 +188,16 @@ public class SqlExecJob extends AbstractJob {
 
 	private static final Pattern P_EXECUTE = Pattern.compile(PATTERN_EXE, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
-	private static final Pattern P_EXECUTE_UPDATE = Pattern.compile(PATTERN_EXE_UPDATE, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE| Pattern.DOTALL);
+	private static final Pattern P_EXECUTE_UPDATE = Pattern.compile(PATTERN_EXE_UPDATE, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
-	private static final Pattern P_EXECUTE_QUERY = Pattern.compile(PATTERN_EXE_QUERY, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE| Pattern.DOTALL);
+	private static final Pattern P_EXECUTE_QUERY = Pattern.compile(PATTERN_EXE_QUERY, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
-	private static final Pattern P_EXECUTE_CREATE = Pattern.compile(PATTERN_EXE_CREATE, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE| Pattern.DOTALL);
+	private static final Pattern P_EXECUTE_CREATE = Pattern.compile(PATTERN_EXE_CREATE, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	protected void executeSingleSQL(Transaction trans, String sql) throws Exception {
 		TimeWatcher tw = new TimeWatcher();
 		tw.start();
-		
+
 		String wk = sql.trim();
 		if ((P_EXECUTE.matcher(wk)).matches()) {
 			execute(sql);
@@ -207,10 +208,10 @@ public class SqlExecJob extends AbstractJob {
 		} else if ((P_EXECUTE_QUERY.matcher(wk)).matches()) {
 			if (wk.indexOf("INTO") > 0 && (wk.indexOf("OUTFILE") > 0 || wk.indexOf("DUMPFILE ") > 0)) {
 				INode node = parseSql(sql);
-				
+
 				ASTStatement st = findASTStatement(node);
-				if(st instanceof ASTSelectStatement){
-					ASTSelectStatement ss = (ASTSelectStatement)st;
+				if (st instanceof ASTSelectStatement) {
+					ASTSelectStatement ss = (ASTSelectStatement) st;
 					if (ss != null) {
 						ASTInto into = (ASTInto) ss.getChild("ASTInto");
 						if (into != null && into.hasASTOutfile()) {
@@ -220,7 +221,7 @@ public class SqlExecJob extends AbstractJob {
 					}
 				}
 
-			}			
+			}
 			showDBEditor(sql);
 
 		} else if ((P_EXECUTE_CREATE.matcher(wk)).matches()) {
@@ -238,15 +239,15 @@ public class SqlExecJob extends AbstractJob {
 		} else {
 			INode node = parseSql(sql);
 			ASTStatement st = findASTStatement(node);
-			if(st instanceof ASTSelectStatement){
+			if (st instanceof ASTSelectStatement) {
 				showDBEditor(sql);
-			}else{
+			} else {
 				executeUpdate(sql);
 			}
 		}
-		
+
 		tw.stop();
-		//System.out.println("SQL実行：" + tw.getTotalTime());
+		// System.out.println("SQL実行：" + tw.getTotalTime());
 
 	}
 
@@ -286,7 +287,7 @@ public class SqlExecJob extends AbstractJob {
 			parser = new zigen.sql.parser.SqlParser(sql, DbPlugin.getSqlFormatRult());
 			parser.parse(node);
 			// for debug
-			//parser.dump(node);
+			// parser.dump(node);
 		} catch (Exception e) {
 			DbPlugin.log(e);
 		} finally {
@@ -396,6 +397,7 @@ public class SqlExecJob extends AbstractJob {
 	}
 
 	protected class ShowResultAction implements Runnable {
+
 		IDBConfig config = null;
 
 		String query = null;
@@ -441,9 +443,9 @@ public class SqlExecJob extends AbstractJob {
 
 	// SQL履歴ビューの更新処理
 	protected class UpdateSQLHistoryAction implements Runnable {
-		
+
 		public UpdateSQLHistoryAction() {
-			
+
 		}
 
 		public void run() {

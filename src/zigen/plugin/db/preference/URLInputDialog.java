@@ -35,6 +35,7 @@ import zigen.plugin.db.ui.editors.event.TextSelectionListener;
  * 
  */
 public class URLInputDialog extends Dialog {
+
 	private static final int LEVEL_FIELD_WIDTH = 20;
 
 	private static final int TEXT_FIELD_WIDTH = 50;
@@ -134,6 +135,7 @@ public class URLInputDialog extends Dialog {
 		driverText.addFocusListener(new TextSelectionListener());
 
 		driverText.addVerifyListener(new VerifyListener() {
+
 			public void verifyText(VerifyEvent e) {
 				verifyHandler(e);
 			}
@@ -154,6 +156,7 @@ public class URLInputDialog extends Dialog {
 		// フォーカス時に入力文字列を選択状態とする
 		urlText.addFocusListener(new TextSelectionListener());
 		urlText.addVerifyListener(new VerifyListener() {
+
 			public void verifyText(VerifyEvent e) {
 				verifyHandler(e);
 			}

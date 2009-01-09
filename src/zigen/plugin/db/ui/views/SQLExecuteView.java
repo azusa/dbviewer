@@ -120,10 +120,9 @@ import zigen.plugin.db.ui.views.internal.SQLToolBar;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/08/20 ZIGEN create.
- *        [002] 2005/11/23 ZIGEN ドラック文字の後ろにカーソルが移動するように変更.
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/08/20 ZIGEN create. [002] 2005/11/23 ZIGEN ドラック文字の後ろにカーソルが移動するように変更.
  */
-public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, IPropertyChangeListener, ISelectionListener, IStatusChangeListener{
+public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, IPropertyChangeListener, ISelectionListener, IStatusChangeListener {
 
 	//  
 	public static final String AUTO_COMMIT = Messages.getString("AbstractSQLExecuteView.0"); //$NON-NLS-1$
@@ -177,7 +176,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 	SQLToolBar toolBar;
 
 
-
 	public void setSqlText(String sql) {
 		if (sqlViewer != null)
 			sqlViewer.getDocument().set(sql);
@@ -199,6 +197,7 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+
 			public void menuAboutToShow(IMenuManager manager) {
 				fillContextMenu(manager);
 			}
@@ -223,12 +222,12 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		manager.add(new LockDataBaseAction(sqlViewer));
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-	
+
 	protected void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(showHistoryViewAction);
 		manager.add(openViewAction);
 	}
-	
+
 	void fillContextMenu(IMenuManager manager) {
 		manager.add(new GlobalAction(sqlViewer, ITextOperationTarget.UNDO));
 		manager.add(new GlobalAction(sqlViewer, ITextOperationTarget.REDO));
@@ -263,7 +262,7 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		manager.add(new Separator());
-		//manager.add(openViewAction);
+		// manager.add(openViewAction);
 
 	}
 
@@ -293,7 +292,7 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 	}
 
 	ResourceMarkerAnnotationModel annotationModel;
-	
+
 	protected void createSQLInputPart(Composite header) {
 		sqlComposite = new Composite(header, SWT.NONE);
 		sqlComposite.setLayout(new FillLayout());
@@ -311,10 +310,11 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		ruler.addDecorator(0, rulerCol);
 		sqlViewer = new SQLSourceViewer(sqlComposite, ruler, null, false, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
-		
+
 		// sqlViewerにsecondaryIdを伝える
 		sqlViewer.setSecondaryId(getViewSite().getSecondaryId());
 		sqlViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				selectionChangeHandler(event);
 			}
@@ -322,15 +322,15 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		initializeViewerFont(sqlViewer);
 
 		DropTarget target = new DropTarget(sqlViewer.getTextWidget(), DND.DROP_DEFAULT | DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);
-		Transfer[] types = new Transfer[] { TreeLeafListTransfer.getInstance(), TextTransfer.getInstance(), FileTransfer.getInstance() };
+		Transfer[] types = new Transfer[] {TreeLeafListTransfer.getInstance(), TextTransfer.getInstance(), FileTransfer.getInstance()};
 		target.setTransfer(types);
 		target.addDropListener(new DropTreeLeafAdapter(sqlViewer));
 		sqlConfiguration = new SQLCodeConfiguration(colorManager);
 		sqlViewer.configure(sqlConfiguration);
-		
+
 		// 元の処理
 		sqlViewer.setDocument(new SQLDocument());
-		
+
 		// char[] pair = { '(', ')' };
 		ITextViewerExtension2 extension = (ITextViewerExtension2) sqlViewer;
 		painter = new MatchingCharacterPainter(sqlViewer, new SQLCharacterPairMatcher());
@@ -341,7 +341,7 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		cpainter.setHighlightColor(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_CURSOR_LINE));
 		sqlViewer.addPainter(cpainter);
 
-		
+
 		getSite().setSelectionProvider(sqlViewer);
 		getViewSite().getPage().addSelectionListener(this);
 
@@ -353,6 +353,7 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		sqlViewer.addTextListener(textListener);
 
 		sqlViewer.getTextWidget().addMouseListener(new MouseAdapter() {
+
 			public void mouseDown(MouseEvent arg0) {
 				updatePosition();
 
@@ -361,6 +362,7 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		});
 
 		sqlViewer.getTextWidget().addKeyListener(new KeyAdapter() {
+
 			public void keyReleased(KeyEvent arg0) {
 				try {
 					updatePosition();
@@ -375,8 +377,8 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		sqlViewer.setDbConfig(toolBar.getConfig());
 		toolBar.setSQLSourceViewer(sqlViewer);
 
-		//sqlViewer.getTextWidget().addKeyListener(new AutoAssistListener(getSecondarlyId()));
-		//sqlViewer.getTextWidget().addMouseListener(new AutoAssistListener(getSecondarlyId()));
+		// sqlViewer.getTextWidget().addKeyListener(new AutoAssistListener(getSecondarlyId()));
+		// sqlViewer.getTextWidget().addMouseListener(new AutoAssistListener(getSecondarlyId()));
 
 	}
 
@@ -514,8 +516,8 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		if (sqlViewer != null) {
 			DbPlugin.setSecondarlyId(getViewSite().getSecondaryId());
 			sqlViewer.getControl().setFocus();
-//			sqlViewer.updateOutlinePage();
-			
+			// sqlViewer.updateOutlinePage();
+
 			setGlobalAction();// Focus時にショートカットを有効にする
 
 			if (toolBar != null && toolBar.getConfig() != null) {
@@ -557,12 +559,14 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 	protected List fSelectionActions = new ArrayList();
 
 	private ISelectionChangedListener selectionChangedListener = new ISelectionChangedListener() {
+
 		public void selectionChanged(SelectionChangedEvent event) {
 			updateSelectionDependentActions();
 		}
 	};
 
 	private ITextListener textListener = new ITextListener() {
+
 		public void textChanged(TextEvent event) {
 			IUpdate findReplace = (IUpdate) fGlobalActions.get(ActionFactory.FIND.getId());
 			if (findReplace != null) {
@@ -794,8 +798,9 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 			toolBar.setLockedDataBase(isLocked);
 		}
 	}
-	
+
 	SQLOutinePage outlinePage;
+
 	public Object getAdapter(Class required) {
 		if (IFindReplaceTarget.class.equals(required)) {
 			IFindReplaceTarget target = sqlViewer.getFindReplaceTarget();
@@ -810,15 +815,11 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		if (Widget.class.equals(required)) {
 			return sqlViewer.getTextWidget();
 		}
-		
+
 		/*
-		if (IContentOutlinePage.class.equals(required)) {
-			if (outlinePage == null) {
-				outlinePage = new SQLOutinePage(sqlViewer);
-			}
-			return outlinePage;
-		}*/
-		
+		 * if (IContentOutlinePage.class.equals(required)) { if (outlinePage == null) { outlinePage = new SQLOutinePage(sqlViewer); } return outlinePage; }
+		 */
+
 		return null;
 	}
 }

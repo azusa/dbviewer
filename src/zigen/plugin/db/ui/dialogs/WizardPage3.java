@@ -57,6 +57,7 @@ import zigen.plugin.db.ui.util.WidgetUtil;
  * 
  */
 public class WizardPage3 extends DefaultWizardPage {
+
 	public static final String MSG = Messages.getString("WizardPage3.0"); //$NON-NLS-1$
 
 	Group symfowareOptionGrp;
@@ -80,14 +81,14 @@ public class WizardPage3 extends DefaultWizardPage {
 	SchemaInfo[] settingSchemas = null;
 
 	SchemaInfo[] filterSchemas = null;
-	
+
 
 	public WizardPage3(ISelection selection) {
 		super(Messages.getString("WizardPage3.1")); //$NON-NLS-1$
 		setTitle(Messages.getString("WizardPage3.2")); //$NON-NLS-1$
 		setPageComplete(true);
 
-		
+
 	}
 
 	public void createControl(Composite parent) {
@@ -119,7 +120,7 @@ public class WizardPage3 extends DefaultWizardPage {
 		// addOnlyDefaultSchemaSection(group4);
 		// ddSchemaFilterSection(group4);
 
-		
+
 		setControl(container);
 	}
 
@@ -158,12 +159,8 @@ public class WizardPage3 extends DefaultWizardPage {
 	}
 
 	/*
-	 * private void addOnlyDefaultSchemaSection(Composite group) {
-	 * schemaOnlyCheck = new Button(group, SWT.CHECK);
-	 * schemaOnlyCheck.setText(Messages.getString("WizardPage3.10"));
-	 * //$NON-NLS-1$ if (getOldConfig() != null) {
-	 * schemaOnlyCheck.setSelection(getOldConfig().isOnlyDefaultSchema()); }
-	 * else { schemaOnlyCheck.setSelection(ONLY_DEFAULT_SCHEMA); } }
+	 * private void addOnlyDefaultSchemaSection(Composite group) { schemaOnlyCheck = new Button(group, SWT.CHECK); schemaOnlyCheck.setText(Messages.getString("WizardPage3.10")); //$NON-NLS-1$ if
+	 * (getOldConfig() != null) { schemaOnlyCheck.setSelection(getOldConfig().isOnlyDefaultSchema()); } else { schemaOnlyCheck.setSelection(ONLY_DEFAULT_SCHEMA); } }
 	 */
 
 	private void addNoLockModeSection(Composite group) {
@@ -205,21 +202,21 @@ public class WizardPage3 extends DefaultWizardPage {
 					}
 				}
 			}
-			
-			
+
+
 			try {
 				// 毎回取得する
-				if(getOldConfig() != null){
+				if (getOldConfig() != null) {
 					settingSchemas = getOldConfig().getDisplayedSchemas();
 					if (settingSchemas != null) {
 						for (int i = 0; i < settingSchemas.length; i++) {
 							SchemaInfo info = settingSchemas[i];
 							settingSchemaMap.put(info.getName(), info);
 						}
-					}	
+					}
 				}
 				filterSchemas = loadSchemas();
-				
+
 				if (fTableViewer == null) {
 					addSchemaFilterSection(group4);
 					resize();
@@ -247,13 +244,14 @@ public class WizardPage3 extends DefaultWizardPage {
 	private Button regularExpressions = null;
 
 	private Button caseSensitive = null;
-	
-//	private SchemaFilter textFilter = null;
+
+	// private SchemaFilter textFilter = null;
 
 	private Button visibleCheck;
-	
-	
-	boolean checkFilterPattern;	
+
+
+	boolean checkFilterPattern;
+
 	String filterPattern = ""; //$NON-NLS-1$
 
 	private void addSchemaFilterSection(Composite group) {
@@ -272,34 +270,35 @@ public class WizardPage3 extends DefaultWizardPage {
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		visibleCheck.setLayoutData(data);
-		visibleCheck.addSelectionListener(new SelectionAdapter(){
+		visibleCheck.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
-				checkFilterPattern = visibleCheck.getSelection(); 
-				if(checkFilterPattern){
+				checkFilterPattern = visibleCheck.getSelection();
+				if (checkFilterPattern) {
 					filter(filterText.getText());
-				}else{
+				} else {
 					filter(""); //$NON-NLS-1$
 				}
 				setEnabled(checkFilterPattern);
 			}
 		});
-		
-		
-		//Label label = new Label(innerPanel1, SWT.NONE);
-		//label.setText(Messages.getString("WizardPage3.13")); //$NON-NLS-1$
+
+
+		// Label label = new Label(innerPanel1, SWT.NONE);
+		// label.setText(Messages.getString("WizardPage3.13")); //$NON-NLS-1$
 		filterText = new Text(innerPanel1, SWT.SINGLE | SWT.BORDER);
 		filterText.setEnabled(false);
 		filterText.addFocusListener(new TextSelectionListener());
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		filterText.setLayoutData(data);
-		
+
 		final Label label = new Label(innerPanel1, SWT.NONE);
 		label.setText(Messages.getString("WizardPage3.23")); //$NON-NLS-1$
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		label.setLayoutData(data);
-		
+
 		Composite innerPanel3 = new Composite(group, SWT.NONE);
 		gridLayout = new GridLayout(2, false);
 		gridLayout.marginHeight = 0;
@@ -318,11 +317,12 @@ public class WizardPage3 extends DefaultWizardPage {
 		// data.horizontalSpan = 2;
 		data.horizontalAlignment = GridData.END;
 		regularExpressions.setLayoutData(data);
-		regularExpressions.addSelectionListener(new SelectionAdapter(){
+		regularExpressions.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				label.setVisible(!regularExpressions.getSelection());
 			}
-		
+
 		});
 
 		caseSensitive = new Button(innerPanel3, SWT.CHECK);
@@ -370,7 +370,7 @@ public class WizardPage3 extends DefaultWizardPage {
 		fTableViewer.setContentProvider(new SchemaContentProvider());
 
 		fTableViewer.setInput(filterSchemas);
-		
+
 		// チェック状態を設定する
 		if (filterSchemas != null) {
 			for (int i = 0; i < filterSchemas.length; i++) {
@@ -398,18 +398,20 @@ public class WizardPage3 extends DefaultWizardPage {
 
 		selectedCheckOn = WidgetUtil.createButton(buttons, SWT.PUSH, Messages.getString("WizardPage3.16"), BUTTON_WIDTH2, new GridData()); //$NON-NLS-1$
 		selectedCheckOn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				for (int i = 0; i < fTableViewer.getTable().getItemCount(); i++) {
 					SchemaInfo schema = (SchemaInfo) fTableViewer.getElementAt(i);
 					schema.setChecked(true);
 					fTableViewer.setChecked(schema, true);
-					
+
 				}
 			}
 		});
 
 		selectedCheckOff = WidgetUtil.createButton(buttons, SWT.PUSH, Messages.getString("WizardPage3.17"), BUTTON_WIDTH2, new GridData()); //$NON-NLS-1$
 		selectedCheckOff.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				for (int i = 0; i < fTableViewer.getTable().getItemCount(); i++) {
 					SchemaInfo schema = (SchemaInfo) fTableViewer.getElementAt(i);
@@ -420,9 +422,9 @@ public class WizardPage3 extends DefaultWizardPage {
 		});
 
 
-
 		Button onlyDefaultSchema = WidgetUtil.createButton(buttons, SWT.PUSH, Messages.getString("WizardPage3.18"), BUTTON_WIDTH2, new GridData()); //$NON-NLS-1$
 		onlyDefaultSchema.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				config = ((DBConfigWizard) getWizard()).createNewConfig();
 				// schemas = getSchemas();
@@ -436,68 +438,76 @@ public class WizardPage3 extends DefaultWizardPage {
 					fTableViewer.setChecked(info, info.isChecked());
 				}
 				fTableViewer.setInput(filterSchemas);
-				//filter(filterText.getText());
+				// filter(filterText.getText());
 			}
 		});
-		
+
 		Button reload = WidgetUtil.createButton(buttons, SWT.PUSH, Messages.getString("WizardPage3.19"), BUTTON_WIDTH2, new GridData()); //$NON-NLS-1$
 		reload.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				config = ((DBConfigWizard) getWizard()).createNewConfig();
 				filterSchemas = loadSchemas();;
 				fTableViewer.setInput(filterSchemas);
-				//filter(filterText.getText());
+				// filter(filterText.getText());
 			}
 		});
-		
-//		filterText.addKeyListener(new KeyAdapter() {
-//			public void keyReleased(KeyEvent e) {
-//				filter(filterText.getText());
-//			}
-//
-//		});
+
+		// filterText.addKeyListener(new KeyAdapter() {
+		// public void keyReleased(KeyEvent e) {
+		// filter(filterText.getText());
+		// }
+		//
+		// });
 		filterText.addKeyListener(new FilterListener());
 
 		regularExpressions.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
-				//filter(filterText.getText());
+			// filter(filterText.getText());
 			}
 		});
 		caseSensitive.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
-				//filter(filterText.getText());
+			// filter(filterText.getText());
 			}
 		});
 
 		fTableViewer.addCheckStateListener(new ICheckStateListener() {
+
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				SchemaInfo schema = (SchemaInfo) event.getElement();
 				schema.setChecked(event.getChecked());
-				//test(filterSchemas);
+				// test(filterSchemas);
 			}
 		});
-		
+
 		// デフォルトの設定
 		filterText.setText(filterPattern);
 		visibleCheck.setSelection(checkFilterPattern);
 		setEnabled(checkFilterPattern);
-		//visibleCheck.notifyListeners(SWT.Selection, null); // これを呼ぶと、Filterが実行されてしまう
-		
+		// visibleCheck.notifyListeners(SWT.Selection, null); // これを呼ぶと、Filterが実行されてしまう
+
 	}
 
-	private void setEnabled(boolean b){
+	private void setEnabled(boolean b) {
 		filterText.setEnabled(b);
 		regularExpressions.setEnabled(b);
 		caseSensitive.setEnabled(b);
 	}
 
-	class FilterListener extends AutoDelayListener{
+	class FilterListener extends AutoDelayListener {
+
 		private static final int delayTime = 300;
-		public FilterListener(){
+
+		public FilterListener() {
 			super(delayTime);
 		}
-		public Runnable createExecutAction(){
-			return new Runnable(){
+
+		public Runnable createExecutAction() {
+			return new Runnable() {
+
 				public void run() {
 					try {
 						filterPattern = filterText.getText();
@@ -510,6 +520,7 @@ public class WizardPage3 extends DefaultWizardPage {
 			};
 		}
 	}
+
 	private void filter(String condition) {
 		for (int i = 0; i < fTableViewer.getTable().getItemCount(); i++) {
 			SchemaInfo info = (SchemaInfo) fTableViewer.getElementAt(i);
@@ -560,13 +571,13 @@ public class WizardPage3 extends DefaultWizardPage {
 
 	private SchemaInfo[] loadSchemas() {
 		SchemaInfo[] schemas = null;
-		
+
 		boolean isSetting = !settingSchemaMap.isEmpty();
 		try {
 			config = ((DBConfigWizard) getWizard()).createNewConfig();
-			
+
 			String[] names = SchemaSearcher.execute(config);
-	
+
 			if (!isSetting) {
 				schemas = new SchemaInfo[names.length];
 				for (int i = 0; i < names.length; i++) {
@@ -577,15 +588,15 @@ public class WizardPage3 extends DefaultWizardPage {
 				schemas = new SchemaInfo[names.length];
 				for (int i = 0; i < names.length; i++) {
 					if (settingSchemaMap.containsKey(names[i])) {
-						SchemaInfo info = (SchemaInfo)settingSchemaMap.get(names[i]);
-						if(info.isChecked()){
+						SchemaInfo info = (SchemaInfo) settingSchemaMap.get(names[i]);
+						if (info.isChecked()) {
 							schemas[i] = new SchemaInfo(config, names[i], true);
-						}else{
+						} else {
 							schemas[i] = new SchemaInfo(config, names[i], false);
 						}
-					}else{
+					} else {
 						// 新しいスキーマがある場合は表示ONとする
-//						schemas[i] = new SchemaInfo(config, names[i], true);
+						// schemas[i] = new SchemaInfo(config, names[i], true);
 
 						// 新しいスキーマがある場合は表示OFFとする
 						schemas[i] = new SchemaInfo(config, names[i], false);
@@ -594,16 +605,15 @@ public class WizardPage3 extends DefaultWizardPage {
 			}
 
 			return schemas;
-			
+
 		} catch (Exception e) {
 			StringBuffer sb = new StringBuffer(Messages.getString("WizardPage3.20")); //$NON-NLS-1$
 			sb.append("\n").append(e.getMessage()); //$NON-NLS-1$
 			super.setMessage(sb.toString(), WizardPage.ERROR);
 			return settingSchemas;
 		}
-		
-	}
 
+	}
 
 
 	class SchemaLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -633,11 +643,9 @@ public class WizardPage3 extends DefaultWizardPage {
 			}
 		}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
-		public void dispose() {
-		}
+		public void dispose() {}
 	}
 
 }

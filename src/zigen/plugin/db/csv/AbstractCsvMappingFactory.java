@@ -47,11 +47,13 @@ public abstract class AbstractCsvMappingFactory implements ICsvMappingFactory {
 	 * NULLはCSV上、ダブルクォートなしの空文字()とする 空文字は、CSV上は、ダブルクォート有りの空文字("")とする
 	 */
 	protected static final String NULL = ""; // CSVではNULLを空文字で表現する(ダブルクォートなし）
-												// //$NON-NLS-1$
+
+	// //$NON-NLS-1$
 
 	protected String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
-    protected boolean nonDoubleQuate;
-    
+
+	protected boolean nonDoubleQuate;
+
 	/**
 	 * コンストラクタ
 	 * 

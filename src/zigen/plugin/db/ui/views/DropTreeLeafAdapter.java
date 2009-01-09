@@ -75,7 +75,7 @@ public class DropTreeLeafAdapter extends DropTargetAdapter {
 			viewer.activatePlugins();
 			viewer.getControl().forceFocus();
 			viewer.getTextWidget().setFocus();
-			
+
 
 		} else if (e.data instanceof String[]) {
 
@@ -95,7 +95,7 @@ public class DropTreeLeafAdapter extends DropTargetAdapter {
 						viewer.activatePlugins();
 						viewer.getControl().forceFocus();
 						viewer.getTextWidget().setFocus();
-						
+
 
 					} else {
 						String msg = Messages.getString("DropTreeLeafAdapter.2"); //$NON-NLS-1$
@@ -104,7 +104,7 @@ public class DropTreeLeafAdapter extends DropTargetAdapter {
 							viewer.activatePlugins();
 							viewer.getControl().forceFocus();
 							viewer.getTextWidget().setFocus();
-							
+
 						}
 					}
 

@@ -125,7 +125,7 @@ public class CalcTableSpace {
 			if (blockSize == 0) {
 				blockSize = OracleDbBlockSizeSearcher.execute(con);
 			}
-//			log.debug("ブロックサイズ:" + this.blockSize); //$NON-NLS-1$
+			// log.debug("ブロックサイズ:" + this.blockSize); //$NON-NLS-1$
 
 			// 必要なBlock数
 			double necessaryBlock = getNecessaryBlockSize(con, maxRecord);
@@ -150,7 +150,7 @@ public class CalcTableSpace {
 			// BigDecimal.ROUND_UP); // 切上げ
 			this.tableSpaceSafeSize = this.tableSpaceSafeSize.setScale(3, BigDecimal.ROUND_UP); // 切上げ
 
-//			log.debug("必要なサイズ(MB)を取得:" + tableSpaceSafeSize); //$NON-NLS-1$
+			// log.debug("必要なサイズ(MB)を取得:" + tableSpaceSafeSize); //$NON-NLS-1$
 
 		} catch (CalcTableSpaceException e) {
 			throw e;
@@ -168,7 +168,7 @@ public class CalcTableSpace {
 	 * @return
 	 */
 	public int getBlockHeaderSize() {
-//		log.debug("1.ブロックヘッダー領域の取得:" + this.block_header); //$NON-NLS-1$
+		// log.debug("1.ブロックヘッダー領域の取得:" + this.block_header); //$NON-NLS-1$
 		return this.block_header;
 	}
 
@@ -179,7 +179,7 @@ public class CalcTableSpace {
 	 */
 	private final double getRiyouKanouArea() {
 		double d = Math.ceil((blockSize - this.getBlockHeaderSize()) * (1 - pctFree / 100d));
-//		log.debug("2.利用可能領域の取得:" + d); //$NON-NLS-1$
+		// log.debug("2.利用可能領域の取得:" + d); //$NON-NLS-1$
 		return d;
 
 	}
@@ -206,7 +206,7 @@ public class CalcTableSpace {
 			DbPlugin.getDefault().showErrorDialog(e);
 		}
 
-//		log.debug("3.平均行サイズの取得:" + columnAreaSize); //$NON-NLS-1$
+		// log.debug("3.平均行サイズの取得:" + columnAreaSize); //$NON-NLS-1$
 		return columnAreaSize;
 	}
 
@@ -232,7 +232,7 @@ public class CalcTableSpace {
 
 		}
 		// modify end
-//		log.debug("4.ブロックあたりの平均行数の計算:" + d); //$NON-NLS-1$
+		// log.debug("4.ブロックあたりの平均行数の計算:" + d); //$NON-NLS-1$
 		return d;
 	}
 
@@ -244,7 +244,7 @@ public class CalcTableSpace {
 	 */
 	private final double getNecessaryBlockSize(Connection con, long totalRow) throws CalcTableSpaceException {
 		double d = Math.ceil(totalRow / getAverageRowCountOfBlock(con));
-//		log.debug("5.必要なブロック数:" + d); //$NON-NLS-1$
+		// log.debug("5.必要なブロック数:" + d); //$NON-NLS-1$
 		return d;
 	}
 
@@ -301,7 +301,7 @@ public class CalcTableSpace {
 
 	public List getCsvRow() {
 		List list = new ArrayList();
-		
+
 		list.add(ownerName);
 		list.add(tableName);
 		list.add(""); // Index名 //$NON-NLS-1$

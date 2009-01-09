@@ -16,7 +16,7 @@ import zigen.plugin.db.core.rule.AbstractSQLCreatorFactory;
 import zigen.plugin.db.core.rule.ISQLCreatorFactory;
 import zigen.plugin.db.ui.internal.ITable;
 
-abstract public class AbstractSQLThread implements Runnable{
+abstract public class AbstractSQLThread implements Runnable {
 
 	protected ITable table;
 
@@ -29,13 +29,13 @@ abstract public class AbstractSQLThread implements Runnable{
 		this.config = table.getDbConfig();
 		this.factory = AbstractSQLCreatorFactory.getFactory(config, table);
 	}
-	
+
 	public void run() {
 		executeUpdate(createSQL(factory, table));
 	}
 
 	abstract String[] createSQL(ISQLCreatorFactory factory, ITable talbe);
-	
+
 	public void executeUpdate(String sqls[]) {
 		String _sql = ""; //$NON-NLS-1$
 		try {

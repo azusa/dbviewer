@@ -20,6 +20,7 @@ import zigen.plugin.db.ui.views.SQLExecuteView;
  * 
  */
 public class RemoveSQLAction extends Action implements Runnable {
+
 	private SQLExecuteView view;
 
 	/**
@@ -40,7 +41,7 @@ public class RemoveSQLAction extends Action implements Runnable {
 	public void run() {
 		try {
 			view.setSqlText(Messages.getString("RemoveSQLAction.2")); // ÉNÉäÉA
-																		// //$NON-NLS-1$
+			// //$NON-NLS-1$
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

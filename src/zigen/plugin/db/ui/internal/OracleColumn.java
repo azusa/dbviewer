@@ -21,13 +21,13 @@ import zigen.plugin.db.preference.DBTreeViewPreferencePage;
  * 
  */
 public class OracleColumn extends Column {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public OracleColumn() {
 		super();
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -36,7 +36,7 @@ public class OracleColumn extends Column {
 	public OracleColumn(TableColumn column) {
 		super(column);
 	}
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -45,11 +45,11 @@ public class OracleColumn extends Column {
 	public OracleColumn(TableColumn column, TablePKColumn pkColumn, TableFKColumn[] fkColumns) {
 		super(column, pkColumn, fkColumns);
 	}
-	
+
 	public void update(OracleColumn node) {
 		super.update(node);
 	}
-	
+
 	/**
 	 * 名前の取得
 	 * 
@@ -57,11 +57,11 @@ public class OracleColumn extends Column {
 	 */
 	public String getColumnLabel() {
 		StringBuffer sb = new StringBuffer();
-		
+
 		sb.append(column.getColumnName());
 		sb.append(" ");
 		sb.append(column.getTypeName().toLowerCase());
-		
+
 		// modify Oracleのパラメータ無しのカラム対応 例 NUMBER型
 		// if (isVisibleColumnSize()) {
 		if (isVisibleColumnSize() && !column.isWithoutParam()) {
@@ -77,23 +77,23 @@ public class OracleColumn extends Column {
 		if (fkColumns != null && fkColumns.length > 0) {
 			sb.append(" FK");
 		}
-		
+
 		// カラムのコメントON
 		if (DbPlugin.getDefault().getPreferenceStore().getBoolean(DBTreeViewPreferencePage.P_DISPLAY_COL_COMMENT)) {
-			
+
 			// remarksに値があれば追加する
 			if (column.getRemarks() != null && column.getRemarks().length() > 0) {
 				sb.append(" [");
 				sb.append(column.getRemarks());
 				sb.append("]");
 			}
-			
+
 		}
 		// debug dataType
 		// sb.append(" (DataType:" + column.getDataType() + ")");
-		
+
 		return sb.toString();
-		
+
 	}
-	
+
 }

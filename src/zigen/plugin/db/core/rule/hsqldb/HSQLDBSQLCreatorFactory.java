@@ -129,34 +129,8 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String[] getSupportColumnType() {
-		return new String[] {
-				"INT",
-				"INTEGER",
-				"DOUBLE",
-				"FLOAT",
-				"VARCHAR",
-				"VARCHAR_IGNORECASE",
-				"CHAR",
-				"CHARACTER",
-				"LONGVARCHAR",
-				"DATE",
-				"TIME",
-				"TIMESTAMP",
-				"DATETIME",
-				"DECIMAL",
-				"NUMERIC",
-				"BOOLEAN",
-				"BIT",
-				"TINYINT",
-				"SMALLINT",
-				"BIGINT",
-				"REAL",
-				"BINARY",
-				"VARBINARY",
-				"LONGVARBINARY",
-				"OTHER",
-				"OBJECT"
-		};
+		return new String[] {"INT", "INTEGER", "DOUBLE", "FLOAT", "VARCHAR", "VARCHAR_IGNORECASE", "CHAR", "CHARACTER", "LONGVARCHAR", "DATE", "TIME", "TIMESTAMP", "DATETIME",
+				"DECIMAL", "NUMERIC", "BOOLEAN", "BIT", "TINYINT", "SMALLINT", "BIGINT", "REAL", "BINARY", "VARBINARY", "LONGVARBINARY", "OTHER", "OBJECT"};
 	}
 
 	public String VisibleColumnSizePattern() {
@@ -234,9 +208,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" NULL");
 		}
 
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 
@@ -248,9 +220,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.encodeQuotation(column.getName()));
 
 		// H2:êßñÒÇÃçÌèúÇÕÅACASCADEÇ≈Ç´Ç»Ç¢
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 
@@ -271,9 +241,8 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 
 		/*
-		 * if (!from.getDefaultValue().equals(to.getDefaultValue())) {// DEFAULT
-		 * sb.append(" DEFAULT "); if ("".equals(to.getDefaultValue())) {
-		 * sb.append("NULL"); } else { sb.append(to.getDefaultValue()); } }
+		 * if (!from.getDefaultValue().equals(to.getDefaultValue())) {// DEFAULT sb.append(" DEFAULT "); if ("".equals(to.getDefaultValue())) { sb.append("NULL"); } else {
+		 * sb.append(to.getDefaultValue()); } }
 		 */
 		sb.append(" DEFAULT ");
 		if ("".equals(to.getDefaultValue())) {
@@ -287,9 +256,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		} else {
 			sb.append(" NULL");
 		}
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 

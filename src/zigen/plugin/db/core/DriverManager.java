@@ -17,6 +17,7 @@ import java.util.HashMap;
  * 
  */
 public class DriverManager {
+
 	private static DriverManager _instance;
 
 	private HashMap driverMap = new HashMap();
@@ -25,8 +26,7 @@ public class DriverManager {
 	 * Privateのコンストラクタ
 	 * 
 	 */
-	private DriverManager() {
-	}
+	private DriverManager() {}
 
 	private String getKey(IDBConfig config) {
 		String key;

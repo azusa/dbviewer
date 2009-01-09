@@ -11,7 +11,7 @@ import org.eclipse.jface.text.templates.TemplateContext;
 import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.swt.graphics.Image;
 
-public class SQLTemplateProposal extends TemplateProposal{
+public class SQLTemplateProposal extends TemplateProposal {
 
 	public SQLTemplateProposal(Template template, TemplateContext context, IRegion region, Image image, int relevance) {
 		super(template, context, region, image, relevance);
@@ -20,8 +20,8 @@ public class SQLTemplateProposal extends TemplateProposal{
 	public SQLTemplateProposal(Template template, TemplateContext context, IRegion region, Image image) {
 		super(template, context, region, image);
 	}
-	
-	public String getTemplateName(){
+
+	public String getTemplateName() {
 		return getTemplate().getName();
 	}
 

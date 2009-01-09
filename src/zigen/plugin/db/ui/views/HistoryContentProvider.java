@@ -50,8 +50,7 @@ public class HistoryContentProvider implements ITreeContentProvider {
 		this.viewer = (TreeViewer) v;
 	}
 
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	public Object[] getElements(Object inputElement) {
 		if (invisibleRoot == null)

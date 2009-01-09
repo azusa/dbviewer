@@ -63,11 +63,9 @@ public class CreateCSVForQueryAction extends Action {
 			Shell shell = DbPlugin.getDefault().getShell();
 			FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 			dialog.setFileName("query"); //$NON-NLS-1$
-			dialog.setFilterExtensions(new String[] {
-					"*.csv", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
+			dialog.setFilterExtensions(new String[] {"*.csv", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
 			});
-			dialog.setFilterNames(new String[] {
-					Messages.getString("CreateCSVForQueryAction.5"), Messages.getString("CreateCSVForQueryAction.6") //$NON-NLS-1$ //$NON-NLS-2$
+			dialog.setFilterNames(new String[] {Messages.getString("CreateCSVForQueryAction.5"), Messages.getString("CreateCSVForQueryAction.6") //$NON-NLS-1$ //$NON-NLS-2$
 					});
 			String fileName = dialog.open();
 
@@ -87,18 +85,18 @@ public class CreateCSVForQueryAction extends Action {
 			}
 
 			CSVConfig config = new CSVConfig();
-			
+
 			String encoding = store.getString(CSVPreferencePage.P_ENCODING);
 			String separator = store.getString(CSVPreferencePage.P_DEMILITER);
 			boolean nonHeader = store.getBoolean(CSVPreferencePage.P_NON_HEADER);
-            boolean nonDoubleQuate = store.getBoolean(CSVPreferencePage.P_NON_DOUBLE_QUATE);
-			
+			boolean nonDoubleQuate = store.getBoolean(CSVPreferencePage.P_NON_DOUBLE_QUATE);
+
 			config.setQuery(editor.getQuery());
 			config.setCsvEncoding(encoding);
 			config.setSeparator(separator);
 			config.setNonHeader(nonHeader);
 			config.setNonDoubleQuate(nonDoubleQuate);
-			
+
 			config.setCsvFile(fileName);
 			CSVWriter writer = new CSVWriter(editor.getDBConfig(), config);
 			writer.execute();

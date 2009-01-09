@@ -80,6 +80,7 @@ import zigen.plugin.db.ui.views.internal.SQLPartitionScanner;
 import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
 public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyChangeListener {
+
 	public static final String ID = "zigen.plugin.db.ui.editors.sql.SourceEditor"; //$NON-NLS-1$
 
 	protected IDBConfig config;
@@ -155,7 +156,7 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 		String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
 
 		IDocument doc = sourceViewer.getDocument();
-		IDocumentPartitioner partitioner = new FastPartitioner(new SQLPartitionScanner(), new String[] { SQLPartitionScanner.SQL_STRING, SQLPartitionScanner.SQL_COMMENT });
+		IDocumentPartitioner partitioner = new FastPartitioner(new SQLPartitionScanner(), new String[] {SQLPartitionScanner.SQL_STRING, SQLPartitionScanner.SQL_COMMENT});
 		partitioner.connect(doc);
 		doc.setDocumentPartitioner(partitioner);
 
@@ -196,17 +197,14 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 		sash.setLayoutData(data);
 
 		/*
-		 * if (ruler instanceof CompositeRuler) { LineNumberRulerColumn rulerCol =
-		 * new LineNumberRulerColumn();
-		 * LineNumberRulerColumnUtil.changeColor(colorManager, rulerCol);
+		 * if (ruler instanceof CompositeRuler) { LineNumberRulerColumn rulerCol = new LineNumberRulerColumn(); LineNumberRulerColumnUtil.changeColor(colorManager, rulerCol);
 		 * ((CompositeRuler)ruler).addDecorator(0, rulerCol); }
 		 */
 		// fAnnotationAccess = getAnnotationAccess();
 		// fOverviewRuler = createOverviewRuler(getSharedColors());
-		
 		sourceViewer = new PLSQLSourceViewer(sash, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles);
 		getSourceViewerDecorationSupport(sourceViewer);
-		
+
 		data = new FormData();
 		data.top = new FormAttachment(100, 0);
 		data.left = new FormAttachment(0, 0);
@@ -230,7 +228,7 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 		errorViewer.setInput(sourceErrorInfos);
 		errorViewer.expandAll();
 
-		sash.setWeights(new int[] { 80, 20 });
+		sash.setWeights(new int[] {80, 20});
 
 		hookContextMenu();
 
@@ -246,9 +244,9 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 	}
 
 	public void createToolbarPart(final Composite parent) {
-		//coolBar = new CoolBar(parent, SWT.FLAT);
+		// coolBar = new CoolBar(parent, SWT.FLAT);
 		coolBar = new CoolBar(parent, SWT.NONE);
-		
+
 
 		FormData data = new FormData();
 		data.top = new FormAttachment(0, 0);
@@ -275,8 +273,8 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 		coolBarMgr.update(true);
 
 		coolBar.addControlListener(new ControlListener() {
-			public void controlMoved(ControlEvent e) {
-			}
+
+			public void controlMoved(ControlEvent e) {}
 
 			public void controlResized(ControlEvent e) {
 				parent.getParent().layout(true);
@@ -295,6 +293,7 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+
 			public void menuAboutToShow(IMenuManager manager) {
 				getContributor().fillContextMenu(manager);
 			}
@@ -465,9 +464,9 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 		errorViewer.setInput(null);
 		// setDirtyMonde(false);
 	}
-	
-	public boolean isDirty(){
-		 return false;
+
+	public boolean isDirty() {
+		return false;
 	}
 
 	public boolean isSaveAsAllowed() {
@@ -492,6 +491,7 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 	}
 
 	private class ErrorContentProvider implements ITreeContentProvider {
+
 		private Root invisibleRoot;
 
 		private TreeViewer viewer;
@@ -511,8 +511,7 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 
 		}
 
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		public Object[] getElements(Object inputElement) {
 			return getChildren(invisibleRoot);

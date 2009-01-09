@@ -81,10 +81,10 @@ public class ExpDBConfigWizard extends Wizard {
 		File file = saveXml(shell, null);
 
 		if (file != null) {
-//			log.debug("path:" + file.getAbsolutePath()); //$NON-NLS-1$
+			// log.debug("path:" + file.getAbsolutePath()); //$NON-NLS-1$
 			if (file.exists()) {
 				if (!confirmOverwrite(shell, file.getName())) {
-//					log.debug(Messages.getString("ExpDBConfigWizard.1")); //$NON-NLS-1$
+					// log.debug(Messages.getString("ExpDBConfigWizard.1")); //$NON-NLS-1$
 					return false;
 				}
 			}
@@ -97,11 +97,9 @@ public class ExpDBConfigWizard extends Wizard {
 	private File saveXml(Shell shell, String defaultFileName) {
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 		dialog.setFileName(defaultFileName);
-		dialog.setFilterExtensions(new String[] {
-				"*.xml", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
+		dialog.setFilterExtensions(new String[] {"*.xml", "*.*" //$NON-NLS-1$ //$NON-NLS-2$
 		});
-		dialog.setFilterNames(new String[] {
-				Messages.getString("ExpDBConfigWizard.4"), Messages.getString("ExpDBConfigWizard.5") //$NON-NLS-1$ //$NON-NLS-2$
+		dialog.setFilterNames(new String[] {Messages.getString("ExpDBConfigWizard.4"), Messages.getString("ExpDBConfigWizard.5") //$NON-NLS-1$ //$NON-NLS-2$
 				});
 		String fileName = dialog.open();
 		if (fileName != null) {

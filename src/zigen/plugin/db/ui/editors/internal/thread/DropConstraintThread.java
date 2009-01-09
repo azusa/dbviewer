@@ -20,9 +20,7 @@ public class DropConstraintThread extends AbstractSQLThread {
 
 	public String[] createSQL(ISQLCreatorFactory factory, ITable table) {
 		String sql = factory.createDropConstraintDDL(constraint.getName(), constraint.getType());
-		return new String[] {
-			sql
-		};
+		return new String[] {sql};
 	}
 
 }

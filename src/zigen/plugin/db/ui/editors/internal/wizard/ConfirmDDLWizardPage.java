@@ -84,17 +84,17 @@ public class ConfirmDDLWizardPage extends DefaultWizardPage {
 	}
 
 	public void generateSQL() {
-		//boolean onPatch = DbPlugin.getDefault().getPreferenceStore().getBoolean(SQLEditorPreferencePage.P_FORMAT_PATCH);
+		// boolean onPatch = DbPlugin.getDefault().getPreferenceStore().getBoolean(SQLEditorPreferencePage.P_FORMAT_PATCH);
 		boolean onPatch = DbPlugin.getDefault().getPreferenceStore().getBoolean(SQLFormatPreferencePage.P_FORMAT_PATCH);
 		int type = DbPlugin.getDefault().getPreferenceStore().getInt(SQLFormatPreferencePage.P_USE_FORMATTER_TYPE);
 
-		
+
 		String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
-		
+
 		// start è·äQëŒâû 20207/10/02 ZIGEN ÉNÉäÉAÇ≥ÇÍÇ»Ç¢
 		document.set(""); // èâä˙âª
 		// end è·äQëŒâû
-		
+
 		IWizard wiz = getWizard();
 		if (wiz instanceof IConfirmDDLWizard) {
 			IConfirmDDLWizard _wiz = (IConfirmDDLWizard) wiz;

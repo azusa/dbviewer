@@ -40,11 +40,11 @@ public class TableViewLabelProvider extends LabelProvider implements ITableLabel
 
 						if (element.isModify()) {
 							return String.valueOf("*" + element.getRecordNo()); //$NON-NLS-1$
-//							return String.valueOf(element.getRecordNo()); //$NON-NLS-1$
+							// return String.valueOf(element.getRecordNo()); //$NON-NLS-1$
 
 						} else {
 							return String.valueOf(" " + element.getRecordNo()); //$NON-NLS-1$
-//							return String.valueOf(element.getRecordNo()); //$NON-NLS-1$
+							// return String.valueOf(element.getRecordNo()); //$NON-NLS-1$
 
 						}
 					}

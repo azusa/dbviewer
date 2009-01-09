@@ -45,13 +45,14 @@ import zigen.plugin.db.ui.views.internal.SQLWhitespaceDetector;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
  */
 public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITableViewEditor {
+
 	private int wordLen = 0;// コードアシスト用単語の長さを格納
 
 	private boolean contentAssisting = false;
 
 	private boolean proposalFiltering = false;
 
-	static final String[] Keywords = { "AND", "ASC", "BETWEEN", "BY", "DESC", "EXISTS", "IN", "IS NULL", "IS NOT NULL", "LIKE", "NOT", "NOT EXISTS", "NULL", "OR", "ORDER BY" };
+	static final String[] Keywords = {"AND", "ASC", "BETWEEN", "BY", "DESC", "EXISTS", "IN", "IS NULL", "IS NOT NULL", "LIKE", "NOT", "NOT EXISTS", "NULL", "OR", "ORDER BY"};
 
 	private class ColumnContentProposal implements IContentProposalProvider {
 
@@ -76,6 +77,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 					if (value.compareToIgnoreCase(word) == 0) {
 						// 候補の作成と追加
 						IContentProposal p = new IContentProposal() {
+
 							public String getContent() {
 								return colName;
 							}
@@ -102,6 +104,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 					proposalFiltering = false; // 候補の絞り込みモードOFF
 					// 候補の作成と追加
 					IContentProposal p = new IContentProposal() {
+
 						public String getContent() {
 							return colName;
 						}
@@ -133,6 +136,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 					if (value.compareToIgnoreCase(word) == 0) {
 						// 候補の作成と追加
 						IContentProposal p = new IContentProposal() {
+
 							public String getContent() {
 								return keyword;
 							}
@@ -159,6 +163,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 					proposalFiltering = false; // 候補の絞り込みモードOFF
 					// 候補の作成と追加
 					IContentProposal p = new IContentProposal() {
+
 						public String getContent() {
 							return keyword;
 						}
@@ -197,6 +202,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 	}
 
 	private class ColumnComboContentAdapter extends ComboContentAdapter {
+
 		public void insertControlContents(Control control, String text, int cursorPosition) {
 			super.insertControlContents(control, text, cursorPosition);
 			contentAssisting = false;// コンテンツアシスト終了
@@ -221,14 +227,14 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 	}
 
 	protected void conditionEventHandler(KeyEvent e) {
-		
+
 		if (e.character == SWT.CR && !contentAssisting) {
 			e.doit = true;
 			whereString = conditionComb.getText();
-			
-			pager.setPageNo(1);	// Where条件で検索すると必ず1ページに移動する
-			offset = 1; 		// offsetを初期化
-			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);	// 制限を初期化
+
+			pager.setPageNo(1); // Where条件で検索すると必ず1ページに移動する
+			offset = 1; // offsetを初期化
+			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD); // 制限を初期化
 			updateTableViewer(whereString, offset, limit);
 
 		} else if (e.stateMask == SWT.CTRL && e.character == ' ') {
@@ -287,11 +293,12 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 		final SubjectControlContentAssistant contentAssistant = new SubjectControlContentAssistant();
 
 		Column[] columns = tableNode.getColumns();
-		
+
 		IContentAssistProcessor processor = new ColumnContentAssistantProcessor(columns);
 		contentAssistant.setContentAssistProcessor(processor, IDocument.DEFAULT_CONTENT_TYPE);
 		contentAssistant.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_ABOVE);
 		contentAssistant.setInformationControlCreator(new IInformationControlCreator() {
+
 			public IInformationControl createInformationControl(Shell parent) {
 				return new DefaultInformationControl(parent);
 			}

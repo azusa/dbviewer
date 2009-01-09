@@ -26,7 +26,7 @@ import zigen.plugin.db.ui.internal.ITable;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/12/04 ZIGEN create.
  * 
  */
-public class CopyLogicalColumnNameWithTableNameAction extends AbstractCopyAction{
+public class CopyLogicalColumnNameWithTableNameAction extends AbstractCopyAction {
 
 	public void run(IAction action) {
 		try {
@@ -40,14 +40,14 @@ public class CopyLogicalColumnNameWithTableNameAction extends AbstractCopyAction
 				if (obj instanceof Column) {
 					Column col = (Column) obj;
 					ITable table = col.getTable();
-					
+
 					String tableRemarks = table.getRemarks();
-					if(tableRemarks == null || "".equals(tableRemarks.trim())){
+					if (tableRemarks == null || "".equals(tableRemarks.trim())) {
 						tableRemarks = table.getName();
 					}
 					String remarks = col.getRemarks();
-					if(remarks == null || "".equals(remarks.trim())){
-						remarks = col.getName();	// ñ≥Ç¢èÍçáÇÕï®óùñº
+					if (remarks == null || "".equals(remarks.trim())) {
+						remarks = col.getName(); // ñ≥Ç¢èÍçáÇÕï®óùñº
 					}
 					if (index == 0) {
 						sb.append(tableRemarks);
@@ -57,20 +57,16 @@ public class CopyLogicalColumnNameWithTableNameAction extends AbstractCopyAction
 						sb.append(", ");//$NON-NLS-1$
 						sb.append(tableRemarks);
 						sb.append(".");//$NON-NLS-1$
-						sb.append(remarks); 
+						sb.append(remarks);
 					}
-					
-					
+
+
 					index++;
 				}
 
 			}
 
-			clipboard.setContents(new Object[] {
-				sb.toString()
-			}, new Transfer[] {
-				TextTransfer.getInstance()
-			});
+			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

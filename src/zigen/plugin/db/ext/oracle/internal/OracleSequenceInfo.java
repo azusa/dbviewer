@@ -9,8 +9,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class OracleSequenceInfo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private String sequece_owner;
 
 	private String sequence_name;
@@ -32,8 +33,7 @@ public class OracleSequenceInfo implements Serializable {
 	/**
 	 * コンストラクタ
 	 */
-	public OracleSequenceInfo() {
-	}
+	public OracleSequenceInfo() {}
 
 	public BigDecimal getCache_size() {
 		return cache_size;

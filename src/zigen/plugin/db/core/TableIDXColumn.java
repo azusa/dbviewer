@@ -18,8 +18,9 @@ import java.io.Serializable;
  * 
  */
 public class TableIDXColumn implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected int ordinal_position = 0;
 
 	protected String name = null;

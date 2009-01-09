@@ -8,8 +8,9 @@ package zigen.plugin.db.ext.oracle.internal;
 import java.io.Serializable;
 
 public class SynonymInfo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private String synonym_name;
 
 	private String table_owner;

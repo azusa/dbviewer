@@ -33,6 +33,7 @@ import zigen.plugin.db.ui.views.TreeContentProvider;
  * 
  */
 public class RegistBookmarkAction extends Action implements Runnable {
+
 	// private BookmarkManager bookMarkMgr =
 	// DbPlugin.getDefault().getBookmarkManager();
 
@@ -93,15 +94,15 @@ public class RegistBookmarkAction extends Action implements Runnable {
 				Table table = (Table) object;
 				Bookmark bm = new Bookmark(table);
 				node.addChild(bm);
-				
+
 				// ダミーカラムを追加
-				if(bm.getChildren().size() == 0){
+				if (bm.getChildren().size() == 0) {
 					TableColumn tColumn = new TableColumn();
 					tColumn.setColumnName(DbPluginConstant.TREE_LEAF_LOADING);
 					bm.addChild(new Column(tColumn));
 				}
-				
-				//viewer.expandToLevel(bm, 1);
+
+				// viewer.expandToLevel(bm, 1);
 			}
 		}
 

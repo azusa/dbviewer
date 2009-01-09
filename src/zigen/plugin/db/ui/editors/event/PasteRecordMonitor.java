@@ -6,6 +6,7 @@
 package zigen.plugin.db.ui.editors.event;
 
 public class PasteRecordMonitor {
+
 	private static final ThreadLocal session = new ThreadLocal();
 
 	public static void begin() {
@@ -15,7 +16,7 @@ public class PasteRecordMonitor {
 
 	public static void end() {
 		Boolean b = (Boolean) session.get();
-		
+
 		if (b != null) {
 			session.set(null);
 		} else {

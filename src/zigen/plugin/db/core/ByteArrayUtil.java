@@ -13,6 +13,7 @@ import java.io.StringWriter;
 import zigen.plugin.db.DbPlugin;
 
 public class ByteArrayUtil {
+
 	/**
 	 * byte[] Å® String ïœä∑(JISAutoDetect)
 	 * 
@@ -23,7 +24,7 @@ public class ByteArrayUtil {
 	// public static String toString(byte[] bytes) {
 	// return toString(bytes, "JISAutoDetect");
 	// }
-	/***************************************************************************
+	/***************************************************************************************************************************************************************************************************
 	 * byte[] Å® String ïœä∑
 	 * 
 	 * @param bytes

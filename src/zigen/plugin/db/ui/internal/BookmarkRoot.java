@@ -8,8 +8,9 @@ package zigen.plugin.db.ui.internal;
 import java.io.Serializable;
 
 public class BookmarkRoot extends BookmarkFolder implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public BookmarkRoot() {
 		super();
 	}

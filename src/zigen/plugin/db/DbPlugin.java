@@ -73,11 +73,10 @@ import zigen.plugin.db.ui.views.TreeView;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create.
- *        [002] 2005/06/02 ZIGEN SQL履歴を外部ファイル(XML)に保存する機能を追加. [003] 2005/09/20
- *        ZIGEN テーブルエディタ用絞込み条件を外部ファイル(XML)に保存する機能を追加.
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create. [002] 2005/06/02 ZIGEN SQL履歴を外部ファイル(XML)に保存する機能を追加. [003] 2005/09/20 ZIGEN テーブルエディタ用絞込み条件を外部ファイル(XML)に保存する機能を追加.
  */
 public class DbPlugin extends AbstractUIPlugin {
+
 	private static DbPlugin plugin;
 
 	private ResourceBundle resourceBundle;
@@ -91,7 +90,7 @@ public class DbPlugin extends AbstractUIPlugin {
 	public DbPlugin() {
 		super();
 		plugin = this;
-		
+
 		try {
 			resourceBundle = ResourceBundle.getBundle("ResourceBundleMessages"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
@@ -110,7 +109,7 @@ public class DbPlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		try {
 			imageCacher.clear();
-			
+
 			saveDBDialogSettings();
 			xmlController.save();
 
@@ -210,7 +209,6 @@ public class DbPlugin extends AbstractUIPlugin {
 			return null;
 		}
 	}
-	
 
 
 	public static IViewPart findView(String viewId, String secondaryId) throws PartInitException {
@@ -356,32 +354,33 @@ public class DbPlugin extends AbstractUIPlugin {
 			} else {
 				return msg;
 			}
-		} else {			
-			//"スタックトレースを確認してください" メッセージ
+		} else {
+			// "スタックトレースを確認してください" メッセージ
 			return Messages.getString("DbPlugin.ConfrimStatckTraceMessage"); //$NON-NLS-1$
 		}
 	}
 
-	private static String getFirstLineMessage(String message){
+	private static String getFirstLineMessage(String message) {
 		StringUtil.convertLineSep(message); // \n で改行を統一する
 		int pos = message.indexOf("\n"); //$NON-NLS-1$
-		if(pos > 0){
+		if (pos > 0) {
 			return message.substring(0, pos);
-		}else{
+		} else {
 			return message;
 		}
-		
+
 	}
+
 	static IStatus createErrorStatus(Throwable throwable) {
 		String msg = getErrorMessage(throwable);
 		String lineMsg = getFirstLineMessage(msg);
-		
-		//MultiStatus mStatus = new MultiStatus(getPluginId(), IStatus.ERROR, lineMsg, new Exception(Messages.getString("DbPlugin.1"))); //$NON-NLS-1$
-//		MultiStatus mStatus = new MultiStatus(getPluginId(), IStatus.ERROR, lineMsg, null); //$NON-NLS-1$
-//		mStatus.add(new Status(IStatus.ERROR, getPluginId(), IStatus.OK, msg, null));
-//		return mStatus;
+
+		// MultiStatus mStatus = new MultiStatus(getPluginId(), IStatus.ERROR, lineMsg, new Exception(Messages.getString("DbPlugin.1"))); //$NON-NLS-1$
+		// MultiStatus mStatus = new MultiStatus(getPluginId(), IStatus.ERROR, lineMsg, null); //$NON-NLS-1$
+		// mStatus.add(new Status(IStatus.ERROR, getPluginId(), IStatus.OK, msg, null));
+		// return mStatus;
 		return new Status(IStatus.ERROR, getPluginId(), IStatus.OK, lineMsg, throwable);
-				
+
 	}
 
 	public static IStatus createWarningStatus(Throwable throwable) {
@@ -395,33 +394,33 @@ public class DbPlugin extends AbstractUIPlugin {
 	}
 
 	public void showErrorDialog(Throwable throwable) {
-        // for Debug
+		// for Debug
 		if (throwable != null) {
-            throwable.printStackTrace();
-        }
+			throwable.printStackTrace();
+		}
 
 		String message = Messages.getString("DbPlugin.ErrorMessage"); //$NON-NLS-1$
-    	IStatus status = null;
-        
-    	if(throwable instanceof JobException){
-    		JobException je = (JobException)throwable;
-    		Throwable cause = je.getCause();
-            if (cause instanceof SQLException) {
-                status = createErrorStatus(cause);
-            } else {
-                status = createErrorStatus(cause);
-                
-            }
-    	}else{
-    		
-            if (throwable instanceof SQLException) {
-                status = createErrorStatus(throwable);
-            } else {
-                status = createErrorStatus(throwable);
-            }
-    	}
-        ErrorDialog.openError(getShell(), DbPluginConstant.TITLE, message, status);
-    }
+		IStatus status = null;
+
+		if (throwable instanceof JobException) {
+			JobException je = (JobException) throwable;
+			Throwable cause = je.getCause();
+			if (cause instanceof SQLException) {
+				status = createErrorStatus(cause);
+			} else {
+				status = createErrorStatus(cause);
+
+			}
+		} else {
+
+			if (throwable instanceof SQLException) {
+				status = createErrorStatus(throwable);
+			} else {
+				status = createErrorStatus(throwable);
+			}
+		}
+		ErrorDialog.openError(getShell(), DbPluginConstant.TITLE, message, status);
+	}
 
 	private String defaultSaveDir = null;
 
@@ -467,12 +466,13 @@ public class DbPlugin extends AbstractUIPlugin {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * ＳＱＬフォーマッタールールを作成
+	 * 
 	 * @return
 	 */
-	public static SqlFormatRule getSqlFormatRult(){
+	public static SqlFormatRule getSqlFormatRult() {
 		SqlFormatRule rule = DbPluginFormatRule.getInstance().getRule();
 		IPreferenceStore st = getDefault().getPreferenceStore();
 		int tabSize = st.getInt(SQLFormatPreferencePage.P_FORMAT_OPTION_TABSIZE);
@@ -484,13 +484,13 @@ public class DbPlugin extends AbstractUIPlugin {
 		rule.setInSpecialFormat(optIn); // default = true (値のみの場合は、改行されない)
 		return rule;
 	}
-	
-	public static IDBConfig[] getDBConfigs(){
-		TreeView tv = (TreeView)findView(DbPluginConstant.VIEW_ID_TreeView);
-		if(tv != null){
-			TreeContentProvider tcp = (TreeContentProvider)tv.getContentProvider();
+
+	public static IDBConfig[] getDBConfigs() {
+		TreeView tv = (TreeView) findView(DbPluginConstant.VIEW_ID_TreeView);
+		if (tv != null) {
+			TreeContentProvider tcp = (TreeContentProvider) tv.getContentProvider();
 			return tcp.getDBConfigs();
-		}else{
+		} else {
 			return null;
 		}
 	}
@@ -516,7 +516,7 @@ public class DbPlugin extends AbstractUIPlugin {
 		}
 
 	}
-	
+
 
 	public static final String IMG_CODE_BACK = "back.gif"; //$NON-NLS-1$
 
@@ -527,8 +527,8 @@ public class DbPlugin extends AbstractUIPlugin {
 	public static final String IMG_CODE_CLOCK = "clock.gif"; //$NON-NLS-1$
 
 	public static final String IMG_CODE_DB_ADD = "db_add.gif"; //$NON-NLS-1$
-	
-    public static final String IMG_CODE_DB_EDIT = "db_edit.gif"; //$NON-NLS-1$
+
+	public static final String IMG_CODE_DB_EDIT = "db_edit.gif"; //$NON-NLS-1$
 
 	public static final String IMG_CODE_DB_COPY = "db_copy.gif"; //$NON-NLS-1$
 
@@ -605,6 +605,7 @@ public class DbPlugin extends AbstractUIPlugin {
 	public static final String IMG_CODE_EXPORT = "export.gif"; //$NON-NLS-1$
 
 	public static final String IMG_CODE_FORMAT = "format.gif"; //$NON-NLS-1$
+
 	public static final String IMG_CODE_FORMAT2 = "format2.gif"; //$NON-NLS-1$
 
 	public static final String IMG_CODE_VERTICALLAYOUT = "verticallayout.gif"; //$NON-NLS-1$
@@ -620,50 +621,55 @@ public class DbPlugin extends AbstractUIPlugin {
 	public static final String IMG_CODE_OPEN = "open.gif"; //$NON-NLS-1$
 
 	public static final String IMG_CODE_SYNCED = "synced.gif"; //$NON-NLS-1$
-	
 
-    public static final String IMG_CODE_COLUMN_ADD = "column_add.gif"; //$NON-NLS-1$
 
-    public static final String IMG_CODE_COLUMN_EDIT = "column_edit.gif"; //$NON-NLS-1$
+	public static final String IMG_CODE_COLUMN_ADD = "column_add.gif"; //$NON-NLS-1$
 
-    public static final String IMG_CODE_COLUMN_DEL = "column_del.gif"; //$NON-NLS-1$
-    
-    public static final String IMG_CODE_COLUMN_DUPLICATE = "column_duplicate.gif"; //$NON-NLS-1$
+	public static final String IMG_CODE_COLUMN_EDIT = "column_edit.gif"; //$NON-NLS-1$
 
-    public static final String IMG_CODE_SCRIPT = "script.gif"; //$NON-NLS-1$
+	public static final String IMG_CODE_COLUMN_DEL = "column_del.gif"; //$NON-NLS-1$
 
-    public static final String IMG_CODE_ERROR_ROOT = "error_root.gif"; //$NON-NLS-1$
-    
-    public static final String IMG_CODE_ERROR = "error.gif"; //$NON-NLS-1$
-    
-    public static final String IMG_CODE_AUTO = "auto_commit.gif"; //$NON-NLS-1$
-    
-    public static final String IMG_CODE_MANUAL = "manual_commit.gif"; //$NON-NLS-1$
-    
-    public static final String IMG_CODE_DUMMY = "dummy.gif"; //$NON-NLS-1$
-    
-    public static final String IMG_CODE_FILTER = "filter.gif";//$NON-NLS-1$
-    
-    public static final String IMG_CODE_PIN_COLUMN = "pin_column.gif";//$NON-NLS-1$
+	public static final String IMG_CODE_COLUMN_DUPLICATE = "column_duplicate.gif"; //$NON-NLS-1$
 
-    public static final String IMG_CODE_ALIAS = "alias.gif";//$NON-NLS-1$
-    
-    public static final String IMG_CODE_RESULT = "result.gif";//$NON-NLS-1$
-    
-    public static final String IMG_CODE_ADD = "add.gif";//$NON-NLS-1$
-    
-    public static final String IMG_CODE_TOP = "top.gif";//$NON-NLS-1$
-    public static final String IMG_CODE_END = "end.gif";//$NON-NLS-1$
-    public static final String IMG_CODE_PREVIOUS = "previous.gif";//$NON-NLS-1$
-    public static final String IMG_CODE_NEXT = "next.gif";//$NON-NLS-1$
-    
+	public static final String IMG_CODE_SCRIPT = "script.gif"; //$NON-NLS-1$
 
-    public static final String IMG_CODE_EXPAND_ALL = "expandAll.gif";//$NON-NLS-1$
-    public static final String IMG_CODE_COLLAPSE_ALL = "collapseAll.gif";//$NON-NLS-1$
-    public static final String IMG_CODE_WARNING = "warning.gif";//$NON-NLS-1$
-    
+	public static final String IMG_CODE_ERROR_ROOT = "error_root.gif"; //$NON-NLS-1$
+
+	public static final String IMG_CODE_ERROR = "error.gif"; //$NON-NLS-1$
+
+	public static final String IMG_CODE_AUTO = "auto_commit.gif"; //$NON-NLS-1$
+
+	public static final String IMG_CODE_MANUAL = "manual_commit.gif"; //$NON-NLS-1$
+
+	public static final String IMG_CODE_DUMMY = "dummy.gif"; //$NON-NLS-1$
+
+	public static final String IMG_CODE_FILTER = "filter.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_PIN_COLUMN = "pin_column.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_ALIAS = "alias.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_RESULT = "result.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_ADD = "add.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_TOP = "top.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_END = "end.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_PREVIOUS = "previous.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_NEXT = "next.gif";//$NON-NLS-1$
+
+
+	public static final String IMG_CODE_EXPAND_ALL = "expandAll.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_COLLAPSE_ALL = "collapseAll.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_WARNING = "warning.gif";//$NON-NLS-1$
+
 	protected void initializeImageRegistry(ImageRegistry registry) {
-        
+
 		registerImage(registry, IMG_CODE_SQL);
 		registerImage(registry, IMG_CODE_SCHEMA);
 		registerImage(registry, IMG_CODE_TABLE);
@@ -731,38 +737,38 @@ public class DbPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_CODE_PIN);
 		registerImage(registry, IMG_CODE_OPEN);
 		registerImage(registry, IMG_CODE_SYNCED);
-		
-        registerImage(registry, IMG_CODE_COLUMN_ADD);
-        registerImage(registry, IMG_CODE_COLUMN_EDIT);
-        registerImage(registry, IMG_CODE_COLUMN_DEL);
-        registerImage(registry, IMG_CODE_COLUMN_DUPLICATE);
-        registerImage(registry, IMG_CODE_SCRIPT);
 
-        registerImage(registry, IMG_CODE_ERROR_ROOT);
-        registerImage(registry, IMG_CODE_ERROR);
-        
-        registerImage(registry, IMG_CODE_AUTO);
-        registerImage(registry, IMG_CODE_MANUAL);
-        
-        registerImage(registry, IMG_CODE_DUMMY);
-        registerImage(registry, IMG_CODE_FILTER);
-        
-        registerImage(registry, IMG_CODE_PIN_COLUMN);
-        registerImage(registry, IMG_CODE_ALIAS);
-        registerImage(registry, IMG_CODE_RESULT);
-        registerImage(registry, IMG_CODE_ADD);
-        
+		registerImage(registry, IMG_CODE_COLUMN_ADD);
+		registerImage(registry, IMG_CODE_COLUMN_EDIT);
+		registerImage(registry, IMG_CODE_COLUMN_DEL);
+		registerImage(registry, IMG_CODE_COLUMN_DUPLICATE);
+		registerImage(registry, IMG_CODE_SCRIPT);
 
-        registerImage(registry, IMG_CODE_TOP);
-        registerImage(registry, IMG_CODE_END);
-        registerImage(registry, IMG_CODE_PREVIOUS);
-        registerImage(registry, IMG_CODE_NEXT);
-        registerImage(registry, IMG_CODE_EXPAND_ALL);
-        registerImage(registry, IMG_CODE_COLLAPSE_ALL);
-        
-        registerImage(registry, IMG_CODE_WARNING);
-        
-           
+		registerImage(registry, IMG_CODE_ERROR_ROOT);
+		registerImage(registry, IMG_CODE_ERROR);
+
+		registerImage(registry, IMG_CODE_AUTO);
+		registerImage(registry, IMG_CODE_MANUAL);
+
+		registerImage(registry, IMG_CODE_DUMMY);
+		registerImage(registry, IMG_CODE_FILTER);
+
+		registerImage(registry, IMG_CODE_PIN_COLUMN);
+		registerImage(registry, IMG_CODE_ALIAS);
+		registerImage(registry, IMG_CODE_RESULT);
+		registerImage(registry, IMG_CODE_ADD);
+
+
+		registerImage(registry, IMG_CODE_TOP);
+		registerImage(registry, IMG_CODE_END);
+		registerImage(registry, IMG_CODE_PREVIOUS);
+		registerImage(registry, IMG_CODE_NEXT);
+		registerImage(registry, IMG_CODE_EXPAND_ALL);
+		registerImage(registry, IMG_CODE_COLLAPSE_ALL);
+
+		registerImage(registry, IMG_CODE_WARNING);
+
+
 	}
 
 	private void registerImage(ImageRegistry registry, String fileName) {
@@ -777,18 +783,19 @@ public class DbPlugin extends AbstractUIPlugin {
 			DbPlugin.log(e);
 		}
 	}
-	
+
 
 	static String secondarlyId = null;
-	
+
 	/**
 	 * 最後にフォーカスされたSQL実行ビューのSecondarlyIdを保持しておく
+	 * 
 	 * @param secondarlyId
 	 */
 	public static void setSecondarlyId(String _secondarlyId) {
 		secondarlyId = _secondarlyId;
 	}
-	
+
 	public static String getSecondarlyId() {
 		return secondarlyId;
 	}

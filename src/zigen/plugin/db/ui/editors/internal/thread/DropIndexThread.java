@@ -9,6 +9,7 @@ import zigen.plugin.db.core.rule.ISQLCreatorFactory;
 import zigen.plugin.db.ui.internal.ITable;
 
 public class DropIndexThread extends AbstractSQLThread {
+
 	private String indexName;
 
 	public DropIndexThread(ITable table, String indexName) {
@@ -18,9 +19,7 @@ public class DropIndexThread extends AbstractSQLThread {
 
 	public String[] createSQL(ISQLCreatorFactory factory, ITable table) {
 		String sql = factory.createDropIndexDDL(indexName);
-		return new String[] {
-			sql
-		};
+		return new String[] {sql};
 	}
 
 }

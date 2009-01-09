@@ -11,9 +11,8 @@ import java.util.regex.PatternSyntaxException;
 public class PatternUtil {
 
 	/**
-	 * 正規表現ではなく、A や A, B のような検索をするためのPatterを取得
-	 * ※複数キーワードはカンマで区切ります。
-	 * ※前後方一致検索になります。
+	 * 正規表現ではなく、A や A, B のような検索をするためのPatterを取得 ※複数キーワードはカンマで区切ります。 ※前後方一致検索になります。
+	 * 
 	 * @param key
 	 * @param caseSensitive
 	 * @return
@@ -28,14 +27,14 @@ public class PatternUtil {
 			String keywd = keys[i];
 			if (keywd != null && keywd.trim().length() > 0) {
 				// キーワードの前後の空白は削除する
-				//keywd = keywd.trim().replaceAll("\\*", "\\.\\*"); //$NON-NLS-1$ //$NON-NLS-2$
-				
+				// keywd = keywd.trim().replaceAll("\\*", "\\.\\*"); //$NON-NLS-1$ //$NON-NLS-2$
+
 				// 前後方一致検索
 				StringBuffer w = new StringBuffer();
 				w.append(".*");
 				w.append(keywd.trim());
 				w.append(".*");
-				
+
 				if (cnt == 0) {
 					sb.append(w.toString());
 				} else {
@@ -53,11 +52,10 @@ public class PatternUtil {
 		return pattern;
 
 	}
-	
+
 	/**
-	 * 正規表現ではなく、A* や A, B のような検索をするためのPatterを取得
-	 * ※複数キーワードはカンマで区切ります。
-	 * ※一致する文字列には*を入れます。(入れない場合は、完全一致になります）
+	 * 正規表現ではなく、A* や A, B のような検索をするためのPatterを取得 ※複数キーワードはカンマで区切ります。 ※一致する文字列には*を入れます。(入れない場合は、完全一致になります）
+	 * 
 	 * @param key
 	 * @param caseSensitive
 	 * @return

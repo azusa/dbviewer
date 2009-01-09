@@ -29,7 +29,7 @@ public class SelectAllRecordAction extends TableViewEditorAction {
 		// テキストやツールチップ、アイコンの設定
 		setText(Messages.getString("SelectAllRecordAction.0")); //$NON-NLS-1$
 		setToolTipText(Messages.getString("SelectAllRecordAction.1")); //$NON-NLS-1$
-//		setAccelerator(SWT.CTRL | 'A');
+		// setAccelerator(SWT.CTRL | 'A');
 	}
 
 	public void run() {

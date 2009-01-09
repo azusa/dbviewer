@@ -20,9 +20,11 @@ import zigen.plugin.db.IStatusChangeListener;
 import zigen.plugin.db.ui.views.HistoryView;
 
 public class SQLHistoryAddWithProgress implements IRunnableWithProgress {
+
 	SQLHistoryManager mgr;
+
 	SQLHistory history;
-	
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -30,7 +32,7 @@ public class SQLHistoryAddWithProgress implements IRunnableWithProgress {
 	public SQLHistoryAddWithProgress(SQLHistory history) {
 		this.history = history;
 		this.mgr = DbPlugin.getDefault().getHistoryManager();
-		
+
 	}
 
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
@@ -46,7 +48,7 @@ public class SQLHistoryAddWithProgress implements IRunnableWithProgress {
 			}
 		} catch (IOException e) {
 			DbPlugin.getDefault().showErrorDialog(e);
-		} finally{
+		} finally {
 			monitor.done();
 		}
 	}

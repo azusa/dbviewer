@@ -87,6 +87,7 @@ public class CheckWizardPage extends DefaultWizardPage {
 		txtConstraintName.setText(""); //$NON-NLS-1$
 		txtConstraintName.addFocusListener(new TextSelectionListener());
 		txtConstraintName.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				if ("".equals(txtConstraintName.getText())) { //$NON-NLS-1$
 					updateStatus(MSG_REQUIRE_NAME);
@@ -152,6 +153,7 @@ public class CheckWizardPage extends DefaultWizardPage {
 	}
 
 	private class TextListener implements ITextListener {
+
 		public void textChanged(TextEvent event) {
 			update();
 		}

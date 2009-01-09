@@ -18,8 +18,7 @@ import zigen.plugin.db.ui.views.SQLExecuteView;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/12 ZIGEN create.
- *        [002] 2005/05/29 ZIGEN コミット時のメッセージを変更.
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/12 ZIGEN create. [002] 2005/05/29 ZIGEN コミット時のメッセージを変更.
  */
 public class CommitAction extends Action implements Runnable {
 

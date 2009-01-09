@@ -10,12 +10,12 @@ import zigen.plugin.db.ui.views.TreeView;
 public class ToggleLinkingAction extends AbstractToggleLinkingAction {
 
 	TreeView view;
-	
+
 	public ToggleLinkingAction(TreeView view) {
 		this.view = view;
 		setChecked(view.isLinkingEnabled());
 	}
-	
+
 	/**
 	 * Runs the action.
 	 */

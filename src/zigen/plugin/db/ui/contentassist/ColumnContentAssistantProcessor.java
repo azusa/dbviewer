@@ -28,8 +28,8 @@ import zigen.plugin.db.ui.internal.Column;
  * 
  */
 public class ColumnContentAssistantProcessor implements IContentAssistProcessor, ISubjectControlContentAssistProcessor {
-	
-	static final String[] Keywords = { "AND", "ASC", "BETWEEN", "BY", "DESC", "EXISTS", "IN", "IS NULL", "IS NOT NULL", "LIKE", "NOT", "NOT EXISTS", "NULL", "OR", "ORDER BY" };
+
+	static final String[] Keywords = {"AND", "ASC", "BETWEEN", "BY", "DESC", "EXISTS", "IN", "IS NULL", "IS NOT NULL", "LIKE", "NOT", "NOT EXISTS", "NULL", "OR", "ORDER BY"};
 
 	Column[] columns;
 
@@ -38,6 +38,7 @@ public class ColumnContentAssistantProcessor implements IContentAssistProcessor,
 	}
 
 	private class ProposalComputer {
+
 		private final int fDocumentOffset;
 
 		private final ArrayList fProposals;
@@ -64,7 +65,7 @@ public class ColumnContentAssistantProcessor implements IContentAssistProcessor,
 		}
 
 	}
-	
+
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int documentOffset) {
 		throw new UnsupportedOperationException("ITextViewer not supported"); //$NON-NLS-1$
 	}

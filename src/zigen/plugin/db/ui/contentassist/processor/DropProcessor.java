@@ -35,12 +35,11 @@ public class DropProcessor extends DefaultProcessor {
 				switch (currentScope) {
 				case SqlParser.SCOPE_DROP:
 					// DeleteÇÃÇ†Ç∆ÇÕÅAFromÇÃÇ›ï\é¶
-					modifiers = new String[] {
-							"TABLE", //$NON-NLS-1$
+					modifiers = new String[] {"TABLE", //$NON-NLS-1$
 							"VIEW", //$NON-NLS-1$
 							"SYNONYM" //$NON-NLS-1$
 					};
-					
+
 					break;
 
 				case SqlParser.SCOPE_TARGET:

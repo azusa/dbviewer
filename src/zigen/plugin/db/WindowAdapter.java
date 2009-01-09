@@ -11,26 +11,25 @@ import org.eclipse.ui.IWorkbenchWindow;
 public class WindowAdapter implements IWindowListener {
 
 	public void windowActivated(IWorkbenchWindow window) {
-		// TODO 自動生成されたメソッド・スタブ
-		
+	// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 	public void windowClosed(IWorkbenchWindow window) {
 		// TODO 自動生成されたメソッド・スタブ
 		System.out.println(window.getClass().getName());
-		
+
 	}
 
 	public void windowDeactivated(IWorkbenchWindow window) {
-		// TODO 自動生成されたメソッド・スタブ
-		
+	// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 	public void windowOpened(IWorkbenchWindow window) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
+	// TODO 自動生成されたメソッド・スタブ
 
+	}
 
 
 }

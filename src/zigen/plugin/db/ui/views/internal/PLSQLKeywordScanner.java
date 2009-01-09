@@ -12,8 +12,7 @@ package zigen.plugin.db.ui.views.internal;
  * 
  * @author ZIGEN
  * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/04/07 ZIGEN create.
- *        [002] 2005/05/29 ZIGEN SQLキーワードのシンタックスハイライトの修正.
+ * @since JDK1.4 history Symbol Date Person Note [001] 2005/04/07 ZIGEN create. [002] 2005/05/29 ZIGEN SQLキーワードのシンタックスハイライトの修正.
  * 
  */
 public class PLSQLKeywordScanner extends SQLKeywordScanner {
@@ -28,8 +27,7 @@ public class PLSQLKeywordScanner extends SQLKeywordScanner {
 	}
 
 	// 色分け表示単語
-	public static final String[] PLSQLKeywords = {
-			/* PL/SQL予約語 */"ALL", //$NON-NLS-1$
+	public static final String[] PLSQLKeywords = {/* PL/SQL予約語 */"ALL", //$NON-NLS-1$
 			"ALTER", //$NON-NLS-1$
 			"AND", //$NON-NLS-1$
 			"ANY", //$NON-NLS-1$

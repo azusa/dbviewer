@@ -6,7 +6,6 @@
 package zigen.plugin.db.diff;
 
 
-
 public interface IDDLDiff {
 
 	public static final int TYPE_INCLUDE_ONLY_ORIGN = 10;
@@ -40,7 +39,7 @@ public interface IDDLDiff {
 	public abstract IDDL getLeftDDL();
 
 	public abstract IDDL getRightDDL();
-	
+
 	public abstract String getType();
 
 }

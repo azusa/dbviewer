@@ -6,36 +6,38 @@
 package zigen.plugin.db.core;
 
 public class Plsql {
-    String type;
 
-    String schema;
+	String type;
 
-    String name;
+	String schema;
 
-    public Plsql(){
-    	
-    }
-    public String getType() {
-        return type;
-    }
+	String name;
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public Plsql() {
 
-    public String getSchema() {
-        return schema;
-    }
+	}
 
-    public void setSchema(String schema) {
-        this.schema = schema;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getSchema() {
+		return schema;
+	}
+
+	public void setSchema(String schema) {
+		this.schema = schema;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

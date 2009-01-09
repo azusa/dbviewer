@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import zigen.plugin.db.ui.internal.TreeNode;
 
 
-abstract public class DDLNode extends TreeNode implements IDDLDiff, Serializable{
-	
+abstract public class DDLNode extends TreeNode implements IDDLDiff, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * デフォルトコンストラクタ.
 	 * 

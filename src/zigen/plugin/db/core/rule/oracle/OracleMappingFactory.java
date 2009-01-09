@@ -41,13 +41,14 @@ import zigen.plugin.db.core.rule.IMappingFactory;
  * 
  */
 public class OracleMappingFactory extends DefaultMappingFactory implements IMappingFactory {
+
 	/**
 	 * Oracle9iで古いJDBCDriverは、TIMESTAMP型は-100を返す
 	 */
 	public static final int ORACLE_TIMESTAMP = -100;
 
 	public static final int ORACLE_XMLTYPE = 2007;
-	
+
 	public OracleMappingFactory(boolean convertUnicode) {
 		super(convertUnicode);
 	}
@@ -62,73 +63,73 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 		case Types.CHAR:
 			return getChar(rs, icol); // char型だけ独自仕様
 
-//			add start パラメータなしのNUMBER型に対応(小数を入れることが可能）
+			// add start パラメータなしのNUMBER型に対応(小数を入れることが可能）
 		case Types.NUMERIC: // 一般的にはBigDecimal
 		case Types.DECIMAL:// 一般的にはBigDecimal
 			// modify start
-//			int precision = rmd.getPrecision(icol);
-//			int scale = rmd.getScale(icol);
-//			if (precision == 0 && scale == 0) {
-//				return getDouble(rs, icol);
-//			} else if (scale == 0) {
-//				return getLong(rs, icol);
-//			} else {
-//				return getDouble(rs, icol);
-//			}
+			// int precision = rmd.getPrecision(icol);
+			// int scale = rmd.getScale(icol);
+			// if (precision == 0 && scale == 0) {
+			// return getDouble(rs, icol);
+			// } else if (scale == 0) {
+			// return getLong(rs, icol);
+			// } else {
+			// return getDouble(rs, icol);
+			// }
 			return getBigDecimal(rs, icol);
-//			add end.
-			
-//		case ORACLE_XMLTYPE:
-//			return getXmlType(rs, icol);
-			
+			// add end.
+
+			// case ORACLE_XMLTYPE:
+			// return getXmlType(rs, icol);
+
 		default:
 			return super.getObject(rs, icol);
 		}
 	}
-	
-//	private String getXmlType(ResultSet rs, int icol) throws SQLException {
-//		try {
-//			oracle.xdb.XMLType xml = (oracle.xdb.XMLType) rs.getObject(icol);
-//			return xml.getStringVal().trim();
-//		} catch (java.lang.NoClassDefFoundError e) {
-//			e.printStackTrace();
-//			throw new SQLException(e.getMessage());
-//		}
-//		
-//	}
+
+	// private String getXmlType(ResultSet rs, int icol) throws SQLException {
+	// try {
+	// oracle.xdb.XMLType xml = (oracle.xdb.XMLType) rs.getObject(icol);
+	// return xml.getStringVal().trim();
+	// } catch (java.lang.NoClassDefFoundError e) {
+	// e.printStackTrace();
+	// throw new SQLException(e.getMessage());
+	// }
+	//		
+	// }
 
 
-//	// -2147483648～2147483647を超えると正しく表示されないため、DoubleではなくBigDecimalで受ける
-//	protected String getDouble(ResultSet rs, int icol) throws SQLException {
-//		BigDecimal value = rs.getBigDecimal(icol);
-//
-//		if (rs.wasNull())
-//			return nullSymbol;
-//
-//		return String.valueOf(value);
-//
-//	}
-//	
-//	protected String getLong(ResultSet rs, int icol) throws SQLException {
-//
-//		try {
-//			long value = rs.getLong(icol);
-//
-//			if (rs.wasNull())
-//				return nullSymbol;
-//
-//			return String.valueOf(value);
-//
-//		} catch (SQLException e) {
-//			if (e.getErrorCode() == 17026) {
-//				// Oracleの数値のオーバーフローです。
-//				return rs.getBigDecimal(icol).toString();
-//			} else {
-//				throw e;
-//			}
-//		}
-//
-//	}
+	// // -2147483648～2147483647を超えると正しく表示されないため、DoubleではなくBigDecimalで受ける
+	// protected String getDouble(ResultSet rs, int icol) throws SQLException {
+	// BigDecimal value = rs.getBigDecimal(icol);
+	//
+	// if (rs.wasNull())
+	// return nullSymbol;
+	//
+	// return String.valueOf(value);
+	//
+	// }
+	//	
+	// protected String getLong(ResultSet rs, int icol) throws SQLException {
+	//
+	// try {
+	// long value = rs.getLong(icol);
+	//
+	// if (rs.wasNull())
+	// return nullSymbol;
+	//
+	// return String.valueOf(value);
+	//
+	// } catch (SQLException e) {
+	// if (e.getErrorCode() == 17026) {
+	// // Oracleの数値のオーバーフローです。
+	// return rs.getBigDecimal(icol).toString();
+	// } else {
+	// throw e;
+	// }
+	// }
+	//
+	// }
 
 	/**
 	 * DBのcharsetによって、空白パディングの数がおかしいため 自力で｢バイト合わせ」するようにします。 JA16SJISの場合は自力で実装する
@@ -145,7 +146,7 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 		}
 
 		// 空白を取り除き、自己パディングする
-		if(value != null){
+		if (value != null) {
 			value = StringUtil.padding(value.trim(), rs.getMetaData().getColumnDisplaySize(icol));
 		}
 		return value;
@@ -342,8 +343,7 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 	}
 
 	/**
-	 * Varchar2(4000)の項目に日本語666文字を超える場合と 「ORA-17070: データ・サイズがこの型の最大サイズを超えています。」
-	 * というエラーになるため、setStringではなく、setCharacterStream()を使うように修正する。
+	 * Varchar2(4000)の項目に日本語666文字を超える場合と 「ORA-17070: データ・サイズがこの型の最大サイズを超えています。」 というエラーになるため、setStringではなく、setCharacterStream()を使うように修正する。
 	 * 
 	 */
 	protected void setVarchar(PreparedStatement pst, int icol, String str) throws SQLException {

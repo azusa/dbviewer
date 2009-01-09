@@ -28,8 +28,8 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		super(table);
 	}
 
-	//select * from INFORMATION_SCHEMA.TABLES  limit 5 offset 4
-	
+	// select * from INFORMATION_SCHEMA.TABLES limit 5 offset 4
+
 	public String createSelect(String _condition, int limit) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
@@ -38,7 +38,7 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
 		String orderBy = conditions[1];
-		
+
 		if (condition != null && !"".equals(condition.trim())) { //$NON-NLS-1$
 			sb.append(" WHERE "); //$NON-NLS-1$
 			sb.append(condition);
@@ -48,7 +48,7 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
-		
+
 		if (limit > 0) {
 			sb.append(" LIMIT "); // ダイアログを出す為に＋１ //$NON-NLS-1$
 			sb.append(limit + 1);
@@ -76,25 +76,24 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
-		
+
 		if (limit > 0) {
 			sb.append(" LIMIT ");
 			sb.append(limit);
 			sb.append(" OFFSET ");
-			sb.append(offset-1);
+			sb.append(offset - 1);
 		}
 		return sb.toString();
 	}
-	
-	
+
+
 	public String VisibleColumnSizePattern() {
 		return ".*CHAR|^VARCHAR.*|^DECIMAL|^FLOAT|^DOUBLE|^REAL|^TIMESTAMP|^TIME|.*VARYING"; //$NON-NLS-1$
 		// return "^VARCHAR";
 	}
 
 	public String[] getSupportColumnType() {
-		return new String[] {
-				"INT", //$NON-NLS-1$
+		return new String[] {"INT", //$NON-NLS-1$
 				"BOOLEAN", //$NON-NLS-1$
 				"TINYINT", //$NON-NLS-1$
 				"SMALLINT", //$NON-NLS-1$
@@ -138,9 +137,9 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnTableDDL(String commnets) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON TABLE "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -153,9 +152,9 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON COLUMN "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
 
@@ -210,9 +209,7 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" NULL"); //$NON-NLS-1$
 		}
 
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 
@@ -224,9 +221,7 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.encodeQuotation(column.getName()));
 
 		// H2:制約の削除は、CASCADEできない
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 
@@ -247,30 +242,23 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 
 		/*
-		if (!from.getDefaultValue().equals(to.getDefaultValue())) {// DEFAULT
-			sb.append(" DEFAULT "); //$NON-NLS-1$
-			if ("".equals(to.getDefaultValue())) { //$NON-NLS-1$
-				sb.append("NULL"); //$NON-NLS-1$
-			} else {
-				sb.append(to.getDefaultValue());
-			}
-		}*/
+		 * if (!from.getDefaultValue().equals(to.getDefaultValue())) {// DEFAULT sb.append(" DEFAULT "); //$NON-NLS-1$ if ("".equals(to.getDefaultValue())) { //$NON-NLS-1$ sb.append("NULL");
+		 * //$NON-NLS-1$ } else { sb.append(to.getDefaultValue()); } }
+		 */
 		sb.append(" DEFAULT "); //$NON-NLS-1$
 		if ("".equals(to.getDefaultValue())) { //$NON-NLS-1$
 			sb.append("NULL"); //$NON-NLS-1$
 		} else {
 			sb.append(to.getDefaultValue());
 		}
-		
+
 		if (to.isNotNull()) {
 			sb.append(" NOT NULL"); //$NON-NLS-1$
 		} else {
 			sb.append(" NULL"); //$NON-NLS-1$
 		}
 
-		return new String[] {
-			sb.toString()
-		};
+		return new String[] {sb.toString()};
 
 	}
 
@@ -301,12 +289,11 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("."); //$NON-NLS-1$
 		sb.append(indexName);
 		sb.append(" ON "); //$NON-NLS-1$
-		if(isVisibleSchemaName){
+		if (isVisibleSchemaName) {
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		}else{
+		} else {
 			sb.append(SQLUtil.encodeQuotation(table.getName()));
 		}
-
 
 
 		sb.append("("); //$NON-NLS-1$

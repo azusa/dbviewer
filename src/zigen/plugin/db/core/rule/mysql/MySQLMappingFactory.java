@@ -33,7 +33,7 @@ public class MySQLMappingFactory extends DefaultMappingFactory implements IMappi
 	public MySQLMappingFactory(boolean convertUnicode) {
 		super(convertUnicode);
 	}
-	
+
 	protected String getTimestamp(ResultSet rs, int icol) throws SQLException {
 		// http://dev.mysql.com/doc/refman/5.0/en/connector-j-installing-upgrading.html
 		// MySQLÇ≈ÇÕNULLÇ™0000-00-00Ç∆Ç»ÇÈÇΩÇﬂÅASQLStateÇå©ÇƒîªífÇ∑ÇÈ
@@ -45,15 +45,16 @@ public class MySQLMappingFactory extends DefaultMappingFactory implements IMappi
 
 			return timeStampFormat.format(value);
 		} catch (SQLException e) {
-			if("S1009".equals(e.getSQLState())){
+			if ("S1009".equals(e.getSQLState())) {
 				return nullSymbol;
 			}
-			
+
 			throw e;
 		}
-		
+
 
 	}
+
 	protected String getDate(ResultSet rs, int icol) throws SQLException {
 		// http://dev.mysql.com/doc/refman/5.0/en/connector-j-installing-upgrading.html
 		// MySQLÇ≈ÇÕNULLÇ™0000-00-00Ç∆Ç»ÇÈÇΩÇﬂÅASQLStateÇå©ÇƒîªífÇ∑ÇÈ
@@ -65,13 +66,13 @@ public class MySQLMappingFactory extends DefaultMappingFactory implements IMappi
 
 			return dateFormat.format(value);
 		} catch (SQLException e) {
-			if("S1009".equals(e.getSQLState())){
+			if ("S1009".equals(e.getSQLState())) {
 				return nullSymbol;
 			}
-			
+
 			throw e;
 		}
-		
+
 
 	}
 

@@ -10,19 +10,19 @@ import zigen.plugin.db.core.TableFKColumn;
 import zigen.plugin.db.core.TablePKColumn;
 
 public class Constraint extends TreeNode {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String PRIMARY_KEY = "PRIMARY KEY";
-	
+
 	public static final String FOREGIN_KEY = "FOREGIN KEY";
-	
+
 	private String name;
-	
+
 	private String type = PRIMARY_KEY;
-	
+
 	private String paramater;
-	
+
 	public Constraint(TablePKColumn[] pks) {
 		if (pks instanceof TableFKColumn[]) {
 			type = FOREGIN_KEY;
@@ -32,14 +32,14 @@ public class Constraint extends TreeNode {
 			configure(pks);
 		}
 	}
-	
+
 	public Constraint(TableConstraintColumn[] cons) {
 		configure(cons);
 	}
-	
+
 	private void configure(TablePKColumn[] pks) {
 		if (pks != null && pks.length > 0) {
-			
+
 			StringBuffer sb = new StringBuffer();
 			int i = 0;
 			for (i = 0; i < pks.length; i++) {
@@ -52,13 +52,13 @@ public class Constraint extends TreeNode {
 					sb.append(", " + pkc.getColumnName());
 				}
 			}
-			
+
 			sb.append(")");
 			this.paramater = sb.toString();
 		}
-		
+
 	}
-	
+
 	private void configure(TableFKColumn[] fks) {
 		if (fks != null && fks.length > 0) {
 			boolean cascade = false;
@@ -68,12 +68,12 @@ public class Constraint extends TreeNode {
 			for (i = 0; i < fks.length; i++) {
 				TableFKColumn column = fks[i];
 				cascade = column.isCasucade();
-				
+
 				if (i == 0) {
 					name = column.getName();
 					sb.append("(");
 					sb.append(column.getColumnName());
-					
+
 					// Reference
 					sb2.append(" REFERENCES ");
 					if (column.getPkSchema() != null) {
@@ -84,9 +84,9 @@ public class Constraint extends TreeNode {
 					sb2.append(" ");
 					sb2.append("(");
 					sb2.append(column.getPkColumnName());
-					
+
 				} else {
-					
+
 					sb.append(", " + column.getColumnName());
 					sb2.append(", " + column.getColumnName());
 				}
@@ -96,31 +96,31 @@ public class Constraint extends TreeNode {
 			if (cascade) {
 				sb2.append(" ON DELETE CASCADE");
 			}
-			
+
 			this.paramater = sb.toString() + sb2.toString();
 		}
-		
+
 	}
-	
+
 	private void configure(TableConstraintColumn[] cons) {
 		if (cons != null && cons.length > 0) {
-			
+
 			StringBuffer sb = new StringBuffer();
 			int i = 0;
 			for (i = 0; i < cons.length; i++) {
 				TableConstraintColumn column = cons[i];
-				
+
 				if (i == 0) {
-					
+
 					if (column.getColumnName() == null && !"".equals(column.getSearch_condition())) {
 						// CHECK§–ñ‚Æ‚Ý‚È‚·
 						this.name = column.getName();
 						this.type = "CHECK";
 						this.paramater = "(" + column.getSearch_condition() + ")";
 						return; // ƒ‹[ƒv1‰ñ‚Å”²‚¯‚é
-						
+
 					}
-					
+
 					this.name = column.getName();
 					if (column.isNonUnique()) {
 						this.type = "NONUNIQUE"; // §–ñ‚ÅNONUNIQE‚Í–³‚¢‚Í‚¸
@@ -129,29 +129,29 @@ public class Constraint extends TreeNode {
 					}
 					sb.append("(");
 					sb.append(column.getColumnName());
-					
+
 				} else {
 					sb.append(", " + column.getColumnName());
 				}
 			}
-			
+
 			sb.append(")");
 			this.paramater = sb.toString();
-			
+
 		}
-		
+
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getParamater() {
 		return paramater;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
-	
+
 }

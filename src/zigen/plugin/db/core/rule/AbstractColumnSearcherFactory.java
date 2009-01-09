@@ -25,8 +25,9 @@ import zigen.plugin.db.core.rule.oracle.OracleColumnSearcharFactory;
  * 
  */
 public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFactory {
+
 	protected boolean convertUnicode;
-	
+
 	/**
 	 * コンストラクタ
 	 * 

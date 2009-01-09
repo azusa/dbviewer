@@ -51,10 +51,10 @@ public class RefreshFolderJob extends AbstractJob {
 		try {
 			Connection con = Transaction.getInstance(folder.getDbConfig()).getConnection();
 			if (SchemaSearcher.isSupport(con)) {
-				tables = TableSearcher.execute(con, folder.getSchema().getName(), new String[] { folder.getName() });
+				tables = TableSearcher.execute(con, folder.getSchema().getName(), new String[] {folder.getName()});
 			} else {
 				// 第1引数からそれぞれデータベース名、スキーマ名、テーブル名、テーブルの型
-				tables = TableSearcher.execute(con, null, new String[] { folder.getName() });
+				tables = TableSearcher.execute(con, null, new String[] {folder.getName()});
 			}
 			if (updateTables(monitor, con, folder.getSchema(), folder, tables)) {
 

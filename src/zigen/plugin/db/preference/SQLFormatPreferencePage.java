@@ -55,8 +55,7 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 
 	private Text maxText = null;
 
-	public void init(IWorkbench workbench) {
-	}
+	public void init(IWorkbench workbench) {}
 
 	public SQLFormatPreferencePage() {
 		super();
@@ -99,7 +98,7 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 		Label label = new Label(grp, SWT.NONE);
 		label.setText("Format Max SQL:");
 		maxText = new Text(grp, SWT.BORDER);
-		maxText.setTextLimit(5); //ç≈ëÂ5åÖ
+		maxText.setTextLimit(5); // ç≈ëÂ5åÖ
 		maxText.addModifyListener(this);
 		gd = new GridData();
 		gd.widthHint = 100;
@@ -125,6 +124,7 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 		formatterTypeKry.setText(Messages.getString("SQLFormatPreferencePage.0")); //$NON-NLS-1$
 		formatterTypeKry.setSelection(true);
 		formatterTypeKry.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				setEnableForDBV(true);
 				setEnableForBlanco(false);
@@ -136,6 +136,7 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 		formatterTypeBlanco.setText(Messages.getString("SQLFormatPreferencePage.1")); //$NON-NLS-1$
 		formatterTypeBlanco.setSelection(false);
 		formatterTypeBlanco.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				setEnableForDBV(false);
 				setEnableForBlanco(true);
@@ -244,7 +245,7 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 
 
 		maxText.setText(maxCount);
-		
+
 		switch (type) {
 		case TYPE_DBVIEWER:
 			formatterTypeKry.setSelection(true);
@@ -285,7 +286,7 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 		boolean optionIn = getPreferenceStore().getDefaultBoolean(P_FORMAT_OPTION_IN);
 
 		maxText.setText(maxCount);
-		
+
 		switch (type) {
 		case TYPE_DBVIEWER:
 			formatterTypeKry.setSelection(true);
@@ -346,12 +347,12 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 			updateStatus(JFaceResources.getString("IntegerFieldEditor.errorMessage"));
 			return;
 		}
-		
-		if(maxText.getText().length() == 0){
+
+		if (maxText.getText().length() == 0) {
 			updateStatus(JFaceResources.getString("IntegerFieldEditor.errorMessage"));
 			return;
 		}
-		
+
 		updateStatus(null);
 
 	}

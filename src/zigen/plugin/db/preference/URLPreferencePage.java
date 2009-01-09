@@ -52,6 +52,7 @@ import zigen.plugin.db.ui.util.WidgetUtil;
  * 
  */
 public class URLPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
+
 	public static final String P_URLDefine = "URLPreferencePage.URLDefine"; //$NON-NLS-1$
 
 	public static final String SEP_ROWS = "|"; //$NON-NLS-1$
@@ -70,17 +71,12 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
 	private Button envRemoveButton;
 
-	protected String[] tableHeader = {
-			zigen.plugin.db.preference.Messages.getString("URLPreferencePage.0"), zigen.plugin.db.preference.Messages.getString("URLPreferencePage.1") //$NON-NLS-1$ //$NON-NLS-2$
+	protected String[] tableHeader = {zigen.plugin.db.preference.Messages.getString("URLPreferencePage.0"), zigen.plugin.db.preference.Messages.getString("URLPreferencePage.1") //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
-	protected ColumnLayoutData[] columnLayoutDatas = {
-			new ColumnWeightData(1),
-			new ColumnWeightData(1)
-	};
+	protected ColumnLayoutData[] columnLayoutDatas = {new ColumnWeightData(1), new ColumnWeightData(1)};
 
-	public void init(IWorkbench workbench) {
-	}
+	public void init(IWorkbench workbench) {}
 
 	public URLPreferencePage() {
 		super();
@@ -208,6 +204,7 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 		tableViewer.setInput(properties);
 
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				tableSelectionChangedHandler(event);
 			}
@@ -215,6 +212,7 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
 		// doubleClick による編集は未実装
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+
 			public void doubleClick(DoubleClickEvent event) {
 				if (!tableViewer.getSelection().isEmpty()) {
 					editButtonPressedHandler();
@@ -238,8 +236,10 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
 		// Create buttons
 
-		final Button envAddButton = WidgetUtil.createButton(buttonComposite, SWT.PUSH, zigen.plugin.db.preference.Messages.getString("URLPreferencePage.4"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
+		final Button envAddButton = WidgetUtil.createButton(buttonComposite, SWT.PUSH,
+				zigen.plugin.db.preference.Messages.getString("URLPreferencePage.4"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 		envAddButton.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent event) {
 				addButtonPressedHandler();
 			}
@@ -247,6 +247,7 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
 		envEditButton = WidgetUtil.createButton(buttonComposite, SWT.PUSH, zigen.plugin.db.preference.Messages.getString("URLPreferencePage.5"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 		envEditButton.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent event) {
 				editButtonPressedHandler();
 			}
@@ -255,6 +256,7 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
 		envRemoveButton = WidgetUtil.createButton(buttonComposite, SWT.PUSH, zigen.plugin.db.preference.Messages.getString("URLPreferencePage.6"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 		envRemoveButton.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent event) {
 				removeButtonPressedHandler();
 			}
@@ -337,13 +339,14 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 		}
 
 		public void dispose() {
-			// TODO 自動生成されたメソッド・スタブ
+		// TODO 自動生成されたメソッド・スタブ
 
 		}
 
 	}
 
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
+
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof String[]) {
 				String[] list = (String[]) element;

@@ -28,6 +28,7 @@ import zigen.plugin.db.ui.internal.Schema;
  * 
  */
 public class CopySchemaNameAction extends Action implements Runnable {
+
 	// private final String LINE_SEP = System.getProperty("line.separator");
 
 	StructuredViewer viewer = null;
@@ -70,11 +71,7 @@ public class CopySchemaNameAction extends Action implements Runnable {
 
 			}
 
-			clipboard.setContents(new Object[] {
-				sb.toString()
-			}, new Transfer[] {
-				TextTransfer.getInstance()
-			});
+			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

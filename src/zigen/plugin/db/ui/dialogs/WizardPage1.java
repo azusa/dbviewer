@@ -55,17 +55,18 @@ import zigen.plugin.db.ui.util.WidgetUtil;
  * 
  */
 public class WizardPage1 extends DefaultWizardPage {
-	
+
 	ImageCacher ic = ImageCacher.getInstance();
-	
+
 	protected class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
+
 		public String getColumnText(Object element, int columnIndex) {
 			String result = ""; //$NON-NLS-1$
 
 			switch (columnIndex) {
 			case 0:
 				result = (String) element;
-				
+
 				break;
 			default:
 				break;
@@ -74,19 +75,19 @@ public class WizardPage1 extends DefaultWizardPage {
 		}
 
 		public Image getColumnImage(Object element, int columnIndex) {
-			if(element instanceof String){
-				File file = new File((String)element);
-				if(file.exists()){
-					if(file.isDirectory()){
+			if (element instanceof String) {
+				File file = new File((String) element);
+				if (file.exists()) {
+					if (file.isDirectory()) {
 						return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER);
-					}else{
+					} else {
 						return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
 					}
-				}else{
+				} else {
 					return ic.getImage(DbPlugin.IMG_CODE_WARNING);
 				}
 			}
-			
+
 			return null;
 		}
 
@@ -96,6 +97,7 @@ public class WizardPage1 extends DefaultWizardPage {
 	}
 
 	protected class TableContentProvider implements IStructuredContentProvider {
+
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof List) {
 				return ((List) inputElement).toArray();
@@ -109,8 +111,7 @@ public class WizardPage1 extends DefaultWizardPage {
 			}
 		}
 
-		public void dispose() {
-		}
+		public void dispose() {}
 
 	}
 
@@ -150,7 +151,7 @@ public class WizardPage1 extends DefaultWizardPage {
 	}
 
 	public void createControl(Composite parent) {
-		
+
 		Composite container = createDefaultComposite(parent);
 		Group group = new Group(container, SWT.NONE);
 		group.setText(Messages.getString("WizardPage1.8")); //$NON-NLS-1$
@@ -161,7 +162,7 @@ public class WizardPage1 extends DefaultWizardPage {
 
 		Group group2 = new Group(container, SWT.NONE);
 		group2.setText(Messages.getString("WizardPage1.9")); //$NON-NLS-1$
-//		group2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		// group2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group2.setLayoutData(new GridData(GridData.FILL_BOTH));
 		group2.setLayout(new GridLayout(1, false));
 		addDriverSection(group2);
@@ -179,6 +180,7 @@ public class WizardPage1 extends DefaultWizardPage {
 			nameText.setText(DEFAULT_NAME);
 		}
 		nameText.addModifyListener(new ModifyListener() {
+
 			public void modifyText(ModifyEvent e) {
 				modified();
 			}
@@ -187,7 +189,7 @@ public class WizardPage1 extends DefaultWizardPage {
 	}
 
 	private void addDriverSection(Composite group) {
-		
+
 		Composite tableComposite = new Composite(group, SWT.NONE);
 		GridData data = new GridData(GridData.FILL_BOTH);
 		data.widthHint = 200;
@@ -196,17 +198,18 @@ public class WizardPage1 extends DefaultWizardPage {
 		tableComposite.setLayoutData(data);
 		ColumnLayout columnLayout = new ColumnLayout();
 		tableComposite.setLayout(columnLayout);
-		
+
 		table = new Table(tableComposite, SWT.BORDER | SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 		tableViewer = new TableViewer(table);
-		//tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE);
-		
+		// tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE);
+
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);// ヘッダを可視にする
 		table.setLinesVisible(false); // ラインを表示
 		tableViewer.setContentProvider(new TableContentProvider());
 		tableViewer.setLabelProvider(new TableLabelProvider());
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection select = event.getSelection();
 				if (select != null) {
@@ -218,25 +221,25 @@ public class WizardPage1 extends DefaultWizardPage {
 
 		});
 
-		//GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		// GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		GridData gd = new GridData(GridData.FILL_BOTH);
-		//gd.heightHint = 50;
+		// gd.heightHint = 50;
 		tableViewer.getControl().setLayoutData(gd);
 
 		// テーブルヘッダの設定
-		//setHeaderColumn(table, new String[] {""}); //$NON-NLS-1$
+		// setHeaderColumn(table, new String[] {""}); //$NON-NLS-1$
 
 		GC gc = new GC(getShell());
 		gc.setFont(JFaceResources.getDialogFont());
-		
+
 		TableColumn column1 = new TableColumn(table, SWT.NONE);
 		String DISPLAY_TXT = "PATH"; //$NON-NLS-1$
 		column1.setText(DISPLAY_TXT);
 		int minWidth = computeMinimumColumnWidth(gc, DISPLAY_TXT);
 		columnLayout.addColumnData(new ColumnWeightData(1, minWidth, true));
 		gc.dispose();
-		
-//		initializeDialogUnits(table);
+
+		// initializeDialogUnits(table);
 
 		if (getOldConfig() != null) {
 			classpathList = new ArrayList();
@@ -248,36 +251,35 @@ public class WizardPage1 extends DefaultWizardPage {
 			classpathList = new ArrayList();
 		}
 		tableViewer.setInput(classpathList);
-		
-//		initializeDialogUnits(table);
 
-//		int maxWidth = 100;
-//		if (getOldConfig() != null) {
-//			classpathList = new ArrayList();
-//			String[] list = getOldConfig().getClassPaths();
-//			for (int i = 0; i < list.length; i++) {
-//				classpathList.add(list[i]);
-//				int width = convertWidthInCharsToPixels(list[i].length());
-//				if(maxWidth < width){
-//					maxWidth = width;
-//				}
-//			}
-//		} else {
-//			classpathList = new ArrayList();
-//		}
-//		tableViewer.setInput(classpathList);
-//
-//		// modify start 2007/10/18 pack処理がうまく機能しないため手動で設定
-//		//columnsPack(table);
-//		table.setVisible(false);
-//		TableColumn[] cols = table.getColumns();
-//		for (int i = 0; i < cols.length; i++) {
-//			cols[i].setWidth((maxWidth+50));
-//		}
-//		table.setVisible(true);
-//		// modify end 
+		// initializeDialogUnits(table);
 
-		
+		// int maxWidth = 100;
+		// if (getOldConfig() != null) {
+		// classpathList = new ArrayList();
+		// String[] list = getOldConfig().getClassPaths();
+		// for (int i = 0; i < list.length; i++) {
+		// classpathList.add(list[i]);
+		// int width = convertWidthInCharsToPixels(list[i].length());
+		// if(maxWidth < width){
+		// maxWidth = width;
+		// }
+		// }
+		// } else {
+		// classpathList = new ArrayList();
+		// }
+		// tableViewer.setInput(classpathList);
+		//
+		// // modify start 2007/10/18 pack処理がうまく機能しないため手動で設定
+		// //columnsPack(table);
+		// table.setVisible(false);
+		// TableColumn[] cols = table.getColumns();
+		// for (int i = 0; i < cols.length; i++) {
+		// cols[i].setWidth((maxWidth+50));
+		// }
+		// table.setVisible(true);
+		// // modify end
+
 
 		Composite buttonComp = new Composite(group, SWT.NONE);
 		buttonComp.setLayout(new GridLayout(4, false));
@@ -285,6 +287,7 @@ public class WizardPage1 extends DefaultWizardPage {
 
 		addBtn = WidgetUtil.createButton(buttonComp, SWT.PUSH, Messages.getString("WizardPage1.11"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 		addBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog openDialog = new FileDialog(table.getShell(), SWT.OPEN);
 				String openFile = openDialog.open();
@@ -300,6 +303,7 @@ public class WizardPage1 extends DefaultWizardPage {
 		});
 		addBtn2 = WidgetUtil.createButton(buttonComp, SWT.PUSH, Messages.getString("WizardPage1.12"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 		addBtn2.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog openDialog = new DirectoryDialog(table.getShell(), SWT.OPEN);
 				String openFile = openDialog.open();
@@ -315,32 +319,33 @@ public class WizardPage1 extends DefaultWizardPage {
 		removeBtn = WidgetUtil.createButton(buttonComp, SWT.PUSH, Messages.getString("WizardPage1.13"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 		removeBtn.setEnabled(false);
 		removeBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = table.getSelectionIndex();
 				if (selectionIndex >= 0) {
 					table.remove(selectionIndex);
 					classpathList.remove(selectionIndex);
 					tableViewer.setInput(classpathList);
-					//columnsPack(table);
+					// columnsPack(table);
 				}
 			}
 		});
 
 		final Button registedBtn = WidgetUtil.createButton(buttonComp, SWT.PUSH, Messages.getString("WizardPage1.14"), BUTTON_WIDTH, new GridData()); //$NON-NLS-1$
 		registedBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				DriverSelectDialog dialog = new DriverSelectDialog(registedBtn.getShell());
 				if (dialog.open() == DriverSelectDialog.OK) {
 					classpathList.addAll(dialog.getTargetNames());
 					tableViewer.setInput(classpathList);
 					columnsPack(table);
-					
+
 				}
 			}
 		});
-		
 
-		
+
 	}
 
 	public void setVisible(boolean visible) {

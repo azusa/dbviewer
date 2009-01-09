@@ -75,12 +75,12 @@ public class DBConfigWizard extends Wizard {
 
 
 		// Filter用スキーマだけはここで設定しておく。
-		if(oldConfig != null){
+		if (oldConfig != null) {
 			page3.filterSchemas = oldConfig.getDisplayedSchemas();
 			page3.checkFilterPattern = oldConfig.isCheckFilterPattern();
 			page3.filterPattern = (oldConfig.getFilterPattern() == null) ? "" : oldConfig.getFilterPattern();
 		}
-		
+
 	}
 
 	public boolean performFinish() {
@@ -99,7 +99,7 @@ public class DBConfigWizard extends Wizard {
 					if (element instanceof DataBase) {
 						DataBase _db = (DataBase) element;
 						Root root = (Root) _db.getParent().getParent(); // invisible
-																		// root
+						// root
 						List children = root.getChildren();
 						for (Iterator iterator = children.iterator(); iterator.hasNext();) {
 							Object obj = iterator.next();
@@ -123,7 +123,7 @@ public class DBConfigWizard extends Wizard {
 
 			// 物理ファイルへの保存を行なうようにした。
 			DbPlugin.getDefault().saveDBDialogSettings();
-			
+
 			return true;
 
 		} catch (SameDbNameException e) {
@@ -193,19 +193,19 @@ public class DBConfigWizard extends Wizard {
 			config.setCharset(page3.charsetText.getText());
 			config.setConvertUnicode(page3.unicodeCheck.getSelection());
 			config.setAutoCommit(page3.commitModeCheck.getSelection());
-			
-			//config.setOnlyDefaultSchema(page3.schemaOnlyCheck.getSelection());
-			config.setOnlyDefaultSchema(false); // この機能は廃止
-			
 
-			if (page3.symfowareOptionCheck != null){
+			// config.setOnlyDefaultSchema(page3.schemaOnlyCheck.getSelection());
+			config.setOnlyDefaultSchema(false); // この機能は廃止
+
+
+			if (page3.symfowareOptionCheck != null) {
 				config.setNoLockMode(page3.symfowareOptionCheck.getSelection());
-			}else{
+			} else {
 				// 3ページを見なかった場合はtrueで設定する
 				config.setNoLockMode(true);
-				
+
 			}
-			if(page2.connectionModeCombox != null){
+			if (page2.connectionModeCombox != null) {
 				int index = page2.connectionModeCombox.getSelectionIndex();
 				switch (index) {
 				case 0:
@@ -223,22 +223,20 @@ public class DBConfigWizard extends Wizard {
 				}
 
 			}
-			if(page2.connectionModeCombox2 != null){
+			if (page2.connectionModeCombox2 != null) {
 				int index = page2.connectionModeCombox2.getSelectionIndex();
-				if(index == 0){
+				if (index == 0) {
 					config.setConnectAsInformationSchema(false);
-				}else if(index == 1){
+				} else if (index == 1) {
 					config.setConnectAsInformationSchema(true);
 				}
 			}
 
 			config.setDisplayedSchemas(page3.filterSchemas);
-//			config.setCheckFilterPattern(page3.checkFilterPattern);
+			// config.setCheckFilterPattern(page3.checkFilterPattern);
 			config.setCheckFilterPattern(false); // 初回起動時はOFFにする
 			config.setFilterPattern(page3.filterPattern);
-			
-			
-			
+
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);

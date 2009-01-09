@@ -63,7 +63,7 @@ public class DeleteHistoryAction extends Action implements Runnable {
 
 				TimeWatcher tw = new TimeWatcher();
 				tw.start();
-				
+
 				while (iter.hasNext()) {
 					Object object = iter.next();
 					if (object instanceof HistoryFolder) {
@@ -74,7 +74,7 @@ public class DeleteHistoryAction extends Action implements Runnable {
 						List list = folder.getChildren();
 						for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 							History history = (History) iterator.next();
-							if(!history.getSqlHistory().isBlank()){
+							if (!history.getSqlHistory().isBlank()) {
 								try {
 									mgr.remove(history.getSqlHistory());
 								} catch (IOException e) {
@@ -85,33 +85,33 @@ public class DeleteHistoryAction extends Action implements Runnable {
 
 					} else if (object instanceof History) {
 						History history = (History) object;
-						
-//						TimeWatcher tw2 = new TimeWatcher();
-//						tw2.start();
+
+						// TimeWatcher tw2 = new TimeWatcher();
+						// tw2.start();
 						history.getParent().removeChild(history);
-//						tw2.stop();
-						
-//						tw2.start();
+						// tw2.stop();
+
+						// tw2.start();
 						viewer.refresh(history.getParent());
-//						tw2.stop();
-						
+						// tw2.stop();
+
 						try {
 							mgr.remove(history.getSqlHistory());
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						
+
 					}
 
 				}
-				
+
 				tw.stop();
-				
+
 				tw.start();
 				IViewPart part = DbPlugin.findView(DbPluginConstant.VIEW_ID_HistoryView);
 				if (part instanceof HistoryView) {
 					HistoryView hv = (HistoryView) part;
-					//hv.updateHistoryView(history);
+					// hv.updateHistoryView(history);
 					DbPlugin.fireStatusChangeListener(hv, IStatusChangeListener.EVT_UpdateHistory);
 				}
 				tw.stop();

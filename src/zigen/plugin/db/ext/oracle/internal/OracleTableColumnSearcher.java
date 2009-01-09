@@ -44,11 +44,11 @@ public class OracleTableColumnSearcher {
 			String owner = table.getSchemaName();
 			String tableName = table.getName();
 
-			//TableColumn[] columns = ColumnSearcher.execute(con, owner, tableName, convertUnicode);
+			// TableColumn[] columns = ColumnSearcher.execute(con, owner, tableName, convertUnicode);
 			IDBConfig config = table.getDbConfig();
-			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);		
+			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
 			TableColumn[] columns = factory.execute(con, owner, tableName);
-			
+
 			List list = new ArrayList(columns.length);
 
 			for (int i = 0; i < columns.length; i++) {

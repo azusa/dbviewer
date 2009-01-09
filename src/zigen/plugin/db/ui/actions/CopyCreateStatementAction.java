@@ -34,21 +34,22 @@ import zigen.plugin.db.ui.views.ColumnSearchAction;
 import zigen.plugin.db.ui.views.TreeView;
 
 public class CopyCreateStatementAction implements IViewActionDelegate {
+
 	private ISelection selection = null;
 
 	private IViewPart viewPart;
-	
+
 	TreeViewer treeViewer;
 
 	boolean isSelectedColumn = false;
-	
+
 	StringBuffer sb = null;
 
 	public void init(IViewPart view) {
 		this.viewPart = view;
 
-		if(view instanceof TreeView){
-			treeViewer = ((TreeView)view).getTreeViewer();
+		if (view instanceof TreeView) {
+			treeViewer = ((TreeView) view).getTreeViewer();
 		}
 	}
 
@@ -69,11 +70,11 @@ public class CopyCreateStatementAction implements IViewActionDelegate {
 					msg += "\nカラム情報の取得には時間がかかる場合があります。";
 					if (DbPlugin.getDefault().confirmDialog(msg)) {
 						new LoadAction(treeViewer, ss).run();
-					}else{
+					} else {
 						// 中途半端な状態ではComment文をコピーさせない
 						return;
 					}
-				}else{
+				} else {
 					new LoadAction(treeViewer, ss).run();
 				}
 
@@ -109,23 +110,20 @@ public class CopyCreateStatementAction implements IViewActionDelegate {
 		}
 		return sb.toString();
 	}
-	
+
 	void setContents(String contents) {
 		Clipboard clipboard = ClipboardUtils.getInstance();
 		if (contents.length() > 0) {
-			clipboard.setContents(new Object[] {
-					contents
-			}, new Transfer[] {
-				TextTransfer.getInstance()
-			});
+			clipboard.setContents(new Object[] {contents}, new Transfer[] {TextTransfer.getInstance()});
 		}
 	}
 
 	class LoadAction extends Action {
-		
+
 		IStructuredSelection ss;
+
 		StructuredViewer viewer;
-		
+
 		public LoadAction(StructuredViewer viewer, IStructuredSelection ss) {
 			this.viewer = viewer;
 			this.ss = ss;
@@ -134,31 +132,32 @@ public class CopyCreateStatementAction implements IViewActionDelegate {
 		public void run() {
 			try {
 				IRunnableWithProgress op = new IRunnableWithProgress() {
+
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 						monitor.beginTask("カラム情報の取得中...", ss.size());
-						sb = new StringBuffer(); //clear
+						sb = new StringBuffer(); // clear
 						int i = 1;
 						for (Iterator iter = ss.iterator(); iter.hasNext();) {
 							if (monitor.isCanceled())
 								throw new InterruptedException();
-							
+
 							Object obj = iter.next();
 							if (obj instanceof ITable) {
 								ITable table = (ITable) obj;
 								monitor.subTask("Target : " + table + ", " + i + "/" + ss.size());
-								 if (!table.isExpanded()) {
-									 // 展開フラグをTrueにする(テーブル要素をキャッシュする）
-									 table.setExpanded(true);
-									 
-									 new ColumnSearchAction(viewer, table).run();
-								 }
-								 
-								 sb.append(getCommentStatement(table));
+								if (!table.isExpanded()) {
+									// 展開フラグをTrueにする(テーブル要素をキャッシュする）
+									table.setExpanded(true);
+
+									new ColumnSearchAction(viewer, table).run();
+								}
+
+								sb.append(getCommentStatement(table));
 							}
 							monitor.worked(1);
 							i++;
 						}
-						
+
 						monitor.done();
 						setContents(sb.toString());
 					}
@@ -176,4 +175,3 @@ public class CopyCreateStatementAction implements IViewActionDelegate {
 
 	}
 }
-

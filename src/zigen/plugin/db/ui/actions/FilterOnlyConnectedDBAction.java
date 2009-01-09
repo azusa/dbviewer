@@ -28,7 +28,9 @@ import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.internal.Schema;
 
 public class FilterOnlyConnectedDBAction extends Action {
+
 	TreeViewer viewer;
+
 	DataBaseFilter filter;
 
 	public FilterOnlyConnectedDBAction(TreeViewer viewer) {
@@ -37,8 +39,8 @@ public class FilterOnlyConnectedDBAction extends Action {
 		this.viewer = viewer;
 		this.setText("テスト");
 		this.setToolTipText("接続中のデータﾍﾞｰｽのみ表示する"); //$NON-NLS-1$
-//		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(
-//				DbPlugin.IMG_CODE_CONNECTED_DB));
+		// this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(
+		// DbPlugin.IMG_CODE_CONNECTED_DB));
 	}
 
 	/**
@@ -47,42 +49,39 @@ public class FilterOnlyConnectedDBAction extends Action {
 	public void run() {
 		try {
 			Shell shell = DbPlugin.getDefault().getShell();
-//			DropTableConfirmDialog dialog = new DropTableConfirmDialog(shell);
-//			if (dialog.open() != Window.OK) {
-//				return;
-//			}
-			
+			// DropTableConfirmDialog dialog = new DropTableConfirmDialog(shell);
+			// if (dialog.open() != Window.OK) {
+			// return;
+			// }
+
 			String message = "削除しますか？";
 			String toggleMessage = "CASCADE CONSTRAINT オプション";
 			boolean toggleStatus = false;
 			String toggleMessage2 = "PURGE オプション";
 			boolean toggleStatus2 = false;
-			
+
 			MessageDialogWithToggle2.open(shell, DbPluginConstant.TITLE, message, toggleMessage, toggleStatus, toggleMessage2, toggleStatus2);
-			
-//	        MessageDialogWithToggle2 dialog = new MessageDialogWithToggle2(shell,
-//	        		TITLE, null, // accept the default window icon
-//	                message, QUESTION, new String[] { IDialogConstants.YES_LABEL,
-//	                        IDialogConstants.NO_LABEL }, 0, // yes is the default
-//	                toggleMessage, toggleState);
-//	        dialog.prefStore = store;
-//	        dialog.prefKey = key;
-//	        dialog.open();
-//	        return dialog;
-	        
-	        
+
+			// MessageDialogWithToggle2 dialog = new MessageDialogWithToggle2(shell,
+			// TITLE, null, // accept the default window icon
+			// message, QUESTION, new String[] { IDialogConstants.YES_LABEL,
+			// IDialogConstants.NO_LABEL }, 0, // yes is the default
+			// toggleMessage, toggleState);
+			// dialog.prefStore = store;
+			// dialog.prefKey = key;
+			// dialog.open();
+			// return dialog;
+
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);
 		}
 	}
-	
 
 
 	class DataBaseFilter extends ViewerFilter {
 
-		public DataBaseFilter() {
-		}
+		public DataBaseFilter() {}
 
 		public boolean select(Viewer viewer, Object parent, Object node) {
 			return filterDataBase(node);
@@ -103,7 +102,9 @@ public class FilterOnlyConnectedDBAction extends Action {
 
 
 	class DropTableConfirmDialog extends Dialog {
+
 		protected Button checkCascadeConstraint;
+
 		protected Button checkPurgeOption;
 
 		public DropTableConfirmDialog(Shell parent) {
