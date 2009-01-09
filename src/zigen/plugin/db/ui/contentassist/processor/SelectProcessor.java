@@ -55,11 +55,9 @@ public class SelectProcessor extends DefaultProcessor {
 								String w_table = wordGroup.substring(0, _offset);
 								createColumnProposal(findFromNode(fromList, w_table));
 							} else {
-								// 単一テーブルの場合はカラムリストを表示
-								createColumnProposal(fromList.getChild(0));
-
-								// テーブル名リストを表示
-								createTableProposal(currentTableInfos, getFromNodes(fromList));
+								createColumnProposal(fromList.getChild(0)); // 単一テーブルの場合はカラムリストを表示
+								createTableProposal(currentTableInfos, getFromNodes(fromList));// テーブル名の一覧
+								SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
 							}
 						}
 
@@ -67,17 +65,25 @@ public class SelectProcessor extends DefaultProcessor {
 					} else {
 
 						if (isAfterPeriod) {
-							// 複数テーブル指定 AND ピリオドで終わっている場合は、カラムリストを出す
-							createColumnProposal(findFromNode(fromList, word));
+							if(!addTableProposalBySchema(ci, word)){
+								// スキーマの後ではない場合(つまり、テーブル名の後)
+								createColumnProposal(findFromNode(fromList, word));
+							}
 						} else {
-							// 複数テーブル指定 AND ピリオド以降
-							int _offset = wordGroup.indexOf('.');
+							int _offset = wordGroup.lastIndexOf('.');
 							if (_offset > 0) {
-								String w_table = wordGroup.substring(0, _offset);
-								createColumnProposal(findFromNode(fromList, w_table));
+								String w_str = wordGroup.substring(0, _offset);
+								int _offset2 = w_str.lastIndexOf('.');
+								if (_offset2 > 0) {
+									createColumnProposal(findFromNode(fromList, w_str));
+								}else{
+									if(!addTableProposalBySchema(ci, w_str)){
+										createColumnProposal(findFromNode(fromList, w_str));
+									}
+								}
 							} else {
-								// 複数テーブルの指定 AND テーブル名リストを表示
-								createTableProposal(currentTableInfos, getFromNodes(fromList));
+								createTableProposal(currentTableInfos, getFromNodes(fromList));// テーブル名の一覧
+								SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
 							}
 						}
 						break;
@@ -85,21 +91,16 @@ public class SelectProcessor extends DefaultProcessor {
 				case SqlParser.SCOPE_FROM:
 
 					if (isAfterPeriod) {
-						String correctSchemaName = ci.findCorrectSchema(word);
-						if (correctSchemaName != null)
-							SQLProposalCreator2.addProposal(proposals, ci.getTableInfo(correctSchemaName), pinfo);// テーブルリストを表示する
+						addTableProposalBySchema(ci, word);
 
 					} else {
-						// スキーマ指定の場合（ピリオド以降）
 						int _offset = wordGroup.indexOf('.');
 						if (_offset > 0) {
 							String w_schema = wordGroup.substring(0, _offset);
-							String correctSchemaName = ci.findCorrectSchema(w_schema);
-							if (correctSchemaName != null)
-								SQLProposalCreator2.addProposal(proposals, ci.getTableInfo(correctSchemaName), pinfo);// テーブルリストを表示する
+							addTableProposalBySchema(ci, w_schema);
 						} else {
-							// テーブルリストを表示する
-							SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);
+							SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);// テーブル名の一覧
+							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
 						}
 
 					}
@@ -122,15 +123,14 @@ public class SelectProcessor extends DefaultProcessor {
 
 			case SqlParser.SCOPE_FROM:
 			default:
-				SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
 				SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);// SQLキーワードの登録
-
 				break;
 			}
 
 		}
 
 	}
+
 
 	private void createTableProposal(TableInfo[] infos, INode[] target) {
 		if (target != null) {

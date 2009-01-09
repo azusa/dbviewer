@@ -53,7 +53,7 @@ public class DefaultProcessor {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param proposals
 	 * @param word
 	 * @param offset
@@ -125,7 +125,7 @@ public class DefaultProcessor {
 
 	/**
 	 * ASTFromListから別名が一致するINodeを取得する
-	 * 
+	 *
 	 * @param fromlist
 	 * @param aliasName
 	 * @return
@@ -135,7 +135,12 @@ public class DefaultProcessor {
 			for (int i = 0; i < fromlist.getChildrenSize(); i++) {
 				INode node = fromlist.getChild(i);
 				if (node instanceof ASTAlias) {
+					//System.out.println(((ASTAlias) node).getAliasName());
+					//System.out.println(((ASTAlias) node).getName());
 					if (aliasName.equalsIgnoreCase(((ASTAlias) node).getAliasName())) {
+						return node;
+
+					}else if (aliasName.equalsIgnoreCase(((ASTAlias) node).getName())) {	// schema.table
 						return node;
 					}
 				}
@@ -146,7 +151,7 @@ public class DefaultProcessor {
 
 	/**
 	 * FromList配下を取得
-	 * 
+	 *
 	 * @param fromlist
 	 * @return
 	 */
@@ -164,7 +169,7 @@ public class DefaultProcessor {
 
 	/**
 	 * カンマを除いた子ノードの数
-	 * 
+	 *
 	 * @param target
 	 * @return
 	 */
@@ -288,4 +293,13 @@ public class DefaultProcessor {
 
 	}
 
+	protected boolean addTableProposalBySchema(ContentInfo ci, String inputWord)throws Exception{
+		String correctSchemaName = ci.findCorrectSchema(inputWord);
+		if (correctSchemaName != null){
+			SQLProposalCreator2.addProposal(proposals, ci.getTableInfo(correctSchemaName), pinfo);// テーブルリストを表示する
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

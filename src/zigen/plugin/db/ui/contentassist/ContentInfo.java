@@ -75,7 +75,7 @@ public class ContentInfo {
 
 	/**
 	 * スキーマ名は大文字小文字を判断するデータベースがあるため、 データベース定義からではなく、DBツリーから取得する
-	 * 
+	 *
 	 * @param con
 	 * @param config
 	 * @return
@@ -200,7 +200,7 @@ public class ContentInfo {
 
 	/**
 	 * 正しいスキーマ名(大文字、小文字を判断するDBがあるため)
-	 * 
+	 *
 	 * @param target
 	 * @return
 	 */
@@ -225,6 +225,8 @@ public class ContentInfo {
 	}
 
 	public SchemaInfo[] getSchemaInfos() {
+		if(schemaInfoMap == null) return null;	// 接続先を選択していない場合
+
 		SchemaInfo[] infos = new SchemaInfo[schemaInfoMap.size()];
 		int i = 0;
 		for (Iterator iterator = schemaInfoMap.keySet().iterator(); iterator.hasNext();) {

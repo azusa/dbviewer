@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.contentassist.processor;
@@ -30,7 +30,7 @@ public class DropProcessor extends DefaultProcessor {
 
 			if (ci.isConnected()) {
 
-				TableInfo[] tinfos = ci.getTableInfo(); // テーブル情報リスト取得
+				TableInfo[] currentTableInfos = ci.getTableInfo(); // カレントスキーマに対応するテーブル情報リスト取得
 
 				switch (currentScope) {
 				case SqlParser.SCOPE_DROP:
@@ -44,7 +44,22 @@ public class DropProcessor extends DefaultProcessor {
 
 				case SqlParser.SCOPE_TARGET:
 					// テーブルリストを表示する
-					SQLProposalCreator2.addProposal(proposals, tinfos, pinfo);
+					//SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);
+					if (isAfterPeriod) {
+						addTableProposalBySchema(ci, word);
+
+					} else {
+						int _offset = wordGroup.indexOf('.');
+						if (_offset > 0) {
+							String w_schema = wordGroup.substring(0, _offset);
+							addTableProposalBySchema(ci, w_schema);
+						} else {
+							SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);// テーブル名の一覧
+							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
+						}
+
+					}
+
 					break;
 				}
 
