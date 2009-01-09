@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -36,17 +36,17 @@ import zigen.plugin.db.ui.internal.ITable;
  * 
  */
 public class TableManager {
-
+	
 	public static TableElement[] invoke(IDBConfig config, ITable table) throws Exception, MaxRecordException {
 		int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
 		return invoke(config, table, null, 0, limit);
 	}
-
+	
 	public static TableElement[] invoke(IDBConfig config, ITable table, String condition) throws Exception, MaxRecordException {
 		int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
 		return invoke(config, table, condition, 0, limit);
 	}
-
+	
 	public static TableElement[] invoke(IDBConfig config, ITable table, String condition, int offset, int limit) throws Exception, MaxRecordException {
 		try {
 			Connection con = Transaction.getInstance(config).getConnection();
@@ -55,16 +55,16 @@ public class TableManager {
 			throw e;
 		}
 	}
-
+	
 	public static TableElement[] invoke(Connection con, ITable table) throws Exception, MaxRecordException {
 		return invoke(con, table, null);
 	}
-
+	
 	public static TableElement[] invoke(Connection con, ITable table, String condition) throws Exception, MaxRecordException {
 		int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
 		return invoke(con, table, condition, 0, limit);
 	}
-
+	
 	public static TableElement[] invoke(Connection con, ITable table, String condition, int offset, int limit) throws Exception, MaxRecordException {
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -75,7 +75,7 @@ public class TableManager {
 			pks = table.getTablePKColumns();
 			if (pks == null) {
 				// PKが無い場合は、ここで検索しておく
-//				pks = ConstraintSearcher.getPKColumns(con, table.getSchemaName(), table.getName());
+				// pks = ConstraintSearcher.getPKColumns(con, table.getSchemaName(), table.getName());
 				IConstraintSearcherFactory factory = DefaultConstraintSearcherFactory.getFactory(table.getDbConfig());
 				pks = factory.getPKColumns(con, table.getSchemaName(), table.getName());
 				if (pks == null) {
@@ -84,14 +84,10 @@ public class TableManager {
 			}
 			fks = table.getTableFKColumns();
 			stmt = con.createStatement();
-
+			
 			IDBConfig config = table.getDbConfig();
 			ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, table);
-			
 			String sql = getSQL(factory, condition, offset, limit);
-			
-			System.out.println("Connection Object : " + con.toString());
-			System.out.println(sql);
 			rs = stmt.executeQuery(sql);
 			ResultSetMetaData meta = rs.getMetaData();
 			List list = new ArrayList();
@@ -108,14 +104,14 @@ public class TableManager {
 				header.setCanModify(true);
 			}
 			list.add(header); // 検索件数が0件の場合でもヘッダが表示できるようにする
-
+			
 			int recordNo = 0;
 			while (rs.next()) {
-
+				
 				recordNo++;
 				
 				TableElement elements;
-
+				
 				if (offset > 0 && factory.isSupportPager()) {
 					int no = recordNo + offset - 1;
 					if (pks != null && pks.length > 0) {
@@ -123,28 +119,28 @@ public class TableManager {
 					} else {
 						elements = createElement(rs, table, columns, uidxs, no);
 					}
-
+					
 				} else {
 					// ページャを使わないアクセスの場合
 					if (limit > 0 && recordNo > limit) {
 						String msg = Messages.getString("TableManager.0"); //$NON-NLS-1$
 						throw new MaxRecordException(msg, (TableElement[]) list.toArray(new TableElement[0]));
 					}
-
+					
 					int no = recordNo;
 					if (pks != null && pks.length > 0) {
 						elements = createElement(rs, table, columns, pks, no);
 					} else {
 						elements = createElement(rs, table, columns, uidxs, no);
 					}
-
+					
 				}
-
+				
 				list.add(elements);
 			}
-
+			
 			return (TableElement[]) list.toArray(new TableElement[0]);
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -152,9 +148,9 @@ public class TableManager {
 			ResultSetUtil.close(rs);
 			StatementUtil.close(stmt);
 		}
-
+		
 	}
-
+	
 	private static String getSQL(ISQLCreatorFactory factory, String condition, int offset, int limit) {
 		if (offset == 0 || !factory.isSupportPager()) {
 			return factory.createSelect(condition, limit);
@@ -174,12 +170,12 @@ public class TableManager {
 		ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, table);
 		return getSQL(factory, condition, 0, 0); // 全データを対象
 	}
-
+	
 	// PKが無い場合 AND 編集不可のデータ型がある場合は編集不可とする
 	static boolean checkModify(IDBConfig config, TableColumn[] columns) {
-
+		
 		IMappingFactory factory = AbstractMappingFactory.getFactory(config);
-
+		
 		for (int i = 0; i < columns.length; i++) {
 			TableColumn col = columns[i];
 			if (!factory.canModifyDataType(col.getDataType())) {
@@ -188,10 +184,10 @@ public class TableManager {
 				return false;
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * データ更新用のTableColumn[]を作成
 	 * 
@@ -201,18 +197,18 @@ public class TableManager {
 	 * @throws SQLException
 	 */
 	static TableColumn[] getTableColumns(ResultSetMetaData meta, ITable table) throws SQLException {
-
+		
 		try {
-
+			
 			synchronized (table) {
 				// テーブルが非展開の場合は展開しておくこと
 				if (table.isExpanded()) {
-
+					
 					int count = meta.getColumnCount();
 					Column[] cols = table.getColumns();
-
+					
 					TableColumn[] columns = new TableColumn[cols.length];
-
+					
 					// Oracleの場合、ROWNUM用のカラムが含まれるため、Tableのカラム数でループすること
 					for (int i = 0; i < count; i++) {
 						// for (int i = 0; i < cols.length; i++) {
@@ -228,30 +224,30 @@ public class TableManager {
 						} else {
 							column.setNotNull(false);
 						}
-
+						
 						// 初期値は、Tableノードから取得する
 						if (cols != null && cols.length > 0) {
 							column.setDefaultValue(cols[i].getDefaultValue());
 						}
-
+						
 						// カラムが取得できない場合を考慮
 						if (columns != null && columns.length > 0) {
 							columns[i] = column;
 						}
 					}
-
+					
 					// // since 0.3.1 or 1.0.0 Metaから取得するのではなく、Table要素から取得する
 					// for (int i = 0; i < columns.length; i++) {
 					// columns[i] = cols[i].getColumn();
 					// }
-
+					
 					return columns;
-
+					
 				} else {
 					// throw new
 					// IllegalStateException("[ERROR]:事前にテーブル展開状態である必要があります。");
 					// //$NON-NLS-1$
-
+					
 					// for test
 					int count = meta.getColumnCount();
 					TableColumn[] columns = new TableColumn[count];
@@ -273,26 +269,26 @@ public class TableManager {
 						// column.setDefaultValue(cols[i].getDefaultValue());
 						columns[i] = column;
 					}
-
+					
 					// 初期値は、カラムのロードが完了したら設定するように実装している。
-
+					
 					return columns;
-
+					
 				}
 			}
-
+			
 		} catch (SQLException e) {
 			DbPlugin.log(e);
 			throw e;
 		}
-
+		
 	}
-
+	
 	static TableElement createHeaderElement(ResultSet rs, ITable table, TableColumn[] columns, TablePKColumn[] pks, TableFKColumn[] fks) throws Exception {
 		TableElement elements = null;
 		int size = rs.getMetaData().getColumnCount();
 		List pkColumnList = new ArrayList();
-
+		
 		for (int i = 0; i < size; i++) {
 			if (ConstraintUtil.isPKColumn(pks, columns[i].getColumnName())) {
 				pkColumnList.add(columns[i]);
@@ -308,14 +304,14 @@ public class TableManager {
 			elements.setCanModify(true);
 			elements.setTablePKColumn(pks);
 		}
-
+		
 		if (fks != null && fks.length > 0) {
 			elements.setTableFKColumn(fks);
 		}
-
+		
 		return elements;
 	}
-
+	
 	static TableElement createElement(ResultSet rs, ITable table, TableColumn[] columns, TablePKColumn[] pks, int recordNo) throws Exception {
 		TableElement elements = null;
 		int size = rs.getMetaData().getColumnCount();
@@ -330,9 +326,9 @@ public class TableManager {
 				pkColumnList.add(columns[i]);
 				pkItemList.add(items[i]);
 			}
-
+			
 		}
-
+		
 		TableColumn[] uniqueColumns;
 		Object[] uniqueItems;
 		if (pks.length == 0) {
@@ -348,14 +344,14 @@ public class TableManager {
 			elements = new TableElement(table, recordNo, columns, items, uniqueColumns, uniqueItems);
 			elements.setCanModify(true);
 		}
-
+		
 		return elements;
 	}
-
+	
 	static TableElement createHeaderElement(ResultSet rs, ITable table, TableColumn[] columns, TableIDXColumn[] idxs, TableFKColumn[] fks) throws Exception {
 		TableElement elements = null;
 		int size = rs.getMetaData().getColumnCount();
-
+		
 		List uniqueColumnList = new ArrayList();
 		// for (int i = 0; i < size; i++) {
 		for (int i = 0; i < columns.length; i++) {
@@ -363,7 +359,7 @@ public class TableManager {
 				uniqueColumnList.add(columns[i]);
 			}
 		}
-
+		
 		if (idxs == null || idxs.length == 0) {
 			TableColumn[] uniqueColumns = new TableColumn[columns.length];
 			System.arraycopy(columns, 0, uniqueColumns, 0, columns.length);
@@ -373,13 +369,13 @@ public class TableManager {
 			elements = new TableHeaderElement(table, columns, (TableColumn[]) uniqueColumnList.toArray(new TableColumn[0]));
 			elements.setCanModify(true);
 		}
-
+		
 		if (fks != null && fks.length > 0) {
 			elements.setTableFKColumn(fks);
 		}
 		return elements;
 	}
-
+	
 	static TableElement createElement(ResultSet rs, ITable table, TableColumn[] columns, TableIDXColumn[] idxs, int recordNo) throws Exception {
 		TableElement elements = null;
 		int size = rs.getMetaData().getColumnCount();
@@ -390,7 +386,7 @@ public class TableManager {
 		for (int i = 0; i < size; i++) {
 			// 値をItemに設定する
 			items[i] = factory.getObject(rs, i + 1);
-
+			
 			// 最初に見つけたUniqueIndexを更新キーとして扱う
 			if (ConstraintUtil.isUniqueIDXColumn(idxs, columns[i].getColumnName())) {
 				uniqueColumnList.add(columns[i]);

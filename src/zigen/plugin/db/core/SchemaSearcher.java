@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -34,7 +34,6 @@ public class SchemaSearcher {
 
 	}
 
-	// Filterに定義しているスキーマと一致したものを返す。（一致しないものは返さない）
 	public static String[] execute(Connection con) throws Exception {
 		List list = new ArrayList();
 		ResultSet rs = null;
@@ -45,25 +44,24 @@ public class SchemaSearcher {
 			// add ZIGEN スキーマサポートのチェックを追加
 			if (!isSupport(con)) {
 				return new String[0];
-			}			
+			}
 
 			list = new ArrayList();
-			
-			if(DBType.getType(objMet) == DBType.DB_TYPE_MYSQL
-					&& objMet.getDatabaseMajorVersion() >= 5){
+
+			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
 				String s = "SELECT SCHEMA_NAME AS TABLE_SCHEM FROM information_schema.SCHEMATA";
 				st = con.createStatement();
 				rs = st.executeQuery(s);
-			}else{
+			} else {
 				rs = objMet.getSchemas();
 			}
-			
+
 			while (rs.next()) {
 				String wk = rs.getString("TABLE_SCHEM"); //$NON-NLS-1$
 				list.add(wk);
 			}
-			
-			
+
+
 			return (String[]) list.toArray(new String[0]);
 
 		} catch (Exception e) {
@@ -76,16 +74,15 @@ public class SchemaSearcher {
 
 	}
 
-	
+
 	public static boolean isSupport(Connection con) {
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
-			
-			if(DBType.getType(objMet) == DBType.DB_TYPE_MYSQL
-					&& objMet.getDatabaseMajorVersion() >= 5){
+
+			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
 				// 強制的にTRUE
 				return true;
-			}else{
+			} else {
 				return objMet.supportsSchemasInTableDefinitions();
 			}
 

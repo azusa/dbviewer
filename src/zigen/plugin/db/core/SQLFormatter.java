@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -29,7 +29,7 @@ import blanco.commons.sql.format.BlancoSqlRule;
  * 
  */
 public class SQLFormatter {
-	
+
 	/**
 	 * SQLフォーマット処理（By blancoCommons)
 	 * 
@@ -70,7 +70,7 @@ public class SQLFormatter {
 		}
 
 	}
-	
+
 	/**
 	 * SQLフォーマット処理（By blancoCommons)
 	 * 
@@ -84,8 +84,7 @@ public class SQLFormatter {
 	}
 
 	/**
-	 * 指定されたSQL文のアンフォーマットします。 ※無駄なブランクや改行を削除します。 ※コメント行も削除されます。
-	 * 注意事項：Oracleのヒント文を使っている場合は表示されません
+	 * 指定されたSQL文のアンフォーマットします。 ※無駄なブランクや改行を削除します。 ※コメント行も削除されます。 注意事項：Oracleのヒント文を使っている場合は表示されません
 	 * 
 	 * @param sql
 	 * @return
@@ -162,35 +161,35 @@ public class SQLFormatter {
 			String s = null;
 			for (;;) {
 				switch (tokenizer.nextToken()) {
-				case SqlStreamTokenizer.TT_EOF:
-					result[0] = main.toString();
-					result[1] = order.toString();
-					return result;
+					case SqlStreamTokenizer.TT_EOF:
+						result[0] = main.toString();
+						result[1] = order.toString();
+						return result;
 
-				case SqlStreamTokenizer.TT_COMMA:
+					case SqlStreamTokenizer.TT_COMMA:
 
-					if (isOrderCause) {
-						order = new StringBuffer(order.toString().trim());
-						order.append(SqlStreamTokenizer.TT_COMMA);
-						order.append(SqlStreamTokenizer.TT_SPACE);
-					} else {
-						main = new StringBuffer(main.toString().trim());
-						main.append(SqlStreamTokenizer.TT_COMMA);
-						main.append(SqlStreamTokenizer.TT_SPACE);
-					}
-					break;
+						if (isOrderCause) {
+							order = new StringBuffer(order.toString().trim());
+							order.append(SqlStreamTokenizer.TT_COMMA);
+							order.append(SqlStreamTokenizer.TT_SPACE);
+						} else {
+							main = new StringBuffer(main.toString().trim());
+							main.append(SqlStreamTokenizer.TT_COMMA);
+							main.append(SqlStreamTokenizer.TT_SPACE);
+						}
+						break;
 
-				default:
-					s = tokenizer.getToken();
-					if (isOrderCause || "order".equalsIgnoreCase(s)) {
-						isOrderCause = true;
-						order.append(s);
-						//order.append(SqlStreamTokenizer.TT_SPACE);
-					} else {
-						main.append(s);
-						//main.append(SqlStreamTokenizer.TT_SPACE);
-					}
-					break;
+					default:
+						s = tokenizer.getToken();
+						if (isOrderCause || "order".equalsIgnoreCase(s)) {
+							isOrderCause = true;
+							order.append(s);
+							// order.append(SqlStreamTokenizer.TT_SPACE);
+						} else {
+							main.append(s);
+							// main.append(SqlStreamTokenizer.TT_SPACE);
+						}
+						break;
 				}
 
 			}
@@ -228,7 +227,7 @@ class SqlStreamTokenizer extends StreamTokenizer {
 		wordChars('_', '_');
 		wordChars('.', '.'); // ピリオドでは分割しない
 
-		//whitespaceChars(' ', ' '); // 空白は設定しない(そのまま取得する)
+		// whitespaceChars(' ', ' '); // 空白は設定しない(そのまま取得する)
 		whitespaceChars('\t', '\t');
 		whitespaceChars('\n', '\n');
 		whitespaceChars('\r', '\r');
@@ -246,25 +245,24 @@ class SqlStreamTokenizer extends StreamTokenizer {
 			tokenType = super.nextToken();
 
 			switch (tokenType) {
-			case SqlStreamTokenizer.TT_EOF:
-				tokenType = SqlStreamTokenizer.TT_EOF;
-				token = null;
-				break;
+				case SqlStreamTokenizer.TT_EOF:
+					tokenType = SqlStreamTokenizer.TT_EOF;
+					token = null;
+					break;
 
-			case SqlStreamTokenizer.TT_WORD:
-				token = sval;
-				tokenType = SqlStreamTokenizer.TT_WORD;
-				break;
-			case SqlStreamTokenizer.TT_QUOTE:
-				token = "'" + sval + "'";
-				break;
-			case SqlStreamTokenizer.TT_DOUBLE_QUOTE:
-				token = "\"" + sval + "\"";
-				break;
+				case SqlStreamTokenizer.TT_WORD:
+					token = sval;
+					tokenType = SqlStreamTokenizer.TT_WORD;
+					break;
+				case SqlStreamTokenizer.TT_QUOTE:
+					token = "'" + sval + "'";
+					break;
+				case SqlStreamTokenizer.TT_DOUBLE_QUOTE:
+					token = "\"" + sval + "\"";
+					break;
 
-			default:
-				token = String.valueOf((char) ttype);
-				System.out.println(token);
+				default:
+					token = String.valueOf((char) ttype);
 			}
 
 		} catch (IOException e) {

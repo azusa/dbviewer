@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
@@ -8,18 +8,21 @@ package zigen.plugin.db.core;
 import java.io.Serializable;
 
 public class SchemaInfo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	IDBConfig config;
-	
+
 	boolean isChecked = false;
 
 	String name = null;
 
-	// デフォルトスキーマ
-	public SchemaInfo(){
-		
+	public SchemaInfo() {}
+
+	public SchemaInfo(IDBConfig config, String name) {
+		this(config, name, false);
 	}
+
 	public SchemaInfo(IDBConfig config, String name, boolean checked) {
 		this.config = config;
 		this.name = name;
@@ -41,20 +44,21 @@ public class SchemaInfo implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		if(config != null){
+		if (config != null) {
 			sb.append("DBConfig:").append(config.getDbName());
-				
-		}else{
+
+		} else {
 			sb.append("DBConfig:null");
 		}
 		sb.append(", NAME:").append(name);
 		sb.append(", isChecked:").append(isChecked);
 		return sb.toString();
-		
+
 	}
+
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -71,9 +75,11 @@ public class SchemaInfo implements Serializable {
 		SchemaInfo castedObj = (SchemaInfo) o;
 		return (this.name == castedObj.name && this.config.equals(castedObj.config));
 	}
+
 	public IDBConfig getConfig() {
 		return config;
 	}
+
 	public void setConfig(IDBConfig config) {
 		this.config = config;
 	}
