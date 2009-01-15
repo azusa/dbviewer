@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.sql;
@@ -17,7 +17,9 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.TextSelection;
@@ -47,7 +49,16 @@ import zigen.plugin.db.ui.views.internal.SQLToolBarForPlsqlEditor;
 
 // public class PlsqlEditor extends SqlEditor implements IPlsqlEditor,
 // IPropertyChangeListener, ISelectionListener {
-public class PlsqlEditor extends SqlEditor implements IPlsqlEditor, IPropertyChangeListener {
+public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyChangeListener, IDocumentListener {
+
+	public void documentAboutToBeChanged(DocumentEvent event) {
+	// TODO 自動生成されたメソッド・スタブ
+	}
+
+	public void documentChanged(DocumentEvent event) {
+		setDirty(true);
+	}
+
 
 	IResource resource = null;
 
