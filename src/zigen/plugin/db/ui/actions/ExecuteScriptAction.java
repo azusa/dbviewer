@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -70,6 +70,9 @@ public class ExecuteScriptAction extends Action implements Runnable {
 							OracleSourceErrorInfo[] errs = job.getOracleSourceErrorInfos();
 							if (errs != null) {
 								plsqlEditor.setError(errs);
+
+								// Open ProblemView
+								//DbPlugin.findView("org.eclipse.ui.views.ProblemView");
 							}
 
 						} catch (InterruptedException e) {

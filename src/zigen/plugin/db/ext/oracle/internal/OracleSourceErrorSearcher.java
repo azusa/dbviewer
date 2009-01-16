@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -21,11 +21,11 @@ import zigen.plugin.db.core.Transaction;
 
 /**
  * OracleSourceErrorSearcherクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- * 
+ *
  */
 public class OracleSourceErrorSearcher {
 
@@ -87,8 +87,13 @@ public class OracleSourceErrorSearcher {
 		sb.append("         ALL_ERRORS"); //$NON-NLS-1$
 		sb.append("     WHERE"); //$NON-NLS-1$
 		sb.append("         OWNER = '" + SQLUtil.encodeQuotation(owner) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append("         AND NAME = '" + SQLUtil.encodeQuotation(name) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append("         AND TYPE = '" + SQLUtil.encodeQuotation(type) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+//		sb.append("         AND NAME = '" + SQLUtil.encodeQuotation(name) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+//		sb.append("         AND TYPE = '" + SQLUtil.encodeQuotation(type) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// plsqlファイルでストアド実行する際、スキーマ名やタイプが小文字の場合もあるため、大文字に変換する
+		sb.append("         AND NAME = '" + SQLUtil.encodeQuotation(name.toUpperCase()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("         AND TYPE = '" + SQLUtil.encodeQuotation(type.toUpperCase()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+
 		sb.append("     ORDER BY SEQUENCE"); //$NON-NLS-1$
 
 		return sb.toString();
