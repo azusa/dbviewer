@@ -33,7 +33,6 @@ public class SelectProcessor extends DefaultProcessor {
 			ci = new ContentInfo(ContentAssistUtil.getIDBConfig());
 
 			if (ci.isConnected()) {
-				TableInfo[] currentTableInfos = ci.getTableInfo(); // カレントスキーマに対応するテーブル情報リスト取得
 
 				ASTFrom fromList = super.findASTFrom(st);
 				int fromItemCount = fromList != null ? super.getSizeRemoveComma(fromList) : 0;
@@ -56,7 +55,7 @@ public class SelectProcessor extends DefaultProcessor {
 								createColumnProposal(findFromNode(fromList, w_table));
 							} else {
 								createColumnProposal(fromList.getChild(0)); // 単一テーブルの場合はカラムリストを表示
-								createTableProposal(currentTableInfos, getFromNodes(fromList));// テーブル名の一覧
+								createTableProposal(ci, getFromNodes(fromList));// テーブル名の一覧
 								SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
 							}
 						}
@@ -82,7 +81,7 @@ public class SelectProcessor extends DefaultProcessor {
 									}
 								}
 							} else {
-								createTableProposal(currentTableInfos, getFromNodes(fromList));// テーブル名の一覧
+								createTableProposal(ci, getFromNodes(fromList));// テーブル名の一覧
 								SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
 							}
 						}
@@ -99,7 +98,7 @@ public class SelectProcessor extends DefaultProcessor {
 							String w_schema = wordGroup.substring(0, _offset);
 							addTableProposalBySchema(ci, w_schema);
 						} else {
-							SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);// テーブル名の一覧
+							SQLProposalCreator2.addProposal(proposals, ci.getTableInfo(), pinfo);// テーブル名の一覧
 							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
 						}
 
@@ -132,17 +131,23 @@ public class SelectProcessor extends DefaultProcessor {
 	}
 
 
-	private void createTableProposal(TableInfo[] infos, INode[] target) {
+	private void createTableProposal(ContentInfo ci, INode[] target) throws Exception{
 		if (target != null) {
 			List list = new ArrayList();
 			for (int i = 0; i < target.length; i++) {
 				INode node = target[i];
 				if (node instanceof ASTTable) {
 					ASTTable table = (ASTTable) node;
-					TableInfo info = findTableInfo(infos, table.getTableName());
+					TableInfo info;
+					if(table.getSchemaName() != null){
+						// スキーマ対応用
+						info = findTableInfo(ci.getTableInfo(table.getSchemaName()), table.getTableName());
+					}else{
+						info = findTableInfo(ci.getTableInfo(), table.getTableName());
+					}
+
 					if (info != null) {
 						if (table.hasAlias()) {
-
 							String comment = info.getComment();
 							if (comment == null)
 								comment = info.getName();
