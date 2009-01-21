@@ -1,11 +1,11 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -29,8 +29,12 @@ import java.util.ResourceBundle;
 import kry.sql.format.SqlFormatRule;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IPluginDescriptor;
+import org.eclipse.core.runtime.IPluginRegistry;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.PluginVersionIdentifier;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -70,7 +74,7 @@ import zigen.plugin.db.ui.views.TreeView;
 
 /**
  * DbPluginクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create. [002] 2005/06/02 ZIGEN SQL履歴を外部ファイル(XML)に保存する機能を追加. [003] 2005/09/20 ZIGEN テーブルエディタ用絞込み条件を外部ファイル(XML)に保存する機能を追加.
@@ -104,6 +108,36 @@ public class DbPlugin extends AbstractUIPlugin {
 		super.start(context);
 		xmlController = new XmlController(getStateLocation());
 		imageCacher = ImageCacher.getInstance();
+
+
+		String pluginId = getPluginId();
+		IPluginRegistry registry = Platform.getPluginRegistry();
+		IPluginDescriptor descriptor = registry.getPluginDescriptor(pluginId);
+
+		PluginVersionIdentifier v = descriptor.getVersionIdentifier();
+
+		int major = v.getMajorComponent();
+		int minor = v.getMinorComponent();
+		int service = v.getServiceComponent();
+		String date = v.getQualifierComponent();
+
+		System.out.println("version:" + major + "" + minor + "" + service + "" + date);
+	}
+
+	public static final String getPluginVersion(){
+//		public static String VERSION = "1.1.0 release 2009/01/08"; //$NON-NLS-1$
+		String pluginId = getPluginId();
+		IPluginRegistry registry = Platform.getPluginRegistry();
+		IPluginDescriptor descriptor = registry.getPluginDescriptor(pluginId);
+		PluginVersionIdentifier v = descriptor.getVersionIdentifier();
+		int major = v.getMajorComponent();
+		int minor = v.getMinorComponent();
+		int service = v.getServiceComponent();
+		String date = v.getQualifierComponent();
+		StringBuffer sb = new StringBuffer();
+		sb.append(major + "." + minor + "." + service + " release " + date);
+		return sb.toString();
+
 	}
 
 	public void stop(BundleContext context) throws Exception {
@@ -273,7 +307,7 @@ public class DbPlugin extends AbstractUIPlugin {
 
 	/**
 	 * メッセージ表示（情報ダイアログ）
-	 * 
+	 *
 	 * @param message
 	 */
 	public void showInformationMessage(String message) {
@@ -282,7 +316,7 @@ public class DbPlugin extends AbstractUIPlugin {
 
 	/**
 	 * メッセージ表示（警告ダイアログ）
-	 * 
+	 *
 	 * @param message
 	 */
 	public void showWarningMessage(String message) {
@@ -291,7 +325,7 @@ public class DbPlugin extends AbstractUIPlugin {
 
 	/**
 	 * 確認ダイアログ
-	 * 
+	 *
 	 * @param message
 	 */
 	public boolean confirmDialog(String message) {
@@ -300,7 +334,7 @@ public class DbPlugin extends AbstractUIPlugin {
 
 	/**
 	 * トグル付き確認ダイアログ
-	 * 
+	 *
 	 * @param message
 	 */
 	public MessageDialogWithToggle confirmDialogWithToggle(String message, String toggleMessage, boolean toggleStatus) {
@@ -469,7 +503,7 @@ public class DbPlugin extends AbstractUIPlugin {
 
 	/**
 	 * ＳＱＬフォーマッタールールを作成
-	 * 
+	 *
 	 * @return
 	 */
 	public static SqlFormatRule getSqlFormatRult() {
@@ -789,7 +823,7 @@ public class DbPlugin extends AbstractUIPlugin {
 
 	/**
 	 * 最後にフォーカスされたSQL実行ビューのSecondarlyIdを保持しておく
-	 * 
+	 *
 	 * @param secondarlyId
 	 */
 	public static void setSecondarlyId(String _secondarlyId) {

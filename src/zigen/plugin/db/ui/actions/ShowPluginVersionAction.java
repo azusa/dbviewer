@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -13,17 +13,17 @@ import zigen.plugin.db.DbPluginConstant;
 
 /**
  * ShowDriverVersionActionクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/26 ZIGEN create.
- * 
+ *
  */
 public class ShowPluginVersionAction extends Action implements Runnable {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param viewer
 	 */
 	public ShowPluginVersionAction() {
@@ -38,7 +38,7 @@ public class ShowPluginVersionAction extends Action implements Runnable {
 		try {
 
 			StringBuffer sb = new StringBuffer();
-			sb.append("DBViewerPlugin Version : " + DbPluginConstant.VERSION); //$NON-NLS-1$
+			sb.append("DBViewerPlugin Version : " + DbPlugin.getPluginVersion()); //$NON-NLS-1$
 
 			DbPlugin.getDefault().showInformationMessage(sb.toString());
 

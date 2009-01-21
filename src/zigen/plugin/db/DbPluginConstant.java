@@ -9,14 +9,14 @@ package zigen.plugin.db;
 
 /**
  * DbPluginƒNƒ‰ƒX.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create.
  */
 public class DbPluginConstant {
 
-	public static String VERSION = "1.1.0 release 2009/01/08"; //$NON-NLS-1$
+//	public static String VERSION = "1.1.0 release 2009/01/08"; //$NON-NLS-1$
 
 	public static String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
 
