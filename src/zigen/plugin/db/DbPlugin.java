@@ -108,24 +108,9 @@ public class DbPlugin extends AbstractUIPlugin {
 		super.start(context);
 		xmlController = new XmlController(getStateLocation());
 		imageCacher = ImageCacher.getInstance();
-
-
-		String pluginId = getPluginId();
-		IPluginRegistry registry = Platform.getPluginRegistry();
-		IPluginDescriptor descriptor = registry.getPluginDescriptor(pluginId);
-
-		PluginVersionIdentifier v = descriptor.getVersionIdentifier();
-
-		int major = v.getMajorComponent();
-		int minor = v.getMinorComponent();
-		int service = v.getServiceComponent();
-		String date = v.getQualifierComponent();
-
-		System.out.println("version:" + major + "" + minor + "" + service + "" + date);
 	}
 
 	public static final String getPluginVersion(){
-//		public static String VERSION = "1.1.0 release 2009/01/08"; //$NON-NLS-1$
 		String pluginId = getPluginId();
 		IPluginRegistry registry = Platform.getPluginRegistry();
 		IPluginDescriptor descriptor = registry.getPluginDescriptor(pluginId);
@@ -134,10 +119,7 @@ public class DbPlugin extends AbstractUIPlugin {
 		int minor = v.getMinorComponent();
 		int service = v.getServiceComponent();
 		String date = v.getQualifierComponent();
-		StringBuffer sb = new StringBuffer();
-		sb.append(major + "." + minor + "." + service + " release " + date);
-		return sb.toString();
-
+		return major + "." + minor + "." + service + " release " + date;
 	}
 
 	public void stop(BundleContext context) throws Exception {
