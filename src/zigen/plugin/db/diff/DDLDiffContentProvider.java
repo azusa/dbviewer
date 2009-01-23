@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.diff;
@@ -39,7 +39,8 @@ class DDLDiffContentProvider implements IMergeViewerContentProvider {
 		if (input == null)
 			return Messages.getString("DDLDiffContentProvider.0"); //$NON-NLS-1$
 
-		if (input instanceof DDLDiff) {
+//		if (input instanceof DDLDiff) {
+		if (input instanceof IDDLDiff) {
 			return ((IDDLDiff) input).getLeftDisplayedName();
 		}
 

@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.diff;
@@ -63,7 +63,7 @@ public class DDLDiffForFolderJob extends AbstractJob {
 
 	private TreeViewer viewer;
 
-	private List allTables = new ArrayList();
+	private List allList = new ArrayList();
 
 	private List ddlList = new ArrayList();
 
@@ -107,9 +107,9 @@ public class DDLDiffForFolderJob extends AbstractJob {
 			}
 
 			// すべてのテーブル名を並べかえ
-			Collections.sort(allTables);
+			Collections.sort(allList);
 
-			for (Iterator iter = allTables.iterator(); iter.hasNext();) {
+			for (Iterator iter = allList.iterator(); iter.hasNext();) {
 
 				if (monitor.isCanceled()) {
 					break;
@@ -220,16 +220,17 @@ public class DDLDiffForFolderJob extends AbstractJob {
 							OracleSourceInfo[] infos = OracleSourceSearcher.execute(con, schema.getName(), currentType);
 							totalWork += infos.length;
 
-							Folder folder = (Folder) schema.getChild(currentType);
-							if (folder == null) {
-								folder = new Folder(currentType);
-								schema.addChild(folder);
-							}
+//							Folder folder = (Folder) schema.getChild(currentType);
+//							if (folder == null) {
+//								folder = new Folder(currentType);
+//								schema.addChild(folder);
+//							}
 
 							for (int j = 0; j < infos.length; j++) {
 								OracleSource source = new OracleSource();
 								source.setOracleSourceInfo(infos[j]);
-								folder.addChild(source);
+//								folder.addChild(source);
+								targetFolder.addChild(source);
 							}
 						} catch (RuntimeException e) {
 							e.printStackTrace();
@@ -273,8 +274,8 @@ public class DDLDiffForFolderJob extends AbstractJob {
 							}
 							IDDL ddl = new DDL(table); // DLLの作成
 							String key = currentType + "@" + table.getName();
-							if (!allTables.contains(key)) {
-								allTables.add(key);
+							if (!allList.contains(key)) {
+								allList.add(key);
 							}
 							map.put(key, ddl);
 
@@ -283,8 +284,8 @@ public class DDLDiffForFolderJob extends AbstractJob {
 							monitor.subTask("Target:" + os.getName());
 							IDDL ddl = new SourceDDL(os); // DLLの作成
 							String key = currentType + "@" + os.getName();
-							if (!allTables.contains(key)) {
-								allTables.add(key);
+							if (!allList.contains(key)) {
+								allList.add(key);
 							}
 							map.put(key, ddl);
 
