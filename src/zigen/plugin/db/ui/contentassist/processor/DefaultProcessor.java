@@ -248,6 +248,8 @@ public class DefaultProcessor {
 			if (ci.isConnected()) {
 
 				String schemaName = ((ASTTable) target).getSchemaName();
+				// スキーマ指定が無い場合を考慮する
+				if(schemaName == null) schemaName = ci.getCurrentSchema();	// 接続中のスキーマ情報とする
 				String tableName = ((ASTTable) target).getTableName();
 				Column[] cols = ci.getColumns(schemaName, tableName);
 				SQLProposalCreator2.addProposal(proposals, cols, pinfo);
