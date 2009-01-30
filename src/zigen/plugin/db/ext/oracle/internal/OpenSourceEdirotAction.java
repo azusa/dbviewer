@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -32,7 +32,7 @@ public class OpenSourceEdirotAction extends Action implements Runnable {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param viewer
 	 */
 	public OpenSourceEdirotAction(StructuredViewer viewer) {
@@ -81,7 +81,7 @@ public class OpenSourceEdirotAction extends Action implements Runnable {
 			sourceDetail = OracleSourceDetailSearcher.execute(con, owner, name, type, true);
 			sourceErrors = OracleSourceErrorSearcher.execute(con, owner, name, type);
 
-			SourceEditorInput input = new SourceEditorInput(source.getDbConfig(), sourceDetail, sourceErrors);
+			SourceEditorInput input = new SourceEditorInput(source.getDbConfig(), source, sourceDetail, sourceErrors);
 			IWorkbenchPage page = DbPlugin.getDefault().getPage();
 			IEditorPart editor = IDE.openEditor(page, input, DbPluginConstant.EDITOR_ID_SOURCE, true);
 

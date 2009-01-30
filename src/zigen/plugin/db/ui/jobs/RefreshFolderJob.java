@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
@@ -170,18 +170,14 @@ public class RefreshFolderJob extends AbstractJob {
 			if (view.isExpanded()) {
 				job = new RefreshColumnJob(viewer, view);
 			}
-
 		} else if (oldNode instanceof Table) {
 			Table table = (Table) oldNode;
 			table.update((Table) newNode);
 			table.setEnabled(true);
 			if (table.isExpanded()) {
 				job = new RefreshColumnJob(viewer, table);
-
 			}
-
 		}
-
 		if (job != null) {
 			job.setPriority(RefreshColumnJob.SHORT);
 			job.schedule();

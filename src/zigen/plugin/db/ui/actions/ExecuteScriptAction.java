@@ -10,10 +10,13 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.IDocument;
 
 import zigen.plugin.db.DbPlugin;
+import zigen.plugin.db.IStatusChangeListener;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.Transaction;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceErrorInfo;
 import zigen.plugin.db.ui.editors.sql.IPlsqlEditor;
+import zigen.plugin.db.ui.editors.sql.SourceEditor;
+import zigen.plugin.db.ui.editors.sql.SourceEditorInput;
 import zigen.plugin.db.ui.jobs.ScriptExecJob;
 
 public class ExecuteScriptAction extends Action implements Runnable {
@@ -73,6 +76,17 @@ public class ExecuteScriptAction extends Action implements Runnable {
 
 								// Open ProblemView
 								//DbPlugin.findView("org.eclipse.ui.views.ProblemView");
+
+
+								// SourceEditorの場合は、エラーアイコンを更新する
+								if(plsqlEditor instanceof SourceEditor){
+									SourceEditor editor = (SourceEditor)plsqlEditor;
+									SourceEditorInput input = (SourceEditorInput)editor.getEditorInput();
+									DbPlugin.fireStatusChangeListener(input.getOracleSource(), IStatusChangeListener.EVT_RefreshOracleSource);
+
+								}
+
+
 							}
 
 						} catch (InterruptedException e) {

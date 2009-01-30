@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -21,6 +21,7 @@ import zigen.plugin.db.ui.internal.Bookmark;
 import zigen.plugin.db.ui.internal.BookmarkRoot;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.DataBase;
+import zigen.plugin.db.ui.internal.Folder;
 import zigen.plugin.db.ui.internal.History;
 import zigen.plugin.db.ui.internal.HistoryFolder;
 import zigen.plugin.db.ui.internal.ITable;
@@ -35,11 +36,11 @@ import zigen.plugin.db.ui.internal.View;
 
 /**
  * ViewLabelProviderクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- * 
+ *
  */
 public class TreeLabelProvider extends LabelProvider {
 
@@ -170,14 +171,33 @@ public class TreeLabelProvider extends LabelProvider {
 			return ic.getImage(DbPlugin.IMG_CODE_TABLE);
 
 		} else if (obj instanceof OracleFunction) {
-			return ic.getImage(DbPlugin.IMG_CODE_FUNCTION);
+			OracleFunction function = (OracleFunction)obj;
+			if(function.hasError()){
+				return ic.getImage(DbPlugin.IMG_CODE_FUNCTION_ERR);
+			}else{
+				return ic.getImage(DbPlugin.IMG_CODE_FUNCTION);
+			}
 
 		} else if (obj instanceof OracleSource) {
-			imageKey = ISharedImages.IMG_OBJ_FILE; // Folderアイコン
+			OracleSource source = (OracleSource)obj;
+			if(source.hasError()){
+				return ic.getImage(DbPlugin.IMG_CODE_FILE_ERR);// Folder エラーアイコン
+			}else{
+				imageKey = ISharedImages.IMG_OBJ_FILE; // Folderアイコン
+			}
+
 
 		} else if (obj instanceof OracleSequence) {
 			return ic.getImage(DbPlugin.IMG_CODE_SEQUENCE);
 
+
+		} else if(obj instanceof Folder){
+			Folder folder = (Folder)obj;
+			if(folder.hasError()){
+				return ic.getImage(DbPlugin.IMG_CODE_FOLDER_ERR);// Folder エラーアイコン
+			}else{
+				imageKey = ISharedImages.IMG_OBJ_FOLDER; // Folderアイコン
+			}
 		} else if (obj instanceof TreeNode) {
 			imageKey = ISharedImages.IMG_OBJ_FOLDER; // Folderアイコン
 		}

@@ -99,5 +99,74 @@ public class OracleSourceErrorSearcher {
 		return sb.toString();
 
 	}
+	public static OracleSourceErrorInfo[] execute(IDBConfig config, String owner, String type) throws Exception {
+		try {
+			Connection con = Transaction.getInstance(config).getConnection();
+			return execute(con, owner, type);
+
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public static OracleSourceErrorInfo[] execute(Connection con, String owner, String type) throws Exception {
+		List list = null;
+		ResultSet rs = null;
+		Statement st = null;
+
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(getSQL(owner, type));
+
+			list = new ArrayList();
+
+			while (rs.next()) {
+				OracleSourceErrorInfo info = new OracleSourceErrorInfo();
+				info.setOwner(rs.getString("OWNER")); //$NON-NLS-1$
+				info.setName(rs.getString("NAME")); //$NON-NLS-1$
+				info.setType(rs.getString("TYPE")); //$NON-NLS-1$
+				info.setLine(rs.getInt("LINE")); //$NON-NLS-1$
+				info.setPosition(rs.getInt("POSITION")); //$NON-NLS-1$
+				info.setText(rs.getString("TEXT")); //$NON-NLS-1$
+				list.add(info);
+			}
+
+		} catch (Exception e) {
+			DbPlugin.log(e);
+			throw e;
+		} finally {
+			ResultSetUtil.close(rs);
+			StatementUtil.close(st);
+		}
+
+		return (OracleSourceErrorInfo[]) list.toArray(new OracleSourceErrorInfo[0]);
+
+	}
+	/**
+	 * ツリーが展開されて時点で、エラーがあるかどうか表示できるようにする。
+	 * @param owner
+	 * @param type
+	 * @return
+	 */
+	private static String getSQL(String owner, String type) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(" SELECT"); //$NON-NLS-1$
+		sb.append("         OWNER"); //$NON-NLS-1$
+		sb.append("         ,NAME"); //$NON-NLS-1$
+		sb.append("         ,TYPE"); //$NON-NLS-1$
+		sb.append("         ,LINE"); //$NON-NLS-1$
+		sb.append("         ,POSITION"); //$NON-NLS-1$
+		sb.append("         ,TEXT"); //$NON-NLS-1$
+		sb.append("     FROM"); //$NON-NLS-1$
+		sb.append("         ALL_ERRORS"); //$NON-NLS-1$
+		sb.append("     WHERE"); //$NON-NLS-1$
+		sb.append("         OWNER = '" + SQLUtil.encodeQuotation(owner) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("         AND TYPE = '" + SQLUtil.encodeQuotation(type.toUpperCase()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		sb.append("     ORDER BY OWNER, NAME, TYPE, SEQUENCE"); //$NON-NLS-1$
+
+		return sb.toString();
+
+	}
 
 }

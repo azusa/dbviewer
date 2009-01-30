@@ -22,14 +22,15 @@ import org.eclipse.ui.IStorageEditorInput;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceDetailInfo;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceErrorInfo;
+import zigen.plugin.db.ui.internal.OracleSource;
 
 /**
  * QueryViewEditorInputクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create. [2] 2005/10/10 ZIGEN 長いQueryの場合tooltipが見えなくなるためコメントアウト [3] 2005/10/18 ZIGEN Eclipse3.1.x系でtooltipを設定しないとエラーになる
- * 
+ *
  */
 
 public class SourceEditorInput implements IStorageEditorInput, IEditorInput {
@@ -44,10 +45,12 @@ public class SourceEditorInput implements IStorageEditorInput, IEditorInput {
 
 	private OracleSourceErrorInfo[] sourceErrorInfos;
 
+	private OracleSource oracleSource;
 
-	public SourceEditorInput(IDBConfig config, OracleSourceDetailInfo sourceDetailInfo, OracleSourceErrorInfo[] sourceErrorInfos) {
+	public SourceEditorInput(IDBConfig config, OracleSource source, OracleSourceDetailInfo sourceDetailInfo, OracleSourceErrorInfo[] sourceErrorInfos) {
 		super();
 		this.config = config;
+		this.oracleSource = source;
 		this.sourceDetailInfo = sourceDetailInfo;
 		this.sourceErrorInfos = sourceErrorInfos;
 		this.name = sourceDetailInfo.getName() + "[" + sourceDetailInfo.getType() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -154,5 +157,10 @@ public class SourceEditorInput implements IStorageEditorInput, IEditorInput {
 			}
 
 		};
+	}
+
+
+	public OracleSource getOracleSource() {
+		return oracleSource;
 	}
 }

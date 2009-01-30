@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -32,11 +32,11 @@ import zigen.plugin.db.ui.jobs.TableTypeSearchJob;
 
 /**
  * VerifyKeyAdapterクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/04/03 ZIGEN create.
- * 
+ *
  */
 public class TreeDoubleClickHandler implements IDoubleClickListener {
 
@@ -99,7 +99,7 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 
 	/**
 	 * 展開・非展開の切り替え
-	 * 
+	 *
 	 * @param element
 	 */
 	private void changeExpandedState(TreeViewer viewer, TreeNode element) {
@@ -168,7 +168,7 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 						default:
 							// ↓ Oracle以外でフォルダをダブルクリックした場合の処理を追加
 							RefreshFolderJob job = new RefreshFolderJob(viewer, folder);
-							job.setPriority(OracleSequeceSearchJob.SHORT);
+							job.setPriority(RefreshFolderJob.SHORT);
 							job.setUser(showDialog);
 							job.schedule();
 							// ↑

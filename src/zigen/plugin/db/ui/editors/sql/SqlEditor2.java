@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.sql;
@@ -280,7 +280,6 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 
 		bars.setGlobalActionHandler(ActionFactory.COPY.getId(), new GlobalAction(sqlViewer, ITextOperationTarget.COPY));
 		bars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(), new GlobalAction(sqlViewer, ITextOperationTarget.SELECT_ALL));
-		bars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(), new GlobalAction(sqlViewer, ITextOperationTarget.SELECT_ALL));
 		bars.setGlobalActionHandler("zigen.plugin.db.actions.SQLExecuteAction", new GlobalAction(sqlViewer, ISQLOperationTarget.ALL_EXECUTE)); //$NON-NLS-1$
 		bars.setGlobalActionHandler("zigen.plugin.db.actions.SQLCurrentExecuteAction", new GlobalAction(sqlViewer, ISQLOperationTarget.CURRENT_EXECUTE)); //$NON-NLS-1$
 		bars.setGlobalActionHandler("zigen.plugin.db.actions.SQLSelectedExecuteAction", new GlobalAction(sqlViewer, ISQLOperationTarget.SELECTED_EXECUTE)); //$NON-NLS-1$
@@ -433,7 +432,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 
 	public void changeColumnColor(Column column) {
 		// TODO 自動生成されたメソッド・スタブ
-		throw new UnsupportedOperationException("未実装です"); //$NON-NLS-1$		
+		throw new UnsupportedOperationException("未実装です"); //$NON-NLS-1$
 	}
 
 	public void editTableElement(Object element, int column) {

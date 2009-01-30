@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
@@ -18,6 +18,7 @@ import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.TableInfo;
 import zigen.plugin.db.core.TableSearcher;
 import zigen.plugin.db.core.Transaction;
+import zigen.plugin.db.ext.oracle.internal.OracleSourceErrorSearcher;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceTypeSearcher;
 import zigen.plugin.db.ui.internal.Folder;
 import zigen.plugin.db.ui.internal.OracleSequence;
@@ -110,6 +111,9 @@ public class TableTypeSearchJob extends AbstractJob {
 					OracleSource source = new OracleSource();
 					source.setName(DbPluginConstant.TREE_LEAF_LOADING);
 					folder.addChild(source);
+
+					// エラーアイコンの更新
+					int errorCount = OracleSourceErrorSearcher.execute(con, owner, stype).length;
 					schema.addChild(folder);
 					if (monitor.isCanceled()) {
 						return Status.CANCEL_STATUS;

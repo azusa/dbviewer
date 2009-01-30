@@ -684,6 +684,12 @@ public class DbPlugin extends AbstractUIPlugin {
 
 	public static final String IMG_CODE_WARNING = "warning.gif";//$NON-NLS-1$
 
+	public static final String IMG_CODE_FOLDER_ERR = "folder_err.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_FUNCTION_ERR = "function_err.gif";//$NON-NLS-1$
+
+	public static final String IMG_CODE_FILE_ERR = "file_err.gif";//$NON-NLS-1$
+
 	protected void initializeImageRegistry(ImageRegistry registry) {
 
 		registerImage(registry, IMG_CODE_SQL);
@@ -783,6 +789,9 @@ public class DbPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_CODE_COLLAPSE_ALL);
 
 		registerImage(registry, IMG_CODE_WARNING);
+		registerImage(registry, IMG_CODE_FOLDER_ERR);
+		registerImage(registry, IMG_CODE_FUNCTION_ERR);
+		registerImage(registry, IMG_CODE_FILE_ERR);
 
 
 	}

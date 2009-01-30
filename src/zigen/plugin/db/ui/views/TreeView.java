@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -78,6 +79,8 @@ import zigen.plugin.db.ui.internal.Synonym;
 import zigen.plugin.db.ui.internal.Table;
 import zigen.plugin.db.ui.internal.TreeNode;
 import zigen.plugin.db.ui.internal.View;
+import zigen.plugin.db.ui.jobs.OracleSourceSearchJob;
+import zigen.plugin.db.ui.jobs.RefreshOracleSourceJob;
 import zigen.plugin.db.ui.jobs.RefreshTableJob;
 import zigen.plugin.db.ui.views.internal.ColumnFilter;
 import zigen.plugin.db.ui.views.internal.ElementFilter;
@@ -86,11 +89,11 @@ import zigen.plugin.db.ui.views.internal.FolderFilter;
 
 /**
  * TreeViewクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create. [002] 2005/07/15 ZIGEN VO、CSV作成機能。テーブルリネーム機能追加 [003] 2005/10/01 ZIGEN Oracle用表領域見積もり機能の追加
- * 
+ *
  */
 public class TreeView extends AbstractTreeView {
 
@@ -621,6 +624,17 @@ public class TreeView extends AbstractTreeView {
 			if (obj instanceof IDBConfig) {
 				IDBConfig config = (IDBConfig) obj;
 				removeSchemaFilter(config, config.getDisplayedSchemas());
+			}
+		}else if (status == IStatusChangeListener.EVT_RefreshOracleSource) {
+			if (obj instanceof OracleSource) {
+				OracleSource source = (OracleSource) obj;
+				System.out.println(source.getDbConfig());
+				RefreshOracleSourceJob job = new RefreshOracleSourceJob(viewer, source);
+				job.setPriority(RefreshOracleSourceJob.SHORT);
+				job.setUser(true);
+				job.schedule();
+
+
 			}
 		}
 

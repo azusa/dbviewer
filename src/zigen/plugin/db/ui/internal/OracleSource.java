@@ -10,23 +10,23 @@ import zigen.plugin.db.ext.oracle.internal.OracleSourceInfo;
 
 /**
  * OracleSourceクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
+ *
  */
 public class OracleSource extends TreeNode {
-
 
 	private static final long serialVersionUID = 1L;
 
 	private OracleSourceInfo info;
 
+	boolean hasError;
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param name
 	 */
 	public OracleSource(String name) {
@@ -35,7 +35,7 @@ public class OracleSource extends TreeNode {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param name
 	 */
 	public OracleSource() {
@@ -60,7 +60,7 @@ public class OracleSource extends TreeNode {
 
 	/**
 	 * 型を取得
-	 * 
+	 *
 	 * @return
 	 */
 	public String getType() {
@@ -80,4 +80,18 @@ public class OracleSource extends TreeNode {
 		this.info = info;
 	}
 
+
+	public boolean hasError() {
+		return hasError;
+	}
+
+
+	public void setHasError(boolean hasError) {
+		this.hasError = hasError;
+	}
+
+	public void update(OracleSource node) {
+		this.info = node.info;
+		this.hasError = node.hasError;
+	}
 }

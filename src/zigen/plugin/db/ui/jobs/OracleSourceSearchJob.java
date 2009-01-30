@@ -1,11 +1,15 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -13,12 +17,15 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.TreeViewer;
 
 import zigen.plugin.db.core.Transaction;
+import zigen.plugin.db.ext.oracle.internal.OracleSourceErrorInfo;
+import zigen.plugin.db.ext.oracle.internal.OracleSourceErrorSearcher;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceInfo;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceSearcher;
 import zigen.plugin.db.ui.internal.Folder;
 import zigen.plugin.db.ui.internal.OracleFunction;
 import zigen.plugin.db.ui.internal.OracleSource;
 import zigen.plugin.db.ui.internal.Schema;
+import zigen.plugin.db.ui.internal.TreeLeaf;
 
 public class OracleSourceSearchJob extends AbstractJob {
 
@@ -41,8 +48,8 @@ public class OracleSourceSearchJob extends AbstractJob {
 				return Status.CANCEL_STATUS;
 			}
 
-			folder.removeChildAll(); // 子ノードを全て削除
-			showResults(new RefreshTreeNodeAction(viewer, folder)); // 再描画
+			//folder.removeChildAll(); // 子ノードを全て削除
+			//showResults(new RefreshTreeNodeAction(viewer, folder)); // 再描画
 
 			// Folderの上位は、Schema前提
 			Schema schema = (Schema) folder.getParent();
@@ -50,7 +57,18 @@ public class OracleSourceSearchJob extends AbstractJob {
 			String type = folder.getName();
 
 			OracleSourceInfo[] infos = OracleSourceSearcher.execute(con, owner, type);
-			addSources(con, folder, infos);
+			OracleSourceErrorInfo[] errors  = OracleSourceErrorSearcher.execute(con, owner, type);
+
+			Map errorMap = new HashMap();
+			for (int i = 0; i < errors.length; i++) {
+				OracleSourceErrorInfo err = errors[i];
+				if(!errorMap.containsKey(err.getName())){
+					errorMap.put(err.getName(), err);
+				}
+			}
+
+			addSources(con, folder, infos, errorMap);
+
 
 			folder.setExpanded(true);
 			showResults(new RefreshTreeNodeAction(viewer, folder, RefreshTreeNodeAction.MODE_NOTHING)); // 再描画
@@ -66,22 +84,55 @@ public class OracleSourceSearchJob extends AbstractJob {
 
 	/**
 	 * ソース要素をフォルダ配下に追加する
-	 * 
+	 *
 	 * @param con
 	 * @param folder
 	 * @param infos
 	 * @throws Exception
 	 */
-	private void addSources(Connection con, Folder folder, OracleSourceInfo[] infos) throws Exception {
+	private void addSources(Connection con, Folder folder, OracleSourceInfo[] infos, Map errorMap) throws Exception {
+
+		List newList = new ArrayList();
+
 		for (int i = 0; i < infos.length; i++) {
+			newList.add(infos[i].getName());	// 要素名を保存しておく
+
 			OracleSource source;
 			if ("FUNCTION".equals(folder.getName())) { //$NON-NLS-1$
 				source = new OracleFunction();
 			} else {
 				source = new OracleSource();
 			}
+			// OracleInfomationを設定する
 			source.setOracleSourceInfo(infos[i]);
-			folder.addChild(source);
+			// 要素単位のエラーアイコン更新
+			source.setHasError(errorMap.containsKey(source.getName()));
+
+			TreeLeaf leaf = folder.getChild(source.getName());
+			if (leaf == null) {
+				folder.addChild(source);
+
+			} else {
+
+				OracleSource os = (OracleSource) leaf;
+				os.update(source);
+				RefreshOracleSourceJob job = new RefreshOracleSourceJob(viewer, os);
+				job.setPriority(RefreshOracleSourceJob.SHORT);
+				job.setUser(true);
+				job.schedule();
+
+			}
+
 		}
+
+		// 削除された要素などを削除する処理
+		TreeLeaf[] leafs = folder.getChildrens();
+		for (int i = 0; i < leafs.length; i++) {
+			TreeLeaf leaf = leafs[i];
+			if (!newList.contains(leaf.getName())) {
+				folder.removeChild(leaf);
+			}
+		}
+
 	}
 }
