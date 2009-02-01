@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -12,13 +12,13 @@ import java.sql.Types;
 import zigen.plugin.db.core.JDBCUnicodeConvertor;
 
 /**
- * 
+ *
  * DefaultStatementFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/06 ZIGEN create.
- * 
+ *
  */
 public class DefaultStatementFactory extends AbstractStatementFactory implements IStatementFactory {
 
@@ -100,7 +100,9 @@ public class DefaultStatementFactory extends AbstractStatementFactory implements
 		if (convertUnicode) {
 			data = JDBCUnicodeConvertor.convert(data);
 		}
-		data = data.replaceAll("\"", "\"\""); // "があれば、""に置換
+//		ダブルクォートではなくシングルクォートをエスケープするように修正 2009/02/01 ZIGEN
+//		data = data.replaceAll("\"", "\"\""); // "があれば、""に置換
+		data = data.replaceAll("'", "''"); // 'があれば、''に置換
 		return "'" + data + "'"; // 文字列の前後に'を付ける
 
 	}
@@ -127,6 +129,12 @@ public class DefaultStatementFactory extends AbstractStatementFactory implements
 		if (value == null)
 			return NULL;
 		return "'" + String.valueOf(value) + "'";
+	}
+
+	public static void main(String[] args){
+		String 		data = "12'3";
+		data = data.replaceAll("'", "''"); // "があれば、""に置換
+		System.out.println(data);
 	}
 
 }
