@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -56,7 +56,7 @@ public class IndexWizardPage extends PKWizardPage {
 		txtIndexName = new Text(composite, SWT.BORDER);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		txtIndexName.setLayoutData(gd);
-		txtIndexName.setText(""); //$NON-NLS-1$
+		txtIndexName.setText(getDefaultConstraintName()); //$NON-NLS-1$
 		txtIndexName.addFocusListener(new TextSelectionListener());
 		txtIndexName.addModifyListener(new ModifyListener() {
 
@@ -133,14 +133,16 @@ public class IndexWizardPage extends PKWizardPage {
 		}
 
 	}
-
+	protected String getDefaultConstraintName(){
+		return "IDX_" + tableNode.getName();
+	}
 	// protected void setHeaderColumn(Table table) {
 	// TableColumn col1 = new TableColumn(table, SWT.NONE);
 	// col1.setText("dummy");
 	// col1.pack();
-	//		
+	//
 	// }
-	//	
+	//
 	// public void setVisible(boolean visible) {
 	// super.setVisible(visible);
 	// if(visible){

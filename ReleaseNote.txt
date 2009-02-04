@@ -7,6 +7,10 @@ DBViewer Plugin for Eclipse V1.1.1.200901xx
 ・OracleのFunctionやStoredProcedureでエラーがある場合、アイコンにエラーが表示されます。
  また、削除した場合に、開いているエディターを削除するように修正しました。
 
+<テーブル編集エディター>
+・主キー、外部キー、ユニークIndex作成時の制約名を初期表示するように修正
+・テーブルインデックス作成時のIndex名を初期表示するように修正
+
 [障害修正]
 <Folder指定のDiff(Oracle限定)>
 ・Folder単位でDiffが取れないという不具合を修正しました。

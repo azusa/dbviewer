@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -78,6 +78,10 @@ public class PKWizardPage extends DefaultWizardPage {
 		setControl(container);
 	}
 
+	protected String getDefaultConstraintName(){
+		return "PK_" + tableNode.getName();
+	}
+
 	protected void createNameConstrol(Composite container) {
 		Composite composite = new Composite(container, SWT.NULL);
 		composite.setLayout(new GridLayout(2, false));
@@ -87,7 +91,10 @@ public class PKWizardPage extends DefaultWizardPage {
 		txtConstraintName = new Text(composite, SWT.BORDER);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		txtConstraintName.setLayoutData(gd);
-		txtConstraintName.setText(""); //$NON-NLS-1$
+		//txtConstraintName.setText(""); //$NON-NLS-1$
+		// PK_ + TableName
+		txtConstraintName.setText(getDefaultConstraintName()); //$NON-NLS-1$
+
 		txtConstraintName.addFocusListener(new TextSelectionListener());
 		txtConstraintName.addModifyListener(new ModifyListener() {
 
@@ -288,7 +295,7 @@ public class PKWizardPage extends DefaultWizardPage {
 	// sb.append(column.getColumn().getColumnName());
 	// }
 	// }
-	//		
+	//
 	// //sb.append(")");
 	// return sb.toString();
 	// }

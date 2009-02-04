@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -15,6 +15,10 @@ public class FKWizardPage1 extends PKWizardPage {
 	public FKWizardPage1(ISQLCreatorFactory factory, ITable table) {
 		super(factory, table);
 		setTitle(Messages.getString("FKWizardPage1.0")); //$NON-NLS-1$
+	}
+
+	protected String getDefaultConstraintName(){
+		return "FK_" + tableNode.getName();
 	}
 
 	public String getTargetColumn() {
