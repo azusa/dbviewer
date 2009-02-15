@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -14,13 +14,13 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
 /**
- * 
+ *
  * HSQLDBSQLCreatorFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- * 
+ *
  */
 public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
@@ -31,7 +31,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createSelect(String _condition, int limit) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
@@ -82,7 +82,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createSelectForPager(String _condition, int offset, int limit) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
@@ -168,11 +168,11 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createRenameColumnDDL(Column from, Column to) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ALTER COLUMN ");
-		sb.append(SQLUtil.encodeQuotation(from.getName()));
+		sb.append(SQLUtil.enclose(from.getName(), encloseChar));
 		sb.append(" RENAME TO ");
-		sb.append(SQLUtil.encodeQuotation(to.getName()));
+		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		return sb.toString();
 
 	}
@@ -180,9 +180,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String[] createAddColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD COLUMN ");
-		sb.append(SQLUtil.encodeQuotation(column.getName()));
+		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" ");
 
 		// 型
@@ -215,9 +215,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String[] createDropColumnDDL(Column column, boolean cascadeConstraints) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" DROP COLUMN ");
-		sb.append(SQLUtil.encodeQuotation(column.getName()));
+		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 
 		// H2:制約の削除は、CASCADEできない
 		return new String[] {sb.toString()};
@@ -227,9 +227,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String[] createModifyColumnDDL(Column from, Column to) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ALTER COLUMN ");
-		sb.append(SQLUtil.encodeQuotation(to.getName()));
+		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		sb.append(" ");
 
 		sb.append(to.getTypeName());// 型
@@ -263,9 +263,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createRenameTableDDL(String newTableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" RENAME TO ");
-		sb.append(SQLUtil.encodeQuotation(newTableName));
+		sb.append(SQLUtil.enclose(newTableName, encloseChar));	// ハイフン付名前にも変名可能にする
 		return sb.toString();
 	}
 
@@ -281,17 +281,11 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 		sb.append(" INDEX ");
 		// INDEX名
-		sb.append("\"");
-		sb.append(table.getSchemaName());
-		sb.append("\"");
+		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append(".");
-		sb.append(indexName);
+		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		sb.append(" ON ");
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
@@ -299,7 +293,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 
@@ -309,11 +303,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createDropIndexDDL(String indexName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("DROP INDEX ");
-		sb.append("\"");
-		sb.append(table.getSchemaName());
-		sb.append("\"");
+		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append(".");
-		sb.append(indexName);
+		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		return sb.toString();
 	}
 
@@ -321,9 +313,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintPKDDL(String constraintName, Column[] columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT ");
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" PRIMARY KEY");
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
@@ -331,7 +323,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 		return sb.toString();
@@ -340,9 +332,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintUKDDL(String constraintName, Column[] columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT ");
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" UNIQUE "); // UNIQUE KEY ではなく、 UNIQUE
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
@@ -350,7 +342,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 		return sb.toString();
@@ -361,9 +353,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintFKDDL(String constraintName, Column[] columns, ITable refTable, Column[] refColumns, boolean onDeleteCascade) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT ");
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" FOREIGN KEY");
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
@@ -371,19 +363,19 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 		sb.append(" REFERENCES ");
 
-		sb.append(refTable.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(refTable, isVisibleSchemaName));
 		sb.append("(");
 		for (int i = 0; i < refColumns.length; i++) {
 			Column refColumn = refColumns[i];
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(refColumn.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(refColumn.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 		if (onDeleteCascade) {
@@ -412,9 +404,9 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createDropConstraintDDL(String constraintName, String type) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" DROP CONSTRAINT ");
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		return sb.toString();
 
 	}

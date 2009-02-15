@@ -9,14 +9,17 @@ package zigen.plugin.db.ui.internal;
 import java.sql.Connection;
 
 import zigen.plugin.db.core.IDBConfig;
+import zigen.plugin.db.core.rule.AbstractSQLCreatorFactory;
+import zigen.plugin.db.core.rule.AbstractStatementFactory;
+import zigen.plugin.db.core.rule.DefaultStatementFactory;
 
 /**
  * DataBaseクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create. [2] 2005/03/10 ZIGEN IDBConfigを更新できるメソッドを追加.
- * 
+ *
  */
 public class DataBase extends TreeNode {
 
@@ -34,19 +37,24 @@ public class DataBase extends TreeNode {
 
 	Connection con = null;
 
+	char encloseChar;
+
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param name
 	 */
 	public DataBase(IDBConfig dbConfig) {
 		super(dbConfig.getDbName());
 		this.dbConfig = dbConfig;
+
+		// エスケープ文字を設定
+		this.encloseChar = AbstractStatementFactory.getFactory(dbConfig).getEncloseChar();
 	}
 
 	/**
 	 * IDBConfigの取得
-	 * 
+	 *
 	 * @return
 	 */
 	public IDBConfig getDbConfig() {
@@ -56,7 +64,7 @@ public class DataBase extends TreeNode {
 	// ↓ [002] 2005/08/05 追加 ZIGEN
 	/**
 	 * DBConfigの設定 DB接続情報変更時にconfigを上書きするために実装
-	 * 
+	 *
 	 * @param config
 	 */
 	public void setDbConfig(IDBConfig dbConfig) {
@@ -129,7 +137,7 @@ public class DataBase extends TreeNode {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param name
 	 */
 	public DataBase() {
@@ -151,6 +159,7 @@ public class DataBase extends TreeNode {
 		} else {
 			inst.tableType = null;
 		}
+		inst.encloseChar = this.encloseChar;
 		return inst;
 	}
 
@@ -175,6 +184,16 @@ public class DataBase extends TreeNode {
 			return false;
 		}
 
+	}
+
+
+	public char getEncloseChar() {
+		return encloseChar;
+	}
+
+
+	public void setEncloseChar(char encloseChar) {
+		this.encloseChar = encloseChar;
 	}
 
 }

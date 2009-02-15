@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,44 +17,44 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jface.text.source.AnnotationPainter.SquigglesStrategy;
+
 import zigen.plugin.db.ext.oracle.internal.OracleCommentInfo;
 import zigen.plugin.db.ext.oracle.internal.OracleTableCommentsSearcher;
 
 /**
  * TableSearcherクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/18 ZIGEN create.
- * 
+ *
  */
 public class TableSearcher {
 
-	// <!-- [002] 修正 ZIGEN 2005/07/30
-	public synchronized static TableInfo[] execute(IDBConfig config, String schemaPattern, String[] types) throws Exception {
-		try {
-			Connection con = Transaction.getInstance(config).getConnection();
-			return execute(con, schemaPattern, types);
-
-		} catch (Exception e) {
-			throw e;
-		}
-
+//	public synchronized static TableInfo[] execute(IDBConfig config, String schemaPattern, String[] types) throws Exception {
+//		try {
+//			Connection con = Transaction.getInstance(config).getConnection();
+//			return execute(con, schemaPattern, types);
+//
+//		} catch (Exception e) {
+//			throw e;
+//		}
+//
+//	}
+	public static TableInfo[] execute(Connection con, String schemaPattern, String[] types) throws Exception {
+		return execute(con, schemaPattern, types, null);
 	}
-
-	// コメント取得用
-	private static Map getRemarks(Connection con, String schemaPattern) throws Exception {
-		Map remarks = null;
-		DatabaseMetaData objMet = con.getMetaData();
-		switch (DBType.getType(objMet)) {
-		case DBType.DB_TYPE_ORACLE:
-			remarks = OracleTableCommentsSearcher.execute(con, schemaPattern);
-			break;
-		}
-		return remarks;
-	}
-
-	public synchronized static TableInfo[] execute(Connection con, String schemaPattern, String[] types) throws Exception {
+	/**
+	 * コード補完用(テーブル名にハイフンがある場合に、encloseCharで囲んだ名前がほしい)
+	 * @param con
+	 * @param schemaPattern
+	 * @param types
+	 * @param encloseChar
+	 * @return
+	 * @throws Exception
+	 */
+	public static TableInfo[] execute(Connection con, String schemaPattern, String[] types, Character encloseChar) throws Exception {
 
 		List list = new ArrayList();
 		ResultSet rs = null;
@@ -112,7 +112,12 @@ public class TableSearcher {
 					map.put(tableName, tableName);
 
 					TableInfo info = new TableInfo();
-					info.setName(tableName);
+
+					if(encloseChar != null){
+						info.setName(SQLUtil.enclose(tableName, encloseChar.charValue()));
+					}else{
+						info.setName(tableName);
+					}
 					info.setTableType(rs.getString("TABLE_TYPE")); //$NON-NLS-1$
 
 					// REMARKSでコメントが取れるDBがあるのか？
@@ -122,9 +127,16 @@ public class TableSearcher {
 					// <- [001] 2005/11/22 add zigen
 					// setComment(con, schemaPattern, tableName, info);
 					if (remarks != null && remarks.containsKey(tableName)) {
-						OracleCommentInfo ora = (OracleCommentInfo) remarks.get(tableName);
-						if (ora != null)
-							info.setComment(ora.getRemarks());
+
+						// Oracleかどうかの判定を入れておく
+						switch (DBType.getType(objMet)) {
+						case DBType.DB_TYPE_ORACLE:
+							OracleCommentInfo ora = (OracleCommentInfo) remarks.get(tableName);
+							if (ora != null)
+								info.setComment(ora.getRemarks());
+							break;
+						}
+
 					}
 
 					list.add(info);
@@ -195,6 +207,17 @@ public class TableSearcher {
 
 	}
 
+	// コメント取得用
+	private static Map getRemarks(Connection con, String schemaPattern) throws Exception {
+		Map remarks = null;
+		DatabaseMetaData objMet = con.getMetaData();
+		switch (DBType.getType(objMet)) {
+		case DBType.DB_TYPE_ORACLE:
+			remarks = OracleTableCommentsSearcher.execute(con, schemaPattern);
+			break;
+		}
+		return remarks;
+	}
 	// protected static void setComment(Connection con, String schemaPattern,
 	// String tableName, TableInfo info) throws Exception {
 	// switch (DBType.getType(con.getMetaData())) {

@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.internal;
@@ -74,5 +74,7 @@ public interface ITable extends INode {
 	public abstract Folder getFolder();
 
 	public abstract void setRemarks(String remarks);
+
+	public abstract String getEnclosedName();
 
 }

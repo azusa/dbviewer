@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,37 +19,26 @@ import zigen.plugin.db.core.rule.oracle.OracleStatementFactory;
 import zigen.plugin.db.preference.PreferencePage;
 
 /**
- * 
+ *
  * AbstractInsertMappingFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/06 ZIGEN create.
- * 
+ *
  */
 public abstract class AbstractStatementFactory implements IStatementFactory {
 
 	protected static String NULL = "null";
 
-	protected String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
+
 
 	protected boolean convertUnicode;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param config
-	 */
 	public static IStatementFactory getFactory(IDBConfig config) {
 		return getFactory(config.getDriverName(), config.isConvertUnicode());
 	}
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param objMet
-	 * @param isConvertUnicode
-	 */
 	public static IStatementFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode) {
 		try {
 			return getFactory(objMet.getDriverName(), isConvertUnicode);

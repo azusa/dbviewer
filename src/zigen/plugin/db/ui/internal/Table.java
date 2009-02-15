@@ -18,11 +18,11 @@ import zigen.plugin.db.core.TablePKColumn;
 
 /**
  * Tableクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
+ *
  */
 public class Table extends TreeNode implements ITable {
 
@@ -42,7 +42,7 @@ public class Table extends TreeNode implements ITable {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param name
 	 */
 	public Table(String name, String remarks) {
@@ -52,7 +52,7 @@ public class Table extends TreeNode implements ITable {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param name
 	 */
 	public Table(String name) {
@@ -61,7 +61,7 @@ public class Table extends TreeNode implements ITable {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param name
 	 */
 	public Table() {
@@ -78,25 +78,23 @@ public class Table extends TreeNode implements ITable {
 
 	/*
 	 * (非 Javadoc)
-	 * 
+	 *
 	 * @see zigen.plugin.db.ui.internal.ITable#getLabel()
 	 */
 	public String getLabel() {
 		StringBuffer sb = new StringBuffer();
-
-		sb.append(this.getName());
+		sb.append(name);
 		if (remarks != null && remarks.length() > 0) {
 			sb.append(" [");
 			sb.append(remarks);
 			sb.append("]");
 		}
 		return sb.toString();
-
 	}
 
 	/*
 	 * (非 Javadoc)
-	 * 
+	 *
 	 * @see zigen.plugin.db.ui.internal.ITable#getRemarks()
 	 */
 	public String getRemarks() {
@@ -119,41 +117,25 @@ public class Table extends TreeNode implements ITable {
 
 	/**
 	 * テーブルが所有しているカラムを取得する
-	 * 
+	 *
 	 * @return
 	 */
 	public Column[] getColumns() {
 		return convertColumns(getChildrens());
 	}
 
+	public String getEnclosedName() {
+		return SQLUtil.enclose(name, getDataBase().getEncloseChar());
+	}
+
 	public String getSqlTableName() {
 		StringBuffer sb = new StringBuffer();
-		StringBuffer wkTable = new StringBuffer();
-		if (SQLUtil.isBinTableForOracle(name) || name.indexOf("-") > 0) {
-			wkTable.append("\"");
-			wkTable.append(name);
-			wkTable.append("\"");
-		} else {
-			wkTable.append(name);
-		}
-
-		String tableName = wkTable.toString();
 		if (getDataBase().isSchemaSupport()) {
-			String schemaName = getSchema().getName();
-			if (SQLUtil.requireDoubleQuote(schemaName)) {
-				sb.append("\"");
-				sb.append(schemaName);
-				sb.append("\"");
-				sb.append(".");
-				sb.append(tableName);
-			} else {
-				sb.append(schemaName);
-				sb.append(".");
-				sb.append(tableName);
-			}
-
+			sb.append(getSchema().getEscapedName());
+			sb.append(".");
+			sb.append(getEnclosedName());
 		} else {
-			sb.append(tableName);
+			sb.append(getEnclosedName());
 		}
 		return sb.toString();
 	}

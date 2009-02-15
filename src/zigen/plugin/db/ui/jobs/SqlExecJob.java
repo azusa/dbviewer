@@ -230,16 +230,7 @@ public class SqlExecJob extends AbstractJob {
 			case DBType.DB_TYPE_ORACLE:
 				sql = StringUtil.convertLineSep(sql, "\n");
 				executeUpdate(sql);
-				// <-- 性能改善のため、解析するのは、最初の"("の前とする
-				//showErrorMessageForOracle(trans, parseSql(sql)); // 入力時のSQLを実行
-				String shortSql = sql;
-				int pos = shortSql.indexOf('(');
-				if(pos > 0){
-					shortSql = shortSql.substring(0, pos);
-				}
-				System.out.println("解析用のSQLは " + shortSql);
-				showErrorMessageForOracle(trans, parseSql(shortSql)); // 入力時のSQLを実行
-				// -->
+				showErrorMessageForOracle(trans, parseSql(sql)); // 入力時のSQLを実行
 				break;
 			default:
 				executeUpdate(sql);

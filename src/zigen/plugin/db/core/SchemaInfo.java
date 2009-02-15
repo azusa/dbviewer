@@ -7,6 +7,8 @@ package zigen.plugin.db.core;
 
 import java.io.Serializable;
 
+import zigen.plugin.db.core.rule.AbstractStatementFactory;
+
 public class SchemaInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -83,4 +85,8 @@ public class SchemaInfo implements Serializable {
 	public void setConfig(IDBConfig config) {
 		this.config = config;
 	}
+
+//	public char getEncloseChar(){
+//		return AbstractStatementFactory.getFactory(config).getEncloseChar();
+//	}
 }

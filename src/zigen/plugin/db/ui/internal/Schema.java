@@ -10,14 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zigen.plugin.db.core.IDBConfig;
+import zigen.plugin.db.core.SQLUtil;
 
 /**
  * Schemaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
+ *
  */
 public class Schema extends TreeNode {
 
@@ -34,7 +35,7 @@ public class Schema extends TreeNode {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param name
 	 */
 	public Schema(String name) {
@@ -45,20 +46,20 @@ public class Schema extends TreeNode {
 		this.sourceTypes = node.sourceTypes;
 	}
 
-	private Schema getNewSchema(Schema schema) {
-		String schemaName = schema.getName();
-		DataBase db = schema.getDataBase();
-		TreeLeaf[] leafs = db.getChildrens();
-		for (int i = 0; i < leafs.length; i++) {
-			if (leafs[i] instanceof Schema) {
-				Schema newSchema = (Schema) leafs[i];
-				if (schemaName.equals(newSchema.getName())) {
-					return newSchema;
-				}
-			}
-		}
-		return null;
-	}
+//	private Schema getNewSchema(Schema schema) {
+//		String schemaName = schema.getName();
+//		DataBase db = schema.getDataBase();
+//		TreeLeaf[] leafs = db.getChildrens();
+//		for (int i = 0; i < leafs.length; i++) {
+//			if (leafs[i] instanceof Schema) {
+//				Schema newSchema = (Schema) leafs[i];
+//				if (schemaName.equals(newSchema.getName())) {
+//					return newSchema;
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
 	private Table[] convertTables(TreeLeaf[] leafs) {
 		List list = new ArrayList(leafs.length);
@@ -72,7 +73,7 @@ public class Schema extends TreeNode {
 
 	/**
 	 * スキーマが所有しているテーブルを取得する
-	 * 
+	 *
 	 * @return
 	 */
 	public Table[] getTables() {
@@ -139,6 +140,16 @@ public class Schema extends TreeNode {
 
 	public void setSourceType(String[] sourceTypes) {
 		this.sourceTypes = sourceTypes;
+	}
+
+	public String getLabel() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(name);
+		return sb.toString();
+	}
+
+	public String getEscapedName() {
+		return SQLUtil.enclose(name, getDataBase().getEncloseChar());
 	}
 
 }

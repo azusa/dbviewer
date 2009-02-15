@@ -17,11 +17,13 @@ import zigen.plugin.db.DbPluginConstant;
 import zigen.plugin.db.IStatusChangeListener;
 import zigen.plugin.db.core.DBType;
 import zigen.plugin.db.core.IDBConfig;
+import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.SchemaInfo;
 import zigen.plugin.db.core.SchemaSearcher;
 import zigen.plugin.db.core.TableInfo;
 import zigen.plugin.db.core.TableSearcher;
 import zigen.plugin.db.core.Transaction;
+import zigen.plugin.db.core.rule.AbstractStatementFactory;
 import zigen.plugin.db.ui.actions.ConfirmConnectDBAction;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ContentAssistTable;
@@ -42,6 +44,8 @@ public class ContentInfo {
 
 	Map schemaInfoMap = null;
 
+	char encloseChar;
+
 	public ContentInfo(IDBConfig config) {
 		this.config = config;
 		if (config != null) {
@@ -56,9 +60,11 @@ public class ContentInfo {
 			trans = Transaction.getInstance(config);
 			if (trans.isConneting()) {
 				isConnected = true;
-				DbPlugin.fireStatusChangeListener(config, IStatusChangeListener.EVT_ChangeDataBase);
+				this.encloseChar = AbstractStatementFactory.getFactory(config).getEncloseChar();
 				this.schemaInfoMap = getSchemas();
 				this.currentSchema = findCurrentSchema();
+				DbPlugin.fireStatusChangeListener(config, IStatusChangeListener.EVT_ChangeDataBase);
+
 			} else {
 				Display.getDefault().syncExec(new ConfirmConnectDBAction(trans));
 				if (trans.isConneting()) {
@@ -67,6 +73,7 @@ public class ContentInfo {
 					isConnected = false;
 				}
 			}
+
 
 		} catch (Exception e) {
 			DbPlugin.log(e);
@@ -118,6 +125,8 @@ public class ContentInfo {
 					String[] result = SchemaSearcher.execute(trans.getConnection());
 					for (int i = 0; i < result.length; i++) {
 						String schema = result[i];
+						// エスケープ文字で囲む対応
+						schema = SQLUtil.enclose(schema, encloseChar);
 						SchemaInfo info = new SchemaInfo(config, schema);
 						map.put(schema.toUpperCase(), info); // KEYは大文字、 VALUEはSchemaInfo
 					}
@@ -138,10 +147,12 @@ public class ContentInfo {
 
 	}
 
-	public TableInfo[] getTableInfo(String schema) throws Exception {
+	public TableInfo[] getTableInfo(String schemaName) throws Exception {
 
 		if (config == null)
 			return null;
+
+		schemaName = SQLUtil.removeEnclosedChar(schemaName, encloseChar);
 
 		String[] tableTypes = null;
 		switch (config.getDbType()) {
@@ -156,18 +167,21 @@ public class ContentInfo {
 		}
 		TableInfo[] result = null;
 
-		String keySchemaName = (schema != null) ? schema : config.getDbName();
+		String keySchemaName = (schemaName != null) ? schemaName : config.getDbName();
 		ObjectCacher holder = ObjectCacher.getInstance(keySchemaName + "@" + config.getDbName());
 
 		synchronized (holder) {
 			result = (TableInfo[]) holder.get();
 			if (result == null) {
 				try {
-					if (schema != null) {
-						result = TableSearcher.execute(trans.getConnection(), schema, tableTypes);
+					if (schemaName != null) {
+//						result = TableSearcher.execute(trans.getConnection(), schemaName, tableTypes);
+						result = TableSearcher.execute(trans.getConnection(), schemaName, tableTypes, new Character(encloseChar));
 					} else {
-						result = TableSearcher.execute(trans.getConnection(), null, tableTypes);
+//						result = TableSearcher.execute(trans.getConnection(), null, tableTypes);
+						result = TableSearcher.execute(trans.getConnection(), null, tableTypes, new Character(encloseChar));
 					}
+
 				} catch (Exception e) {
 					DbPlugin.log(e);
 				}
@@ -184,6 +198,10 @@ public class ContentInfo {
 	}
 
 	public Column[] getColumns(String schemaName, String tableName) {
+
+		schemaName = SQLUtil.removeEnclosedChar(schemaName, encloseChar);
+		tableName = SQLUtil.removeEnclosedChar(tableName, encloseChar);
+
 		Column[] result = null;
 		ObjectCacher holder = ObjectCacher.getInstance(tableName + "@" + schemaName + "@" + config.getDbName());
 		synchronized (holder) {

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zigen.plugin.db.core.IDBConfig;
+import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.StringUtil;
 import zigen.plugin.db.core.TableConstraintColumn;
 import zigen.plugin.db.core.TableFKColumn;
@@ -18,11 +19,11 @@ import zigen.plugin.db.core.TablePKColumn;
 
 /**
  * お気に入りクラス. XMLに保存するためのJavaBeans
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/09/25 ZIGEN create.
- * 
+ *
  */
 public class Bookmark extends TreeNode implements ITable {
 
@@ -62,10 +63,18 @@ public class Bookmark extends TreeNode implements ITable {
 
 		if (original.getSchema() != null) {
 			schema = (Schema) original.getSchema().clone();
+			schema.setParent(dataBase);
+			folder = (Folder) original.getFolder().clone();
+			folder.setParent(schema);
+			table = (Table) original.clone();
+			table.setParent(folder);
+		}else{
+			folder = (Folder) original.getFolder().clone();
+			folder.setParent(dataBase);
+			table = (Table) original.clone();
+			table.setParent(folder);
 		}
-		table = (Table) original.clone();
 
-		folder = (Folder) original.getFolder().clone();
 
 		if (original instanceof Synonym) {
 			type = TYPE_SYNONYM;
@@ -147,25 +156,18 @@ public class Bookmark extends TreeNode implements ITable {
 		}
 	}
 
-	/**
-	 * スキーマ対応の場合はスキーマ名.テーブル名を返す
-	 */
+	public String getEnclosedName() {
+		return SQLUtil.enclose(name, getDataBase().getEncloseChar());
+	}
+
 	public String getSqlTableName() {
 		StringBuffer sb = new StringBuffer();
-		if (dataBase.isSchemaSupport()) {
-			if (StringUtil.isNumeric(schema.getName())) {
-				sb.append("\"");
-				sb.append(schema.getName());
-				sb.append("\"");
-				sb.append(".");
-				sb.append(name);
-			} else {
-				sb.append(schema.getName() + "." + name);
-			}
-
-
+		if (getDataBase().isSchemaSupport()) {
+			sb.append(getSchema().getEscapedName());
+			sb.append(".");
+			sb.append(getEnclosedName());
 		} else {
-			sb.append(name);
+			sb.append(getEnclosedName());
 		}
 		return sb.toString();
 	}
@@ -220,7 +222,7 @@ public class Bookmark extends TreeNode implements ITable {
 
 	/**
 	 * 所属するBookmarkRootの取得
-	 * 
+	 *
 	 * @return
 	 */
 	public BookmarkRoot getBookmarkRoot() {
@@ -229,7 +231,7 @@ public class Bookmark extends TreeNode implements ITable {
 
 	/**
 	 * 所属するBookmarkFolderの取得
-	 * 
+	 *
 	 * @return
 	 */
 	public BookmarkFolder getBookmarkFolder() {

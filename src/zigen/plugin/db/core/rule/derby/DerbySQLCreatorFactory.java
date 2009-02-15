@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -13,13 +13,13 @@ import zigen.plugin.db.ui.internal.Constraint;
 import zigen.plugin.db.ui.internal.ITable;
 
 /**
- * 
+ *
  * H2SQLCreatorFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- * 
+ *
  */
 public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 
@@ -41,9 +41,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createRenameTableDDL(String newTableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("RENAME TABLE ");
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" TO ");
-		sb.append(SQLUtil.encodeQuotation(newTableName));
+		sb.append(SQLUtil.enclose(newTableName, encloseChar));
 		return sb.toString();
 
 	}
@@ -68,9 +68,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD COLUMN ");
-		sb.append(SQLUtil.encodeQuotation(column.getName()));
+		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" ");
 
 		// 型
@@ -104,9 +104,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		StringBuffer sb2 = new StringBuffer();
 		if (column.isNotNull()) {
 			sb2.append("ALTER TABLE ");
-			sb2.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+			sb2.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 			sb2.append(" ALTER COLUMN  ");
-			sb2.append(SQLUtil.encodeQuotation(column.getName()));
+			sb2.append(SQLUtil.enclose(column.getName(), encloseChar));
 			sb2.append(" NOT NULL");
 		}
 		return new String[] {sb.toString(), sb2.toString()};
@@ -120,10 +120,10 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		// sb.append(" ALTER COLUMN ");
 		// sb.append(SQLUtil.encodeQuotation(to.getName()));
 		// sb.append(" SET ");
-		//        
+		//
 		// // 型
 		// sb.append(to.getTypeName());
-		//        
+		//
 		// // 桁
 		// if(isVisibleColumnSize(to.getTypeName())){
 		// sb.append("(");
@@ -134,9 +134,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		// VARCHARの場合のみ桁を変更することができる
 		if (!from.getSize().equals(to.getSize()) && "VARCHAR".equals(to.getTypeName())) {
 			sb.append("ALTER TABLE ");
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+			sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 			sb.append(" ALTER COLUMN ");
-			sb.append(SQLUtil.encodeQuotation(to.getName()));
+			sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 			sb.append(" SET DATA TYPE VARCHAR(");
 			sb.append(to.getSize());
 			sb.append(")");
@@ -146,9 +146,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		// DEFAULT
 		if (!from.getDefaultValue().equals(to.getDefaultValue())) {
 			sb2.append("ALTER TABLE ");
-			sb2.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+			sb2.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 			sb2.append(" ALTER COLUMN ");
-			sb2.append(SQLUtil.encodeQuotation(to.getName()));
+			sb2.append(SQLUtil.enclose(to.getName(), encloseChar));
 
 			sb2.append(" DEFAULT ");
 			if ("".equals(to.getDefaultValue())) {
@@ -162,9 +162,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		StringBuffer sb3 = new StringBuffer();
 
 		sb3.append("ALTER TABLE ");
-		sb3.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb3.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb3.append(" ALTER COLUMN ");
-		sb3.append(SQLUtil.encodeQuotation(to.getName()));
+		sb3.append(SQLUtil.enclose(to.getName(), encloseChar));
 
 		// NOT NULL
 		if (to.isNotNull()) {
@@ -224,19 +224,19 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	/*
-	 * 
+	 *
 	 * １．カラム情報の更新はほとんで不可 ＞ カラムの列の型変更はできない。（VARCHARのみ桁を変更できる。以外は不可）
-	 * 
+	 *
 	 * ２．カラムの削除ができない（理由は不明）
-	 * 
+	 *
 	 * ３．DEFAULTに設定したあと、解除の方法が無い？ DEFAULT NULLは実行できるが反映されない
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * ALTER TABLE APP.TEST ALTER COLUMN COL2 NOT NULL ALTER TABLE APP.TEST ALTER COLUMN COL2 NULL
-	 * 
+	 *
 	 * ALTER TABLE APP.TEST ALTER COLUMN COL2 DEFAULT 1 ALTER TABLE APP.TEST ALTER COLUMN COL2 WITH DEFAULT NULL << 実行エラーにはならないが、反映されない
-	 * 
+	 *
 	 * //DERBY では、列の型は変更不可 //サイズの変更は、VARCHARのみ（あとは、内部で固定） ALTER TABLE APP.TEST ALTER COLUMN COL2 SET DATA TYPE VARCHAR(100)
 	 */
 
@@ -252,19 +252,12 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 		sb.append(" INDEX ");
 		// INDEX名
-		sb.append("\"");
-		sb.append(table.getSchemaName());
-		sb.append("\"");
+		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 
 		sb.append(".");
-		sb.append(indexName);
+		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		sb.append(" ON ");
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
-
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
@@ -272,7 +265,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 
@@ -282,11 +275,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createDropIndexDDL(String indexName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("DROP INDEX ");
-		sb.append("\"");
-		sb.append(table.getSchemaName());
-		sb.append("\"");
+		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append(".");
-		sb.append(indexName);
+		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		return sb.toString();
 	}
 
@@ -294,9 +285,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintPKDDL(String constraintName, Column[] columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT ");
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" PRIMARY KEY");
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
@@ -304,7 +295,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 		return sb.toString();
@@ -313,9 +304,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintUKDDL(String constraintName, Column[] columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT ");
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" UNIQUE "); // UNIQUE KEY ではなく、 UNIQUE
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
@@ -323,7 +314,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 		return sb.toString();
@@ -334,9 +325,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintFKDDL(String constraintName, Column[] columns, ITable refTable, Column[] refColumns, boolean onDeleteCascade) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT ");
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" FOREIGN KEY");
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
@@ -344,19 +335,19 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 		sb.append(" REFERENCES ");
 
-		sb.append(refTable.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(refTable, isVisibleSchemaName));
 		sb.append("(");
 		for (int i = 0; i < refColumns.length; i++) {
 			Column refColumn = refColumns[i];
 			if (i != 0) {
 				sb.append(", ");
 			}
-			sb.append(refColumn.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(refColumn.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")");
 		if (onDeleteCascade) {
@@ -370,9 +361,9 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintCheckDDL(String constraintName, String check) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT ");
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" CHECK");
 		sb.append("(");
 		sb.append(check);
@@ -384,14 +375,14 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createDropConstraintDDL(String constraintName, String type) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		if (Constraint.PRIMARY_KEY.equals(type)) {
 			// PKを削除する場合は以下
-			sb.append(" DROP PRIMARY KEY ");
+			sb.append(" DROP PRIMARY KEY");
 		} else {
 			sb.append(" DROP CONSTRAINT ");
-			sb.append(constraintName);
+			sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		}
 
 		return sb.toString();

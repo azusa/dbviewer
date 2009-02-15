@@ -12,6 +12,7 @@ import java.util.List;
 
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.IDBConfig;
+import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.SchemaSearcher;
 import zigen.plugin.db.core.StringUtil;
 import zigen.plugin.db.core.TableConstraintColumn;
@@ -22,11 +23,11 @@ import zigen.plugin.db.core.Transaction;
 
 /**
  * お気に入りクラス. XMLに保存するためのJavaBeans
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/09/25 ZIGEN create.
- * 
+ *
  */
 public class ContentAssistTable extends TreeNode implements ITable {
 
@@ -57,10 +58,10 @@ public class ContentAssistTable extends TreeNode implements ITable {
 
 	}
 
-	public ContentAssistTable(Table table) {
-		super();
-		copy(table);
-	}
+//	public ContentAssistTable(Table table) {
+//		super();
+//		copy(table);
+//	}
 
 	private void setSchemaSupport(DataBase dataBase) {
 		try {
@@ -72,23 +73,23 @@ public class ContentAssistTable extends TreeNode implements ITable {
 		}
 	}
 
-	public void copy(Table original) {
-		name = new String(original.getName());
-
-		// DataBase要素のコピー（DBConfigもコピーされる)
-		dataBase = (DataBase) original.getDataBase().clone();
-
-		// DBConfigのコピー先の参照を設定
-		dbConfig = dataBase.getDbConfig();
-
-		if (original.getSchema() != null) {
-			schema = (Schema) original.getSchema().clone();
-		}
-		table = (Table) original.clone();
-
-		folder = (Folder) original.getFolder().clone();
-
-	}
+//	public void copy(Table original) {
+//		name = new String(original.getName());
+//
+//		// DataBase要素のコピー（DBConfigもコピーされる)
+//		dataBase = (DataBase) original.getDataBase().clone();
+//
+//		// DBConfigのコピー先の参照を設定
+//		dbConfig = dataBase.getDbConfig();
+//
+//		if (original.getSchema() != null) {
+//			schema = (Schema) original.getSchema().clone();
+//		}
+//		table = (Table) original.clone();
+//
+//		folder = (Folder) original.getFolder().clone();
+//
+//	}
 
 	public String getName() {
 		return name;
@@ -138,26 +139,53 @@ public class ContentAssistTable extends TreeNode implements ITable {
 		}
 	}
 
-	/**
-	 * スキーマ対応の場合はスキーマ名.テーブル名を返す
-	 */
+	public String getEnclosedName() {
+		return SQLUtil.enclose(name, getDataBase().getEncloseChar());
+	}
+
 	public String getSqlTableName() {
 		StringBuffer sb = new StringBuffer();
-		if (dataBase.isSchemaSupport()) {
-			if (StringUtil.isNumeric(schema.getName())) {
-				sb.append("\"");
-				sb.append(schema.getName());
-				sb.append("\"");
-				sb.append(".");
-				sb.append(name);
-			} else {
-				sb.append(schema.getName() + "." + name);
-			}
+		if (getDataBase().isSchemaSupport()) {
+			sb.append(getSchema().getEscapedName());
+			sb.append(".");
+			sb.append(getEnclosedName());
 		} else {
-			sb.append(name);
+			sb.append(getEnclosedName());
 		}
 		return sb.toString();
 	}
+
+//	/**
+//	 * スキーマ対応の場合はスキーマ名.テーブル名を返す
+//	 */
+//	public String getSqlTableName() {
+//		char escape = getDataBase().getEscapeChar();
+//		String tableName = getName();
+//		StringBuffer sb = new StringBuffer();
+//		if (getDataBase().isSchemaSupport()) {
+//			String schemaName = getSchema().getName();
+//
+//			if (SQLUtil.requireEscape(schemaName)) {
+//				sb.append(escape);
+//				sb.append(schemaName);
+//				sb.append(escape);
+//			}else{
+//				sb.append(schemaName);
+//			}
+//			sb.append(".");
+//
+//			if (SQLUtil.requireEscape(tableName)) {
+//				sb.append(escape);
+//				sb.append(tableName);
+//				sb.append(escape);
+//			} else {
+//				sb.append(tableName);
+//			}
+//		} else {
+//			sb.append(tableName);
+//		}
+//		return sb.toString();
+//	}
 
 	public boolean isSchemaSupport() {
 		return dataBase.isSchemaSupport();

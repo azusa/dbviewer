@@ -25,13 +25,13 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
 /**
- * 
+ *
  * DefaultInsertMappingFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/06 ZIGEN create.
- * 
+ *
  */
 public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 
@@ -51,6 +51,8 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 
 	protected boolean isVisibleSchemaName = true; // デフォルトTrue(表示)
 
+	protected char encloseChar;
+
 	public void setVisibleSchemaName(boolean b) {
 		isVisibleSchemaName = b;
 	}
@@ -68,9 +70,24 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 			this.cons = convertTableConstraintColumn(table.getTableConstraintColumns());
 			this.fks = convertTableFKColumn(table.getTableFKColumns());
 			this.uidxs = convertTableIDXColumn(table.getTableUIDXColumns());
+
+			if(table.getDbConfig() != null){
+				this.encloseChar = AbstractStatementFactory.getFactory(table.getDbConfig()).getEncloseChar();
+			}
 		}
 	}
 
+	/**
+	 * テーブル名を取得
+	 * @return
+	 */
+	protected String getTableNameWithSchemaForSQL(ITable table, boolean isVisible){
+		if (isVisible) {
+			return SQLUtil.encodeQuotation(table.getSqlTableName());
+		} else {
+			return SQLUtil.enclose(SQLUtil.encodeQuotation(table.getName()), encloseChar);
+		}
+	}
 
 	// 外から使用する
 	public List convertTableIDXColumn(TableIDXColumn[] idxs) {
@@ -206,11 +223,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 	protected String getCreateTableStr() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE TABLE ");
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		sb.append(DbPluginConstant.LINE_SEP);
 		sb.append("(");
@@ -272,7 +285,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 
 	/**
 	 * カラム名＋型＋桁
-	 * 
+	 *
 	 * @return
 	 */
 	protected String getColumnLabel(TableColumn column) {
@@ -498,7 +511,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 
 	/**
 	 * 制約文字列の作成
-	 * 
+	 *
 	 * @param header
 	 * @return
 	 */
@@ -576,7 +589,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		//
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		if (condition != null && !"".equals(condition.trim())) {
 			sb.append(" WHERE " + condition);
@@ -595,7 +608,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 	public String createCountAll(String condition) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT COUNT(*) FROM ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		if (condition != null && !"".equals(condition.trim())) {
 			sb.append(" WHERE " + condition);
@@ -631,11 +644,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 
 		if (table.getRemarks() != null && !"".equals(table.getRemarks())) { //$NON-NLS-1$
 			sb.append("COMMENT ON TABLE "); //$NON-NLS-1$
-			if (isVisibleSchemaName) {
-				sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-			} else {
-				sb.append(SQLUtil.encodeQuotation(table.getName()));
-			}
+			sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 			sb.append(" IS "); //$NON-NLS-1$
 			sb.append("'"); //$NON-NLS-1$
@@ -657,11 +666,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 
 			if (tCol.getRemarks() != null && !"".equals(tCol.getRemarks())) { //$NON-NLS-1$
 				sb.append("COMMENT ON COLUMN "); //$NON-NLS-1$
-				if (isVisibleSchemaName) {
-					sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-				} else {
-					sb.append(SQLUtil.encodeQuotation(table.getName()));
-				}
+				sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 				sb.append("."); //$NON-NLS-1$
 				sb.append(tCol.getColumnName());
 				sb.append(" IS "); //$NON-NLS-1$
@@ -683,11 +688,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 			int type = DbPlugin.getDefault().getPreferenceStore().getInt(SQLFormatPreferencePage.P_USE_FORMATTER_TYPE);
 
 			wk.append("CREATE OR REPLACE VIEW "); //$NON-NLS-1$
-			if (isVisibleSchemaName) {
-				wk.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-			} else {
-				wk.append(SQLUtil.encodeQuotation(table.getName()));
-			}
+			wk.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 			wk.append(DbPluginConstant.LINE_SEP);
 

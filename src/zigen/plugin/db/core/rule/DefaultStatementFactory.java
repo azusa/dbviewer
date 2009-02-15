@@ -9,7 +9,10 @@ package zigen.plugin.db.core.rule;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.JDBCUnicodeConvertor;
+import zigen.plugin.db.core.SQLUtil;
+import zigen.plugin.db.preference.PreferencePage;
 
 /**
  *
@@ -21,8 +24,10 @@ import zigen.plugin.db.core.JDBCUnicodeConvertor;
  *
  */
 public class DefaultStatementFactory extends AbstractStatementFactory implements IStatementFactory {
+	protected String nullSymbol;
 
 	protected DefaultStatementFactory(boolean convertUnicode) {
+		this.nullSymbol = SQLUtil.getNullSymbol();
 		this.convertUnicode = convertUnicode;
 	}
 
@@ -137,4 +142,7 @@ public class DefaultStatementFactory extends AbstractStatementFactory implements
 		System.out.println(data);
 	}
 
+	public char getEncloseChar(){
+		return '"';	// デフォルトはダブルクォート
+	}
 }

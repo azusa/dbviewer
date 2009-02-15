@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -16,7 +16,7 @@ import zigen.plugin.db.ui.internal.ITable;
 
 /**
  * OracleInsertFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
@@ -30,7 +30,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	/**
 	 * カラム名＋型＋桁(Oracle用にDefault表示を追加)
-	 * 
+	 *
 	 * @return
 	 */
 	protected String getColumnLabel(TableColumn column) {
@@ -66,7 +66,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
@@ -119,7 +119,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		// <-- 元のSQL
 		sb.append(" SELECT * FROM "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
@@ -187,30 +187,20 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnTableDDL(String commnets) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON TABLE "); //$NON-NLS-1$
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 
 		sb.append(" IS "); //$NON-NLS-1$
-		sb.append(" '" + SQLUtil.encodeQuotation(commnets) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("'" + SQLUtil.encodeQuotation(commnets) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString();
 	}
 
 	public String createCommentOnColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON COLUMN "); //$NON-NLS-1$
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
-
-
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append("."); //$NON-NLS-1$
-		sb.append(column.getName());
+		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" IS"); //$NON-NLS-1$
 		sb.append(" '" + SQLUtil.encodeQuotation(column.getRemarks()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString();
@@ -221,7 +211,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
 		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
 		sb.append(" RENAME TO "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(newTableName));
+		sb.append(SQLUtil.enclose(newTableName, encloseChar));
 		return sb.toString();
 	}
 
@@ -229,11 +219,13 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createRenameColumnDDL(Column from, Column to) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" RENAME COLUMN "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(from.getName()));
+//		sb.append(SQLUtil.encodeQuotation(from.getName()));
+		sb.append(SQLUtil.enclose(from.getName(), encloseChar));
 		sb.append(" TO "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(to.getName()));
+//		sb.append(SQLUtil.encodeQuotation(to.getName()));
+		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		return sb.toString();
 
 	}
@@ -242,9 +234,10 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String[] createAddColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD ("); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(column.getName()));
+//		sb.append(SQLUtil.encodeQuotation(column.getName()));
+		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
 		sb.append(column.getTypeName());// 型
 		if (isVisibleColumnSize(column.getTypeName()) && !column.getColumn().isWithoutParam()) {// 桁
@@ -255,7 +248,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (column.getDefaultValue() != null && !"".equals(column.getDefaultValue())) {// DEFAULT
 			// //$NON-NLS-1$
 			sb.append(" DEFAULT "); //$NON-NLS-1$
-			sb.append(column.getDefaultValue());
+//			sb.append(column.getDefaultValue());
+			sb.append(SQLUtil.enclose(column.getDefaultValue(), encloseChar));
 		}
 
 		if (column.isNotNull()) { // NOT NULL
@@ -278,7 +272,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append("ALTER TABLE "); //$NON-NLS-1$
 			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
 			sb.append(" MODIFY ("); //$NON-NLS-1$
-			sb.append(SQLUtil.encodeQuotation(to.getName()));
+//			sb.append(SQLUtil.encodeQuotation(to.getName()));
+			sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 			sb.append(" "); //$NON-NLS-1$
 			sb.append(to.getTypeName());// 型
 			if (isVisibleColumnSize(to.getTypeName()) && !to.getColumn().isWithoutParam()) {// 桁
@@ -291,15 +286,17 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		if (!from.getDefaultValue().equals(to.getDefaultValue())) {// DEFAULT
 			sb2.append("ALTER TABLE "); //$NON-NLS-1$
-			sb2.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+			sb2.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 			sb2.append(" MODIFY ("); //$NON-NLS-1$
-			sb2.append(SQLUtil.encodeQuotation(to.getName()));
+//			sb2.append(SQLUtil.encodeQuotation(to.getName()));
+			sb2.append(SQLUtil.enclose(to.getName(), encloseChar));
 			sb2.append(" "); //$NON-NLS-1$
-			sb2.append(" DEFAULT "); //$NON-NLS-1$
+			sb2.append("DEFAULT "); //$NON-NLS-1$
 			if ("".equals(to.getDefaultValue())) { //$NON-NLS-1$
 				sb2.append("NULL"); //$NON-NLS-1$
 			} else {
-				sb2.append(to.getDefaultValue());
+//				sb2.append(to.getDefaultValue());
+				sb2.append(SQLUtil.enclose(to.getDefaultValue(), encloseChar));
 			}
 			sb2.append(")"); //$NON-NLS-1$
 
@@ -307,14 +304,15 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		if (from.isNotNull() != to.isNotNull()) {
 			sb3.append("ALTER TABLE "); //$NON-NLS-1$
-			sb3.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+			sb3.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 			sb3.append(" MODIFY ("); //$NON-NLS-1$
-			sb3.append(SQLUtil.encodeQuotation(to.getName()));
+//			sb3.append(SQLUtil.encodeQuotation(to.getName()));
+			sb3.append(SQLUtil.enclose(to.getName(), encloseChar));
 			sb3.append(" "); //$NON-NLS-1$
 			if (to.isNotNull()) {
-				sb3.append(" NOT NULL"); //$NON-NLS-1$
+				sb3.append("NOT NULL"); //$NON-NLS-1$
 			} else {
-				sb3.append(" NULL"); //$NON-NLS-1$
+				sb3.append("NULL"); //$NON-NLS-1$
 			}
 			sb3.append(")"); //$NON-NLS-1$
 
@@ -329,10 +327,11 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
 		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
 		sb.append(" DROP COLUMN "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(column.getName()));
+//		sb.append(SQLUtil.encodeQuotation(column.getName()));
+		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 
 		if (cascadeConstraints) {
-			sb.append(" CASCADE CONSTRAINTS "); //$NON-NLS-1$
+			sb.append(" CASCADE CONSTRAINTS"); //$NON-NLS-1$
 		}
 
 		return new String[] {sb.toString()};
@@ -351,17 +350,11 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 		sb.append(" INDEX "); //$NON-NLS-1$
 		// INDEX名
-		sb.append("\""); //$NON-NLS-1$
-		sb.append(table.getSchemaName());
-		sb.append("\""); //$NON-NLS-1$
+		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append("."); //$NON-NLS-1$
-		sb.append(indexName);
+		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		sb.append(" ON "); //$NON-NLS-1$
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 
 		sb.append("("); //$NON-NLS-1$
@@ -370,7 +363,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(column.getColumn().getColumnName());
+//			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 
@@ -380,11 +374,10 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createDropIndexDDL(String indexName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("DROP INDEX "); //$NON-NLS-1$
-		sb.append("\""); //$NON-NLS-1$
-		sb.append(table.getSchemaName());
-		sb.append("\""); //$NON-NLS-1$
+		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append("."); //$NON-NLS-1$
-		sb.append(indexName);
+//		sb.append(indexName);
+		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		return sb.toString();
 	}
 
@@ -392,9 +385,9 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintPKDDL(String constraintName, Column[] columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" PRIMARY KEY"); //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
@@ -402,7 +395,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(column.getColumn().getColumnName());
+//			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 		return sb.toString();
@@ -411,9 +405,9 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintUKDDL(String constraintName, Column[] columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" UNIQUE "); // UNIQUE KEY ではなく、 UNIQUE //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
@@ -421,7 +415,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(column.getColumn().getColumnName());
+//			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 		return sb.toString();
@@ -432,9 +427,9 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintFKDDL(String constraintName, Column[] columns, ITable refTable, Column[] refColumns, boolean onDeleteCascade) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" FOREIGN KEY"); //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
@@ -442,19 +437,21 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(column.getColumn().getColumnName());
+//			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 		sb.append(" REFERENCES "); //$NON-NLS-1$
 
-		sb.append(refTable.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(refTable, isVisibleSchemaName));
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < refColumns.length; i++) {
 			Column refColumn = refColumns[i];
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(refColumn.getColumn().getColumnName());
+//			sb.append(refColumn.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(refColumn.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 		if (onDeleteCascade) {
@@ -468,9 +465,9 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintCheckDDL(String constraintName, String check) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" CHECK"); //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		sb.append(check);
@@ -482,9 +479,9 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createDropConstraintDDL(String constraintName, String type) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" DROP CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		return sb.toString();
 
 	}
@@ -493,64 +490,9 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT TEXT"); //$NON-NLS-1$
 		sb.append(" FROM ALL_VIEWS"); //$NON-NLS-1$
-		sb.append(" WHERE OWNER = '" + SQLUtil.encodeQuotation(owner) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append(" AND VIEW_NAME = '" + SQLUtil.encodeQuotation(view) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append(" WHERE OWNER = '" + SQLUtil.enclose(owner, encloseChar) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append(" AND VIEW_NAME = '" + SQLUtil.enclose(view, encloseChar) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString();
 	}
-
-	// /**
-	// * Oralceでは、UniqueIndexをDDLに含めない
-	// */
-	// protected String getConstraints() {
-	// StringBuffer sb = new StringBuffer();
-	//
-	// String pks = getConstraintPKStr();
-	// String[] fks = getConstraintFKStr();
-	// String[] cons = getConstraintOtherStr();
-	//		
-	// boolean p = (pks != null && pks.length() > 0);
-	// boolean f = (fks != null && fks.length > 0);
-	// boolean c = (cons != null && cons.length > 0);
-	//		
-	// if (pks != null) {
-	// sb.append(" " + pks);
-	// if (f || c ) {
-	// sb.append(",");
-	//
-	// }
-	// sb.append(DbPluginConstant.LINE_SEP);
-	// } else {
-	//
-	// }
-	//
-	// if (fks != null) {
-	// for (int i = 0; i < fks.length; i++) {
-	// if (i == fks.length - 1) {
-	// sb.append(" " + fks[i]);
-	// if (c) {
-	// sb.append(",");
-	// }
-	// } else {
-	// sb.append(" " + fks[i] + ",");
-	// }
-	// sb.append(DbPluginConstant.LINE_SEP);
-	//
-	// }
-	// }
-	//		
-	// if (cons != null) {
-	// for (int i = 0; i < cons.length; i++) {
-	// if (i == cons.length - 1) {
-	// sb.append(" " + cons[i]);
-	// } else {
-	// sb.append(" " + cons[i] + ",");
-	// }
-	// sb.append(DbPluginConstant.LINE_SEP);
-	//
-	// }
-	// }
-	//
-	// return sb.toString();
-	// }
 
 }

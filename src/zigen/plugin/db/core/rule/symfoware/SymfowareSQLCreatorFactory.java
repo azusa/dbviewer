@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -16,13 +16,13 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
 /**
- * 
+ *
  * SymfowareSQLCreatorFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- * 
+ *
  */
 public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
@@ -33,7 +33,7 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createSelect(String _condition, int limit) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
@@ -91,11 +91,7 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			// Symfowareでは、CREATE OR REPLACE は無い
 			// wk.append("CREATE OR REPLACE VIEW "); //$NON-NLS-1$
 			wk.append("CREATE VIEW "); //$NON-NLS-1$
-			if (isVisibleSchemaName) {
-				wk.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-			} else {
-				wk.append(SQLUtil.encodeQuotation(table.getName()));
-			}
+			wk.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 			wk.append(DbPluginConstant.LINE_SEP);
 

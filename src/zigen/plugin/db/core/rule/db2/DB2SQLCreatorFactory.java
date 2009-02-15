@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -13,13 +13,13 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
 /**
- * 
+ *
  * OracleInsertFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- * 
+ *
  */
 public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 
@@ -32,8 +32,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
-
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
@@ -80,30 +79,21 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCommentOnTableDDL(String commnets) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON TABLE "); //$NON-NLS-1$
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
 
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		sb.append(" IS "); //$NON-NLS-1$
-		sb.append(" '" + SQLUtil.encodeQuotation(commnets) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("'" + SQLUtil.encodeQuotation(commnets) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString();
 	}
 
 	public String createCommentOnColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("COMMENT ON COLUMN "); //$NON-NLS-1$
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
-
-
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append("."); //$NON-NLS-1$
-		sb.append(column.getName());
+//		sb.append(column.getName());
+		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" IS"); //$NON-NLS-1$
 		sb.append(" '" + SQLUtil.encodeQuotation(column.getRemarks()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString();
@@ -112,9 +102,10 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createRenameTableDDL(String newTableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("RENAME TABLE "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" TO "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(newTableName));
+//		sb.append(newTableName);
+		sb.append(SQLUtil.enclose(newTableName, encloseChar));
 		return sb.toString();
 	}
 
@@ -126,9 +117,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String[] createAddColumnDDL(Column column) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD "); //$NON-NLS-1$
-		sb.append(SQLUtil.encodeQuotation(column.getName()));
+		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
 		sb.append(column.getTypeName());// 型
 		if (isVisibleColumnSize(column.getTypeName())) {// 桁
@@ -163,7 +154,6 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	}
 
-	// / ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ //
 	public String createCreateIndexDDL(String indexName, Column[] columns, int indexType) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE"); //$NON-NLS-1$
@@ -175,17 +165,11 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 		sb.append(" INDEX "); //$NON-NLS-1$
 		// INDEX名
-		sb.append("\""); //$NON-NLS-1$
-		sb.append(table.getSchemaName());
-		sb.append("\""); //$NON-NLS-1$
+		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append("."); //$NON-NLS-1$
-		sb.append(indexName);
+		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		sb.append(" ON "); //$NON-NLS-1$
-		if (isVisibleSchemaName) {
-			sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
-		} else {
-			sb.append(SQLUtil.encodeQuotation(table.getName()));
-		}
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 
 		sb.append("("); //$NON-NLS-1$
@@ -194,7 +178,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 
@@ -204,11 +188,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createDropIndexDDL(String indexName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("DROP INDEX "); //$NON-NLS-1$
-		sb.append("\""); //$NON-NLS-1$
-		sb.append(table.getSchemaName());
-		sb.append("\""); //$NON-NLS-1$
+		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append("."); //$NON-NLS-1$
-		sb.append(indexName);
+		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		return sb.toString();
 	}
 
@@ -216,9 +198,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintPKDDL(String constraintName, Column[] columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" PRIMARY KEY"); //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
@@ -226,7 +208,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 		return sb.toString();
@@ -235,9 +217,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintUKDDL(String constraintName, Column[] columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" UNIQUE "); // UNIQUE KEY ではなく、 UNIQUE //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
@@ -245,7 +227,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 		return sb.toString();
@@ -256,9 +238,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintFKDDL(String constraintName, Column[] columns, ITable refTable, Column[] refColumns, boolean onDeleteCascade) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" FOREIGN KEY"); //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
@@ -266,19 +248,19 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(column.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(column.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 		sb.append(" REFERENCES "); //$NON-NLS-1$
 
-		sb.append(refTable.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(refTable, isVisibleSchemaName));
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < refColumns.length; i++) {
 			Column refColumn = refColumns[i];
 			if (i != 0) {
 				sb.append(", "); //$NON-NLS-1$
 			}
-			sb.append(refColumn.getColumn().getColumnName());
+			sb.append(SQLUtil.enclose(refColumn.getColumn().getColumnName(), encloseChar));
 		}
 		sb.append(")"); //$NON-NLS-1$
 		if (onDeleteCascade) {
@@ -292,9 +274,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createCreateConstraintCheckDDL(String constraintName, String check) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		sb.append(" CHECK"); //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		sb.append(check);
@@ -306,9 +288,9 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	public String createDropConstraintDDL(String constraintName, String type) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" DROP CONSTRAINT "); //$NON-NLS-1$
-		sb.append(constraintName);
+		sb.append(SQLUtil.enclose(constraintName, encloseChar));
 		return sb.toString();
 
 	}

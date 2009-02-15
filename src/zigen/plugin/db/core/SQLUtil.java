@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -12,21 +12,31 @@ import java.io.StringReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import zigen.plugin.db.DbPlugin;
+import zigen.plugin.db.preference.PreferencePage;
+
 /**
  * SqlUtilクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/30 ZIGEN create.
- * 
+ *
  */
 public class SQLUtil {
 
 	private static Pattern BIN = Pattern.compile("^BIN\\$.*==\\$0$");
 
+	public static String getNullSymbol(){
+		if(DbPlugin.getDefault() != null){
+			return DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
+		}else{
+			return null;
+		}
+	}
 	/**
 	 * Oracle10gで作成されるDELETE後のテーブル名とマッチするか
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -36,23 +46,52 @@ public class SQLUtil {
 	}
 
 	/**
-	 * ダブルクォートで囲む必要なある文字かどうか(スキーマ名やテーブル名)
-	 * 
+	 * エスケープ文字で囲む必要なある文字かどうか(スキーマ名やテーブル名)
+	 *
 	 * @param str
 	 * @return
 	 */
-	public static boolean requireDoubleQuote(String str) {
+	private static boolean requireEnclose(String str) {
 		if (isBinTableForOracle(str) || StringUtil.isNumeric(str) || str.indexOf("-") > 0) {
 			return true;
-
 		} else {
 			return false;
 		}
 	}
 
+
+	/**
+	 * エスケープ文字で囲まれている場合、それを除く
+	 * @param str
+	 * @param encloseChar
+	 * @return
+	 */
+	public static final String removeEnclosedChar(String str, char encloseChar){
+		char s = str.charAt(0);
+		char e = str.charAt(str.length()-1);
+		if(s == encloseChar && e == encloseChar){
+			return str.substring(1, str.length()-1);
+		}else{
+			return str;
+		}
+	}
+	/**
+	 * エスケープ文字で囲む必要があれば囲む。（そうでなければ、何もしない)
+	 * @param str
+	 * @param encloseChar
+	 * @return
+	 */
+	public static final String enclose(String str, char encloseChar){
+		if(requireEnclose(str)){
+			return encloseChar + str + encloseChar;
+		}else{
+			return str;
+		}
+	}
+
 	/**
 	 * 文字列中の「'」をDBアクセス可能に変換する。
-	 * 
+	 *
 	 * @param strSrc
 	 *            元の文字列
 	 * @return 変換後の文字列
@@ -75,7 +114,7 @@ public class SQLUtil {
 
 	/**
 	 * 文字列中の「%」,「_」,「\」をDBアクセス可能に変換する。 ※これを使う場合は、ESCAPE 句が必要です
-	 * 
+	 *
 	 * @param strSrc
 	 *            元の文字列
 	 * @return 変換後の文字列
@@ -132,7 +171,7 @@ public class SQLUtil {
 
 	/**
 	 * "hogehoge", 'hogehoge'以外の文字を全て大文字に変換する
-	 * 
+	 *
 	 * @param sql
 	 * @return
 	 */
@@ -142,7 +181,7 @@ public class SQLUtil {
 
 	/**
 	 * "hogehoge", 'hogehoge'以外の文字を全て小文字に変換する
-	 * 
+	 *
 	 * @param sql
 	 * @return
 	 */

@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -13,13 +13,13 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
 /**
- * 
+ *
  * OracleInsertFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- * 
+ *
  */
 public class SQLServerSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
@@ -38,7 +38,7 @@ public class SQLServerSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 
 		sb.append(" * FROM ");
-		sb.append(table.getSqlTableName());
+		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		String[] conditions = SQLFormatter.splitOrderCause(_condition);
 		String condition = conditions[0];
@@ -90,7 +90,7 @@ public class SQLServerSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		StringBuffer sb = new StringBuffer();
 		sb.append("sp_rename");
 		sb.append(" '" + SQLUtil.encodeQuotation(table.getSqlTableName()) + "'");
-		sb.append("  ,'" + SQLUtil.encodeQuotation(newTableName) + "'");
+		sb.append(", '" + SQLUtil.encodeQuotation(newTableName) + "'");
 		return sb.toString();
 	}
 

@@ -97,6 +97,7 @@ public class SQLProposalCreator2 {
 					display = sb.toString();
 				}
 
+
 				String value = ContentAssistUtil.subString(modifier, len);
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
 					// 候補の作成と追加
@@ -222,7 +223,7 @@ public class SQLProposalCreator2 {
 
 	/**
 	 * 補完用のイメージを取得します。
-	 * 
+	 *
 	 * @param imageCode
 	 *            イメージのコード
 	 * @return
