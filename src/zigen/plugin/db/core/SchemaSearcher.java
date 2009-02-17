@@ -57,7 +57,8 @@ public class SchemaSearcher {
 			}
 
 			while (rs.next()) {
-				String wk = rs.getString("TABLE_SCHEM"); //$NON-NLS-1$
+//				String wk = rs.getString("TABLE_SCHEM"); //$NON-NLS-1$
+				String wk = rs.getString(1); //$NON-NLS-1$
 				list.add(wk);
 			}
 
