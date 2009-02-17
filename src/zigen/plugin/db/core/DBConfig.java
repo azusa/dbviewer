@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -11,11 +11,11 @@ import java.util.Properties;
 
 /**
  * DBConfigクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create. [2] 2005/09/27 ZIGEN create.
- * 
+ *
  */
 public class DBConfig implements IDBConfig, Serializable, Cloneable {
 
@@ -143,14 +143,16 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 
 	/**
 	 * JDBC接続用のPropertiesクラスを返す。
-	 * 
+	 *
 	 * @return properties を戻します。
 	 */
 	public Properties getProperties() {
 		Properties properties = new Properties();
 		properties.setProperty("user", this.getUserId()); //$NON-NLS-1$
 		properties.setProperty("password", this.getPassword()); //$NON-NLS-1$
-
+		if(this.getSchema() != null){
+			properties.setProperty("schema", this.getSchema());//$NON-NLS-1$
+		}
 
 		// charSetの追加
 		if (this.getCharset() != null && !this.getCharset().equals("")) { //$NON-NLS-1$
@@ -308,7 +310,7 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 
 	/**
 	 * Returns <code>true</code> if this <code>DBConfig</code> is the same as the o argument.
-	 * 
+	 *
 	 * @return <code>true</code> if this <code>DBConfig</code> is the same as the o argument.
 	 */
 	public boolean equals(Object o) {

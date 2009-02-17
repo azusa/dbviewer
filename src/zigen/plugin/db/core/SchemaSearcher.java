@@ -15,11 +15,11 @@ import java.util.List;
 
 /**
  * SchemaSearcherクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/18 ZIGEN create.
- * 
+ *
  */
 public class SchemaSearcher {
 
@@ -74,7 +74,6 @@ public class SchemaSearcher {
 
 	}
 
-
 	public static boolean isSupport(Connection con) {
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
@@ -91,4 +90,45 @@ public class SchemaSearcher {
 		}
 	}
 
+	/**
+	 * 指定したスキーマ名が存在するか(大文字小文字の区別をしない)
+	 * @param con
+	 * @param target
+	 * @return
+	 * @throws Exception
+	 */
+	public static boolean existSchemaName(Connection con, String target) throws Exception {
+		ResultSet rs = null;
+		Statement st = null;
+		try {
+			DatabaseMetaData objMet = con.getMetaData();
+
+			// add ZIGEN スキーマサポートのチェックを追加
+			if (!isSupport(con)) {
+				return false;
+			}
+			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
+				String s = "SELECT SCHEMA_NAME AS TABLE_SCHEM FROM information_schema.SCHEMATA";
+				st = con.createStatement();
+				rs = st.executeQuery(s);
+			} else {
+				rs = objMet.getSchemas();
+			}
+			while (rs.next()) {
+				String wk = rs.getString("TABLE_SCHEM"); //$NON-NLS-1$
+				if(wk.equalsIgnoreCase(target)){
+					return true;
+				}
+			}
+			return false;
+
+		} catch (Exception e) {
+			throw e;
+
+		} finally {
+			StatementUtil.close(st);
+			ResultSetUtil.close(rs);
+		}
+
+	}
 }

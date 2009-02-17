@@ -63,6 +63,7 @@ public class ContentInfo {
 				this.encloseChar = AbstractStatementFactory.getFactory(config).getEncloseChar();
 				this.schemaInfoMap = getSchemas();
 				this.currentSchema = findCurrentSchema();
+
 				DbPlugin.fireStatusChangeListener(config, IStatusChangeListener.EVT_ChangeDataBase);
 
 			} else {
@@ -101,14 +102,17 @@ public class ContentInfo {
 							return schema.getName();
 						}
 					} else {
-						return null;
+//						return null;
+						throw new IllegalStateException("スキーマサポートしている場合は、DataBase要素の後にSchema要素があるべきです");
 					}
 				}
+				throw new IllegalStateException("データベース接続定義の接続スキーマ名に誤りがあります。");
+			}else{
+				return null;	// スキーマをサポートしていないので、NULL
 			}
 		} else {
 			return findCorrectSchema(config.getSchema().toUpperCase());
 		}
-		return null;
 
 	}
 

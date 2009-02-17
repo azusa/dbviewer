@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -320,7 +320,7 @@ public class WizardPage2 extends DefaultWizardPage {
 
 	/**
 	 * コンボボックスを更新する
-	 * 
+	 *
 	 * @param parent
 	 */
 	private void updateComboBox(List classpathList) {
@@ -365,7 +365,7 @@ public class WizardPage2 extends DefaultWizardPage {
 
 	/**
 	 * 指定したディレクトリ配下のすべてのファイル一覧を作成する
-	 * 
+	 *
 	 * @param list
 	 * @param dir
 	 */

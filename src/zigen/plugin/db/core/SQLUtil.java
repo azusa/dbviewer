@@ -67,6 +67,8 @@ public class SQLUtil {
 	 * @return
 	 */
 	public static final String removeEnclosedChar(String str, char encloseChar){
+		if(str == null) return str;
+
 		char s = str.charAt(0);
 		char e = str.charAt(str.length()-1);
 		if(s == encloseChar && e == encloseChar){
@@ -82,6 +84,8 @@ public class SQLUtil {
 	 * @return
 	 */
 	public static final String enclose(String str, char encloseChar){
+		if(str == null) return str;
+
 		if(requireEnclose(str)){
 			return encloseChar + str + encloseChar;
 		}else{
