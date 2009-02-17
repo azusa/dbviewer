@@ -77,11 +77,8 @@ public class DriverManager {
 		String key = getKey(config);
 
 		if (driverMap.containsKey(key)) {
-			System.out.println("### キャッシュのDriverです key:" + key);
 			return (Driver) driverMap.get(key);
 		} else {
-
-			System.out.println("### 新規のDriverです key:" + key);
 			Driver driver = getDriver(config.getDriverName(), config.getClassPaths());
 			driverMap.put(key, driver);
 			return driver;
