@@ -350,7 +350,7 @@ public class DDLDiffForFolderJob extends AbstractJob {
 
 
 		IDBConfig config = table.getDbConfig();
-		IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
+		IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), config.isConvertUnicode());
 		TableColumn[] columns = factory.execute(con, schemaName, tableName);
 
 		// TableColumn[] columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);

@@ -628,7 +628,6 @@ public class TreeView extends AbstractTreeView {
 		}else if (status == IStatusChangeListener.EVT_RefreshOracleSource) {
 			if (obj instanceof OracleSource) {
 				OracleSource source = (OracleSource) obj;
-				System.out.println(source.getDbConfig());
 				RefreshOracleSourceJob job = new RefreshOracleSourceJob(viewer, source);
 				job.setPriority(RefreshOracleSourceJob.SHORT);
 				job.setUser(true);

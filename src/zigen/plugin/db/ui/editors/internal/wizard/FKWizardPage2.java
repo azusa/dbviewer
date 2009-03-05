@@ -108,7 +108,7 @@ public class FKWizardPage2 extends PKWizardPage {
 
 			// zigen.plugin.db.core.TableColumn[] columns = ColumnSearcher.execute(con, tableNode.getSchemaName(), tableName, isConvertUnicode);
 			IDBConfig config = tableNode.getDbConfig();
-			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
+			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), config.isConvertUnicode());
 			zigen.plugin.db.core.TableColumn[] columns = factory.execute(con, tableNode.getSchemaName(), tableName);
 			columnList = new ArrayList(); // èâä˙âª
 			for (int i = 0; i < columns.length; i++) {

@@ -8,13 +8,16 @@ import java.util.TreeMap;
 import zigen.plugin.db.core.JDBCUnicodeConvertor;
 import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.TableColumn;
+import zigen.plugin.db.core.rule.AbstractCommentSearchFactory;
 import zigen.plugin.db.core.rule.ColumnInfo;
 import zigen.plugin.db.core.rule.DefaultColumnSearcherFactory;
-import zigen.plugin.db.core.rule.TableCommentsSearcher;
+import zigen.plugin.db.core.rule.ICommentFactory;
 
 public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory {
-	
-	
+	public SymfowareColumnSearcharFactory(DatabaseMetaData meta, boolean convertUnicode) {
+		super(meta, convertUnicode);
+	}
+
 	static Map typeMap = new TreeMap();
 	static {
 		typeMap.put("CH", new Integer(Types.CHAR));
@@ -34,7 +37,7 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 		typeMap.put("TI", new Integer(Types.TIME));
 		typeMap.put("IT", new Integer(Types.OTHER));
 	}
-	
+
 	static Map typeNameMap = new TreeMap();
 	static {
 		typeNameMap.put("CH", "char");
@@ -54,7 +57,7 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 		typeNameMap.put("TI", "time");
 		typeNameMap.put("IT", "interval");
 	}
-	
+
 	private int getJavaType(String typeName) {
 		String key = typeName.toUpperCase();
 		if (typeMap.containsKey(key)) {
@@ -64,7 +67,7 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 			return java.sql.Types.OTHER;
 		}
 	}
-	
+
 	private String getTypeName(String typeName) {
 		String key = typeName.toUpperCase();
 		if (typeNameMap.containsKey(key)) {
@@ -73,12 +76,8 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 			return "Unknown";
 		}
 	}
-	
-	public SymfowareColumnSearcharFactory(boolean convertUnicode) {
-		super(convertUnicode);
-	}
-	
-	
+
+
 	protected void overrideColumnInfo(Map map, TableColumn tCol) throws Exception {
 		if (map != null && map.size() > 0) {
 			ColumnInfo col = (ColumnInfo) map.get(tCol.getColumnName());
@@ -101,7 +100,7 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 					}
 					tCol.setWithoutParam(false); // パラメータ有り
 				}
-				
+
 				// 初期値には不要な空白が入ることがある場合があるためTrimする
 				if (col.getData_default() != null) {
 					tCol.setDefaultValue(col.getData_default().trim());
@@ -109,7 +108,7 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 				String dataType = col.getData_type(); // CNなど
 				tCol.setDataType(getJavaType(dataType));
 				tCol.setTypeName(getTypeName(dataType));
-				
+
 				String remarks = col.getComments();
 				if (convertUnicode) {
 					remarks = JDBCUnicodeConvertor.convert(remarks);
@@ -120,15 +119,13 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 				// } else {
 				// column.setNotNull(false);
 				// }
-				
+
 			}
 		}
 	}
-	
-	
-	protected String getCustomColumnInfoSQL(DatabaseMetaData objMet, String owner, String table) {
-		String dbName = TableCommentsSearcher.getDBName(objMet);
-		
+
+
+	protected String getCustomColumnInfoSQL(String dbName, String owner, String table) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT");
 		sb.append("        TRIM(COL.COLUMN_NAME) ").append(COLUMN_NAME_STR);
@@ -143,19 +140,9 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 		sb.append("        END ").append(DATA_PRECISION_STR);
 		sb.append("        ,COL.NUMERIC_SCALE ").append(DATA_SCALE_STR);
 		sb.append("        ,COL.DEFAULT_VALUE ").append(DATA_DEFAULT_STR);;
-		// sb.append(" ,CASE");
-		// sb.append(" WHEN COL.NULLABLE = 'NO' THEN 0");
-		// sb.append(" ELSE 1");
-		// sb.append(" END ").append(NULLABLE_STR);
-		sb.append("        , COM.COMMENT_VALUE ").append(COMMENTS_STR);
+		sb.append("        ,COM.COMMENT_VALUE ").append(COMMENTS_STR);
 		sb.append("    FROM");
 		sb.append("        RDBII_SYSTEM.RDBII_TABLE T");
-		// sb.append(" LEFT OUTER JOIN RDBII_SYSTEM.RDBII_COMMENT COM");
-		// sb.append(" ON (");
-		// sb.append(" T.DB_CODE = COM.DB_CODE");
-		// sb.append(" AND T.SCHEMA_CODE = COM.SCHEMA_CODE");
-		// sb.append(" AND T.TABLE_CODE = COM.TABLE_CODE");
-		// sb.append(" )");
 		sb.append("        ,RDBII_SYSTEM.RDBII_COLUMN COL");
 		sb.append("            LEFT OUTER JOIN RDBII_SYSTEM.RDBII_COMMENT COM");
 		sb.append("                ON (");
@@ -171,7 +158,8 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 		sb.append("        AND T.TABLE_NAME = '" + SQLUtil.encodeQuotation(table) + "'");
 		sb.append("    ORDER BY");
 		sb.append("        COL.ORDINAL_POSITION");
-		
+
+
 		return sb.toString();
 	}
 }

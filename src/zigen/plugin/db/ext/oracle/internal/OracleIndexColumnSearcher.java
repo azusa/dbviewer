@@ -57,7 +57,7 @@ public class OracleIndexColumnSearcher {
 
 			// TableColumn[] columns = ColumnSearcher.execute(con, owner, tableName, convertUnicode);
 			IDBConfig config = table.getDbConfig();
-			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
+			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), config.isConvertUnicode());
 			TableColumn[] columns = factory.execute(con, owner, tableName);
 
 

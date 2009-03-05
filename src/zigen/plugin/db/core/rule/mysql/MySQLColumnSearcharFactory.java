@@ -20,6 +20,9 @@ import zigen.plugin.db.core.rule.DefaultColumnSearcherFactory;
 
 public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 
+	public MySQLColumnSearcharFactory(DatabaseMetaData meta, boolean convertUnicode) {
+		super(meta, convertUnicode);
+	}
 
 	static Map typeMap = new TreeMap();
 
@@ -65,10 +68,6 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		} else {
 			return java.sql.Types.OTHER;
 		}
-	}
-
-	public MySQLColumnSearcharFactory(boolean convertUnicode) {
-		super(convertUnicode);
 	}
 
 	public TableColumn[] execute(Connection con, String schemaPattern, String tableName) throws Exception {

@@ -353,7 +353,7 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 
 		// TableColumn[] columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);
 		IDBConfig config = table.getDbConfig();
-		IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
+		IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), config.isConvertUnicode());
 		TableColumn[] columns = factory.execute(con, schemaName, tableName);
 
 		IConstraintSearcherFactory constraintSearcherFactory = DefaultConstraintSearcherFactory.getFactory(config);

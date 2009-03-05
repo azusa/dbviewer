@@ -124,7 +124,7 @@ public class ColumnSearchAction implements Runnable {
 			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);
 			if (SchemaSearcher.isSupport(con)) {
 				// columns = ColumnSearcher.execute(con, schemaName, tableName, config.isConvertUnicode());
-				IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
+				IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), config.isConvertUnicode());
 				columns = factory.execute(con, schemaName, tableName);
 
 				// pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
@@ -140,7 +140,7 @@ public class ColumnSearchAction implements Runnable {
 				}
 			} else {
 				// columns = ColumnSearcher.execute(con, null, tableName, config.isConvertUnicode());
-				IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
+				IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), config.isConvertUnicode());
 				columns = factory.execute(con, null, tableName);
 
 				// pks = ConstraintSearcher.getPKColumns(con, null, tableName);

@@ -73,7 +73,6 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 
 	private boolean checkFilterPattern;
 
-
 	/**
 	 * コンストラクタ
 	 */
@@ -530,4 +529,5 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 	public void setConnectAsInformationSchema(boolean isConnectAsInformationSchema) {
 		this.isConnectAsInformationSchema = isConnectAsInformationSchema;
 	}
+
 }

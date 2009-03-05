@@ -8,6 +8,7 @@ package zigen.plugin.db.ui.jobs;
 import java.sql.Connection;
 
 import zigen.plugin.db.DbPlugin;
+import zigen.plugin.db.core.ConnectionManager;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.SchemaSearcher;
 import zigen.plugin.db.core.Transaction;
@@ -41,17 +42,17 @@ public class TestConnectThread implements Runnable {
 		message = sb.toString();
 	}
 
+	/**
+	 * テスト用コネクション接続は、Transactionではなく、ConnectionManagerからコネクションを取得する
+	 */
 	public void run() {
 		Connection con = null;
-		Transaction trans = Transaction.getInstance(config);
-
+//		Transaction trans = Transaction.getInstance(config);
 		try {
-			con = trans.getConnection();
-
+//			con = trans.getConnection();
+			con = ConnectionManager.getConnection(config);
 			if(SchemaSearcher.isSupport(con)){
-				if(!SchemaSearcher.existSchemaName(con, config.getSchema())){
-					throw new Exception("Default Schema not exist.");
-				}
+				SchemaSearcher.existSchemaName(con, config.getSchema());
 			}
 			this.isSuccess = true;
 			this.message = Messages.getString("TestConnectThread.2"); //$NON-NLS-1$
@@ -64,9 +65,10 @@ public class TestConnectThread implements Runnable {
 			this.isSuccess = false;
 
 		} finally {
-			if (isSuccess && !isAlive) {
-				trans.cloesConnection();
-			}
+//			if (isSuccess && !isAlive) {
+//				trans.cloesConnection();
+//			}
+			ConnectionManager.closeConnection(con);
 		}
 	}
 

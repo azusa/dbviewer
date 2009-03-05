@@ -8,6 +8,7 @@
 package zigen.plugin.db.core;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.SQLException;
 
@@ -198,6 +199,32 @@ public class ConnectionManager {
 				DbPlugin.log(e);
 			}
 		}
+	}
+	
+	public static String getDBName(Connection con) {
+		String name = null;
+		try {
+			DatabaseMetaData objMet = con.getMetaData();
+			
+			switch (DBType.getType(objMet)) {
+				case DBType.DB_TYPE_SYMFOWARE:
+					String url = objMet.getURL();
+					String[] wk = url.split("/");
+					if (wk.length >= 4) {
+						String s = wk[3];
+						int index = s.indexOf(';'); // パラメータの区切り文字
+						if (index >= 0) {
+							name = s.substring(0, index);
+							// の前までを使う
+						} else {
+							name = s;
+						}
+					}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
 	}
 
 }

@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -78,7 +78,6 @@ public class ExplainResultDialog extends Dialog {
 			ITableLabelProvider provider = (ITableLabelProvider) result.getLabelProvider();
 			copyResult(sb, provider, model.getChildren(), 0);
 
-			System.out.println(sb.toString());
 			clipboard.setContents(new Object[] {sb.toString()}, new Transfer[] {TextTransfer.getInstance()});
 		} else {
 			super.buttonPressed(buttonId);

@@ -136,12 +136,6 @@ public class DefaultStatementFactory extends AbstractStatementFactory implements
 		return "'" + String.valueOf(value) + "'";
 	}
 
-	public static void main(String[] args){
-		String 		data = "12'3";
-		data = data.replaceAll("'", "''"); // "があれば、""に置換
-		System.out.println(data);
-	}
-
 	public char getEncloseChar(){
 		return '"';	// デフォルトはダブルクォート
 	}

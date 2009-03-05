@@ -86,7 +86,7 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 		if (SchemaSearcher.isSupport(con)) {
 			monitor.subTask(Messages.getString("RefreshColumnJob.6")); //$NON-NLS-1$
 			// columns = ColumnSearcher.execute(con, schemaName, tableName, convertUnicode);
-			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
+			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), convertUnicode);
 			columns = factory.execute(con, schemaName, tableName);
 
 			monitor.worked(1);
@@ -149,7 +149,7 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 		} else {
 			monitor.subTask(Messages.getString("RefreshColumnJob.15")); //$NON-NLS-1$
 			// columns = ColumnSearcher.execute(con, null, tableName, convertUnicode);
-			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(config);
+			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), convertUnicode);
 			columns = factory.execute(con, null, tableName);
 
 			monitor.worked(1);

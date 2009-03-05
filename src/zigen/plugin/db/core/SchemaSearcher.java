@@ -9,6 +9,7 @@ package zigen.plugin.db.core;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,8 @@ public class SchemaSearcher {
 
 			list = new ArrayList();
 
-			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
-				String s = "SELECT SCHEMA_NAME AS TABLE_SCHEM FROM information_schema.SCHEMATA";
+			String s = getSchemaSearchSql(con);
+			if (s != null) {
 				st = con.createStatement();
 				rs = st.executeQuery(s);
 			} else {
@@ -75,6 +76,20 @@ public class SchemaSearcher {
 
 	}
 
+	private static String getSchemaSearchSql(Connection con){
+		try {
+			DatabaseMetaData objMet = con.getMetaData();
+			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
+				return "SELECT SCHEMA_NAME AS TABLE_SCHEM FROM information_schema.SCHEMATA";
+			}else if(DBType.getType(objMet) == DBType.DB_TYPE_SYMFOWARE){
+				String dbName = ConnectionManager.getDBName(con);
+				return "SELECT TRIM(SCHEMA_NAME) AS TABLE_SCHEM FROM RDBII_SYSTEM.RDBII_SCHEMA WHERE DB_NAME = '"+dbName+"'";
+			}
+		} catch (SQLException e) {
+		}
+		return null;
+	}
+
 	public static boolean isSupport(Connection con) {
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
@@ -98,7 +113,7 @@ public class SchemaSearcher {
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean existSchemaName(Connection con, String target) throws Exception {
+	public static void existSchemaName(Connection con, String target) throws SQLException {
 		ResultSet rs = null;
 		Statement st = null;
 		try {
@@ -106,10 +121,10 @@ public class SchemaSearcher {
 
 			// add ZIGEN スキーマサポートのチェックを追加
 			if (!isSupport(con)) {
-				return false;
+				return;
 			}
-			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
-				String s = "SELECT SCHEMA_NAME AS TABLE_SCHEM FROM information_schema.SCHEMATA";
+			String s = getSchemaSearchSql(con);
+			if (s != null) {
 				st = con.createStatement();
 				rs = st.executeQuery(s);
 			} else {
@@ -119,13 +134,15 @@ public class SchemaSearcher {
 //				String wk = rs.getString("TABLE_SCHEM"); //$NON-NLS-1$
 				String wk = rs.getString(1); //$NON-NLS-1$
 				if(wk.equalsIgnoreCase(target)){
-					return true;
+					return;
 				}
 			}
-			return false;
 
-		} catch (Exception e) {
-			throw e;
+			if(s != null){
+				throw new SQLException("The schema doesn't exist.\n" + s);
+			}else{
+				throw new SQLException("The schema doesn't exist.");
+			}
 
 		} finally {
 			StatementUtil.close(st);

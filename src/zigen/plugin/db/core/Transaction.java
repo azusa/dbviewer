@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -14,11 +14,11 @@ import zigen.plugin.db.ui.editors.exceptions.NotFoundDBConfigException;
 
 /**
  * Transactionクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/04/17 ZIGEN create.
- * 
+ *
  */
 public class Transaction {
 
@@ -47,7 +47,7 @@ public class Transaction {
 
 	/**
 	 * インスタンス生成
-	 * 
+	 *
 	 * @param<code>_instance</code>
 	 */
 	public synchronized static Transaction getInstance(IDBConfig config) {

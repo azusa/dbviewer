@@ -10,15 +10,15 @@ import zigen.plugin.db.core.rule.ColumnInfo;
 import zigen.plugin.db.core.rule.DefaultColumnSearcherFactory;
 
 public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
-	
-	public OracleColumnSearcharFactory(boolean convertUnicode) {
-		super(convertUnicode);
+
+	public OracleColumnSearcharFactory(DatabaseMetaData meta, boolean convertUnicode) {
+		super(meta, convertUnicode);
 	}
-	
+
 	protected void overrideColumnInfo(Map map, TableColumn tCol) throws Exception {
 		if (map != null && map.size() > 0) {
 			ColumnInfo col = (ColumnInfo) map.get(tCol.getColumnName());
-			
+
 			if (col.getData_precision() == null) {
 				// パラメータ無しの型と判定する
 				tCol.setColumnSize(0);
@@ -37,25 +37,20 @@ public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
 				}
 				tCol.setWithoutParam(false); // パラメータ有り
 			}
-			
+
 			// 初期値には不要な空白が入ることがある場合があるためTrimする
 			if (col.getData_default() != null) {
 				tCol.setDefaultValue(col.getData_default().trim());
 			}
+
 			tCol.setRemarks(col.getComments());
 		}
 	}
-	
-	
+
 	// Oracle用SQL
-	protected String getCustomColumnInfoSQL(DatabaseMetaData objMet, String owner, String table) {
-		int databaseProductMajorVersion = 0;
-		try {
-			databaseProductMajorVersion = objMet.getDatabaseMajorVersion();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+	protected String getCustomColumnInfoSQL(String dbName, String owner, String table) {
+		int databaseProductMajorVersion = getDatabaseMajorVersion();
+		System.out.println("ORACLEのバージョンは " + databaseProductMajorVersion);
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT");
 		sb.append("        COL.COLUMN_NAME ").append(COLUMN_NAME_STR);
@@ -87,8 +82,8 @@ public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		sb.append("        AND COL.TABLE_NAME = '" + SQLUtil.encodeQuotation(table) + "'");
 		sb.append("    ORDER BY");
 		sb.append("        COL.COLUMN_ID");
-		
+
 		return sb.toString();
 	}
-	
+
 }

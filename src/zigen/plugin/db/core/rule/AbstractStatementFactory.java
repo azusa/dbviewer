@@ -30,9 +30,6 @@ import zigen.plugin.db.preference.PreferencePage;
 public abstract class AbstractStatementFactory implements IStatementFactory {
 
 	protected static String NULL = "null";
-
-
-
 	protected boolean convertUnicode;
 
 	public static IStatementFactory getFactory(IDBConfig config) {

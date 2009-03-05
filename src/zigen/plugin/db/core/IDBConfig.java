@@ -129,4 +129,5 @@ public interface IDBConfig {
 	public boolean isCheckFilterPattern();
 
 	public void setCheckFilterPattern(boolean checkFilterPattern);
+	
 }

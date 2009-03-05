@@ -17,8 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import zigen.plugin.db.core.rule.AbstractCommentSearchFactory;
+import zigen.plugin.db.core.rule.ICommentFactory;
 import zigen.plugin.db.core.rule.TableComment;
-import zigen.plugin.db.core.rule.TableCommentsSearcher;
 
 /**
  * TableSearcherクラス.
@@ -62,10 +63,8 @@ public class TableSearcher {
 		try {
 			
 			DatabaseMetaData objMet = con.getMetaData();
-			
-			// 独自のコメント情報を
-			// Fetch前にスキーマ指定でテーブルのコメントを取得する
-			Map remarks = TableCommentsSearcher.execute(con, schemaPattern);
+			ICommentFactory factory = AbstractCommentSearchFactory.getFactory(objMet);
+			Map remarks = factory.getRemarkMap(con, schemaPattern);
 			
 			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
 				StringBuffer sb = new StringBuffer();
@@ -158,8 +157,8 @@ public class TableSearcher {
 		ResultSet rs = null;
 		try {
 			
-			// Fetch前にスキーマ指定でテーブルのコメントを取得する
-			Map remarks = TableCommentsSearcher.execute(con, schemaPattern);
+			ICommentFactory factory = AbstractCommentSearchFactory.getFactory(con.getMetaData());
+			Map remarks = factory.getRemarkMap(con, schemaPattern);
 			
 			DatabaseMetaData objMet = con.getMetaData();
 			if (SchemaSearcher.isSupport(con)) {

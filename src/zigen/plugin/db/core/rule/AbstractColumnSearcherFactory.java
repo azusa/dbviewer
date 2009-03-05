@@ -50,59 +50,67 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 	
 	public static final String COMMENTS_STR = "COMMENTS";
 	
-	protected boolean convertUnicode;
 	
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param config
-	 */
-	public static IColumnSearcherFactory getFactory(IDBConfig config) {
-		return getFactory(config.getDriverName(), config.isConvertUnicode());
-	}
-	
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param objMet
-	 * @param isConvertUnicode
-	 */
-	public static IColumnSearcherFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode) {
-		try {
-			return getFactory(objMet.getDriverName(), isConvertUnicode);
-			
-		} catch (SQLException e) {
-			throw new IllegalStateException("DriverNameの取得に失敗しました");
-		}
-		
-	}
+//	/**
+//	 * コンストラクタ
+//	 * 
+//	 * @param config
+//	 */
+//	public static IColumnSearcherFactory getFactory(IDBConfig config) {
+//		return getFactory(config.getDriverName(), config.isConvertUnicode());
+//	}
+//	
+//	/**
+//	 * コンストラクタ
+//	 * 
+//	 * @param objMet
+//	 * @param isConvertUnicode
+//	 */
+//	public static IColumnSearcherFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode) {
+//		try {
+//			return getFactory(objMet.getDriverName(), isConvertUnicode);
+//			
+//		} catch (SQLException e) {
+//			throw new IllegalStateException("DriverNameの取得に失敗しました");
+//		}
+//		
+//	}
 	
 	/**
 	 * MappingFactoryのキャッシュ化
 	 */
 	private static Map map = new HashMap();
+
 	
-	public static IColumnSearcherFactory getFactory(String driverName, boolean isConvertUnicode) {
+	public static IColumnSearcherFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode) {
 		IColumnSearcherFactory factory = null;
 		
-		String key = driverName + ":" + isConvertUnicode;
+		String driverName = "";
+		try {
+			driverName = objMet.getDriverName();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return new DefaultColumnSearcherFactory(objMet, isConvertUnicode);
+		}
 		
+		
+		String key = driverName + ":" + isConvertUnicode;
 		if (map.containsKey(key)) {
 			factory = (IColumnSearcherFactory) map.get(key);
 			factory.setConvertUnicode(isConvertUnicode);
 		} else {
 			switch (DBType.getType(driverName)) {
 				case DBType.DB_TYPE_ORACLE:
-					factory = new OracleColumnSearcharFactory(isConvertUnicode);
+					factory = new OracleColumnSearcharFactory(objMet,isConvertUnicode);
 					break;
 				case DBType.DB_TYPE_MYSQL:
-					factory = new MySQLColumnSearcharFactory(isConvertUnicode);
+					factory = new MySQLColumnSearcharFactory(objMet, isConvertUnicode);
 					break;
 				case DBType.DB_TYPE_SYMFOWARE:
-					factory = new SymfowareColumnSearcharFactory(isConvertUnicode);
+					factory = new SymfowareColumnSearcharFactory(objMet, isConvertUnicode);
 					break;
 				default:
-					factory = new DefaultColumnSearcherFactory(isConvertUnicode);
+					factory = new DefaultColumnSearcherFactory(objMet, isConvertUnicode);
 					break;
 			}
 			
@@ -113,20 +121,18 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 		
 	}
 	
-	public void setConvertUnicode(boolean convertUnicode) {
-		this.convertUnicode = convertUnicode;
-	}
-	
-	abstract protected String getCustomColumnInfoSQL(DatabaseMetaData objMet, String owner, String table);
+	abstract protected String getCustomColumnInfoSQL(String dbName, String owner, String table);
 	
 	protected Map getCustomColumnInfoMap(Connection con, String owner, String table, boolean convertUnicode) throws Exception {
 		Map map = new HashMap();
 		ResultSet rs = null;
 		Statement st = null;
 		try {
-			String sql = getCustomColumnInfoSQL(con.getMetaData(), owner, table);
+			ICommentFactory factory = AbstractCommentSearchFactory.getFactory(con.getMetaData());
+			String dbName = factory.getDbName();
+			String sql = getCustomColumnInfoSQL(dbName, owner, table);
 			if (sql == null)
-				return null;
+				return map;// nullはここで返さないこと
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {
@@ -157,15 +163,6 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 		}
 		return map;
 	}
-	
-	protected int getDatabaseMajorVersion(Connection con) {
-		int version = 0;
-		try {
-			version = con.getMetaData().getDatabaseMajorVersion();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return version;
-	}
+
 	
 }

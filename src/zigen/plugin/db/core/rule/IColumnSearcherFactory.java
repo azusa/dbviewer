@@ -44,4 +44,6 @@ public interface IColumnSearcherFactory {
 
 	abstract void setConvertUnicode(boolean b);
 
+	abstract int getDatabaseMajorVersion();
+	
 }

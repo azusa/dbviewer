@@ -1,12 +1,17 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+
+import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
 
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.DbPluginConstant;
@@ -103,5 +108,4 @@ public class ChangeTransactionIsolationLevelAction implements Runnable {
 			DbPlugin.getDefault().showErrorDialog(e);
 		}
 	}
-
 }

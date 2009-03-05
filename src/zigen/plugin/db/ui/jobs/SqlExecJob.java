@@ -80,6 +80,7 @@ public class SqlExecJob extends AbstractJob {
 	}
 
 	protected IStatus run(IProgressMonitor monitor) {
+		String sql = null;
 		try {
 			String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
 
@@ -102,7 +103,7 @@ public class SqlExecJob extends AbstractJob {
 			int cnt = 0;
 			while (tokenizer.hasMoreElements()) {
 				cnt++;
-				String sql = tokenizer.nextToken();
+				sql = tokenizer.nextToken();
 				if (sql != null && sql.length() > 0) {
 
 					// é¿çsÇ∑ÇÈSQLÇï\é¶
@@ -132,6 +133,7 @@ public class SqlExecJob extends AbstractJob {
 			return Status.OK_STATUS;
 
 		} catch (SQLException e) {
+			DbPlugin.log(e.getMessage() + ", SQL = " + sql);
 			showWarningMessage(e.getMessage());
 
 		} catch (Exception e) {
