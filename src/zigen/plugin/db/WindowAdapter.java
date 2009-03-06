@@ -16,7 +16,7 @@ public class WindowAdapter implements IWindowListener {
 
 	public void windowClosed(IWorkbenchWindow window) {
 		// TODO 自動生成されたメソッド・スタブ
-		System.out.println(window.getClass().getName());
+		//System.out.println(window.getClass().getName());
 	}
 
 	public void windowDeactivated(IWorkbenchWindow window) {
