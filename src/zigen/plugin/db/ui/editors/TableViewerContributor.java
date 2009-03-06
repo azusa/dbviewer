@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -87,7 +87,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 */
 	public TableViewerContributor() {
 		insertRecordAction = new InsertRecordAction();
@@ -178,6 +178,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 			addColumnAction.setEnabled(false);
 			editColumnAction.setEnabled(false);
 			deleteColumnAction.setEnabled(false);
+			duplicateColumnAction.setEnabled(false);
 			break;
 		}
 
@@ -305,11 +306,11 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 	// menu.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
 	// if(editMenu!=null){
 	// deleteAction.refresh();
-	//    		
+	//
 	// editMenu.add(new Separator());
 	// editMenu.add(insertAction);
 	// editMenu.add(deleteAction);
-	//    		
+	//
 	// }
 
 	}

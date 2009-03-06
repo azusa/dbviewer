@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -35,7 +35,7 @@ import zigen.plugin.db.ui.internal.ITable;
 
 /**
  * AbstractInsertMappingFactory.javaクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/06 ZIGEN create.
@@ -135,7 +135,7 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 
 	/**
 	 * キャッシュしない（Diff用）
-	 * 
+	 *
 	 * @return
 	 */
 	public static final ISQLCreatorFactory getFactoryNoCache(String driverName, ITable table) {
@@ -197,7 +197,11 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 		try {
 			Connection con = Transaction.getInstance(config).getConnection();
 			st = con.createStatement();
-			rs = st.executeQuery(getViewDDL_SQL(owner, view));
+
+			ICommentFactory factory = AbstractCommentSearchFactory.getFactory(con.getMetaData());
+			String dbName = factory.getDbName();
+
+			rs = st.executeQuery(getViewDDL_SQL(dbName, owner, view));
 			if (rs.next()) {
 				return rs.getString(1);
 			}
@@ -214,6 +218,6 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 	}
 
 	// ViewのDDLを取得するSQL
-	abstract String getViewDDL_SQL(String owner, String view);
+	abstract String getViewDDL_SQL(String dbName, String owner, String view);
 
 }

@@ -445,7 +445,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		return sb.toString();
 	}
 
-	protected String getViewDDL_SQL(String owner, String view) {
+	protected String getViewDDL_SQL(String dbName, String owner, String view) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT"); //$NON-NLS-1$
 		sb.append("        view_definition"); //$NON-NLS-1$

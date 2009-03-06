@@ -769,7 +769,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		throw new UnsupportedOperationException("createDropConstraintDDL Method is not supported.");
 	}
 
-	protected String getViewDDL_SQL(String owner, String view) {
+	protected String getViewDDL_SQL(String dbName, String owner, String view) {
 		throw new UnsupportedOperationException("getViewDDL_SQL Method is not supported.");
 	}
 

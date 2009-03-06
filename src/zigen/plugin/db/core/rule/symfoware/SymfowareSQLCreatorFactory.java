@@ -124,7 +124,7 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	}
 
-	protected String getViewDDL_SQL(String owner, String view) {
+	protected String getViewDDL_SQL(String dbName, String owner, String view) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT");
 		sb.append("        D.DESC_VALUE");
@@ -132,7 +132,9 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("        RDBII_SYSTEM.RDBII_TABLE T");
 		sb.append("        ,RDBII_SYSTEM.RDBII_DESCRIPTION D");
 		sb.append("    WHERE");
-		sb.append("        T.TABLE_CODE = D.OBJECT_CODE");
+		sb.append("        T.DB_CODE = D.DB_CODE");
+		sb.append("        AND T.TABLE_CODE = D.OBJECT_CODE");
+		sb.append("        AND T.DB_NAME = '" + SQLUtil.encodeQuotation(dbName) + "'");
 		sb.append("        AND T.SCHEMA_NAME = '" + SQLUtil.encodeQuotation(owner) + "'");
 		sb.append("        AND T.TABLE_NAME = '" + SQLUtil.encodeQuotation(view) + "'");
 		sb.append("        AND T.TABLE_TYPE = 'VW'");
