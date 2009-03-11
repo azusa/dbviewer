@@ -142,7 +142,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 
 	public String VisibleColumnSizePattern() {
-		return "^CHAR|^VARCHAR.*|^NUMBER"; //$NON-NLS-1$
+		return "^CHAR|^NCHAR|^VARCHAR.*|^NVARCHAR.*|^NUMBER"; //$NON-NLS-1$
 	}
 
 	public String[] getSupportColumnType() {

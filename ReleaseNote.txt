@@ -13,6 +13,8 @@ DBViewer Plugin for Eclipse V1.1.1.200901xx
 
 ・Symfowareでテーブルコメント、カラムコメントが表示されます。
 
+・OracleのNCHARおよびNVARCHAR2の桁を表示するように修正
+
 <テーブル編集エディター>
 ・主キー、外部キー、ユニークIndex作成時の制約名を初期表示するように修正
 ・テーブルインデックス作成時のIndex名を初期表示するように修正
