@@ -51,9 +51,11 @@ public class TestConnectThread implements Runnable {
 		try {
 //			con = trans.getConnection();
 			con = ConnectionManager.getConnection(config);
-			if(SchemaSearcher.isSupport(con)){
-				SchemaSearcher.existSchemaName(con, config.getSchema());
-			}
+
+//			if(SchemaSearcher.isSupport(con)){
+//				SchemaSearcher.existSchemaName(con, config.getSchema());
+//			}
+
 			this.isSuccess = true;
 			this.message = Messages.getString("TestConnectThread.2"); //$NON-NLS-1$
 
