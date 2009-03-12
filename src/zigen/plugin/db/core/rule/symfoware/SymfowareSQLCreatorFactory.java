@@ -10,6 +10,8 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.DbPluginConstant;
 import zigen.plugin.db.core.SQLFormatter;
 import zigen.plugin.db.core.SQLUtil;
+import zigen.plugin.db.core.TableColumn;
+import zigen.plugin.db.core.TablePKColumn;
 import zigen.plugin.db.core.rule.DefaultSQLCreatorFactory;
 import zigen.plugin.db.preference.SQLFormatPreferencePage;
 import zigen.plugin.db.ui.internal.Column;
@@ -198,5 +200,73 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public String VisibleColumnSizePattern() {
 		return "^CHAR|^VARCHAR.*|^NCHAR.*|^NATIONAL.*|^NUMERIC|^DEC.*|^FLOAT|^BLOB|^INTERVAL.*"; //$NON-NLS-1$
+	}
+
+	public String getTableComment() {
+		StringBuffer sb = new StringBuffer();
+
+		if (table.getRemarks() != null && !"".equals(table.getRemarks())) { //$NON-NLS-1$
+			sb.append("ALTER TABLE "); //$NON-NLS-1$
+			sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
+
+			sb.append(" COMMENT "); //$NON-NLS-1$
+			sb.append("'"); //$NON-NLS-1$
+			sb.append(table.getRemarks());
+			sb.append("'"); //$NON-NLS-1$
+
+			setDemiliter(sb);
+		}
+
+		return sb.toString();
+	}
+
+	public String getColumnComment() {
+		StringBuffer sb = new StringBuffer();
+
+		for (int i = 0; i < cols.length; i++) {
+			Column col = cols[i];
+			TableColumn tCol = col.getColumn();
+
+			if (tCol.getRemarks() != null && !"".equals(tCol.getRemarks())) { //$NON-NLS-1$
+				sb.append("ALTER TABLE  "); //$NON-NLS-1$
+				sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
+				sb.append(" MODIFY "); //$NON-NLS-1$
+				sb.append(tCol.getColumnName());
+				sb.append(" COMMENT "); //$NON-NLS-1$
+				sb.append("'"); //$NON-NLS-1$
+				sb.append(tCol.getRemarks());
+				sb.append("'"); //$NON-NLS-1$
+
+				setDemiliter(sb);
+			}
+		}
+
+		return sb.toString();
+	}
+
+	protected String getConstraintPKStr() {
+		StringBuffer sb = new StringBuffer();
+		if (pks == null || pks.length == 0)
+			return null;
+
+		int i = 0;
+		for (i = 0; i < pks.length; i++) {
+			TablePKColumn pkc = pks[i];
+			if (i == 0) {
+				primaryKeyName = pkc.getName();
+				sb.append("PRIMARY KEY ");
+				sb.append("(");
+				sb.append(pkc.getColumnName());
+			} else {
+				sb.append(", " + pkc.getColumnName());
+			}
+
+		}
+		sb.append(")");
+		return sb.toString();
+	}
+
+	protected String[] getConstraintIDXStr() {
+		return null;
 	}
 }
