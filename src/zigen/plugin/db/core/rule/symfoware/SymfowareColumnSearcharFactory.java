@@ -156,6 +156,7 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 		sb.append("        T.DB_NAME = '" + SQLUtil.encodeQuotation(dbName) + "'");
 		sb.append("        AND T.SCHEMA_NAME = '" + SQLUtil.encodeQuotation(owner) + "'");
 		sb.append("        AND T.TABLE_NAME = '" + SQLUtil.encodeQuotation(table) + "'");
+		sb.append("        AND T.TABLE_CODE = COL.TABLE_CODE");
 		sb.append("    ORDER BY");
 		sb.append("        COL.ORDINAL_POSITION");
 
