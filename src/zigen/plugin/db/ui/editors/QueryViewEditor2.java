@@ -82,7 +82,7 @@ import zigen.plugin.db.ui.views.StatusLineContributionItem;
 
 /**
  * TableEditorクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
@@ -528,14 +528,24 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		}
 	}
 
+	// TODO:設定可能にしたい
+	private int max_column_size = 600;
+
 	private void columnsPack(Table table) {
 		table.setVisible(false);
 		TableColumn[] cols = table.getColumns();
 		for (int i = 0; i < cols.length; i++) {
-			cols[i].pack();
+			TableColumn c = cols[i];
+			c.pack();
+
+			// 自動幅調整後長すぎるサイズを強制修正
+			if(c.getWidth() > max_column_size){
+				c.setWidth(max_column_size);
+			}
 		}
 		table.setVisible(true);
 	}
+
 
 	public void dispose() {
 		disposeExtensionPoint();
