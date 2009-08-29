@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -11,15 +11,16 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 import zigen.plugin.db.DbPlugin;
+import zigen.plugin.db.core.StringUtil;
 import zigen.plugin.db.core.TableElement;
 
 /**
  * TableLabelProviderクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- * 
+ *
  */
 public class TableViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 
@@ -55,7 +56,9 @@ public class TableViewLabelProvider extends LabelProvider implements ITableLabel
 					// TableColumn colum = element.getColumns()[index-1];
 
 					if (elem != null) {
-						return elem.toString();
+						//return elem.toString();
+						// 性能改善：表示用には、右側の半角空白をトリムする
+						return StringUtil.rTrim(elem.toString(), ' ');
 
 					} else {
 						// return "";

@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -29,66 +29,69 @@ import zigen.plugin.db.preference.PreferencePage;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
  */
 public abstract class AbstractValidatorFactory implements IValidatorFactory {
-
-	protected String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
-
+	
+	String nullSymbol;
+	
 	public static IValidatorFactory getFactory(IDBConfig config) {
 		return getFactory(config.getDriverName());
-
+		
 	}
-
+	
 	public static IValidatorFactory getFactory(DatabaseMetaData objMet) {
 		try {
 			return getFactory(objMet.getDriverName());
-
+			
 		} catch (SQLException e) {
 			throw new IllegalStateException("DriverNameの取得に失敗しました"); //$NON-NLS-1$
 		}
 	}
-
+	
 	/**
 	 * Factoryのキャッシュ化
 	 */
 	private static Map map = new HashMap();
-
+	
 	private static IValidatorFactory getFactory(String driverName) {
-
+		
 		IValidatorFactory factory = null;
-
+		
 		String key = driverName;
-
+		
 		if (map.containsKey(key)) {
 			factory = (IValidatorFactory) map.get(key);
 		} else {
 			switch (DBType.getType(driverName)) {
-
-			case DBType.DB_TYPE_ORACLE:
-				factory = new OracleValidatorFactory();
-				break;
-			case DBType.DB_TYPE_SYMFOWARE:
-				factory = new SymfowareValidatorFactory();
-				break;
-			case DBType.DB_TYPE_MYSQL:
-				factory = new MySQLValidatorFactory();
-				break;
-			case DBType.DB_TYPE_DERBY:
-				factory = new DerbyValidatorFactory();
-				break;
-			default:
-				factory = new DefaultValidatorFactory();
-				break;
+				
+				case DBType.DB_TYPE_ORACLE:
+					factory = new OracleValidatorFactory();
+					break;
+				case DBType.DB_TYPE_SYMFOWARE:
+					factory = new SymfowareValidatorFactory();
+					break;
+				case DBType.DB_TYPE_MYSQL:
+					factory = new MySQLValidatorFactory();
+					break;
+				case DBType.DB_TYPE_DERBY:
+					factory = new DerbyValidatorFactory();
+					break;
+				default:
+					factory = new DefaultValidatorFactory();
+					break;
 			}
-
+			
 			map.put(key, factory);
 		}
+		// 最新のNULL文字を設定する
+		factory.setNullSymbol(DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL));
+		
 		return factory;
-
+		
 	}
-
+	
 	public String validate(TableColumn column, Object value) throws UnSupportedTypeException {
-
+		
 		String columnName = column.getColumnName();
-
+		
 		if (nullSymbol.equals(value)) {
 			if (column.isNotNull()) {
 				return columnName + Messages.getString("AbstractValidatorFactory.0"); //$NON-NLS-1$
@@ -96,15 +99,19 @@ public abstract class AbstractValidatorFactory implements IValidatorFactory {
 				return null;
 			}
 		}
-
+		
 		return validateDataType(column, value);
-
+		
 	}
-
+	
 	public String getNullSymbol() {
 		return nullSymbol;
 	}
-
+	
+	public void setNullSymbol(String nullSymbol) {
+		this.nullSymbol = nullSymbol;
+	}
+	
 	/**
 	 * データタイプ毎の入力チェックを実装
 	 * 
@@ -114,5 +121,5 @@ public abstract class AbstractValidatorFactory implements IValidatorFactory {
 	 * @throws UnSupportedTypeException
 	 */
 	abstract String validateDataType(TableColumn column, Object value) throws UnSupportedTypeException;
-
+	
 }

@@ -372,7 +372,8 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 			int position = editor.getRecordOffset() + table.getItemCount();
 			PasteRecordJob job = new PasteRecordJob(tokenizer, position);
-			job.setPriority(OpenEditorJob.LONG);
+			//job.setPriority(OpenEditorJob.LONG);
+			job.setPriority(OpenEditorJob.SHORT);
 			job.setUser(true);
 			job.schedule();
 

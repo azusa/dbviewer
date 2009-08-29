@@ -152,7 +152,7 @@ import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
 /**
  * TableEditorƒNƒ‰ƒX.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.

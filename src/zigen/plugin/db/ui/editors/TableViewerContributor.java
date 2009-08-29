@@ -23,6 +23,7 @@ import zigen.plugin.db.csv.CreateCSVForTableAction;
 import zigen.plugin.db.csv.CreateCSVForTableWithConditionAction;
 import zigen.plugin.db.ui.actions.CopyInsertStatementAction;
 import zigen.plugin.db.ui.actions.CopyRecordDataAction;
+import zigen.plugin.db.ui.actions.CopyRecordTrimDataAction;
 import zigen.plugin.db.ui.actions.DeleteRecordAction;
 import zigen.plugin.db.ui.actions.InsertRecordAction;
 import zigen.plugin.db.ui.actions.PasteRecordDataAction;
@@ -83,6 +84,10 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 
 	private DropConstraintAction dropConstraintAction;
 
+
+	protected CopyRecordTrimDataAction copyTrimAction;
+
+
 	private IDBConfig config;
 
 	/**
@@ -113,6 +118,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		addIndexAction = new AddIndexAction();
 		dropIndexAction = new DropIndexAction();
 		dropConstraintAction = new DropConstraintAction();
+		copyTrimAction = new CopyRecordTrimDataAction();
 
 	}
 
@@ -126,7 +132,11 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		manager.add(insertRecordAction); // 新規レコードの作成
 		manager.add(new Separator());
 		manager.add(copyRecordDataAction); // レコードコピー
+		manager.add(copyTrimAction);
+
 		manager.add(pasteRecordAction); // レコードの貼り付け
+
+
 		manager.add(new Separator());
 		manager.add(deleteRecordAction);
 		manager.add(selectAllAction);
@@ -350,6 +360,8 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 			dropIndexAction.setActiveEditor(editor);
 			dropConstraintAction.setActiveEditor(editor);
 
+			copyTrimAction.setActiveEditor(editor);
+
 		}
 	}
 
@@ -359,6 +371,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		pasteRecordAction.refresh();
 		copyStringInsertStatementAction.refresh();
 
+		copyTrimAction.refresh();
 	}
 
 	public void dispose() {
@@ -381,6 +394,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		addIndexAction.setActiveEditor(null);
 		dropIndexAction.setActiveEditor(null);
 		dropConstraintAction.setActiveEditor(null);
+		copyTrimAction.setActiveEditor(null);
 
 		super.dispose();
 

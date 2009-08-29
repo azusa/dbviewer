@@ -18,6 +18,7 @@ import org.eclipse.swt.dnd.Transfer;
 
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.ClipboardUtils;
+import zigen.plugin.db.core.StringUtil;
 import zigen.plugin.db.core.TableColumn;
 import zigen.plugin.db.core.TableElement;
 import zigen.plugin.db.ui.editors.TableViewEditorFor31;
@@ -31,38 +32,14 @@ import zigen.plugin.db.ui.editors.internal.ColumnFilterInfo;
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/12/04 ZIGEN create.
  *
  */
-public class CopyRecordDataAction extends TableViewEditorAction {
+public class CopyRecordTrimDataAction extends CopyRecordDataAction {
 
-	protected final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
-
-	protected final String DEMILITER = "\t"; //$NON-NLS-1$
-
-	protected IStructuredSelection selection;
-
-	public CopyRecordDataAction() {
-		// テキストやツールチップ、アイコンの設定
-		setEnabled(false);
-		setImage(ITextOperationTarget.COPY);
-	}
-
-	protected boolean isVisibled(int columnIndex) {
-		if (editor instanceof TableViewEditorFor31) {
-			TableViewEditorFor31 editor31 = (TableViewEditorFor31) editor;
-			ColumnFilterInfo[] filters = editor31.getFilterInfos();
-			return filters[columnIndex].isChecked();
-			/*
-			 * TableViewEditorFor31 editor31 = (TableViewEditorFor31) editor; org.eclipse.swt.widgets.TableColumn[] cols = editor31.getViewer().getTable().getColumns(); ColumnFilterInfo[] filters =
-			 * editor31.getFilterInfos(); for (int i = 1; i < cols.length; i++) { ColumnFilterInfo info = filters[i - 1]; if (info.isChecked()) { return true; } else { return false; } } return true;
-			 */
-
-		} else {
-			return true;
-		}
-
+	public CopyRecordTrimDataAction() {
+		super();
+		this.setText(Messages.getString("CopyRecordTrimDataAction.0")); //$NON-NLS-1$
 	}
 
 	public void run() {
-
 		try {
 
 			StringBuffer sb = new StringBuffer();
@@ -89,21 +66,33 @@ public class CopyRecordDataAction extends TableViewEditorAction {
 							int type = col.getDataType();
 							// 同名のカラムの場合、正しくコピーされない障害に対応する
 							// String value = String.valueOf(elem.getItem(col));
-							String value = String.valueOf(elem.getItem(i));
+							//String value = String.valueOf(elem.getItem(i));
 
+							// 右側の半角空白をトリムする
+							String value = String.valueOf(elem.getItem(i));
+							if(value != null || value.length() > 0){
+								if(!" ".equals(value)){
+									value = StringUtil.rTrim(value, ' ');
+									if(value.length() == 0){
+										// 右トリムした結果ゼロバイトになる場合は、半角空白1バイトとする
+										value = " ";
+									}
+								}else{
+									;	// 半角空白1バイトであれば、何もしない
+								}
+							}
 
 							// ↓TAB対応
 							if (value.indexOf("\"") >= 0) { //$NON-NLS-1$
-								value = value.replaceAll("\"", "\"\""); // " →
-								// ""
+								value = value.replaceAll("\"", "\"\""); // " → // "" //$NON-NLS-1$ //$NON-NLS-2$
 								// //$NON-NLS-1$
 								// //$NON-NLS-2$
 							}
 							// 0バイト対応 2007-10-15
 							if (value.length() == 0) {
-								value = "\"\"";
+								value = "\"\""; //$NON-NLS-1$
 							} else {
-								value = value.replaceAll("^|$", "\""); // 先頭と行末に"を入れる
+								value = value.replaceAll("^|$", "\""); // 先頭と行末に"を入れる //$NON-NLS-1$ //$NON-NLS-2$
 								// //$NON-NLS-1$
 								// //$NON-NLS-2$
 							}
@@ -136,52 +125,5 @@ public class CopyRecordDataAction extends TableViewEditorAction {
 		}
 
 	}
-
-	protected void createHeader(StringBuffer sb, TableColumn[] columns) {
-		// index=0はラベルをつける
-		boolean isFirst = true;
-		for (int i = 0; i < columns.length; i++) {
-			if (isVisibled(i)) {
-				TableColumn col = columns[i];
-				if (isFirst) {
-					sb.append(col.getColumnName());
-					isFirst = false;
-				} else {
-					sb.append(DEMILITER + col.getColumnName());
-				}
-			}
-
-		}
-		sb.append(LINE_SEP);
-	}
-
-	/**
-	 * Enableモードを設定する
-	 *
-	 */
-	public void refresh() {
-		if (editor == null) {
-			setEnabled(false);
-		} else if (editor.getViewer() == null) {
-			setEnabled(false);
-		} else {
-			selection = (IStructuredSelection) editor.getViewer().getSelection();
-			if (selection.size() > 0) {
-				setEnabled(true);
-			} else {
-				setEnabled(false);
-			}
-		}
-	}
-
-	public void selectionChanged(ISelection selection) {
-		IStructuredSelection _selection = (IStructuredSelection) editor.getViewer().getSelection();
-		if (_selection != null && _selection.size() > 0) {
-			setEnabled(true);
-		} else {
-			setEnabled(false);
-		}
-	}
-
 
 }
