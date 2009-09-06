@@ -498,7 +498,7 @@ public class WizardPage2 extends DefaultWizardPage {
 		connectionModeCombox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		connectionModeCombox.add("NORMAL"); //$NON-NLS-1$
 		connectionModeCombox.add("SYSDBA"); //$NON-NLS-1$
-		connectionModeCombox.add("SYSOPEA"); //$NON-NLS-1$
+		connectionModeCombox.add("SYSOPER"); //$NON-NLS-1$
 		connectionModeCombox.select(0);
 
 		if (getOldConfig() != null) {
