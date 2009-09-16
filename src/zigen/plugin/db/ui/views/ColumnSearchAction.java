@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -22,6 +22,7 @@ import zigen.plugin.db.core.TableConstraintColumn;
 import zigen.plugin.db.core.TableFKColumn;
 import zigen.plugin.db.core.TableIDXColumn;
 import zigen.plugin.db.core.TablePKColumn;
+import zigen.plugin.db.core.TimeWatcher;
 import zigen.plugin.db.core.Transaction;
 import zigen.plugin.db.core.rule.DefaultColumnSearcherFactory;
 import zigen.plugin.db.core.rule.DefaultConstraintSearcherFactory;
@@ -37,13 +38,13 @@ import zigen.plugin.db.ui.internal.OracleColumn;
 import zigen.plugin.db.ui.internal.Synonym;
 
 /**
- * 
+ *
  * ColumnSearchThreadクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/21 ZIGEN create.
- * 
+ *
  */
 public class ColumnSearchAction implements Runnable {
 
@@ -71,7 +72,7 @@ public class ColumnSearchAction implements Runnable {
 
 	/**
 	 * コードアシスト用(軽量版)
-	 * 
+	 *
 	 * @param treeViewer
 	 * @param table
 	 */
@@ -120,6 +121,8 @@ public class ColumnSearchAction implements Runnable {
 				}
 				break;
 			}
+			TimeWatcher ts = new TimeWatcher();
+			ts.start();
 
 			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);
 			if (SchemaSearcher.isSupport(con)) {
@@ -166,7 +169,8 @@ public class ColumnSearchAction implements Runnable {
 				table.setTableUIDXColumns(uidxs);
 				table.setTableUIDXColumns(nonuidxs);
 			}
-
+			ts.stop();
+			System.out.println("カラム検索Action " + ts.getTotalTime());
 			// Table要素(Table)にカラム要素(Column)を追加(共通）
 
 			// JDBCMapping mapping = new JDBCMapping(table.getDBConfig());

@@ -17,37 +17,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import zigen.plugin.db.core.rule.AbstractCommentSearchFactory;
-import zigen.plugin.db.core.rule.ICommentFactory;
+import zigen.plugin.db.core.rule.AbstractTableInfoSearchFactory;
+import zigen.plugin.db.core.rule.ITableInfoSearchFactory;
 import zigen.plugin.db.core.rule.TableComment;
 
 /**
  * TableSearcherクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/18 ZIGEN create.
- * 
+ *
  */
 public class TableSearcher {
-	
-	// public synchronized static TableInfo[] execute(IDBConfig config, String schemaPattern, String[] types) throws Exception {
-	// try {
-	// Connection con = Transaction.getInstance(config).getConnection();
-	// return execute(con, schemaPattern, types);
-	//
-	// } catch (Exception e) {
-	// throw e;
-	// }
-	//
-	// }
+
 	public static TableInfo[] execute(Connection con, String schemaPattern, String[] types) throws Exception {
 		return execute(con, schemaPattern, types, null);
 	}
-	
+
+	public static TableInfo execute(Connection con, String schemaPattern, String tablePattern, String type) throws Exception {
+		return execute(con, schemaPattern, tablePattern, type, null);
+	}
 	/**
 	 * コード補完用(テーブル名にハイフンがある場合に、encloseCharで囲んだ名前がほしい)
-	 * 
+	 *
 	 * @param con
 	 * @param schemaPattern
 	 * @param types
@@ -56,185 +49,181 @@ public class TableSearcher {
 	 * @throws Exception
 	 */
 	public static TableInfo[] execute(Connection con, String schemaPattern, String[] types, Character encloseChar) throws Exception {
-		
+
 		List list = new ArrayList();
 		ResultSet rs = null;
 		Statement st = null;
 		try {
-			
 			DatabaseMetaData objMet = con.getMetaData();
-			ICommentFactory factory = AbstractCommentSearchFactory.getFactory(objMet);
-			Map remarks = factory.getRemarkMap(con, schemaPattern);
-			
-			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
-				StringBuffer sb = new StringBuffer();
-				sb.append("SELECT");
-				sb.append("        TABLE_NAME");
-				sb.append("        ,TABLE_TYPE");
-				sb.append(" ,TABLE_COMMENT REMARKS");
-				// sb.append(" ,'' REMARKS");
-				sb.append("    FROM");
-				sb.append("        information_schema.TABLES");
-				sb.append("    WHERE");
-				sb.append("        TABLE_SCHEMA = '" + SQLUtil.encodeQuotation(schemaPattern) + "'");
-				if (types.length > 0) {
-					sb.append("    AND (");
-					for (int i = 0; i < types.length; i++) {
-						if (i > 0) {
-							sb.append(" OR ");
+			ITableInfoSearchFactory factory = AbstractTableInfoSearchFactory.getFactory(objMet);
+			if (DBType.getType(objMet) == DBType.DB_TYPE_ORACLE){
+				list = factory.getTableInfoAll(con, schemaPattern, types);
+
+			}else if(DBType.getType(objMet) == DBType.DB_TYPE_SYMFOWARE ){
+				list = factory.getTableInfoAll(con, schemaPattern, types);
+
+			}else{
+				list = new ArrayList();
+
+				if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
+					StringBuffer sb = new StringBuffer();
+					sb.append("SELECT");
+					sb.append("        TABLE_NAME");
+					sb.append("        ,TABLE_TYPE");
+					sb.append(" ,TABLE_COMMENT REMARKS");
+					// sb.append(" ,'' REMARKS");
+					sb.append("    FROM");
+					sb.append("        information_schema.TABLES");
+					sb.append("    WHERE");
+					sb.append("        TABLE_SCHEMA = '" + SQLUtil.encodeQuotation(schemaPattern) + "'");
+					if (types.length > 0) {
+						sb.append("    AND (");
+						for (int i = 0; i < types.length; i++) {
+							if (i > 0) {
+								sb.append(" OR ");
+							}
+							sb.append("    TABLE_TYPE Like '%" + SQLUtil.encodeQuotation(types[i]) + "'");
 						}
-						sb.append("    TABLE_TYPE Like '%" + SQLUtil.encodeQuotation(types[i]) + "'");
+						sb.append("    )");
 					}
-					sb.append("    )");
-				}
-				
-				st = con.createStatement();
-				rs = st.executeQuery(sb.toString());
-			} else {
-				
-				if (SchemaSearcher.isSupport(con)) {
-					rs = objMet.getTables(null, schemaPattern, "%", types); //$NON-NLS-1$
-					
+
+					st = con.createStatement();
+					rs = st.executeQuery(sb.toString());
 				} else {
-					rs = objMet.getTables(null, "%", "%", types); //$NON-NLS-1$ //$NON-NLS-2$
+					if (SchemaSearcher.isSupport(con)) {
+						rs = objMet.getTables(null, schemaPattern, "%", types); //$NON-NLS-1$
+					} else {
+						rs = objMet.getTables(null, "%", "%", types); //$NON-NLS-1$ //$NON-NLS-2$
+					}
 				}
-			}
-			
-			list = new ArrayList();
-			
-			// for SymfoWARE
-			Map map = new HashMap();
-			
-			while (rs.next()) {
-				String tableName = rs.getString("TABLE_NAME"); //$NON-NLS-1$
-				// for SymfoWARE： 同名のテーブルがある場合はリストに登録しない
-				if (!map.containsKey(tableName)) {
-					map.put(tableName, tableName);
-					
+				while (rs.next()) {
+					String tableName = rs.getString("TABLE_NAME"); //$NON-NLS-1$
+					// for SymfoWARE： 同名のテーブルがある場合はリストに登録しない
 					TableInfo info = new TableInfo();
-					
 					if (encloseChar != null) {
 						info.setName(SQLUtil.enclose(tableName, encloseChar.charValue()));
 					} else {
 						info.setName(tableName);
 					}
 					info.setTableType(rs.getString("TABLE_TYPE")); //$NON-NLS-1$
-					
+
 					// REMARKSでコメントが取れるDBがあるのか？
 					// → Postgresqlでは採れる
 					info.setComment(rs.getString("REMARKS")); //$NON-NLS-1$
-					
-					// <- [001] 2005/11/22 add zigen
-					// setComment(con, schemaPattern, tableName, info);
-					if (remarks != null && remarks.containsKey(tableName)) {
-						TableComment com = (TableComment) remarks.get(tableName);
-						if (com != null)
-							info.setComment(com.getRemarks());
-					}
-					
 					list.add(info);
+
 				}
-				
+
 			}
-			
 			Collections.sort(list, new TableInfoSorter());
-			
 			return (TableInfo[]) list.toArray(new TableInfo[0]);
-			
+
 		} catch (Exception e) {
 			throw e;
-			
+
 		} finally {
 			StatementUtil.close(st);
 			ResultSetUtil.close(rs);
-			
+
 		}
-		
+
 	}
-	
-	public static TableInfo execute(Connection con, String schemaPattern, String tablePattern, String type) throws Exception {
+
+	/**
+	 * コード補完用(テーブル名にハイフンがある場合に、encloseCharで囲んだ名前がほしい)
+	 *
+	 * @param con
+	 * @param schemaPattern
+	 * @param types
+	 * @param encloseChar
+	 * @return
+	 * @throws Exception
+	 */
+	public static TableInfo execute(Connection con, String schemaPattern, String tablePattern, String type, Character encloseChar) throws Exception {
 		TableInfo info = null;
 		ResultSet rs = null;
+		Statement st = null;
 		try {
-			
-			ICommentFactory factory = AbstractCommentSearchFactory.getFactory(con.getMetaData());
-			Map remarks = factory.getRemarkMap(con, schemaPattern);
-			
 			DatabaseMetaData objMet = con.getMetaData();
-			if (SchemaSearcher.isSupport(con)) {
-				rs = objMet.getTables(null, schemaPattern, tablePattern, new String[] {type});
-				
-			} else {
-				// 第1引数からそれぞれデータベース名、スキーマ名、テーブル名、テーブルの型
-				rs = objMet.getTables(null, "%", tablePattern, new String[] {type}); //$NON-NLS-1$
-			}
-			
-			if (rs.next()) {
-				String tableName = rs.getString("TABLE_NAME"); //$NON-NLS-1$
-				// for SymfoWARE： 同名のテーブルがある場合はリストに登録しない
+			ITableInfoSearchFactory factory = AbstractTableInfoSearchFactory.getFactory(objMet);
+			if (DBType.getType(objMet) == DBType.DB_TYPE_ORACLE){
+				info = factory.getTableInfo(con, schemaPattern, tablePattern, type);
+
+			}else if(DBType.getType(objMet) == DBType.DB_TYPE_SYMFOWARE ){
+				info = factory.getTableInfo(con, schemaPattern, tablePattern, type);
+
+			}else{
 				info = new TableInfo();
-				info.setName(tableName);
-				info.setTableType(rs.getString("TABLE_TYPE")); //$NON-NLS-1$
-				info.setComment(rs.getString("REMARKS")); //$NON-NLS-1$
-				// setComment(con, schemaPattern, tableName, info);
-				
-				if (remarks != null && remarks.containsKey(tableName)) {
-					TableComment com = (TableComment) remarks.get(tableName);
-					if (com != null)
-						info.setComment(com.getRemarks());
+
+				if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
+					StringBuffer sb = new StringBuffer();
+					sb.append("SELECT");
+					sb.append("        TABLE_NAME");
+					sb.append("        ,TABLE_TYPE");
+					sb.append(" ,TABLE_COMMENT REMARKS");
+					// sb.append(" ,'' REMARKS");
+					sb.append("    FROM");
+					sb.append("        information_schema.TABLES");
+					sb.append("    WHERE");
+					sb.append("        TABLE_SCHEMA = '" + SQLUtil.encodeQuotation(schemaPattern) + "'");
+					sb.append("        AND TABLE_NAME = '" + SQLUtil.encodeQuotation(tablePattern) + "'");
+					sb.append("        AND TABLE_NAME = '" + SQLUtil.encodeQuotation(tablePattern) + "'");
+					sb.append("        AND TABLE_TYPE Like '%" + SQLUtil.encodeQuotation(type) + "'");
+					st = con.createStatement();
+					rs = st.executeQuery(sb.toString());
+				} else {
+					if (SchemaSearcher.isSupport(con)) {
+						rs = objMet.getTables(null, schemaPattern, "%", new String[]{type}); //$NON-NLS-1$
+					} else {
+						rs = objMet.getTables(null, "%", "%", new String[]{type}); //$NON-NLS-1$ //$NON-NLS-2$
+					}
 				}
+				if (rs.next()) {
+					String tableName = rs.getString("TABLE_NAME"); //$NON-NLS-1$
+					// for SymfoWARE： 同名のテーブルがある場合はリストに登録しない
+					if (encloseChar != null) {
+						info.setName(SQLUtil.enclose(tableName, encloseChar.charValue()));
+					} else {
+						info.setName(tableName);
+					}
+					info.setTableType(rs.getString("TABLE_TYPE")); //$NON-NLS-1$
+
+					// REMARKSでコメントが取れるDBがあるのか？
+					// → Postgresqlでは採れる
+					info.setComment(rs.getString("REMARKS")); //$NON-NLS-1$
+
+				}
+
 			}
 			return info;
-			
+
 		} catch (Exception e) {
 			throw e;
-			
+
 		} finally {
+			StatementUtil.close(st);
 			ResultSetUtil.close(rs);
-			
+
 		}
-		
+
 	}
-	
-	// // コメント取得用
-	// private static Map getRemarks(Connection con, String schemaPattern) throws Exception {
-	// Map remarks = null;
-	// DatabaseMetaData objMet = con.getMetaData();
-	// switch (DBType.getType(objMet)) {
-	// case DBType.DB_TYPE_ORACLE:
-	// remarks = TableCommentsSearcher.execute(con, schemaPattern);
-	// break;
-	// }
-	// return remarks;
-	// }
-	// protected static void setComment(Connection con, String schemaPattern,
-	// String tableName, TableInfo info) throws Exception {
-	// switch (DBType.getType(con.getMetaData())) {
-	// case DBType.DB_TYPE_ORACLE:
-	// String comment = OracleTableCommentSearcher.execute(con, schemaPattern,
-	// tableName);
-	// info.setComment(comment);
-	// break;
-	//
-	// default:
-	// break;
-	// }
-	// }
-	
+
+
+
 	// TABLE-TYPEに指定出来る文字列
 	// "TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY",
 	// "LOCAL TEMPORARY", "ALIAS", "SYNONYM".
 }
 
 class TableInfoSorter implements Comparator {
-	
+
 	public TableInfoSorter() {}
-	
+
 	public int compare(Object o1, Object o2) {
-		
+
 		String firstType = ((TableInfo) o1).getTableType();
 		String secondType = ((TableInfo) o2).getTableType();
-		
+
 		if (firstType.equals(secondType)) {
 			return 0;
 		} else if (firstType.equals("TABLE")) { //$NON-NLS-1$

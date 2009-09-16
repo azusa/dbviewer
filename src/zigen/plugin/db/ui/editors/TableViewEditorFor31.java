@@ -1397,6 +1397,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 					try {
 						int cnt = 1;
 						while (isLodingColumnInfo) {
+							System.out.println("‘Ò‚¿‚ª“ü‚Á‚Ä‚¢‚éH");
 							Thread.sleep(500); // ƒJƒ‰ƒ€‚Ì“Ç‚İ‚İ’†‚Í‘Ò‚¿
 						}
 					} catch (InterruptedException e) {

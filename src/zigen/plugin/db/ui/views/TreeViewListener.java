@@ -32,7 +32,8 @@ import zigen.plugin.db.ui.jobs.TableTypeSearchJob;
  */
 public class TreeViewListener implements ITreeViewerListener {
 
-	private boolean showDialog = true;
+//	private boolean showDialog = true;
+	private boolean showDialog = false;	// VISTAの場合描画速度が遅く？ダイアログが良く表示されるのでfalseにする
 
 	public void treeCollapsed(TreeExpansionEvent event) {
 	// TODO 自動生成されたメソッド・スタブ
@@ -88,19 +89,25 @@ public class TreeViewListener implements ITreeViewerListener {
 					switch (DBType.getType(schema.getDbConfig())) {
 					case DBType.DB_TYPE_ORACLE:
 						if (schema != null) {
-							if ("SEQUENCE".equals(folder.getName())) { //$NON-NLS-1$
+							if("TABLE".equals(folder.getName())){
+								return;
+
+							}else if ("SEQUENCE".equals(folder.getName())) { //$NON-NLS-1$
 								OracleSequeceSearchJob job = new OracleSequeceSearchJob(viewer, folder);
 								job.setPriority(OracleSequeceSearchJob.SHORT);
 								job.setUser(showDialog);
 								job.schedule();
 
 								return;
+
 							} else if ("VIEW".equals(folder.getName())) { //$NON-NLS-1$
+								System.out.println("treeExpanded!!");
 								RefreshFolderJob job = new RefreshFolderJob(viewer, folder);
 								job.setPriority(OracleSequeceSearchJob.SHORT);
 								job.setUser(showDialog);
 								job.schedule();
 
+								return;
 							} else {
 								String[] sTypes = schema.getSourceType();
 								if (sTypes != null) {
@@ -124,6 +131,8 @@ public class TreeViewListener implements ITreeViewerListener {
 						job.setPriority(RefreshFolderJob.SHORT);
 						job.setUser(showDialog);
 						job.schedule();
+
+						return;
 						// ↑
 					}
 				}

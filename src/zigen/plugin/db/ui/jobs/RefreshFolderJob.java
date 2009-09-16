@@ -21,6 +21,7 @@ import zigen.plugin.db.core.SchemaSearcher;
 import zigen.plugin.db.core.TableColumn;
 import zigen.plugin.db.core.TableInfo;
 import zigen.plugin.db.core.TableSearcher;
+import zigen.plugin.db.core.TimeWatcher;
 import zigen.plugin.db.core.Transaction;
 import zigen.plugin.db.ext.oracle.internal.OracleSynonymInfoSearcher;
 import zigen.plugin.db.ext.oracle.internal.SynonymInfo;
@@ -49,6 +50,9 @@ public class RefreshFolderJob extends AbstractJob {
 	protected IStatus run(IProgressMonitor monitor) {
 		TableInfo[] tables = null;
 		try {
+
+			TimeWatcher ts = new TimeWatcher();
+			ts.start();
 			Connection con = Transaction.getInstance(folder.getDbConfig()).getConnection();
 			if (SchemaSearcher.isSupport(con)) {
 				tables = TableSearcher.execute(con, folder.getSchema().getName(), new String[] {folder.getName()});
@@ -56,6 +60,8 @@ public class RefreshFolderJob extends AbstractJob {
 				// 第1引数からそれぞれデータベース名、スキーマ名、テーブル名、テーブルの型
 				tables = TableSearcher.execute(con, null, new String[] {folder.getName()});
 			}
+			ts.stop();
+			System.out.println("[TABLE検索] " + folder.getName() + "," + ts.getTotalTime());
 			if (updateTables(monitor, con, folder.getSchema(), folder, tables)) {
 
 			} else {
@@ -74,7 +80,12 @@ public class RefreshFolderJob extends AbstractJob {
 
 		monitor.beginTask(Messages.getString("RefreshFolderJob.2"), tables.length); //$NON-NLS-1$
 
+		TimeWatcher ts = new TimeWatcher();
+		ts.start();
 		for (int i = 0; i < tables.length; i++) {
+
+			TimeWatcher ts1 = new TimeWatcher();
+			ts1.start();
 
 			TableInfo tableinfo = tables[i];
 			monitor.subTask(tableinfo.getName() + Messages.getString("RefreshFolderJob.3")); //$NON-NLS-1$
@@ -124,9 +135,13 @@ public class RefreshFolderJob extends AbstractJob {
 			if (monitor.isCanceled()) {
 				return false;
 			}
+			ts1.stop();
+			//System.out.println(tableinfo.getName() + " is loaded. " + ts1.getTotalTime());
 
 			monitor.worked(1);
 		}
+		ts.stop();
+		System.out.println("[TABLE更新数] " + tables.length + "件 ," + ts.getTotalTime());
 
 		// 削除されたテーブルなどを削除する処理
 		TreeLeaf[] leafs = folder.getChildrens();
@@ -136,6 +151,10 @@ public class RefreshFolderJob extends AbstractJob {
 				folder.removeChild(leaf);
 			}
 		}
+
+		ts.start();
+
+		System.out.println("[フォルダ更新開始]");
 		try {
 			// Folderの更新
 			showResults(new RefreshTreeNodeAction(viewer, folder, RefreshTreeNodeAction.MODE_NOTHING));
@@ -143,6 +162,8 @@ public class RefreshFolderJob extends AbstractJob {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
+		ts.stop();
+		System.out.println("[フォルダ更新終了] " + ts.getTotalTime());
 
 		return true;
 	}
@@ -179,6 +200,9 @@ public class RefreshFolderJob extends AbstractJob {
 			}
 		}
 		if (job != null) {
+			TimeWatcher ts = new TimeWatcher();
+			ts.start();
+
 			job.setPriority(RefreshColumnJob.SHORT);
 			job.schedule();
 			// RefreshColumnJobが終了するまで待機
@@ -187,6 +211,9 @@ public class RefreshFolderJob extends AbstractJob {
 			} catch (InterruptedException e) {
 				DbPlugin.log(e);
 			}
+
+			ts.stop();
+			System.out.println("updateTable-カラム更新処理時間 " + ts.getTotalTime());
 		}
 
 	}

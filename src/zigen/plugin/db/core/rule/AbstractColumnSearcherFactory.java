@@ -128,7 +128,7 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 		ResultSet rs = null;
 		Statement st = null;
 		try {
-			ICommentFactory factory = AbstractCommentSearchFactory.getFactory(con.getMetaData());
+			ITableInfoSearchFactory factory = AbstractTableInfoSearchFactory.getFactory(con.getMetaData());
 			String dbName = factory.getDbName();
 			String sql = getCustomColumnInfoSQL(dbName, owner, table);
 			if (sql == null)

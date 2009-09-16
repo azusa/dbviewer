@@ -8,10 +8,10 @@ import java.util.TreeMap;
 import zigen.plugin.db.core.JDBCUnicodeConvertor;
 import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.TableColumn;
-import zigen.plugin.db.core.rule.AbstractCommentSearchFactory;
+import zigen.plugin.db.core.rule.AbstractTableInfoSearchFactory;
 import zigen.plugin.db.core.rule.ColumnInfo;
 import zigen.plugin.db.core.rule.DefaultColumnSearcherFactory;
-import zigen.plugin.db.core.rule.ICommentFactory;
+import zigen.plugin.db.core.rule.ITableInfoSearchFactory;
 
 public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory {
 	public SymfowareColumnSearcharFactory(DatabaseMetaData meta, boolean convertUnicode) {

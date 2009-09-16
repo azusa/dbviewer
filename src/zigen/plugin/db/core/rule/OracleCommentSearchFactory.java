@@ -10,11 +10,50 @@ public class OracleCommentSearchFactory extends DefaultCommentSearchFactory{
 	public OracleCommentSearchFactory(DatabaseMetaData meta){
 		super(meta);
 	}
-	public String getCustomColumnInfoSQL(String dbName, String owner) {
+	public String getTableInfoAllSql(String schema, String[] types) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT TABLE_NAME, COMMENTS"); //$NON-NLS-1$
-		sb.append(" FROM ALL_TAB_COMMENTS"); //$NON-NLS-1$
-		sb.append(" WHERE OWNER = '" + SQLUtil.encodeQuotation(owner) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("SELECT");
+		sb.append("        CAT.TABLE_NAME");
+		sb.append("        ,CAT.TABLE_TYPE");
+		sb.append("        ,C.COMMENTS REMARKS");
+		sb.append("    FROM");
+		sb.append("        ALL_CATALOG CAT");
+		sb.append("        ,ALL_TAB_COMMENTS C");
+		sb.append("    WHERE");
+		sb.append("        CAT.OWNER = C.OWNER");
+		sb.append("        AND CAT.TABLE_NAME = C.TABLE_NAME");
+		sb.append("        AND CAT.TABLE_TYPE = C.TABLE_TYPE");
+		sb.append("        AND CAT.OWNER = '" + SQLUtil.encodeQuotation(schema) + "'");
+		if (types.length > 0) {
+			sb.append("    AND (");
+			for (int i = 0; i < types.length; i++) {
+				if (i > 0) {
+					sb.append(" OR ");
+				}
+				sb.append("    CAT.TABLE_TYPE = '" + SQLUtil.encodeQuotation(types[i]) + "'");
+			}
+			sb.append("    )");
+		}
+
+		return sb.toString();
+	}
+
+	public String getTableInfoSql(String schema, String tableName, String type) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT");
+		sb.append("        CAT.TABLE_NAME");
+		sb.append("        ,CAT.TABLE_TYPE");
+		sb.append("        ,C.COMMENTS REMARKS");
+		sb.append("    FROM");
+		sb.append("        ALL_CATALOG CAT");
+		sb.append("        ,ALL_TAB_COMMENTS C");
+		sb.append("    WHERE");
+		sb.append("        CAT.OWNER = C.OWNER");
+		sb.append("        AND CAT.TABLE_NAME = C.TABLE_NAME");
+		sb.append("        AND CAT.TABLE_TYPE = C.TABLE_TYPE");
+		sb.append("        AND CAT.OWNER = '" + SQLUtil.encodeQuotation(schema) + "'");
+		sb.append("        AND CAT.TABLE_TYPE = '" + SQLUtil.encodeQuotation(type) + "'");
+		sb.append("        AND CAT.TABLE_NAME = '" + SQLUtil.encodeQuotation(tableName) + "'");
 		return sb.toString();
 	}
 

@@ -198,7 +198,7 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 			Connection con = Transaction.getInstance(config).getConnection();
 			st = con.createStatement();
 
-			ICommentFactory factory = AbstractCommentSearchFactory.getFactory(con.getMetaData());
+			ITableInfoSearchFactory factory = AbstractTableInfoSearchFactory.getFactory(con.getMetaData());
 			String dbName = factory.getDbName();
 
 			rs = st.executeQuery(getViewDDL_SQL(dbName, owner, view));

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: DBViewerPlugin
 Bundle-SymbolicName: zigen.plugin.db;singleton:=true
-Bundle-Version: 1.1.0.v20090829
+Bundle-Version: 1.1.1.v20090915
 Bundle-ClassPath: .,
  lib/blancosqlformatter-0.0.3.jar,
  lib/kry.sql.format_1.0.0.v20080417.jar,

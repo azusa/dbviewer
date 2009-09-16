@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -26,7 +26,7 @@ import zigen.plugin.db.ui.jobs.TableTypeSearchJob;
 
 /**
  * RefleshActionクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create. [2] 2005/06/25 ZIGEN Folder(スキーマ下のフォルダ）用の更新処理を追記
@@ -39,7 +39,7 @@ public class RefreshAction extends Action {
 
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param viewer
 	 */
 	public RefreshAction(TreeViewer viewer) {
@@ -126,6 +126,7 @@ public class RefreshAction extends Action {
 					default:
 					}
 				}
+				System.out.println("Refresh!!");
 				RefreshFolderJob job = new RefreshFolderJob(viewer, folder);
 				job.setPriority(RefreshFolderJob.SHORT);
 				job.setUser(showDialog);

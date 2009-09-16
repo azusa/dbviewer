@@ -134,7 +134,9 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 						switch (DBType.getType(schema.getDbConfig())) {
 						case DBType.DB_TYPE_ORACLE:
 							if (schema != null) {
-								if ("SEQUENCE".equals(folder.getName())) { //$NON-NLS-1$
+								if("TABLE".equals(folder.getName())){
+									return;
+								}else if ("SEQUENCE".equals(folder.getName())) { //$NON-NLS-1$
 									OracleSequeceSearchJob job = new OracleSequeceSearchJob(viewer, folder);
 									job.setPriority(OracleSequeceSearchJob.SHORT);
 									job.setUser(showDialog);
@@ -143,6 +145,8 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 									return;
 
 								} else if ("VIEW".equals(folder.getName())) { //$NON-NLS-1$
+
+									System.out.println("changeExpandedState!!");
 									RefreshFolderJob job = new RefreshFolderJob(viewer, folder);
 									job.setPriority(OracleSequeceSearchJob.SHORT);
 									job.setUser(showDialog);

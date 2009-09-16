@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
@@ -43,6 +43,7 @@ public class RefreshTableJob extends AbstractJob {
 		try {
 			Connection con = Transaction.getInstance(tableNode.getDbConfig()).getConnection();
 
+			System.out.println("テーブル情報を更新しています。 " + tableNode.getName());
 			if (SchemaSearcher.isSupport(con)) {
 				tableInfo = TableSearcher.execute(con, tableNode.getSchemaName(), tableNode.getName(), tableNode.getFolderName());
 			} else {
@@ -99,6 +100,7 @@ public class RefreshTableJob extends AbstractJob {
 
 			// showResults(new RefreshTreeNodeAction(viewer, tableNode)); // 再描画
 
+			System.out.println("テーブル情報を更新しています。(カラム情報を取得します） " + tableNode.getName());
 			RefreshColumnJob job2 = new RefreshColumnJob(viewer, tableNode);
 			job2.setPriority(RefreshColumnJob.SHORT);
 			job2.schedule();

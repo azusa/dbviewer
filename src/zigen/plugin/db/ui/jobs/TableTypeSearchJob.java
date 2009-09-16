@@ -17,6 +17,7 @@ import zigen.plugin.db.core.DBType;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.TableInfo;
 import zigen.plugin.db.core.TableSearcher;
+import zigen.plugin.db.core.TimeWatcher;
 import zigen.plugin.db.core.Transaction;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceErrorSearcher;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceTypeSearcher;
@@ -55,12 +56,13 @@ public class TableTypeSearchJob extends AbstractJob {
 
 			monitor.beginTask(Messages.getString("TableTypeSearchJob.2"), tableTypes.length); //$NON-NLS-1$
 			for (int i = 0; i < tableTypes.length; i++) {
-				String[] types = new String[] {tableTypes[i]};
+				TimeWatcher ts = new TimeWatcher();
+				ts.start();
 
 				monitor.subTask(tableTypes[i] + Messages.getString("TableTypeSearchJob.3")); //$NON-NLS-1$
 
 				if (tableTypes[i].toUpperCase().matches(VisibleFolderPattern)) {
-					TableInfo[] tables = TableSearcher.execute(con, schema.getName(), types);
+					TableInfo[] tables = TableSearcher.execute(con, schema.getName(), new String[] {tableTypes[i]});
 					TableSearchThread.addFolderAndTables(con, schema, tableTypes[i], tables);
 
 
@@ -87,9 +89,12 @@ public class TableTypeSearchJob extends AbstractJob {
 				if (monitor.isCanceled()) {
 					return Status.CANCEL_STATUS;
 				}
+				ts.stop();
+				System.out.println("[TABLE情報検索] " + tableTypes[i] + "," + ts.getTotalTime());
 
 				monitor.worked(1);
 			}
+
 
 
 			IDBConfig conifg = schema.getDbConfig();
@@ -98,12 +103,18 @@ public class TableTypeSearchJob extends AbstractJob {
 				// 拡張テーブルタイプの検索
 				String owner = schema.getName();
 
+				TimeWatcher ts1 = new TimeWatcher();
+				ts1.start();
 				monitor.subTask("SELECT DISTINCT TYPE FROM ALL_SOURCE...");
 				String[] sourceTypes = OracleSourceTypeSearcher.execute(con, owner);
+				ts1.stop();
+				System.out.println("[ソースタイプの取得処理] " + ts1.getTotalTime());
+
 
 				schema.setSourceType(sourceTypes);
 				for (int i = 0; i < sourceTypes.length; i++) {
-
+					TimeWatcher ts = new TimeWatcher();
+					ts.start();
 					monitor.subTask(sourceTypes[i] + Messages.getString("TableTypeSearchJob.3")); //$NON-NLS-1$
 
 					String stype = sourceTypes[i];
@@ -118,6 +129,8 @@ public class TableTypeSearchJob extends AbstractJob {
 					if (monitor.isCanceled()) {
 						return Status.CANCEL_STATUS;
 					}
+					ts.stop();
+					System.out.println("[ソース毎のエラーカウントの取得処理] " + sourceTypes[i]  + ", "+ ts.getTotalTime());
 				}
 			default:
 			}
