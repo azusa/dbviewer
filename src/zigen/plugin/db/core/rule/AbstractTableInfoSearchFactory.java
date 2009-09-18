@@ -36,14 +36,14 @@ abstract public class AbstractTableInfoSearchFactory implements ITableInfoSearch
 		} else {
 			switch (DBType.getType(key)) {
 				case DBType.DB_TYPE_ORACLE:
-					factory = new OracleCommentSearchFactory(meta);
+					factory = new OracleTableInfoSearchFactory(meta);
 					break;
 				case DBType.DB_TYPE_SYMFOWARE:
-					factory = new SymfowareCommentSearchFactory(meta);
+					factory = new SymfowareTableInfoSearchFactory(meta);
 					break;
 
 				default:
-					factory = new DefaultCommentSearchFactory(meta);
+					factory = new DefaultTableInfoSearchFactory(meta);
 					break;
 			}
 

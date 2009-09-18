@@ -26,65 +26,65 @@ import zigen.plugin.db.core.rule.symfoware.SymfowareColumnSearcharFactory;
 
 /**
  * AbstractColumnSearcherFactory.java.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- * 
+ *
  */
 public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFactory {
-	
+
 	public static final String COLUMN_NAME_STR = "COLUMN_NAME";
-	
+
 	public static final String DATA_TYPE_STR = "DATA_TYPE";
-	
+
 	public static final String TYPE_NAME_STR = "TYPE_NAME";
-	
+
 	public static final String DATA_PRECISION_STR = "DATA_PRECISION";
-	
+
 	public static final String DATA_SCALE_STR = "DATA_SCALE";
-	
+
 	public static final String DATA_DEFAULT_STR = "DATA_DEFAULT";
-	
+
 	public static final String NULLABLE_STR = "NULLABLE";
-	
+
 	public static final String COMMENTS_STR = "COMMENTS";
-	
-	
+
+
 //	/**
 //	 * コンストラクタ
-//	 * 
+//	 *
 //	 * @param config
 //	 */
 //	public static IColumnSearcherFactory getFactory(IDBConfig config) {
 //		return getFactory(config.getDriverName(), config.isConvertUnicode());
 //	}
-//	
+//
 //	/**
 //	 * コンストラクタ
-//	 * 
+//	 *
 //	 * @param objMet
 //	 * @param isConvertUnicode
 //	 */
 //	public static IColumnSearcherFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode) {
 //		try {
 //			return getFactory(objMet.getDriverName(), isConvertUnicode);
-//			
+//
 //		} catch (SQLException e) {
 //			throw new IllegalStateException("DriverNameの取得に失敗しました");
 //		}
-//		
+//
 //	}
-	
+
 	/**
 	 * MappingFactoryのキャッシュ化
 	 */
 	private static Map map = new HashMap();
 
-	
+
 	public static IColumnSearcherFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode) {
 		IColumnSearcherFactory factory = null;
-		
+
 		String driverName = "";
 		try {
 			driverName = objMet.getDriverName();
@@ -92,8 +92,8 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 			e.printStackTrace();
 			return new DefaultColumnSearcherFactory(objMet, isConvertUnicode);
 		}
-		
-		
+
+
 		String key = driverName + ":" + isConvertUnicode;
 		if (map.containsKey(key)) {
 			factory = (IColumnSearcherFactory) map.get(key);
@@ -113,16 +113,16 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 					factory = new DefaultColumnSearcherFactory(objMet, isConvertUnicode);
 					break;
 			}
-			
+
 			map.put(key, factory);
 		}
-		
+
 		return factory;
-		
+
 	}
-	
+
 	abstract protected String getCustomColumnInfoSQL(String dbName, String owner, String table);
-	
+
 	protected Map getCustomColumnInfoMap(Connection con, String owner, String table, boolean convertUnicode) throws Exception {
 		Map map = new HashMap();
 		ResultSet rs = null;
@@ -143,7 +143,7 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 				info.setData_scale(rs.getBigDecimal(DATA_SCALE_STR));
 				info.setData_default(rs.getString(DATA_DEFAULT_STR));
 				info.setComments(rs.getString(COMMENTS_STR));
-				
+
 
 				if (convertUnicode) {
 					info.setColumn_name(JDBCUnicodeConvertor.convert(info.getColumn_name()));
@@ -153,7 +153,7 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 				}
 				map.put(info.getColumn_name(), info);
 			}
-			
+
 		} catch (Exception e) {
 			DbPlugin.log(e);
 			throw e;
@@ -164,5 +164,5 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 		return map;
 	}
 
-	
+
 }

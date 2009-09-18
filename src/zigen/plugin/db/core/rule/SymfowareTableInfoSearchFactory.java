@@ -17,9 +17,9 @@ import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.TableInfo;
 
 
-public class SymfowareCommentSearchFactory extends DefaultCommentSearchFactory{
+public class SymfowareTableInfoSearchFactory extends DefaultTableInfoSearchFactory{
 
-	public SymfowareCommentSearchFactory(DatabaseMetaData meta){
+	public SymfowareTableInfoSearchFactory(DatabaseMetaData meta){
 		super(meta);
 	}
 	public String getTableInfoAllSql(String schema, String[] types) {

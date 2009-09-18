@@ -3,10 +3,10 @@ package zigen.plugin.db.core.rule;
 import java.sql.DatabaseMetaData;
 
 
-public class DefaultCommentSearchFactory extends AbstractTableInfoSearchFactory{
+public class DefaultTableInfoSearchFactory extends AbstractTableInfoSearchFactory{
 	protected DatabaseMetaData meta;
 
-	protected DefaultCommentSearchFactory(DatabaseMetaData meta) {
+	protected DefaultTableInfoSearchFactory(DatabaseMetaData meta) {
 		this.meta = meta;
 	}
 

@@ -5,9 +5,9 @@ import java.sql.DatabaseMetaData;
 import zigen.plugin.db.core.SQLUtil;
 
 
-public class OracleCommentSearchFactory extends DefaultCommentSearchFactory{
+public class OracleTableInfoSearchFactory extends DefaultTableInfoSearchFactory{
 
-	public OracleCommentSearchFactory(DatabaseMetaData meta){
+	public OracleTableInfoSearchFactory(DatabaseMetaData meta){
 		super(meta);
 	}
 	public String getTableInfoAllSql(String schema, String[] types) {
@@ -20,9 +20,9 @@ public class OracleCommentSearchFactory extends DefaultCommentSearchFactory{
 		sb.append("        ALL_CATALOG CAT");
 		sb.append("        ,ALL_TAB_COMMENTS C");
 		sb.append("    WHERE");
-		sb.append("        CAT.OWNER = C.OWNER");
-		sb.append("        AND CAT.TABLE_NAME = C.TABLE_NAME");
-		sb.append("        AND CAT.TABLE_TYPE = C.TABLE_TYPE");
+		sb.append("        CAT.OWNER = C.OWNER(+)");
+		sb.append("        AND CAT.TABLE_NAME = C.TABLE_NAME(+)");
+		sb.append("        AND CAT.TABLE_TYPE = C.TABLE_TYPE(+)");
 		sb.append("        AND CAT.OWNER = '" + SQLUtil.encodeQuotation(schema) + "'");
 		if (types.length > 0) {
 			sb.append("    AND (");
@@ -48,9 +48,9 @@ public class OracleCommentSearchFactory extends DefaultCommentSearchFactory{
 		sb.append("        ALL_CATALOG CAT");
 		sb.append("        ,ALL_TAB_COMMENTS C");
 		sb.append("    WHERE");
-		sb.append("        CAT.OWNER = C.OWNER");
-		sb.append("        AND CAT.TABLE_NAME = C.TABLE_NAME");
-		sb.append("        AND CAT.TABLE_TYPE = C.TABLE_TYPE");
+		sb.append("        CAT.OWNER = C.OWNER (+)");
+		sb.append("        AND CAT.TABLE_NAME = C.TABLE_NAME (+)");
+		sb.append("        AND CAT.TABLE_TYPE = C.TABLE_TYPE (+)");
 		sb.append("        AND CAT.OWNER = '" + SQLUtil.encodeQuotation(schema) + "'");
 		sb.append("        AND CAT.TABLE_TYPE = '" + SQLUtil.encodeQuotation(type) + "'");
 		sb.append("        AND CAT.TABLE_NAME = '" + SQLUtil.encodeQuotation(tableName) + "'");
