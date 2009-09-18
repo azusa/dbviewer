@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,11 +19,11 @@ import zigen.plugin.db.core.Transaction;
 
 /**
  * OracleColumnCommentSearcherクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/01 ZIGEN create.
- * 
+ *
  */
 public class OracleSynonymInfoSearcher {
 
@@ -81,8 +81,8 @@ public class OracleSynonymInfoSearcher {
 		sb.append("        ALL_SYNONYMS S"); //$NON-NLS-1$
 		sb.append("        ,ALL_TAB_COMMENTS T"); //$NON-NLS-1$
 		sb.append("    WHERE"); //$NON-NLS-1$
-		sb.append("        S.TABLE_OWNER = T.OWNER"); //$NON-NLS-1$
-		sb.append("        AND S.TABLE_NAME = T.TABLE_NAME"); //$NON-NLS-1$
+		sb.append("        S.TABLE_OWNER = T.OWNER (+)"); //$NON-NLS-1$
+		sb.append("        AND S.TABLE_NAME = T.TABLE_NAME (+)"); //$NON-NLS-1$
 		sb.append("        AND S.OWNER = '" + SQLUtil.encodeQuotation(owner) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("        AND S.SYNONYM_NAME = '" + SQLUtil.encodeQuotation(synonym) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
