@@ -151,6 +151,10 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 		this.convertUnicode = convertUnicode;
 	}
 
+	public void setDatabaseMetaData(DatabaseMetaData meta){
+		this.objMeta = meta;
+	}
+
 	protected String getCustomColumnInfoSQL(String dbName, String owner, String table) {
 		return null;
 	}

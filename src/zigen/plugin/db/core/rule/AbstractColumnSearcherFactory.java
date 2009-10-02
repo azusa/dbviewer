@@ -98,6 +98,8 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 		if (map.containsKey(key)) {
 			factory = (IColumnSearcherFactory) map.get(key);
 			factory.setConvertUnicode(isConvertUnicode);
+			factory.setDatabaseMetaData(objMet);
+
 		} else {
 			switch (DBType.getType(driverName)) {
 				case DBType.DB_TYPE_ORACLE:
