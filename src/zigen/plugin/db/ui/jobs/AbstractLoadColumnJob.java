@@ -42,8 +42,8 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 	}
 
 	protected boolean loadColumnInfo(IProgressMonitor monitor, Connection con, ITable table) throws Exception {
-		TimeWatcher tw = new TimeWatcher();
-		tw.start();
+		TimeWatcher ts = new TimeWatcher();
+		ts.start();
 
 		TableColumn[] columns = null;
 		TablePKColumn[] pks = null;
@@ -89,27 +89,40 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			IColumnSearcherFactory factory = DefaultColumnSearcherFactory.getFactory(con.getMetaData(), convertUnicode);
 			columns = factory.execute(con, schemaName, tableName);
 
+			ts.stop();
+			System.out.println("[カラム検索時間] " + tableName +", "+ ts.getTotalTime());
+			ts.start();
+
 			monitor.worked(1);
 
 			monitor.subTask("Search for PrimaryKey..."); //$NON-NLS-1$
 			// pks = ConstraintSearcher.getPKColumns(con, schemaName, tableName);
 			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);
 			pks = constraintFactory.getPKColumns(con, schemaName, tableName);
+			ts.stop();
+			System.out.println("[PKカラム検索時間] " + ts.getTotalTime());
+			ts.start();
 
 			monitor.worked(1);
 
 			monitor.subTask(Messages.getString("RefreshColumnJob.8")); //$NON-NLS-1$
 			// fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
 			fks = constraintFactory.getFKColumns(con, schemaName, tableName);
+			ts.stop();
+			System.out.println("[FKカラム検索時間] " + ts.getTotalTime());
 
 			monitor.worked(1);
 
 			switch (DBType.getType(con.getMetaData())) {
 			case DBType.DB_TYPE_ORACLE:
-
+				ts.start();
 				monitor.subTask(Messages.getString("RefreshColumnJob.9")); //$NON-NLS-1$
 				// cons = OracleConstraintSearcher.getConstraintColumns(con, schemaName, tableName);
 				cons = constraintFactory.getConstraintColumns(con, schemaName, tableName);
+
+				ts.stop();
+				System.out.println("[制約検索時間] " + ts.getTotalTime());
+				ts.start();
 
 				monitor.worked(1);
 				// <-- modify start response up
@@ -126,21 +139,36 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 				uidxs = indexies[0];
 				nonuidxs = indexies[1];
 				monitor.worked(2);
+
+				ts.stop();
+				System.out.println("[インデックス検索時間] " + ts.getTotalTime());
+
 				// -->
 
 				break;
 			default:
+
+				ts.start();
 				monitor.subTask(Messages.getString("RefreshColumnJob.12")); //$NON-NLS-1$
 				monitor.worked(1);
 
 				monitor.subTask(Messages.getString("RefreshColumnJob.13")); //$NON-NLS-1$
 				// uidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, true);
 				uidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, true);
+				ts.stop();
+				System.out.println("[ユニークインデックス検索時間] " + ts.getTotalTime());
+				ts.start();
+
 				monitor.worked(1);
+
 
 				monitor.subTask(Messages.getString("RefreshColumnJob.14")); //$NON-NLS-1$
 				// nonuidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, false);
 				nonuidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, false);
+
+				ts.stop();
+				System.out.println("[アンユニークインデックス検索時間] " + ts.getTotalTime());
+
 				monitor.worked(1);
 
 				break;
@@ -215,7 +243,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 		removeDeleteColumn(table, newColumnList); // 削除されたカラムを削除する処理
 		table.setExpanded(true); // カラム情報の読み込み完了
 
-		tw.stop();
 		return true;
 	}
 

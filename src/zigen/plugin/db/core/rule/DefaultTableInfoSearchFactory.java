@@ -22,5 +22,13 @@ public class DefaultTableInfoSearchFactory extends AbstractTableInfoSearchFactor
 		return null;
 	}
 
+	/**
+	 * キャッシュを返す場合は、このメソッドを使ってDatabaseMetaDataを設定する
+	 * @param meta
+	 */
+	public void setDatabaseMetaData(DatabaseMetaData meta){
+		this.meta = meta;
+	}
+
 
 }

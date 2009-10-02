@@ -33,6 +33,7 @@ abstract public class AbstractTableInfoSearchFactory implements ITableInfoSearch
 		String key = meta.getDriverName();
 		if (map.containsKey(key)) {
 			factory = (ITableInfoSearchFactory) map.get(key);
+			factory.setDatabaseMetaData(meta);
 		} else {
 			switch (DBType.getType(key)) {
 				case DBType.DB_TYPE_ORACLE:

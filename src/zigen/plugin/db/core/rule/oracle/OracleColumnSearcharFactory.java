@@ -83,6 +83,7 @@ public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		sb.append("    ORDER BY");
 		sb.append("        COL.COLUMN_ID");
 
+		System.out.println("ƒJƒ‰ƒ€ŒŸõSQL \n" + sb.toString());
 		return sb.toString();
 	}
 
