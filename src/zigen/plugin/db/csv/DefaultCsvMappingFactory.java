@@ -1,14 +1,17 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.csv;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -18,11 +21,12 @@ import java.sql.Types;
 import java.util.Date;
 
 import zigen.plugin.db.DbPlugin;
+import zigen.plugin.db.core.InputStreamUtil;
 import zigen.plugin.db.core.JDBCUnicodeConvertor;
 
 /**
  * DefaultMappingFactory.java.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
@@ -255,20 +259,74 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 	}
 
 	protected String getCLOB(ResultSet rs, int icol) throws SQLException {
-		Object value = rs.getObject(icol);
+//		Object value = rs.getObject(icol);
+//
+//		if (rs.wasNull())
+//			return NULL;
+//
+//		return "<<CLOB>>"; //$NON-NLS-1$
+//
+		InputStream in = null;
+		try {
+			Clob clob = rs.getClob(icol);
 
-		if (rs.wasNull())
-			return NULL;
+			if (rs.wasNull())
+				return NULL;
 
-		return "<<CLOB>>"; //$NON-NLS-1$
+			String temp = InputStreamUtil.toString(clob.getCharacterStream()); // String
+			if (!nonDoubleQuate) {
+				return "\"" + temp + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+			} else {
+				return temp;
+			}
+
+		}catch(IOException e){
+			throw new SQLException("Clob#getCharacterStream()でIOExceptionが発生しました。 " + e.getMessage());
+
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					DbPlugin.log(e);
+				}
+				in = null;
+			}
+		}
 	}
 
 	protected String getBLOB(ResultSet rs, int icol) throws SQLException {
-		Object value = rs.getObject(icol);
+//		Object value = rs.getObject(icol);
+//
+//		if (rs.wasNull())
+//			return NULL;
+//		return "<<BLOB>>"; //$NON-NLS-1$
 
-		if (rs.wasNull())
-			return NULL;
-		return "<<BLOB>>"; //$NON-NLS-1$
+		InputStream in = null;
+		try {
+			Blob blob = rs.getBlob(icol);
+
+			if (rs.wasNull())
+				return NULL;
+
+			in = new BufferedInputStream(blob.getBinaryStream());
+			String temp = toBinary(toByteArray(in)); // バイナリー表示
+			if (!nonDoubleQuate) {
+				return "\"" + temp + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+			} else {
+				return temp;
+			}
+
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					DbPlugin.log(e);
+				}
+				in = null;
+			}
+		}
 	}
 
 	protected String getOTHER(ResultSet rs, int icol) throws SQLException {
