@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -22,11 +22,11 @@ import zigen.plugin.db.preference.URLPreferencePage;
 
 /**
  * PreferenceInitializerクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- * 
+ *
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
@@ -68,7 +68,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 		// store.setDefault(SQLEditorPreferencePage.P_LINE_DEMILITER,
 		// DbPluginConstant.LINE_SEP);
-		store.setDefault(SQLEditorPreferencePage.P_SQL_DEMILITER, "/"); //$NON-NLS-1$
+		//store.setDefault(SQLEditorPreferencePage.P_SQL_DEMILITER, "/"); //$NON-NLS-1$
+		store.setDefault(SQLEditorPreferencePage.P_SQL_DEMILITER, ";"); //$NON-NLS-1$
 		// store.setDefault(SQLEditorPreferencePage.P_FORMAT_PATCH, true);
 
 		saveURLPreferencePage(store, createURL());
