@@ -330,17 +330,18 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 		Clipboard cp = ClipboardUtils.getInstance();
 		TextTransfer transfer = TextTransfer.getInstance();
-		// RTFTransfer rtransfer = RTFTransfer.getInstance();
-		String v[] = cp.getAvailableTypeNames();
-		for (int i = 0; i < v.length; i++) {
-			if (v[i].equals("CF_TEXT")) { //$NON-NLS-1$
-				result = (String) cp.getContents(transfer);
-				if (result != null)
-					return result;
-
-			}
-		}
-		return result;
+//		// RTFTransfer rtransfer = RTFTransfer.getInstance();
+//		String v[] = cp.getAvailableTypeNames();
+//		for (int i = 0; i < v.length; i++) {
+//			if (v[i].equals("CF_TEXT")) { //$NON-NLS-1$
+//				result = (String) cp.getContents(transfer);
+//				if (result != null)
+//					return result;
+//
+//			}
+//		}
+//		return result;
+		return (String) cp.getContents(transfer);
 	}
 
 	public boolean canCreateNewElement() {

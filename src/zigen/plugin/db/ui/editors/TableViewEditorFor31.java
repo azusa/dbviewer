@@ -1679,6 +1679,8 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 
 	public void setEnabled(boolean enabled) {
 		table.setEnabled(enabled);
+		table.setVisible(enabled);	// 貼り付け中はテーブルデータを非表示にすることで高速化
+
 		conditionComb.setEnabled(enabled);
 		searchItem.setEnabled(enabled);
 		filterItem.setEnabled(enabled);
