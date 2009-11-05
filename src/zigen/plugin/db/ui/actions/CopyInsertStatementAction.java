@@ -1,6 +1,6 @@
 /*
  * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
+ * ライセンス：Eclipse Public License - v 1.0
  * 原文：http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -14,20 +14,22 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 
 import zigen.plugin.db.DbPlugin;
+import zigen.plugin.db.DbPluginConstant;
 import zigen.plugin.db.core.ClipboardUtils;
 import zigen.plugin.db.core.TableColumn;
 import zigen.plugin.db.core.TableElement;
 import zigen.plugin.db.core.rule.DefaultStatementFactory;
 import zigen.plugin.db.core.rule.IStatementFactory;
+import zigen.plugin.db.preference.SQLEditorPreferencePage;
 import zigen.plugin.db.ui.internal.ITable;
 
 /**
  * DeleteRecordActionクラス.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
+ *
  */
 public class CopyInsertStatementAction extends TableViewEditorAction {
 
@@ -44,6 +46,10 @@ public class CopyInsertStatementAction extends TableViewEditorAction {
 	public void run() {
 
 		try {
+
+			String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
+
+
 			StringBuffer sb = new StringBuffer();
 			Clipboard clipboard = ClipboardUtils.getInstance();
 			TextTransfer text_transfer = TextTransfer.getInstance();
@@ -90,7 +96,15 @@ public class CopyInsertStatementAction extends TableViewEditorAction {
 						}
 
 					}
-					sb.append(")" + LINE_SEP + "/" + LINE_SEP); //$NON-NLS-1$ //$NON-NLS-2$
+
+					sb.append(")");
+					if ("/".equals(demiliter)) { //$NON-NLS-1$
+						sb.append(DbPluginConstant.LINE_SEP);
+					}
+					sb.append(demiliter);
+					sb.append(DbPluginConstant.LINE_SEP);
+
+
 					index++;
 
 				}
@@ -106,7 +120,7 @@ public class CopyInsertStatementAction extends TableViewEditorAction {
 
 	/**
 	 * Enableモードを設定する
-	 * 
+	 *
 	 */
 	public void refresh() {
 		if (editor == null) {
