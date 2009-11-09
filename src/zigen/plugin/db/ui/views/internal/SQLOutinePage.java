@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import kry.sql.format.SqlFormatRule;
+import kry.sql.tokenizer.SqlScanner;
+import kry.sql.tokenizer.SqlTokenizer;
+import kry.sql.tokenizer.TokenList;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -47,6 +50,7 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.DbPluginConstant;
 import zigen.plugin.db.ImageCacher;
 import zigen.plugin.db.core.StringUtil;
+import zigen.plugin.db.core.TimeWatcher;
 import zigen.plugin.db.parser.util.CurrentSql;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
 import zigen.plugin.db.ui.editors.sql.SqlEditor2;
@@ -464,15 +468,32 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 		}
 	}
 
-	class SqlParserWithProgressMonitor extends SqlParser implements ISqlParser {
+	class SqlTokenizerWithProgressMonitor extends SqlTokenizer {
 
 		IProgressMonitor monitor;
 
+		public SqlTokenizerWithProgressMonitor(IProgressMonitor monitor, String sql, SqlFormatRule rule){
+			this.monitor = monitor;
+			super.init(sql, rule);
+		}
+
+		public boolean isCanceled(){
+			return monitor.isCanceled();
+		}
+
+	}
+	class SqlParserWithProgressMonitor extends SqlParser implements ISqlParser {
+		IProgressMonitor monitor;
+
 		public SqlParserWithProgressMonitor(IProgressMonitor monitor, String sql, SqlFormatRule rule) {
-			super(sql, rule);
+			//super(sql, rule);
 			// super.setTokenizer(new SqlTokenizerWithProgressMonitor(monitor,
 			// sql, rule));
+			super(sql, new SqlTokenizerWithProgressMonitor(monitor, sql, rule));
 			this.monitor = monitor;
+		}
+		public boolean isCanceled(){
+			return monitor.isCanceled();
 		}
 
 		protected int nextToken() {
@@ -484,7 +505,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			}
 		}
 	}
-
 	class UpdateOutlineJob extends AbstractJob {
 
 		CurrentSql currentSql;
@@ -505,14 +525,23 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 				}
 				monitor.subTask("Parsing SQL");
 
+				TimeWatcher tw = new TimeWatcher();
+				tw.start();
 				String sql = currentSql.getSql();
 				parser = new SqlParserWithProgressMonitor(monitor, sql, DbPlugin.getSqlFormatRult());
+				tw.stop();
+				System.out.println("SQLTokenizer " + tw.getTotalTime());
+				tw.start();
 				final INode node = new ASTRoot();
 
 				visitor = new ASTVisitor2();
 				parser.parse(node);
+				tw.stop();
+				System.out.println("AST•ÏŠ· " + tw.getTotalTime());
+				tw.start();
 				node.accept(visitor, null);
-
+				tw.stop();
+				System.out.println("VISITOR " + tw.getTotalTime());
 				monitor.subTask("Complete Parsed SQL " + currentSql);
 				showResults(new Runnable() {
 
@@ -562,7 +591,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			return Status.OK_STATUS;
 		}
 	}
-
 
 	public CurrentSql getCurrentSql() {
 		return currentSql;
