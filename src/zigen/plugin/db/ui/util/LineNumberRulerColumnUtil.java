@@ -1,7 +1,7 @@
 /*
- * íòçÏå†: Copyright (c) 2007Å|2008 ZIGEN
- * ÉâÉCÉZÉìÉXÅFEclipse Public License - v 1.0 
- * å¥ï∂ÅFhttp://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007Å|2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.util;
 
@@ -15,7 +15,6 @@ public class LineNumberRulerColumnUtil {
 	public static void changeColor(ColorManager manager, LineNumberRulerColumn rulerColumn) {
 
 		if (rulerColumn != null) {
-			// îwåiêF
 			rulerColumn.setBackground(manager.getColor(SQLEditorPreferencePage.P_COLOR_BACK));
 
 			rulerColumn.setForeground(manager.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT));

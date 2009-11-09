@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -34,7 +34,7 @@ public class RecordCountForQueryJob extends AbstractJob {
 
 	String secondarlyId;
 
-	int dispCount; // 表示件数
+	int dispCount;
 
 	public RecordCountForQueryJob(Transaction trans, String sqlString, String secondarlyId, int dispCount) {
 		super(Messages.getString("RecordCountForQueryJob.0")); //$NON-NLS-1$
@@ -45,7 +45,6 @@ public class RecordCountForQueryJob extends AbstractJob {
 	}
 
 	protected IStatus run(IProgressMonitor monitor) {
-		// Connection con = null; // レコード件数は独自のコネクションを使う
 		// long count = 0;
 		try {
 			if (!trans.isConneting()) {
@@ -65,7 +64,6 @@ public class RecordCountForQueryJob extends AbstractJob {
 
 			int timeout = store.getInt(PreferencePage.P_QUERY_TIMEOUT_FOR_COUNT);
 
-			// ITableはnullでgetFactoryする(特殊)
 			ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(trans.getConfig(), null);
 			String q = factory.createCountForQuery(sqlString);
 
@@ -95,7 +93,7 @@ public class RecordCountForQueryJob extends AbstractJob {
 
 		} finally {
 		}
-		return Status.OK_STATUS; // エラーダイアログを表示するためにOKで返す
+		return Status.OK_STATUS;
 
 	}
 

@@ -1,19 +1,11 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.internal;
 
-/**
- * Tableクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
- */
 public class BookmarkFolder extends TreeNode {
 
 	private static final long serialVersionUID = 1L;
@@ -26,20 +18,10 @@ public class BookmarkFolder extends TreeNode {
 		super(name);
 	}
 
-	/**
-	 * 所属するBookmarkRootの取得
-	 * 
-	 * @return
-	 */
 	public BookmarkRoot getBookmarkRoot() {
 		return getBookmarkRoot(this);
 	}
 
-	/**
-	 * 所属するBookmarkFolderの取得
-	 * 
-	 * @return
-	 */
 	public BookmarkFolder getBookmarkFolder() {
 		return getBookmarkFolder(this);
 	}
@@ -52,7 +34,7 @@ public class BookmarkFolder extends TreeNode {
 				return getBookmarkRoot(leaf.getParent());
 			} else {
 				// return null;
-				throw new IllegalStateException("BookmarkRoot要素が上位に存在しません");
+				throw new IllegalStateException("BookmarkFolder#getBookmarkRoot");
 			}
 		}
 	}

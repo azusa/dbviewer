@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.event;
@@ -42,15 +42,6 @@ import zigen.plugin.db.ui.jobs.AbstractJob;
 import zigen.plugin.db.ui.jobs.OpenEditorJob;
 import zigen.plugin.db.ui.jobs.RecordCountForTableJob;
 
-/**
- *
- * TableKeyAdapterクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/02/08 ZIGEN create.
- *
- */
 public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 	private TableKeyEventHandler handler;
@@ -65,10 +56,6 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 	Table table;
 
-	/**
-	 * コンストラクタ
-	 *
-	 */
 	public TableKeyAdapter(TableKeyEventHandler handler) {
 		this.handler = handler;
 		this.editor = handler.editor;
@@ -83,8 +70,8 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 	}
 
 	public void keyTraversed(TraverseEvent e) {
-		int row = handler.getSelectedRow(); // 行（先頭は0から)
-		int col = handler.getSelectedCellEditorIndex(); // 現在のカラム
+		int row = handler.getSelectedRow();
+		int col = handler.getSelectedCellEditorIndex();
 
 		if (e.character == SWT.TAB) {
 			if ((e.stateMask & SWT.SHIFT) != 0) {
@@ -98,19 +85,13 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 					handler.editTableElement(row, nextCol);
 				}
 			}
-			e.doit = false; // TABは常にfalse
+			e.doit = false;
 		}
 	}
 
-	/**
-	 * Enterイベント
-	 *
-	 * @param e
-	 * @throws Exception
-	 */
 	private void enterEvent(KeyEvent e) throws Exception {
-		int row = handler.getSelectedRow(); // 行（先頭は0から)
-		int col = handler.getSelectedCellEditorIndex(); // 現在のカラム
+		int row = handler.getSelectedRow();
+		int col = handler.getSelectedCellEditorIndex();
 
 		TableElement element = (TableElement) handler.viewer.getElementAt(row);
 		if (!handler.validate(row, col)) {
@@ -118,26 +99,18 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		} else {
 			if (handler.updateDataBase(element)) {
 				editor.changeColumnColor();
-				handler.selectRow(row);// 更新後選択状態にする
+				handler.selectRow(row);
 				e.doit = true;
 			} else {
-				// handler.editTableElement(row, col); // ここで編集すると、エラー箇所での編集が解除されてしまう。
 				e.doit = false;
 			}
 		}
 
 	}
 
-	/**
-	 * 矢印イベント
-	 *
-	 * @param e
-	 * @param text
-	 * @throws Exception
-	 */
 	private void arrowEvent(KeyEvent e, Text text) throws Exception {
-		int row = handler.getSelectedRow(); // 行（先頭は0から)
-		int col = handler.getSelectedCellEditorIndex(); // 現在のカラム
+		int row = handler.getSelectedRow();
+		int col = handler.getSelectedCellEditorIndex();
 		int prevCol = handler.getEditablePrevColumn(col);
 		int nextCol = handler.getEditableNextColumn(col);
 		int maxRow = handler.table.getItemCount();
@@ -150,7 +123,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		case SWT.ARROW_UP:
 			// if (row > 0) {
 			if (row >= 0) {
-				if (handler.validate(row, col)) { // validateしないとisModifyが有効にならない
+				if (handler.validate(row, col)) {
 					if (element.isNew() && !element.isModify()) {
 						handler.removeRecord(element);
 						handler.editTableElement(row - 1, col);
@@ -182,8 +155,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 					if (!element.isNew()) {
 						if (handler.updateDataBase(element)) {
 							if (editor instanceof QueryViewEditor2) {
-								;// 何もしない
-								// handler.editTableElement(0, col); // 先頭へ
+								;
 							} else {
 								handler.createNewRecord();
 							}
@@ -259,16 +231,11 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 					// F2
 				} else if (e.keyCode == SWT.F2) {
-					text.clearSelection();// 選択テキストを解除する
+					text.clearSelection();
 
-					// 矢印キーイベント
 				} else if (e.keyCode == SWT.ARROW_UP || e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.ARROW_LEFT || e.keyCode == SWT.ARROW_RIGHT) {
 					arrowEvent(e, text);
 				}
-
-				/*
-				 * } else if (e.stateMask == SWT.CTRL && e.keyCode == 97) { // CTL+A で文字選択 text.selectAll(); }
-				 */
 
 				// CTRL+V
 				if (e.stateMask == SWT.CTRL && e.keyCode == 118) {
@@ -313,7 +280,6 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		StringTokenizer tokenizer = new StringTokenizer(target, DbPluginConstant.LINE_SEP);
 		while (tokenizer.hasMoreTokens()) {
 			StringBuffer sb = new StringBuffer();
-			// \t\tで終わる場合を考慮して改行を入れる
 			sb.append(tokenizer.nextToken()).append(DbPluginConstant.LINE_SEP);
 			TabTokenizer t = new TabTokenizer(sb.toString());
 			if (columnCount != t.getTokenCount()) {
@@ -353,12 +319,11 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 			StringTokenizer tokenizer = new StringTokenizer(str, DbPluginConstant.LINE_SEP);
 
-			// コピーしたデータのカラムが全て同じかチェックする
 			while (tokenizer.hasMoreTokens()) {
 				String record = tokenizer.nextToken();
 				String[] items = record.split("\t"); //$NON-NLS-1$
 				if (!isHeaderData(columns, items)) {
-					return true; // 貼り付け可能状態
+					return true;
 				}
 			}
 		}
@@ -390,7 +355,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		public void run() {
 			TableElement[] elements = (TableElement[]) handler.viewer.getInput();
 			int dispCnt = 0;
-			for (int i = 1; i < elements.length; i++) { // ヘッダー分の除くため、i = 1
+			for (int i = 1; i < elements.length; i++) {
 				if (!elements[i].isNew())
 					dispCnt++;
 			}
@@ -418,7 +383,6 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		}
 
 		public void run() {
-			// ThreadLocalでエラーダイアログの連続表示を制御すること
 			PasteRecordMonitor.begin();
 			try {
 				createNewRecord(recordNo, items);
@@ -433,29 +397,21 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 			ITable tbl = headerTableElement.getTable();
 			int count = table.getItems().length;
 
-			// 表示レコード件数＋１でRecordNoを設定
 			// TableElement newElement = new TableNewElement(tbl, count + 1, headerTableElement.getColumns(), items, headerTableElement.getUniqueColumns());
 
 			TableElement newElement = new TableNewElement(tbl, recordNo, headerTableElement.getColumns(), items, headerTableElement.getUniqueColumns());
 
-			// 同じレコードが登録されている場合は非更新状態(*)にする
-
-			// レコードの追加
 			TableViewerManager.insert(handler.viewer, newElement);
 
-			// 修正したカラムとして設定する
 			for (int i = 0; i < items.length; i++) {
 				newElement.addMofiedColumn(i);
 			}
 
-			// 選択行を変更しておく 2007-09-06 ZIGEN
 			table.setSelection(count);
 
-			// 更新する 2007-06-19 ZIGEN
 			handler.updateDataBase(newElement);
 
-			// １カラム目(Rowを除いたもの）を編集
-			handler.editTableElement(count, 1); // 最終レコードの1カラム目を編集
+			handler.editTableElement(count, 1);
 
 		}
 	}
@@ -469,7 +425,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		public PasteRecordJob(StringTokenizer tokenizer, int position) {
 			super("Paste Record Data");
 			this.tokenizer = tokenizer;
-			editor.setEnabled(false); // 非編集モードにする
+			editor.setEnabled(false);
 			this.position = position;
 		}
 
@@ -482,7 +438,6 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 					int displayCount = 0;
 
 
-					// コピーしたデータのカラムが全て同じかチェックする
 					while (tokenizer.hasMoreTokens()) {
 						cnt++;
 						displayCount++;
@@ -499,10 +454,9 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 							}
 							String[] items = (String[]) itemList.toArray(new String[0]);
 
-							// 1行目がヘッダーかどうかチェックする
 							if (cnt == 1 && isHeaderData(columns, items)) {
-								totalWork--; // トータルを1つ減らす
-								displayCount--; // 表示用のカウントを１つ減らす
+								totalWork--;
+								displayCount--;
 								monitor.subTask((displayCount) + "/" + totalWork);
 								monitor.worked(1);
 
@@ -524,11 +478,10 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 				Display.getDefault().asyncExec(new Runnable() {
 
 					public void run() {
-						editor.changeColumnColor();// 明細の背景色を変更
+						editor.changeColumnColor();
 						editor.setEnabled(true);
 					}
 				});
-				// 件数の再計算はここで
 				Display.getDefault().asyncExec(new CalcTotalCountAction());
 			}
 
@@ -537,15 +490,13 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 		private String convertToken(String token) {
 			if (token == null)
-				token = ""; // 2008/01/30 ZIGEN NULLの場合は、""に変換する
+				token = "";
 
 			if (token.startsWith("\"") && token.endsWith("\"")) { //$NON-NLS-1$ //$NON-NLS-2$
-				token = token.replaceAll("^\"|\"$", "");// 前後の"を削除する
+				token = token.replaceAll("^\"|\"$", "");
 				// //$NON-NLS-1$
 				// //$NON-NLS-2$
-				token = token.replaceAll("\"\"", "\"");// "" →
-				// "
-				// に変換
+				token = token.replaceAll("\"\"", "\"");
 				// //$NON-NLS-1$
 				// //$NON-NLS-2$
 
@@ -555,8 +506,8 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 	}
 
 	private void arrowEvent(KeyEvent e) throws Exception {
-		int row = handler.getSelectedRow(); // 行（先頭は0から)
-		int col = handler.getSelectedCellEditorIndex(); // 現在のカラム
+		int row = handler.getSelectedRow();
+		int col = handler.getSelectedCellEditorIndex();
 		int prevCol = handler.getEditablePrevColumn(col);
 		int nextCol = handler.getEditableNextColumn(col);
 		int maxRow = handler.table.getItemCount();
@@ -566,7 +517,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		case SWT.ARROW_UP:
 			// if (row > 0) {
 			if (row >= 0) {
-				if (handler.validate(row, col)) { // validateしないとisModifyが有効にならない
+				if (handler.validate(row, col)) {
 					if (element.isNew() && !element.isModify()) {
 						handler.removeRecord(element);
 						handler.editTableElement(row - 1, col);
@@ -598,8 +549,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 					if (!element.isNew()) {
 						if (handler.updateDataBase(element)) {
 							if (editor instanceof QueryViewEditor2) {
-								;// 何もしない
-								// handler.editTableElement(0, col); // 先頭へ
+								;
 							} else {
 								handler.createNewRecord();
 							}

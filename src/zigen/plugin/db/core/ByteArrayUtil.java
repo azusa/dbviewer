@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
 
@@ -14,24 +14,6 @@ import zigen.plugin.db.DbPlugin;
 
 public class ByteArrayUtil {
 
-	/**
-	 * byte[] → String 変換(JISAutoDetect)
-	 * 
-	 * @param bytes
-	 * @return
-	 * @throws IOException
-	 */
-	// public static String toString(byte[] bytes) {
-	// return toString(bytes, "JISAutoDetect");
-	// }
-	/***************************************************************************************************************************************************************************************************
-	 * byte[] → String 変換
-	 * 
-	 * @param bytes
-	 * @param charsetName
-	 * @return
-	 * @throws IOException
-	 */
 	public static String toString(byte[] bytes, String charsetName) {
 
 		if (bytes == null)
@@ -54,7 +36,6 @@ public class ByteArrayUtil {
 			out = sw.toString();
 		} catch (Exception e) {
 			DbPlugin.log(e);
-			// 選択されたcharsetに変換できませんでした
 			DbPlugin.getDefault().showWarningMessage(Messages.getString("ByteArrayUtil.Message")); //$NON-NLS-1$
 		}
 		return out;

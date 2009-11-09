@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -21,14 +21,6 @@ import zigen.plugin.db.core.rule.AbstractTableInfoSearchFactory;
 import zigen.plugin.db.core.rule.ITableInfoSearchFactory;
 import zigen.plugin.db.core.rule.TableComment;
 
-/**
- * TableSearcherクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/18 ZIGEN create.
- *
- */
 public class TableSearcher {
 
 	public static TableInfo[] execute(Connection con, String schemaPattern, String[] types) throws Exception {
@@ -38,16 +30,7 @@ public class TableSearcher {
 	public static TableInfo execute(Connection con, String schemaPattern, String tablePattern, String type) throws Exception {
 		return execute(con, schemaPattern, tablePattern, type, null);
 	}
-	/**
-	 * コード補完用(テーブル名にハイフンがある場合に、encloseCharで囲んだ名前がほしい)
-	 *
-	 * @param con
-	 * @param schemaPattern
-	 * @param types
-	 * @param encloseChar
-	 * @return
-	 * @throws Exception
-	 */
+
 	public static TableInfo[] execute(Connection con, String schemaPattern, String[] types, Character encloseChar) throws Exception {
 
 		List list = new ArrayList();
@@ -98,7 +81,6 @@ public class TableSearcher {
 				}
 				while (rs.next()) {
 					String tableName = rs.getString("TABLE_NAME"); //$NON-NLS-1$
-					// for SymfoWARE： 同名のテーブルがある場合はリストに登録しない
 					TableInfo info = new TableInfo();
 					if (encloseChar != null) {
 						info.setName(SQLUtil.enclose(tableName, encloseChar.charValue()));
@@ -107,8 +89,6 @@ public class TableSearcher {
 					}
 					info.setTableType(rs.getString("TABLE_TYPE")); //$NON-NLS-1$
 
-					// REMARKSでコメントが取れるDBがあるのか？
-					// → Postgresqlでは採れる
 					info.setComment(rs.getString("REMARKS")); //$NON-NLS-1$
 					list.add(info);
 
@@ -129,16 +109,7 @@ public class TableSearcher {
 
 	}
 
-	/**
-	 * コード補完用(テーブル名にハイフンがある場合に、encloseCharで囲んだ名前がほしい)
-	 *
-	 * @param con
-	 * @param schemaPattern
-	 * @param types
-	 * @param encloseChar
-	 * @return
-	 * @throws Exception
-	 */
+
 	public static TableInfo execute(Connection con, String schemaPattern, String tablePattern, String type, Character encloseChar) throws Exception {
 		TableInfo info = null;
 		ResultSet rs = null;
@@ -180,16 +151,12 @@ public class TableSearcher {
 				}
 				if (rs.next()) {
 					String tableName = rs.getString("TABLE_NAME"); //$NON-NLS-1$
-					// for SymfoWARE： 同名のテーブルがある場合はリストに登録しない
 					if (encloseChar != null) {
 						info.setName(SQLUtil.enclose(tableName, encloseChar.charValue()));
 					} else {
 						info.setName(tableName);
 					}
 					info.setTableType(rs.getString("TABLE_TYPE")); //$NON-NLS-1$
-
-					// REMARKSでコメントが取れるDBがあるのか？
-					// → Postgresqlでは採れる
 					info.setComment(rs.getString("REMARKS")); //$NON-NLS-1$
 
 				}

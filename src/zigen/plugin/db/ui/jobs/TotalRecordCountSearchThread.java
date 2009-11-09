@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -33,12 +33,10 @@ public class TotalRecordCountSearchThread implements Runnable {
 	public void run() {
 		Connection con = null;
 		try {
-			// カウント取得用に新規のConnectionを取得
 			con = ConnectionManager.getConnection(trans.getConfig());
 			this.count = SQLInvoker.executeQueryTotalCount(con, query, timeoutSec);
 			this.isComplete = true;
 		} catch (Exception e) {
-			System.err.println("実行したSQL = " + query);
 			DbPlugin.log(e);
 		} finally {
 			ConnectionManager.closeConnection(con);

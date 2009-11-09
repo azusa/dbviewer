@@ -1,24 +1,23 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
 
 public class SQLFormatterPach {
 
-	public static final String LINE_SEP = "\n"; // BlancoFormattertにあわせて、改行コードは\nで扱う
+	public static final String LINE_SEP = "\n"; // BlancoFormattert the line feed code is treated with \n.
 
 	/**
 	 * SQL整形
-	 * 
+	 *
 	 * @param sql
 	 * @return
 	 */
 	public static String format(String sql) {
 		sql = formatOpenParen(sql);
 		sql = formatCase(sql);
-		// 2007/11/22 バインド変数の:の後に空白が入らないようにパッチを適応
 		sql = formatCoron(sql);
 		return sql;
 	}
@@ -27,13 +26,12 @@ public class SQLFormatterPach {
 
 	private static final int SCOPE_BETWEEN = 100;
 
-	// "("の前の空白を取り除く
 	private static String formatOpenParen(String sql) {
 		StringBuffer sb = new StringBuffer();
 		StringTokenizer t3 = new StringTokenizer(sql, " ");
 		String token3 = null;
 		int indent = 0;
-		int preIndent = 0; // 1つ前のインデント
+		int preIndent = 0;
 		String preWord = "";
 
 		int scope = SCOPE_NONE;
@@ -44,7 +42,6 @@ public class SQLFormatterPach {
 				indent++;
 			} else {
 				if (!sb.toString().endsWith(LINE_SEP) && token3.startsWith("(")) {
-
 					if ("=".equalsIgnoreCase(preWord) || "IN".equalsIgnoreCase(preWord) || "THEN".equalsIgnoreCase(preWord)) {
 						sb.append(" ");
 						sb.append(token3);
@@ -55,7 +52,6 @@ public class SQLFormatterPach {
 						sb.append(StringUtil.indent(token3, preIndent));
 
 					} else {
-						// 改行で終わっていない AND "(" の場合
 						sb.append(token3);
 					}
 
@@ -73,7 +69,7 @@ public class SQLFormatterPach {
 
 						if (scope == SCOPE_BETWEEN) {
 							if (!setBetweenAnd) {
-								sb = new StringBuffer(sb.toString().trim()); // 後ろの改行をなくす
+								sb = new StringBuffer(sb.toString().trim());
 								sb.append(" ");
 								sb.append(token3);
 								setBetweenAnd = true;
@@ -87,7 +83,6 @@ public class SQLFormatterPach {
 							sb.append(StringUtil.indent(token3, indent));
 						}
 					} else {
-						// ピリオドの後は空白を入れない
 						if (!sb.toString().endsWith(".")) {
 							sb.append(" ");
 						}
@@ -107,20 +102,20 @@ public class SQLFormatterPach {
 		return sb.toString();
 	}
 
-	// CASE WHEN対応
+	// Support CASE WHEN
 	private static String formatCase(String sql) {
 		StringBuffer sb = new StringBuffer();
 		StringTokenizer t3 = new StringTokenizer(sql, " ");
 		String token3 = null;
 		int indent = 0;
-		int preIndent = 0; // 1つ前のインデント
+		int preIndent = 0;
 
 		boolean isCase = false;
 		while ((token3 = t3.nextToken()) != null) {
 			if (token3.trim().length() == 0) {
 				indent++;
 			} else {
-				String wk = token3.trim().toUpperCase(); // 改行削除、大文字変換
+				String wk = token3.trim().toUpperCase();
 				if (wk.endsWith("CASE")) {
 					isCase = true;
 					sb.append(" ");
@@ -142,7 +137,7 @@ public class SQLFormatterPach {
 					isCase = false;
 
 				} else if ("THEN".equalsIgnoreCase(token3)) {
-					sb = new StringBuffer(sb.toString().trim()); // 後ろの改行をなくす
+					sb = new StringBuffer(sb.toString().trim());
 					sb.append(" ");
 					sb.append(token3);
 
@@ -157,7 +152,7 @@ public class SQLFormatterPach {
 					} else {
 						sb.append(" ");
 						sb.append(StringUtil.indent(token3, indent));
-						isCase = false; // CASEの後に[TABLE].[COLUMN]がある場合を想定
+						isCase = false;
 					}
 
 					preIndent = indent;
@@ -171,21 +166,20 @@ public class SQLFormatterPach {
 	}
 
 
-	// BIND変数(:)対応
+	// for BIND(:)
 	private static String formatCoron(String sql) {
 		StringBuffer sb = new StringBuffer();
 		StringTokenizer t3 = new StringTokenizer(sql, " ");
 		String token3 = null;
 		int indent = 0;
-		int preIndent = 0; // 1つ前のインデント
+		int preIndent = 0;
 
 		boolean isCoron = false;
 		while ((token3 = t3.nextToken()) != null) {
 			if (token3.trim().length() == 0) {
 				indent++;
 			} else {
-				// String wk = token3.trim().toUpperCase(); // 改行削除、大文字変換
-				String wk = token3.trim(); // 改行削除、大文字変換は不要
+				String wk = token3.trim();
 				if (wk.endsWith(":")) {
 					isCoron = true;
 					sb.append(" ");

@@ -1,7 +1,7 @@
 /*
- * ’˜ìŒ : Copyright (c) 2007|2008 ZIGEN
- * ƒ‰ƒCƒZƒ“ƒXFEclipse Public License - v 1.0 
- * Œ´•¶Fhttp://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007|2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -52,7 +52,7 @@ public class UpdateSQLFoldingJob extends AbstractJob {
 			Thread th = new Thread(t);
 			th.setPriority(Thread.MIN_PRIORITY);
 			th.start();
-			int timeout = 5; // 5•b
+			int timeout = 5;
 			if (timeout > 0) {
 				th.join(timeout * 1000);
 			} else {

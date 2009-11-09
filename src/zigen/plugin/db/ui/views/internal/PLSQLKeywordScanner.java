@@ -1,33 +1,24 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views.internal;
 
 
-/**
- * SQLKeywordScannerクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/04/07 ZIGEN create. [002] 2005/05/29 ZIGEN SQLキーワードのシンタックスハイライトの修正.
- * 
- */
 public class PLSQLKeywordScanner extends SQLKeywordScanner {
 
 	public PLSQLKeywordScanner(ColorManager colorManager) {
 		super(colorManager);
 	}
 
-	// PLSQL用にオーバライド
 	protected String[] getSQL_Keyword() {
 		return PLSQLKeywords;
 	}
 
-	// 色分け表示単語
-	public static final String[] PLSQLKeywords = {/* PL/SQL予約語 */"ALL", //$NON-NLS-1$
+	public static final String[] PLSQLKeywords = {
+		    "ALL", //$NON-NLS-1$
 			"ALTER", //$NON-NLS-1$
 			"AND", //$NON-NLS-1$
 			"ANY", //$NON-NLS-1$

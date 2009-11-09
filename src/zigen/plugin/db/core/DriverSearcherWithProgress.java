@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 
@@ -23,14 +23,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * DriverSearcherWithProgressクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/04/02 ZIGEN create.
- * 
- */
 public class DriverSearcherWithProgress implements IRunnableWithProgress {
 
 	private ClassLoader loader;
@@ -39,10 +31,6 @@ public class DriverSearcherWithProgress implements IRunnableWithProgress {
 
 	private List driverNames;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 */
 	public DriverSearcherWithProgress(ClassLoader loader, String[] classpaths) {
 		this.loader = loader;
 		this.classpaths = classpaths;
@@ -56,11 +44,6 @@ public class DriverSearcherWithProgress implements IRunnableWithProgress {
 		monitor.done();
 	}
 
-	/**
-	 * トータル作業量の計算 ※正確な作業量を計算する
-	 * 
-	 * @return
-	 */
 	private int calcTotalWork() {
 		int cnt = 0;
 		ZipInputStream in = null;
@@ -99,13 +82,6 @@ public class DriverSearcherWithProgress implements IRunnableWithProgress {
 		return cnt;
 	}
 
-	/**
-	 * 指定したZIPもしくはJARファイルからDriverNameを取得する
-	 * 
-	 * @param loader
-	 * @param file
-	 * @return
-	 */
 	public List searchDriver(IProgressMonitor monitor) throws InterruptedException {
 
 		List driverList = new ArrayList();
@@ -127,7 +103,6 @@ public class DriverSearcherWithProgress implements IRunnableWithProgress {
 						ZipEntry entry = null;
 						while ((entry = in.getNextEntry()) != null) {
 							// Thread.sleep(1);
-							// キャンセル時はInterruptedExceptionをスロー
 							if (monitor.isCanceled()) {
 								throw new InterruptedException("Search of DriverName was canceled. "); //$NON-NLS-1$
 							}
@@ -157,16 +132,8 @@ public class DriverSearcherWithProgress implements IRunnableWithProgress {
 		return driverList;
 	}
 
-	/**
-	 * addDriverList
-	 * 
-	 * @param monitor
-	 * @param driverList
-	 * @param name
-	 */
 	private void addDriverList(IProgressMonitor monitor, List driverList, String name) {
 		if (name.endsWith(".class")) { //$NON-NLS-1$
-			// 区切り文字を/から.に変換し、.classを除く
 			name = name.replace('/', '.').substring(0, name.length() - 6);
 			monitor.subTask(name);
 			try {
@@ -192,9 +159,6 @@ public class DriverSearcherWithProgress implements IRunnableWithProgress {
 		monitor.worked(1);
 	}
 
-	/**
-	 * @return driverNames を戻します。
-	 */
 	public List getDriverNames() {
 		return driverNames;
 	}

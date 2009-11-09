@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.h2;
@@ -13,15 +13,6 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.Constraint;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- *
- * H2SQLCreatorFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- *
- */
 public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public H2SQLCreatorFactory(ITable table) {
@@ -29,7 +20,6 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	// select * from INFORMATION_SCHEMA.TABLES limit 5 offset 4
-
 	public String createSelect(String _condition, int limit) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
@@ -50,7 +40,7 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 
 		if (limit > 0) {
-			sb.append(" LIMIT "); // ダイアログを出す為に＋１ //$NON-NLS-1$
+			sb.append(" LIMIT ");
 			sb.append(limit + 1);
 		}
 
@@ -176,10 +166,8 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
 
-		// 型
 		sb.append(column.getTypeName());
 
-		// 桁
 		if (isVisibleColumnSize(column.getTypeName())) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(column.getSize());
@@ -210,7 +198,7 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(" DROP COLUMN "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 
-		// H2:制約の削除は、CASCADEできない
+		// H2 cannt CASCADE
 		return new String[] {sb.toString()};
 
 	}
@@ -223,9 +211,9 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
 
-		sb.append(to.getTypeName());// 型
+		sb.append(to.getTypeName());
 
-		if (isVisibleColumnSize(to.getTypeName())) {// 桁
+		if (isVisibleColumnSize(to.getTypeName())) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(to.getSize());
 			sb.append(")"); //$NON-NLS-1$
@@ -257,7 +245,7 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" RENAME TO "); //$NON-NLS-1$
-		sb.append(SQLUtil.enclose(newTableName, encloseChar));	// ハイフン付名前にも変名可能にする
+		sb.append(SQLUtil.enclose(newTableName, encloseChar));
 		return sb.toString();
 	}
 	public String createCreateIndexDDL(String indexName, Column[] columns, int indexType) {
@@ -326,7 +314,7 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(constraintName, encloseChar));
-		sb.append(" UNIQUE "); // UNIQUE KEY ではなく、 UNIQUE //$NON-NLS-1$
+		sb.append(" UNIQUE ");
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
 			Column column = columns[i];
@@ -396,7 +384,6 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		if (Constraint.PRIMARY_KEY.equals(type)) {
-			// PKを削除する場合は以下
 			sb.append(" DROP PRIMARY KEY"); //$NON-NLS-1$
 		} else {
 			sb.append(" DROP CONSTRAINT "); //$NON-NLS-1$

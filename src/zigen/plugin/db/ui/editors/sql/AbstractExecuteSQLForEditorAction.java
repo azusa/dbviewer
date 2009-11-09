@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.sql;
@@ -26,7 +26,7 @@ abstract public class AbstractExecuteSQLForEditorAction extends Action implement
 		IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 		String sql = targetSql(doc);
 		if (sql != null && sql.trim().length() > 0) {
-			editor.toolBar.setDisplayResultChecked(true); // 結果Viewを表示
+			editor.toolBar.setDisplayResultChecked(true);
 
 			SqlExecJob2 job = new SqlExecJob2(editor, trans, targetSql(doc));
 			job.setUser(false);

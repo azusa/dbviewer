@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views.internal;
@@ -90,7 +90,6 @@ public class ElementFilterDialog extends Dialog {
 	}
 
 	protected void buttonPressed(int buttonId) {
-		// 閉じるが押下された場合はリターン・コードを設定してダイアログを閉じる
 		if (buttonId == IDialogConstants.CANCEL_ID) {
 			setReturnCode(buttonId);
 			close();
@@ -101,7 +100,6 @@ public class ElementFilterDialog extends Dialog {
 			pluginMgr.setValue(PluginSettingsManager.KEY_ELEM_FILTER_CASESENSITIVE, new Boolean(filterComposite.caseSensitive.getSelection()));
 
 			pluginMgr.setValue(PluginSettingsManager.KEY_ELEM_FILTER_FOLDER_LIST, filterFolders);
-			// Filter実行
 
 		} else if (buttonId == BUTTON_ID_SELECTALL) {
 			for (int i = 0; i < fTableViewer.getTable().getItemCount(); i++) {
@@ -178,7 +176,6 @@ public class ElementFilterDialog extends Dialog {
 		filterFolders = loadFolders();
 		fTableViewer.setInput(filterFolders);
 
-		// チェック状態を設定する
 		if (filterFolders != null) {
 			for (int i = 0; i < filterFolders.length; i++) {
 				FolderInfo info = filterFolders[i];
@@ -228,13 +225,11 @@ public class ElementFilterDialog extends Dialog {
 					folders[i] = new FolderInfo(newNames[i], false);
 				}
 			} else {
-				// マージする必要がある
 				folders = new FolderInfo[newNames.length];
 				for (int i = 0; i < newNames.length; i++) {
 					if (settingFolderMap.containsKey(newNames[i])) {
 						folders[i] = (FolderInfo) settingFolderMap.get(newNames[i]);
 					} else {
-						// 新しいスキーマがある場合は表示OFFとする
 						folders[i] = new FolderInfo(newNames[i], false);
 					}
 				}

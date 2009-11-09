@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors;
@@ -80,13 +80,6 @@ import zigen.plugin.db.ui.jobs.RecordCountForQueryJob;
 import zigen.plugin.db.ui.jobs.SqlExecJob;
 import zigen.plugin.db.ui.views.StatusLineContributionItem;
 
-/**
- * TableEditorクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- */
 public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewEditor, IQueryViewEditor {
 
 
@@ -172,7 +165,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 
 	private void createMessageArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL)); // 上下広げる
+		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		gridLayout.makeColumnsEqualWidth = true;
@@ -190,7 +183,6 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		data1.verticalIndent = 1;
 		infoLabel.setLayoutData(data1);
 
-		// ツールバー
 		ToolBar toolbar = new ToolBar(composite, SWT.FLAT);
 		toolbar.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 		ToolItem reloeadItem = new ToolItem(toolbar, SWT.NONE);
@@ -202,7 +194,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 				Transaction trans = Transaction.getInstance(config);
 				SqlExecJob job = new SqlExecJob(trans, query, ei.getSecondarlyId(), true);
 				// job.setPriority(Job.SHORT);
-				job.setUser(false); // ダイアログを出さない
+				job.setUser(false);
 				job.schedule();
 			}
 		});
@@ -219,14 +211,13 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		gridLayout.verticalSpacing = 0;
 		main.setLayout(gridLayout);
 
-		// メッセージエリア
 		createMessageArea(main);
 
 		table = new Table(main, SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		GridData gridData2 = new GridData(GridData.FILL_BOTH);
 		table.setLayoutData(gridData2);
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(true); // ラインを表示
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 		table.setFont(DbPlugin.getDefaultFont());
 
 		viewer = new TableViewer(table);
@@ -238,7 +229,6 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.F2) {
-					// レコード選択を解除し、先頭のカラムを編集状態にする
 					int row = handler.getSelectedRow();
 					handler.editTableElement(row, 1);
 
@@ -250,11 +240,10 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 
 			public void focusGained(FocusEvent e) {
 				if (table.getSelectionIndex() == -1) {
-					table.select(0); // 未選択の場合は、強制的に1レコード目を選択
-					table.notifyListeners(SWT.Selection, null); // 選択状態を通知
+					table.select(0);
+					table.notifyListeners(SWT.Selection, null);
 
 				}
-				// テーブル操作用のActionBarにする
 				IActionBars bars = getEditorSite().getActionBars();
 				setGlobalActionForEditor(bars);
 				bars.updateActionBars();
@@ -276,22 +265,17 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		changeColorJob.setUser(false);
 		changeColorJob.schedule();
 
-		// / <--セルを選択できるようにカスタマイズ
 		handler = new TableKeyEventHandler(this);
 		setCellModify(viewer, handler);
-		// -->
 
 		columnsPack(table);
 		hookContextMenu();
 		contributeToStatusLine();
 
-		// 新しい結果を追加する
 		int index = addPage(main);
 
-		// 最後のシートをアクティブにする
 		setActivePage(getPageCount() - 1);
 
-		// SelectionProviderに登録(変更を通知させるため）
 		getSite().setSelectionProvider(viewer);
 
 	}
@@ -311,20 +295,19 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		if (elements == null)
 			return;
 		final IActionBars bars = getEditorSite().getActionBars();
-		TableElement element = elements[0];// ヘッダー用TableElementの取得
-		int size = element.getColumns().length + 1; // ROW用に追加
+		TableElement element = elements[0];
+		int size = element.getColumns().length + 1;
 		String[] properties = new String[size];
 		zigen.plugin.db.core.TableColumn[] cols = element.getColumns();
 		cellEditors = new CellEditor[size];
 		TableKeyAdapter keyAdapter = new TableKeyAdapter(handler);
 		for (int i = 0; i < cellEditors.length; i++) {
-			properties[i] = String.valueOf(i); // property としてIndex番号を渡す
-			if (i > 0) { // 1カラム目以降を更新可能とする
+			if (i > 0) {
 				CellEditor cellEditor = new TextCellEditor(table, i);
 
 				if (cellEditor.getControl() instanceof Text) {
 					Text txt = (Text) cellEditor.getControl();
-					txt.setEditable(false); // 編集不可
+					txt.setEditable(false);
 				}
 				cellEditor.getControl().addKeyListener(keyAdapter);
 				cellEditor.getControl().addTraverseListener(keyAdapter);
@@ -351,10 +334,10 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 			}
 
 			public Object getValue(Object element, String property) {
-				int index = Integer.parseInt(property);// 数値に変換
+				int index = Integer.parseInt(property);
 				if (element instanceof TableElement) {
 					TableElement elem = (TableElement) element;
-					Object obj = elem.getItems()[index - 1]; // rowNo分
+					Object obj = elem.getItems()[index - 1];
 					if (obj != null) {
 						if (obj instanceof String) {
 							return (String) obj;
@@ -386,7 +369,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 
 		if (!"".equals(displayTotalCount)) { //$NON-NLS-1$
 			if ("-1".equals(displayTotalCount)) { //$NON-NLS-1$
-				; // 未対応の場合は何もしない
+				;
 			} else {
 				sb.append(" / "); //$NON-NLS-1$
 				sb.append(Messages.getString("QueryViewEditor2.7")); //$NON-NLS-1$
@@ -417,7 +400,6 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 
 	public void update(String query, TableElement[] elements, String responseTime, boolean isReload) {
 		try {
-			// Queryは置き換える
 			this.query = query;
 
 			// remove dummy page
@@ -433,24 +415,19 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 				if (isSameColumn(element)) {
 					viewer.setInput(elements);
 					TableColumn col = viewer.getTable().getColumn(0);
-					col.pack();// 先頭の幅をパック
+					col.pack();
 					TableDefaultSortListener defaultSortListener = new TableDefaultSortListener(this, 0);
-					// sortListenerを一旦削除
 					col.removeSelectionListener(sortListener);
-					// 初期表示用のSortListenerを登録
 					col.addSelectionListener(defaultSortListener);
 					viewer.getTable().getColumn(0).notifyListeners(SWT.Selection, null);
-					// 元のリスナーに戻す
 					col.removeSelectionListener(defaultSortListener);
 					sortListener = new TableSortListener(this, 0);
 					col.addSelectionListener(sortListener);
 
 				} else {
-					// クエリーが違う場合
 					this.elements = elements;
 
 					if (true) {
-						// 古い結果を削除する
 						if (getPageCount() > 0) {
 							removePage(getPageCount() - 1);
 						}
@@ -461,15 +438,12 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 			}
 
 			if (!isReload) {
-				// SQL発行しているViewをアクティブにする
 				QueryViewEditorInput ei = (QueryViewEditorInput) getEditorInput();
 				DbPlugin.showView(DbPluginConstant.VIEW_ID_SQLExecute, ei.getSecondarlyId());
 			}
 
-			// 応答時間の表示
 			setResponseTime(responseTime);
 
-			// レコード件数の表示
 			int dispCnt = elements.length - 1;
 			setTotalCount(dispCnt, -1); //$NON-NLS-1$
 
@@ -528,7 +502,6 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		}
 	}
 
-	// TODO:設定可能にしたい
 	private int max_column_size = 600;
 
 	private void columnsPack(Table table) {
@@ -538,7 +511,6 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 			TableColumn c = cols[i];
 			c.pack();
 
-			// 自動幅調整後長すぎるサイズを強制修正
 			if(c.getWidth() > max_column_size){
 				c.setWidth(max_column_size);
 			}
@@ -557,7 +529,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 	public void doSaveAs() {}
 
 	public boolean isSaveAsAllowed() {
-		return false; // メニューから保存が選択できないようにする
+		return false;
 	}
 
 	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException {
@@ -573,7 +545,6 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 			}
 
 		} catch (Exception e) {
-			// Editorを閉じる
 			DbPlugin.getDefault().showErrorDialog(e);
 		}
 	}
@@ -665,11 +636,11 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 	}
 
 	public void editTableElement(Object element, int column) {
-		throw new UnsupportedOperationException("editTableElementはQueryViewEditorでは未実装です"); //$NON-NLS-1$
+		throw new UnsupportedOperationException("The method is a unmounting."); //$NON-NLS-1$
 	}
 
 	public String getCondition() {
-		throw new UnsupportedOperationException("getConditionはQueryViewEditorでは未実装です"); //$NON-NLS-1$
+		throw new UnsupportedOperationException("The method is a unmounting. "); //$NON-NLS-1$
 	}
 
 	private List extensionList = new ArrayList();
@@ -677,9 +648,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 	private void setExtensionPoint(IMenuManager manager) {
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		// 拡張ポイントを取得
 		IExtensionPoint point = registry.getExtensionPoint(DbPlugin.getDefault().getBundle().getSymbolicName() + ".queryEditor");
-		// コントリビュートされた拡張を取得
 		IExtension[] extensions = point.getExtensions();
 		for (int i = 0; i < extensions.length; i++) {
 			IConfigurationElement[] elements = extensions[i].getConfigurationElements();
@@ -698,7 +667,6 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 
 				if ("contributor".equals(name)) {
 					try {
-						// class属性で指定されたクラスの
 						ITableViewEditorAction action = (ITableViewEditorAction) element.createExecutableExtension("class");
 						action.setText(element.getAttribute("label"));
 						action.setToolTipText(element.getAttribute("tooltipText"));
@@ -761,7 +729,6 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 	}
 
 	private void disposeExtensionPoint() {
-		// 拡張しているリスナーを破棄する
 		for (Iterator iter = extensionList.iterator(); iter.hasNext();) {
 			ITableViewEditorAction action = (ITableViewEditorAction) iter.next();
 			action.setActiveEditor(null);

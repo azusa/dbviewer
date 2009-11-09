@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -22,7 +22,6 @@ import zigen.plugin.db.core.StringUtil;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
 import zigen.plugin.db.preference.SQLFormatPreferencePage;
 
-// public class SQLFormattingStrategy implements IFormattingStrategy, IFormattingStrategyExtension {
 public class SQLFormattingStrategy implements IFormattingStrategy {
 
 
@@ -48,18 +47,13 @@ public class SQLFormattingStrategy implements IFormattingStrategy {
 			boolean selectionMode = (ts.getText().length() > 0) ? true : false;
 			return innerformat(content, selectionMode, firstPosition);
 
-			/*
-			 * if(selectionMode){ return innerformat(content, selectionMode, firstPosition); }else{ return innerformat(doc.get(), selectionMode, firstPosition); }
-			 */
 
 		} else {
 			return content;
 		}
-		// return SQLFormatter.format(content, type, onPatch, formattOffset);
 
 	}
 
-	// ここではこの処理は無効になります
 	void setSelection(ISourceViewer viewer, ISelection selection, boolean reveal) {
 		if (selection instanceof ITextSelection) {
 			ITextSelection s = (ITextSelection) selection;
@@ -110,48 +104,23 @@ public class SQLFormattingStrategy implements IFormattingStrategy {
 						sb.append(demiliter);
 						sb.append(DbPluginConstant.LINE_SEP);
 					} else {
-						// 選択モードの場合は改行を追加
-						// sb.append(DbPluginConstant.LINE_SEP);
 					}
 				}
 			}
 
 		} else {
-			return content; // MAX以上のSQL文がある場合はフォーマットしない
+			return content;
 		}
 
 		return sb.toString();
 	}
 
 	public void formatterStarts(String initialIndentation) {
-	// TODO 自動生成されたメソッド・スタブ
 
 	}
 
 	public void formatterStops() {
-	// TODO 自動生成されたメソッド・スタブ
 
 	}
 
-	/*
-	 * public void format() { // TODO 自動生成されたメソッド・スタブ if (viewer != null) {
-	 * 
-	 * IDocument doc = viewer.getDocument(); TextSelection ts = (TextSelection) viewer.getSelection();
-	 * 
-	 * int firstPosition = calcFirstWordPosition(doc, ts);
-	 * 
-	 * boolean selectionMode = (ts.getText().length() > 0) ? true : false;
-	 * 
-	 * String formatted = null;
-	 * 
-	 * if(selectionMode){ formatted = innerformat(ts.getText(), selectionMode, firstPosition); }else{ String all = doc.get(); ts = new TextSelection(doc, 0, all.length()); setSelection(viewer, ts,
-	 * true); formatted = innerformat(ts.getText(), selectionMode, firstPosition); }
-	 * 
-	 * try { MultiTextEdit multiTextEdit = new MultiTextEdit(); multiTextEdit.addChild(new ReplaceEdit(ts.getOffset(), ts.getLength(), formatted)); multiTextEdit.apply(doc); } catch
-	 * (MalformedTreeException e) { // TODO 自動生成された catch ブロック e.printStackTrace(); } catch (BadLocationException e) { // TODO 自動生成された catch ブロック e.printStackTrace(); }
-	 *  } }
-	 * 
-	 * public void formatterStarts(IFormattingContext context) { // TODO 自動生成されたメソッド・スタブ
-	 *  }
-	 */
 }

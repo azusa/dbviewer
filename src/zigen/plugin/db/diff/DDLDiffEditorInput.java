@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.diff;
@@ -17,9 +17,6 @@ public class DDLDiffEditorInput implements IEditorInput {
 
 	private String name;
 
-	/**
-	 * スキーマ比較の場合
-	 */
 	private IDDLDiff[] diffs;
 
 	private boolean isTableDiff = false;
@@ -57,18 +54,10 @@ public class DDLDiffEditorInput implements IEditorInput {
 		return Platform.getAdapterManager().getAdapter(this, adapter);
 	}
 
-	/*
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	public boolean equals(Object o) {
 		if (o == this)
 			return true;
 
-		// if (o instanceof DDLDiffEditorInput) {
-		// DDLDiffEditorInput input = (DDLDiffEditorInput) o;
-		// // 無条件でequals=Trueとする(複数DDLEditorを起動させない)
-		// return true;
-		// }
 		return false;
 	}
 
@@ -76,11 +65,6 @@ public class DDLDiffEditorInput implements IEditorInput {
 		return name.hashCode();
 	}
 
-	/**
-	 * ToolTipTextを設定
-	 * 
-	 * @param tooltip
-	 */
 	public void setToolTipText(String tooltip) {
 		this.tooltip = tooltip;
 	}

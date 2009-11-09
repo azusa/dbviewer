@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.sql;
 
@@ -47,12 +47,9 @@ import zigen.plugin.db.ui.views.internal.PLSQLCodeConfiguration;
 import zigen.plugin.db.ui.views.internal.PLSQLSourceViewer;
 import zigen.plugin.db.ui.views.internal.SQLToolBarForPlsqlEditor;
 
-// public class PlsqlEditor extends SqlEditor implements IPlsqlEditor,
-// IPropertyChangeListener, ISelectionListener {
 public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyChangeListener, IDocumentListener {
 
 	public void documentAboutToBeChanged(DocumentEvent event) {
-	// TODO 自動生成されたメソッド・スタブ
 	}
 
 	public void documentChanged(DocumentEvent event) {
@@ -97,8 +94,6 @@ public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyCh
 		// getOverviewRuler(), isOverviewRulerVisible(), styles);
 		PLSQLSourceViewer viewer = new PLSQLSourceViewer(sqlComposite, ruler, getOverviewRuler(), true, styles);
 		getSourceViewerDecorationSupport(viewer);
-
-		// Markerへ通知する機能の為追加
 		viewer.setPlsqlEditor(this);
 
 		return viewer;
@@ -114,7 +109,6 @@ public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyCh
 				getContributor().fillContextMenu(manager);
 			}
 		});
-		// SourceViewerへの割り当ては、TextWidgetに対して行うこと
 		StyledText text = sqlViewer.getTextWidget();
 		Menu menu = menuMgr.createContextMenu(text);
 		text.setMenu(menu);
@@ -146,7 +140,6 @@ public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyCh
 			super.doSave(progressMonitor);
 			clearError();
 		} catch (RuntimeException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 	}
@@ -156,12 +149,10 @@ public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyCh
 			super.doSaveAs();
 			clearError();
 		} catch (RuntimeException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 	}
 
-	// 現在未使用(エディターの場合はこのメソッドをオーバライドしてコンテキストメニューを出すことが標準)
 	protected void editorContextMenuAboutToShow(IMenuManager menu) {
 		super.editorContextMenuAboutToShow(menu);
 		menu.add(new Separator());
@@ -182,7 +173,6 @@ public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyCh
 	public void setError(OracleSourceErrorInfo[] errors) {
 		if (resource != null) {
 			try {
-				// 現在の選択を取得
 				StyledText text = getSourceViewer().getTextWidget();
 				IDocument doc = getSourceViewer().getDocument();
 
@@ -209,28 +199,20 @@ public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyCh
 								length = -length;
 								start -= length;
 							}
-							// マーカー属性を保持するマップ
 							Map attributes = new HashMap();
-							// マーカーの開始文字位置(CHAR_START)を設定
 							MarkerUtilities.setCharStart(attributes, start);
-							// マーカーの終了文字位置(CHAR_END)を設定
 							MarkerUtilities.setCharEnd(attributes, start + length);
-							// マーカーの開始行(LINE_NUMBER)を設定
 							int line = selection.getStartLine();
 
 							// MarkerUtilities.setLineNumber(attributes, line ==
 							// -1 ? -1 : errorLine+1);
 							MarkerUtilities.setLineNumber(attributes, line == -1 ? -1 : errorLine);
 
-							// マーカーのMESSAGE属性を設定
 							MarkerUtilities.setMessage(attributes, info.getErrorText());
 
-							// 問題の深刻度(SEVERITY)を設定
 							attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-							// このマーカー型で新しく追加したselection属性の設定
 							attributes.put("selection", selection.getText() == null ? "" : selection.getText());
 
-							// マーカーの作成
 							MarkerUtilities.createMarker(resource, attributes, "zigen.plugin.db.markers.myProblem");
 						}
 					} catch (BadLocationException e) {

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.event;
@@ -20,21 +20,13 @@ import zigen.plugin.db.ImageCacher;
 import zigen.plugin.db.core.TableElement;
 import zigen.plugin.db.ui.editors.ITableViewEditor;
 
-/**
- * TableSortListenerクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/04/24 ZIGEN create.
- * 
- */
 public class TableSortListener extends SelectionAdapter {
 
 	protected ImageCacher ic = ImageCacher.getInstance();
 
 	protected ITableViewEditor editor = null;
 
-	protected boolean desc = true;// 最初のクリック時のソート順指定
+	protected boolean desc = true;
 
 	protected int columnIndex;
 
@@ -46,57 +38,33 @@ public class TableSortListener extends SelectionAdapter {
 		this.col = editor.getViewer().getTable().getColumn(columnIndex);
 	}
 
-	// private void resetImage() {
-	// TableColumn[] cols = viewer.getTable().getColumns();
-	// for (int i = 0; i < cols.length; i++) {
-	// TableColumn column = cols[i];
-	// column.setImage(ic.getImage(DbPlugin.IMG_CODE_BLANK));
-	// column.pack();
-	// int width = column.getWidth();
-	// column.setWidth(width + 14);
-	// }
-	//
-	// }
-
 	public void widgetSelected(SelectionEvent e) {
-		// resetImage();
-
-		// クリックされたカラム
 		TableColumn col = (TableColumn) e.widget;
-		// ソート対象テーブル
 		Table table = col.getParent();
-
-		// Tableのヘッダーをクリックした場合のソートイベント
 		if (!desc) {
 			editor.getViewer().setSorter(new TableColumnSorter(columnIndex, desc));
-			// col.setImage(ic.getImage(DbPlugin.IMG_CODE_ASC));
 			desc = true;
-
-			// ソートされたことを意味する三角印を表示 for 3.2
 			try {
 				table.setSortColumn(col);
 				table.setSortDirection(SWT.UP);
 
 			} catch (Throwable ex) {
-				;// Eclipse3.1ではNoSuchMethodExceptionが発生
+				;// NoSuchMethodException by Eclipse3.1
 			}
 
 		} else {
 			editor.getViewer().setSorter(new TableColumnSorter(columnIndex, desc));
-			// col.setImage(ic.getImage(DbPlugin.IMG_CODE_DESC));
 			desc = false;
 
-			// ソートされたことを意味する三角印を表示 for 3.2
 			try {
 				table.setSortColumn(col);
 				table.setSortDirection(SWT.DOWN);
 			} catch (Throwable ex) {
-				;// Eclipse3.1ではNoSuchMethodExceptionが発生
+				;// NoSuchMethodException by Eclipse3.1
 			}
 
 		}
 
-		// NULL文字の色を変更
 		editor.changeColumnColor();
 	}
 
@@ -125,7 +93,6 @@ public class TableSortListener extends SelectionAdapter {
 			} else {
 
 				if (index == 0) {
-					// row 番号でのソート
 					int no1 = first.getRecordNo();
 					int no2 = second.getRecordNo();
 
@@ -146,41 +113,24 @@ public class TableSortListener extends SelectionAdapter {
 					}
 
 				} else {
-					String v1 = (String) first.getItems()[index - 1]; // 比較する値１
-					String v2 = (String) second.getItems()[index - 1]; // 比較する値２
+					String v1 = (String) first.getItems()[index - 1];
+					String v2 = (String) second.getItems()[index - 1];
 					try {
-						// 数値変換できる場合は、数値比較を行う
-						BigDecimal d1 = new BigDecimal(v1); // 数値変換
-						BigDecimal d2 = new BigDecimal(v2); // 数値変換
+						BigDecimal d1 = new BigDecimal(v1);
+						BigDecimal d2 = new BigDecimal(v2);
 
 						if (isDesc) {
-							return (d2.compareTo(d1)); // 降順
+							return (d2.compareTo(d1));
 						} else {
-							return (d1.compareTo(d2)); // 昇順
+							return (d1.compareTo(d2));
 						}
 
-						// if (d1.doubleValue() < d2.doubleValue()) {
-						// if (isDesc) {
-						// return (1);
-						// } else {
-						// return (-1);
-						// }
-						// } else if (d2.doubleValue() < d1.doubleValue()) {
-						// if (isDesc) {
-						// return (-1);
-						// } else {
-						// return (1);
-						// }
-						// } else {
-						// return (0);
-						// }
 
 					} catch (NumberFormatException ex) {
-						// 数値変換できない場合は、文字列比較を行う
 						if (isDesc) {
-							return (v2.compareTo(v1)); // 降順
+							return (v2.compareTo(v1));
 						} else {
-							return (v1.compareTo(v2)); // 昇順
+							return (v1.compareTo(v2));
 						}
 
 					}

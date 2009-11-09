@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -16,11 +16,11 @@ import zigen.plugin.db.ui.internal.ITable;
 
 public class RefreshTreeNodeAction implements Runnable {
 
-	public static final int MODE_NOTHING = 0; // 何もしない
+	public static final int MODE_NOTHING = 0;
 
-	public static final int MODE_EXPAND = 1; // 展開する
+	public static final int MODE_EXPAND = 1;
 
-	public static final int MODE_COLLAPSE = 2; // 非展開にする
+	public static final int MODE_COLLAPSE = 2;
 
 	private TreeViewer viewer;
 
@@ -59,16 +59,13 @@ public class RefreshTreeNodeAction implements Runnable {
 			viewer.refresh(treeNode);
 
 
-			// 選択状態を再度通知する
 			viewer.getControl().notifyListeners(SWT.Selection, null);
 
 			if (treeNode instanceof DataBase) {
-				// Filter通知
 				if (mode == RefreshTreeNodeAction.MODE_EXPAND) {
 					DbPlugin.fireStatusChangeListener(((DataBase) treeNode).getDbConfig(), IStatusChangeListener.EVT_AddSchemaFilter);
 				}
 			} else if (treeNode instanceof ITable) {
-				// テーブル要素の更新を通知
 				DbPlugin.fireStatusChangeListener((ITable) treeNode, IStatusChangeListener.EVT_RefreshTable);
 			}
 		}

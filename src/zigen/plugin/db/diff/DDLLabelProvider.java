@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.diff;
@@ -15,21 +15,10 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ImageCacher;
 import zigen.plugin.db.ui.internal.TreeNode;
 
-/**
- * DDLLabelProviderクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- * 
- */
 public class DDLLabelProvider extends LabelProvider {
 
 	ImageCacher ic = ImageCacher.getInstance();
 
-	/**
-	 * 表示するラベルの取得
-	 */
 	public String getText(Object obj) {
 		if (obj instanceof DDLDiff) {
 			IDDLDiff diff = (IDDLDiff) obj;
@@ -40,9 +29,6 @@ public class DDLLabelProvider extends LabelProvider {
 		}
 	}
 
-	/**
-	 * 表示する画像の取得
-	 */
 	public Image getImage(Object obj) {
 
 		String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
@@ -57,10 +43,10 @@ public class DDLLabelProvider extends LabelProvider {
 			} else if ("SYNONYM".equals(diff.getType()) || "ALIAS".equals(diff.getType())) {
 				return ic.getImage(DbPlugin.IMG_CODE_SYNONYM);
 			} else {
-				imageKey = ISharedImages.IMG_OBJ_FILE; // Folderアイコン
+				imageKey = ISharedImages.IMG_OBJ_FILE;
 			}
 		} else if (obj instanceof TreeNode) {
-			imageKey = ISharedImages.IMG_OBJ_FOLDER; // Folderアイコン
+			imageKey = ISharedImages.IMG_OBJ_FOLDER;
 		}
 
 		return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);

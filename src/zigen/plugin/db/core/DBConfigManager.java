@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -13,14 +13,6 @@ import java.util.List;
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.dialogs.IDBDialogSettings;
 
-/**
- * DialogSettingsクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
- */
 public class DBConfigManager {
 
 	private static IDBDialogSettings setting = DbPlugin.getDefault().getDBDialogSettings();
@@ -68,11 +60,6 @@ public class DBConfigManager {
 	public static final String KEY_FILTER_PATTERN = "KEY_FILTER_PATTERN"; //$NON-NLS-1$
 
 
-	/**
-	 * 登録済みデータベース接続定義情報を取得する
-	 * 
-	 * @return
-	 */
 	public static IDBConfig[] getDBConfigs() {
 		IDBDialogSettings[] sections = setting.getSections();
 
@@ -85,7 +72,6 @@ public class DBConfigManager {
 
 			IDBConfig config = new DBConfig();
 			config.setDbName(settings.get(KEY_DBNAME));
-			// getNameからDBNameを取得するように修正 20053.15
 			// config.setDBName(setting.getName());
 			config.setDriverName(settings.get(KEY_DRIVER));
 			config.setUrl(settings.get(KEY_URL));
@@ -102,7 +88,6 @@ public class DBConfigManager {
 
 			config.setOnlyDefaultSchema(settings.getBoolean(KEY_ONLYDEFAULTSCHEMA));
 
-			// JDBC-TYPEは後から追加しているため、未設定の場合を考慮している
 			try {
 				config.setJdbcType(settings.getInt(KEY_JDBC_TYPE));
 			} catch (NumberFormatException e) {
@@ -125,18 +110,11 @@ public class DBConfigManager {
 			list.add(config);
 			// configs[i] = config;
 		}
-		// ソートする
 		Collections.sort(list, new DBConfigSorter());
 
 		return (IDBConfig[]) list.toArray(new DBConfig[0]);
 	}
 
-	/**
-	 * データベース接続定義情報を保存する
-	 * 
-	 * @param config
-	 * @throws Exception
-	 */
 	public static void save(IDBConfig config) throws SameDbNameException {
 		if (!setting.hasSection(config.getDbName())) {
 			IDBDialogSettings section = setting.addNewSection(config.getDbName());
@@ -147,26 +125,17 @@ public class DBConfigManager {
 		}
 	}
 
-	/**
-	 * データベース接続定義情報を更新する
-	 * 
-	 * @param oldConfig
-	 * @param newConfig
-	 * @throws Exception
-	 */
 	public static void modify(IDBConfig oldConfig, IDBConfig newConfig) throws SameDbNameException {
 		if (oldConfig.getDbName().equals(newConfig.getDbName())) {
-			// 論理DB名に変更が無い場合
 			IDBDialogSettings section = setting.getSection(newConfig.getDbName());
 			setDBConfig(section, newConfig);
 		} else {
 			// if (!setting.hasSection(newConfig.getDBName())) {
-
 			if (!hasSection(newConfig.getDbName())) {
 				IDBDialogSettings section = setting.addNewSection(newConfig.getDbName());
 				setDBConfig(section, newConfig);
-				setting.addSection(section); // newConfigを追加
-				setting.removeSection(oldConfig.getDbName()); // oldConfigを削除
+				setting.addSection(section);
+				setting.removeSection(oldConfig.getDbName());
 			} else {
 				throw new SameDbNameException(Messages.getString("DBConfigManager.13")); //$NON-NLS-1$
 			}
@@ -174,13 +143,6 @@ public class DBConfigManager {
 	}
 
 
-	/**
-	 * データベース接続定義のコミットモードのみ変更する
-	 * 
-	 * @param oldConfig
-	 * @param newConfig
-	 * @throws Exception
-	 */
 	public static void setAutoCommit(IDBConfig oldConfig, boolean isAutoCommit) {
 		IDBDialogSettings section = setting.getSection(oldConfig.getDbName());
 		if (section != null) {
@@ -192,22 +154,10 @@ public class DBConfigManager {
 		return setting.hasSection(dbName);
 	}
 
-	/**
-	 * データベース接続定義を削除する
-	 * 
-	 * @param config
-	 */
 	public static void remove(IDBConfig config) {
 		setting.removeSection(config.getDbName());
 	}
 
-	/**
-	 * DBConfigの内容をDBDialogSettingに反映する
-	 * 
-	 * @param section
-	 * @param config
-	 * @throws Exception
-	 */
 	private static void setDBConfig(IDBDialogSettings section, IDBConfig config) {
 		if (section != null) {
 			section.put(KEY_DBNAME, config.getDbName());

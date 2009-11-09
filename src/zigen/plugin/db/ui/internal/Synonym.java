@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.internal;
@@ -9,43 +9,20 @@ package zigen.plugin.db.ui.internal;
 import zigen.plugin.db.ext.oracle.internal.SynonymInfo;
 import zigen.plugin.db.ui.editors.exceptions.NotFoundSynonymInfoException;
 
-/**
- * Synonymクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
- */
 public class Synonym extends Table implements ITable {
 
 	private static final long serialVersionUID = 1L;
 
 	private SynonymInfo synonymInfo;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param name
-	 */
 	public Synonym(String name, String remarks) {
 		super(name, remarks);
 	}
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param name
-	 */
 	public Synonym(String name) {
 		super(name);
 	}
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param name
-	 */
 	public Synonym() {
 		super();
 	}
@@ -63,7 +40,6 @@ public class Synonym extends Table implements ITable {
 	public void setSynonymInfo(SynonymInfo synonymInfo) {
 		this.synonymInfo = synonymInfo;
 
-		// シノニム情報からコメントをRemarkに設定する
 		if (synonymInfo != null) {
 			this.setRemarks(synonymInfo.getComments());
 		}
@@ -106,14 +82,6 @@ public class Synonym extends Table implements ITable {
 		return sb.toString();
 
 	}
-
-	// public String getSynonym_name() {
-	// if(synonymInfo != null){
-	// return synonymInfo.getSynonym_name();
-	// }else{
-	// return null;
-	// }
-	// }
 
 	public String getTable_name() throws Exception {
 		if (synonymInfo != null) {

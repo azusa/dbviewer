@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -22,39 +22,20 @@ import zigen.plugin.db.DbPlugin;
 
 public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPresentationRepairer {
 
-	/** The document this object works on */
 	protected IDocument fDocument;
 
-	/**
-	 * The default text attribute if non is returned as data by the current token
-	 */
 	protected TextAttribute fDefaultTextAttribute;
 
-	/**
-	 * Constructor for NonRuleBasedDamagerRepairer.
-	 */
 	public NonRuleBasedDamagerRepairer(TextAttribute defaultTextAttribute) {
 		Assert.isNotNull(defaultTextAttribute);
 
 		fDefaultTextAttribute = defaultTextAttribute;
 	}
 
-	/**
-	 * @see IPresentationRepairer#setDocument(IDocument)
-	 */
 	public void setDocument(IDocument document) {
 		fDocument = document;
 	}
 
-	/**
-	 * Returns the end offset of the line that contains the specified offset or if the offset is inside a line delimiter, the end offset of the next line.
-	 * 
-	 * @param offset
-	 *            the offset whose line end offset must be computed
-	 * @return the line end offset for the given offset
-	 * @exception BadLocationException
-	 *                if offset is invalid in the current document
-	 */
 	protected int endOfLineOf(int offset) throws BadLocationException {
 
 		IRegion info = fDocument.getLineInformationOfOffset(offset);
@@ -70,9 +51,6 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 		}
 	}
 
-	/**
-	 * @see IPresentationDamager#getDamageRegion(ITypedRegion, DocumentEvent, boolean)
-	 */
 	public IRegion getDamageRegion(ITypedRegion partition, DocumentEvent event, boolean documentPartitioningChanged) {
 		if (!documentPartitioningChanged) {
 			try {
@@ -99,25 +77,10 @@ public class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPrese
 		return partition;
 	}
 
-	/**
-	 * @see IPresentationRepairer#createPresentation(TextPresentation, ITypedRegion)
-	 */
 	public void createPresentation(TextPresentation presentation, ITypedRegion region) {
 		addRange(presentation, region.getOffset(), region.getLength(), fDefaultTextAttribute);
 	}
 
-	/**
-	 * Adds style information to the given text presentation.
-	 * 
-	 * @param presentation
-	 *            the text presentation to be extended
-	 * @param offset
-	 *            the offset of the range to be styled
-	 * @param length
-	 *            the length of the range to be styled
-	 * @param attr
-	 *            the attribute describing the style of the range to be styled
-	 */
 	protected void addRange(TextPresentation presentation, int offset, int length, TextAttribute attr) {
 		if (attr != null)
 			presentation.addStyleRange(new StyleRange(offset, length, attr.getForeground(), attr.getBackground(), attr.getStyle()));

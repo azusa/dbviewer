@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -26,15 +26,6 @@ import zigen.plugin.db.ui.actions.MaxRecordException;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * 
- * TableManager.javaクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/11/19 ZIGEN create.
- * 
- */
 public class TableManager {
 
 	public static TableElement[] invoke(IDBConfig config, ITable table) throws Exception, MaxRecordException {
@@ -74,7 +65,6 @@ public class TableManager {
 		try {
 			pks = table.getTablePKColumns();
 			if (pks == null) {
-				// PKが無い場合は、ここで検索しておく
 				// pks = ConstraintSearcher.getPKColumns(con, table.getSchemaName(), table.getName());
 				IConstraintSearcherFactory factory = DefaultConstraintSearcherFactory.getFactory(table.getDbConfig());
 				pks = factory.getPKColumns(con, table.getSchemaName(), table.getName());
@@ -91,7 +81,7 @@ public class TableManager {
 			rs = stmt.executeQuery(sql);
 			ResultSetMetaData meta = rs.getMetaData();
 			List list = new ArrayList();
-			TableColumn[] columns = getTableColumns(meta, table); // 1行目にResultSetMetaDataを格納
+			TableColumn[] columns = getTableColumns(meta, table);
 			TableElement header;
 			if (pks != null && pks.length > 0) {
 				header = createHeaderElement(rs, table, columns, pks, fks);
@@ -103,7 +93,7 @@ public class TableManager {
 			} else {
 				header.setCanModify(true);
 			}
-			list.add(header); // 検索件数が0件の場合でもヘッダが表示できるようにする
+			list.add(header);
 
 			int recordNo = 0;
 			while (rs.next()) {
@@ -121,7 +111,6 @@ public class TableManager {
 					}
 
 				} else {
-					// ページャを使わないアクセスの場合
 					if (limit > 0 && recordNo > limit) {
 						String msg = Messages.getString("TableManager.0"); //$NON-NLS-1$
 						throw new MaxRecordException(msg, (TableElement[]) list.toArray(new TableElement[0]));
@@ -162,16 +151,15 @@ public class TableManager {
 	public static String getSQLForCSV(ITable table) {
 		IDBConfig config = table.getDbConfig();
 		ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, table);
-		return getSQL(factory, null, 0, 0); // 全データを対象
+		return getSQL(factory, null, 0, 0);
 	}
 
 	public static String getSQLForCSV(ITable table, String condition) {
 		IDBConfig config = table.getDbConfig();
 		ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, table);
-		return getSQL(factory, condition, 0, 0); // 全データを対象
+		return getSQL(factory, condition, 0, 0);
 	}
 
-	// PKが無い場合 AND 編集不可のデータ型がある場合は編集不可とする
 	static boolean checkModify(IDBConfig config, TableColumn[] columns) {
 
 		IMappingFactory factory = AbstractMappingFactory.getFactory(config);
@@ -180,7 +168,6 @@ public class TableManager {
 			TableColumn col = columns[i];
 			if (!factory.canModifyDataType(col.getDataType())) {
 				// if(!JDBCMapping2.canModifyDataType(col.getDataType())){
-				// 1つでも編集不可能なカラム型があれば編集できない
 				return false;
 			}
 		}
@@ -188,28 +175,17 @@ public class TableManager {
 		return true;
 	}
 
-	/**
-	 * データ更新用のTableColumn[]を作成
-	 * 
-	 * @param meta
-	 * @param table
-	 * @return
-	 * @throws SQLException
-	 */
 	static TableColumn[] getTableColumns(ResultSetMetaData meta, ITable table) throws SQLException {
 
 		try {
 
 			synchronized (table) {
-				// テーブルが非展開の場合は展開しておくこと
 				if (table.isExpanded()) {
 
 					int count = meta.getColumnCount();
 					Column[] cols = table.getColumns();
 
 					TableColumn[] columns = new TableColumn[cols.length];
-
-					// Oracleの場合、ROWNUM用のカラムが含まれるため、Tableのカラム数でループすること
 					for (int i = 0; i < count; i++) {
 						// for (int i = 0; i < cols.length; i++) {
 						TableColumn column = new TableColumn();
@@ -225,33 +201,21 @@ public class TableManager {
 							column.setNotNull(false);
 						}
 
-						// 初期値は、Tableノードから取得する
 						if (cols != null && cols.length > 0) {
 							column.setDefaultValue(cols[i].getDefaultValue());
 						}
 
-						// カラムが取得できない場合を考慮
 						if (columns != null && columns.length > 0) {
 							columns[i] = column;
 						}
 					}
 
-					// // since 0.3.1 or 1.0.0 Metaから取得するのではなく、Table要素から取得する
-					// for (int i = 0; i < columns.length; i++) {
-					// columns[i] = cols[i].getColumn();
-					// }
-
 					return columns;
 
 				} else {
-					// throw new
-					// IllegalStateException("[ERROR]:事前にテーブル展開状態である必要があります。");
-					// //$NON-NLS-1$
-
 					// for test
 					int count = meta.getColumnCount();
 					TableColumn[] columns = new TableColumn[count];
-					// 0.3.0 の場合
 					for (int i = 0; i < count; i++) {
 						TableColumn column = new TableColumn();
 						column.setColumnName(meta.getColumnName(i + 1));
@@ -265,12 +229,9 @@ public class TableManager {
 						} else {
 							column.setNotNull(false);
 						}
-						// 初期値は、Tableノードから取得する
 						// column.setDefaultValue(cols[i].getDefaultValue());
 						columns[i] = column;
 					}
-
-					// 初期値は、カラムのロードが完了したら設定するように実装している。
 
 					return columns;
 
@@ -315,13 +276,12 @@ public class TableManager {
 	static TableElement createElement(ResultSet rs, ITable table, TableColumn[] columns, TablePKColumn[] pks, int recordNo) throws Exception {
 		TableElement elements = null;
 		int size = rs.getMetaData().getColumnCount();
-		Object[] items = new Object[size]; // 全カラムデータ
+		Object[] items = new Object[size];
 		List pkColumnList = new ArrayList();
 		List pkItemList = new ArrayList();
 		IMappingFactory factory = AbstractMappingFactory.getFactory(table.getDbConfig());
 		for (int i = 0; i < size; i++) {
 			items[i] = factory.getObject(rs, i + 1);
-			// ここで見つけたCLOB/BLOB型はgetObjectしない(メモリ対策)
 			if (ConstraintUtil.isPKColumn(pks, columns[i].getColumnName())) {
 				pkColumnList.add(columns[i]);
 				pkItemList.add(items[i]);
@@ -384,10 +344,8 @@ public class TableManager {
 		List uniqueItemList = new ArrayList();
 		IMappingFactory factory = AbstractMappingFactory.getFactory(table.getDbConfig());
 		for (int i = 0; i < size; i++) {
-			// 値をItemに設定する
 			items[i] = factory.getObject(rs, i + 1);
 
-			// 最初に見つけたUniqueIndexを更新キーとして扱う
 			if (ConstraintUtil.isUniqueIDXColumn(idxs, columns[i].getColumnName())) {
 				uniqueColumnList.add(columns[i]);
 				uniqueItemList.add(items[i]);

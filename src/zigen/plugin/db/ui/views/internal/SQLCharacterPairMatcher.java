@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -35,7 +35,7 @@ public class SQLCharacterPairMatcher implements ICharacterPairMatcher {
 			return null;
 
 		try {
-			depth = 0; // 初期化
+			depth = 0;
 			if (offset > 0 && doc.getChar(offset - 1) == '(') {
 				depth++;
 				for (int i = offset; i < doc.getLength(); i++) {

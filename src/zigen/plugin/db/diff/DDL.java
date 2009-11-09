@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.diff;
 
@@ -51,11 +51,6 @@ public class DDL implements IDDL, Serializable {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#getDisplayedName()
-	 */
 	public String getDisplayedName() {
 		StringBuffer sb = new StringBuffer();
 		if (isSchemaSupport) {
@@ -66,92 +61,42 @@ public class DDL implements IDDL, Serializable {
 		return sb.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#getDbName()
-	 */
 	public String getDbName() {
 		return dbName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#setDbName(java.lang.String)
-	 */
 	public void setDbName(String dbName) {
 		this.dbName = dbName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#getDdl()
-	 */
 	public String getDdl() {
 		return ddl;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#setDdl(java.lang.String)
-	 */
 	public void setDdl(String ddl) {
 		this.ddl = ddl;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#getSchemaName()
-	 */
 	public String getSchemaName() {
 		return schemaName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#setSchemaName(java.lang.String)
-	 */
 	public void setSchemaName(String schemaName) {
 		this.schemaName = schemaName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#getTargetName()
-	 */
 	public String getTargetName() {
 		return targetName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#setTargetName(java.lang.String)
-	 */
 	public void setTargetName(String tableName) {
 		this.targetName = tableName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#isSchemaSupport()
-	 */
 	public boolean isSchemaSupport() {
 		return isSchemaSupport;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDL#setSchemaSupport(boolean)
-	 */
 	public void setSchemaSupport(boolean isSchemaSupport) {
 		this.isSchemaSupport = isSchemaSupport;
 	}

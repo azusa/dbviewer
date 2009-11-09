@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.oracle;
@@ -29,21 +29,10 @@ import zigen.plugin.db.core.rule.DefaultMappingFactory;
 import zigen.plugin.db.core.rule.IMappingFactory;
 
 
-/**
- * OracleMappingFactory.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/26 ZIGEN create.
- * 
- * 新しいOracle9iのJDBC Driverでも
- * 
- * 
- */
 public class OracleMappingFactory extends DefaultMappingFactory implements IMappingFactory {
 
 	/**
-	 * Oracle9iで古いJDBCDriverは、TIMESTAMP型は-100を返す
+	 * for Oracle9i's old JDBCDriver
 	 */
 	public static final int ORACLE_TIMESTAMP = -100;
 
@@ -57,15 +46,13 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 		ResultSetMetaData rmd = rs.getMetaData();
 		int type = rmd.getColumnType(icol);
 		switch (type) {
-		// 旧Driverでも表示だけするなら、以下のコメントを外す
 		// case ORACLE_TIMESTAMP: // -100
 		// return getTimestamp(rs, icol);
 		case Types.CHAR:
-			return getChar(rs, icol); // char型だけ独自仕様
+			return getChar(rs, icol);
 
-			// add start パラメータなしのNUMBER型に対応(小数を入れることが可能）
-		case Types.NUMERIC: // 一般的にはBigDecimal
-		case Types.DECIMAL:// 一般的にはBigDecimal
+		case Types.NUMERIC:
+		case Types.DECIMAL:
 			// modify start
 			// int precision = rmd.getPrecision(icol);
 			// int scale = rmd.getScale(icol);
@@ -87,54 +74,6 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 		}
 	}
 
-	// private String getXmlType(ResultSet rs, int icol) throws SQLException {
-	// try {
-	// oracle.xdb.XMLType xml = (oracle.xdb.XMLType) rs.getObject(icol);
-	// return xml.getStringVal().trim();
-	// } catch (java.lang.NoClassDefFoundError e) {
-	// e.printStackTrace();
-	// throw new SQLException(e.getMessage());
-	// }
-	//		
-	// }
-
-
-	// // -2147483648～2147483647を超えると正しく表示されないため、DoubleではなくBigDecimalで受ける
-	// protected String getDouble(ResultSet rs, int icol) throws SQLException {
-	// BigDecimal value = rs.getBigDecimal(icol);
-	//
-	// if (rs.wasNull())
-	// return nullSymbol;
-	//
-	// return String.valueOf(value);
-	//
-	// }
-	//	
-	// protected String getLong(ResultSet rs, int icol) throws SQLException {
-	//
-	// try {
-	// long value = rs.getLong(icol);
-	//
-	// if (rs.wasNull())
-	// return nullSymbol;
-	//
-	// return String.valueOf(value);
-	//
-	// } catch (SQLException e) {
-	// if (e.getErrorCode() == 17026) {
-	// // Oracleの数値のオーバーフローです。
-	// return rs.getBigDecimal(icol).toString();
-	// } else {
-	// throw e;
-	// }
-	// }
-	//
-	// }
-
-	/**
-	 * DBのcharsetによって、空白パディングの数がおかしいため 自力で｢バイト合わせ」するようにします。 JA16SJISの場合は自力で実装する
-	 * 
-	 */
 	protected String getChar(ResultSet rs, int icol) throws SQLException {
 		String value = rs.getString(icol);
 
@@ -145,7 +84,6 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 			value = JDBCUnicodeConvertor.convert(value);
 		}
 
-		// 空白を取り除き、自己パディングする
 		if (value != null) {
 			value = StringUtil.padding(value.trim(), rs.getMetaData().getColumnDisplaySize(icol));
 		}
@@ -175,9 +113,6 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 
 	}
 
-	/**
-	 * OracleはDate型⇒Timestamp型として扱う
-	 */
 	protected void setDate(PreparedStatement pst, int icol, String str) throws Exception {
 		if (nullSymbol.equals(str)) {
 			pst.setNull(icol, Types.TIMESTAMP);
@@ -197,14 +132,6 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 
 	}
 
-	/**
-	 * BLOBの格納
-	 * 
-	 * @param pst
-	 * @param icol
-	 * @param value
-	 * @throws SQLException
-	 */
 	protected void setBlob(PreparedStatement pst, int icol, Object value) throws SQLException {
 		if (value == null) {
 			pst.setNull(icol, Types.BLOB);
@@ -243,9 +170,7 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 		}
 	}
 
-	/**
-	 * BLOBの取得（実データは取得しません）
-	 */
+
 	protected Object getBlob(ResultSet rs, int icol) throws SQLException {
 		Object obj = null;
 
@@ -256,7 +181,7 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 			if (rs.wasNull())
 				return nullSymbol;
 
-			obj = "<< BLOB >>";
+			obj = "<<BLOB>>";
 
 		} catch (Exception e) {
 			DbPlugin.log(e);
@@ -266,14 +191,6 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 
 	}
 
-	/**
-	 * CLOBの格納
-	 * 
-	 * @param pst
-	 * @param icol
-	 * @param value
-	 * @throws SQLException
-	 */
 	protected void setClob(PreparedStatement pst, int icol, Object value) throws SQLException {
 		if (value == null) {
 			pst.setNull(icol, Types.CLOB);
@@ -308,9 +225,6 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 		}
 	}
 
-	/**
-	 * CLOBの取得（実データは取得しません）
-	 */
 	protected Object getClob(ResultSet rs, int icol) throws SQLException {
 		Object obj = null;
 		try {
@@ -320,7 +234,7 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 			if (rs.wasNull())
 				return nullSymbol;
 
-			obj = "<< CLOB >>";
+			obj = "<<CLOB>>";
 
 		} catch (Exception e) {
 			DbPlugin.log(e);
@@ -330,21 +244,16 @@ public class OracleMappingFactory extends DefaultMappingFactory implements IMapp
 
 	}
 
-	// CLOBが取得できるように修正 2006/09/02
 	protected boolean canModify_BLOB() {
-		// return false;
 		return true;
 	}
 
-	// CLOBが取得できるように修正 2006/09/02
 	protected boolean canModify_CLOB() {
-		// return false;
 		return true;
 	}
 
 	/**
-	 * Varchar2(4000)の項目に日本語666文字を超える場合と 「ORA-17070: データ・サイズがこの型の最大サイズを超えています。」 というエラーになるため、setStringではなく、setCharacterStream()を使うように修正する。
-	 * 
+	 *  for "ORA-17070"
 	 */
 	protected void setVarchar(PreparedStatement pst, int icol, String str) throws SQLException {
 		setLonvarchar(pst, icol, str);

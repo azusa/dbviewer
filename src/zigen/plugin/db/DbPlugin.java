@@ -1,12 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
- */
-/*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db;
@@ -72,13 +67,6 @@ import zigen.plugin.db.ui.editors.ITableViewEditor;
 import zigen.plugin.db.ui.views.TreeContentProvider;
 import zigen.plugin.db.ui.views.TreeView;
 
-/**
- * DbPluginクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create. [002] 2005/06/02 ZIGEN SQL履歴を外部ファイル(XML)に保存する機能を追加. [003] 2005/09/20 ZIGEN テーブルエディタ用絞込み条件を外部ファイル(XML)に保存する機能を追加.
- */
 public class DbPlugin extends AbstractUIPlugin {
 
 	private static DbPlugin plugin;
@@ -287,48 +275,26 @@ public class DbPlugin extends AbstractUIPlugin {
 		DbPlugin.getDefault().getPage().closeEditors(editorRefs, true);
 	}
 
-	/**
-	 * メッセージ表示（情報ダイアログ）
-	 *
-	 * @param message
-	 */
 	public void showInformationMessage(String message) {
 		MessageDialog.openInformation(getShell(), DbPluginConstant.TITLE, message);
 	}
 
-	/**
-	 * メッセージ表示（警告ダイアログ）
-	 *
-	 * @param message
-	 */
 	public void showWarningMessage(String message) {
 		MessageDialog.openWarning(getShell(), DbPluginConstant.TITLE, message);
 	}
 
-	/**
-	 * 確認ダイアログ
-	 *
-	 * @param message
-	 */
 	public boolean confirmDialog(String message) {
 		return MessageDialog.openConfirm(getShell(), DbPluginConstant.TITLE, message);
 	}
 
-	/**
-	 * トグル付き確認ダイアログ
-	 *
-	 * @param message
-	 */
 	public MessageDialogWithToggle confirmDialogWithToggle(String message, String toggleMessage, boolean toggleStatus) {
 		return MessageDialogWithToggle.openYesNoQuestion(getShell(), DbPluginConstant.TITLE, message, toggleMessage, toggleStatus, null, null);
 	}
 
-	// パッケージ選択ダイアログOpen時の初期展開プロジェクト取得
 	public String getDefaultProject() {
 		return defaultProject;
 	}
 
-	// パッケージ選択ダイアログOpen時の初期展開プロジェクトの設定
 	public void setDefaultProject(String defaultProject) {
 		this.defaultProject = defaultProject;
 	}
@@ -371,7 +337,6 @@ public class DbPlugin extends AbstractUIPlugin {
 				return msg;
 			}
 		} else {
-			// "スタックトレースを確認してください" メッセージ
 			return Messages.getString("DbPlugin.ConfrimStatckTraceMessage"); //$NON-NLS-1$
 		}
 	}
@@ -483,11 +448,6 @@ public class DbPlugin extends AbstractUIPlugin {
 		return null;
 	}
 
-	/**
-	 * ＳＱＬフォーマッタールールを作成
-	 *
-	 * @return
-	 */
 	public static SqlFormatRule getSqlFormatRult() {
 		SqlFormatRule rule = DbPluginFormatRule.getInstance().getRule();
 		IPreferenceStore st = getDefault().getPreferenceStore();
@@ -809,14 +769,8 @@ public class DbPlugin extends AbstractUIPlugin {
 		}
 	}
 
-
 	static String secondarlyId = null;
 
-	/**
-	 * 最後にフォーカスされたSQL実行ビューのSecondarlyIdを保持しておく
-	 *
-	 * @param secondarlyId
-	 */
 	public static void setSecondarlyId(String _secondarlyId) {
 		secondarlyId = _secondarlyId;
 	}

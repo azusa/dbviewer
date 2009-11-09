@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -58,12 +58,12 @@ public class ChangeColorJob extends AbstractJob {
 	public void setTable(Table table) {
 		this.store = DbPlugin.getDefault().getPreferenceStore();
 		this.table = table;
-		this.columnSize = table.getColumnCount(); // カラム数取得
-		this.rowSize = table.getItemCount(); // レコード数取得
+		this.columnSize = table.getColumnCount();
+		this.rowSize = table.getItemCount();
 
 		ColorManager colorManager = new ColorManager();
 		Display display = Display.getDefault();
-		this.blue = new Color(display, 0, 0, 255); // 青
+		this.blue = new Color(display, 0, 0, 255);
 		this.black = new Color(display, 0, 0, 0);
 		this.glay = display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
 		this.white = display.getSystemColor(SWT.COLOR_WHITE);
@@ -102,7 +102,6 @@ public class ChangeColorJob extends AbstractJob {
 			monitor.done();
 
 		} catch (org.eclipse.swt.SWTException e) {
-			// 連続したクエリを発行するとエラーが発生することがある
 			DbPlugin.log(e);
 
 		} catch (Exception e) {

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.sql;
 
@@ -75,7 +75,6 @@ import zigen.plugin.db.ui.views.internal.SQLToolBarForSqlEditor;
 public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryViewEditor, IStatusChangeListener, IDocumentListener {
 
 	public void documentAboutToBeChanged(DocumentEvent event) {
-	// TODO 自動生成されたメソッド・スタブ
 	}
 
 	public void documentChanged(DocumentEvent event) {
@@ -191,8 +190,8 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		table = new Table(sash, SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		GridData gridData2 = new GridData(GridData.FILL_BOTH);
 		table.setLayoutData(gridData2);
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(true); // ラインを表示
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 		table.setFont(DbPlugin.getDefaultFont());
 		viewer = new TableViewer(table);
 		setHeaderColumn(table);
@@ -203,7 +202,6 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.F2) {
-					// レコード選択を解除し、先頭のカラムを編集状態にする
 					int row = handler.getSelectedRow();
 					handler.editTableElement(row, 1);
 
@@ -215,8 +213,8 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 
 			public void focusGained(FocusEvent e) {
 				if (table.getSelectionIndex() == -1) {
-					table.select(0); // 未選択の場合は、強制的に1レコード目を選択
-					table.notifyListeners(SWT.Selection, null); // 選択状態を通知
+					table.select(0);
+					table.notifyListeners(SWT.Selection, null);
 				}
 				IActionBars bars = getEditorSite().getActionBars();
 				setGlobalActionForResultView(bars);
@@ -243,13 +241,10 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		changeColorJob.setUser(false);
 		changeColorJob.schedule();
 
-		// / <--セルを選択できるようにカスタマイズ
 		handler = new TableKeyEventHandler(this);
 		setCellModify(viewer, handler);
-		// -->
 
 		columnsPack(table);
-		// SelectionProviderに登録(変更を通知させるため）
 		getSite().setSelectionProvider(viewer);
 
 		table.addControlListener(new ControlListener() {
@@ -288,11 +283,11 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 
 		ICommandService commandService = (ICommandService) getSite().getService(ICommandService.class);
 
-		// CTRL+Cに対するコマンドの変更
+		// CTRL+C
 		Command copy = commandService.getCommand("org.eclipse.ui.edit.copy");
 		copy.setHandler(new ActionHandler(new GlobalAction(sqlViewer, ITextOperationTarget.COPY)));
 
-		// CTRL+Aに対するコマンドの変更
+		// CTRL+A
 		Command select = commandService.getCommand("org.eclipse.ui.edit.selectAll");
 		select.setHandler(new ActionHandler(new GlobalAction(sqlViewer, ITextOperationTarget.SELECT_ALL)));
 
@@ -312,7 +307,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		Command copy = commandService.getCommand("org.eclipse.ui.edit.copy");
 		copy.setHandler(new ActionHandler(copyAction));
 
-		// CTRL+Aに対するコマンドの変更
+		// CTRL+A
 		Command select = commandService.getCommand("org.eclipse.ui.edit.selectAll");
 		select.setHandler(new ActionHandler(selectAllRecordAction));
 
@@ -322,20 +317,20 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		if (elements == null)
 			return;
 		final IActionBars bars = getEditorSite().getActionBars();
-		TableElement element = elements[0];// ヘッダー用TableElementの取得
-		int size = element.getColumns().length + 1; // ROW用に追加
+		TableElement element = elements[0];
+		int size = element.getColumns().length + 1;
 		String[] properties = new String[size];
 		zigen.plugin.db.core.TableColumn[] cols = element.getColumns();
 		cellEditors = new CellEditor[size];
 		TableKeyAdapter keyAdapter = new TableKeyAdapter(handler);
 		for (int i = 0; i < cellEditors.length; i++) {
-			properties[i] = String.valueOf(i); // property としてIndex番号を渡す
-			if (i > 0) { // 1カラム目以降を更新可能とする
+			properties[i] = String.valueOf(i);
+			if (i > 0) {
 				CellEditor cellEditor = new TextCellEditor(table, i);
 
 				if (cellEditor.getControl() instanceof Text) {
 					Text txt = (Text) cellEditor.getControl();
-					txt.setEditable(false); // 編集不可
+					txt.setEditable(false);
 				}
 				cellEditor.getControl().addKeyListener(keyAdapter);
 				cellEditor.getControl().addTraverseListener(keyAdapter);
@@ -347,7 +342,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 					}
 
 					public void focusLost(FocusEvent e) {
-					// setInfomationText(EDIT_MODE_OFF); non message
+						// setInfomationText(EDIT_MODE_OFF); non message
 					}
 				});
 				cellEditors[i] = cellEditor;
@@ -362,7 +357,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 			}
 
 			public Object getValue(Object element, String property) {
-				int index = Integer.parseInt(property);// 数値に変換
+				int index = Integer.parseInt(property);
 				if (element instanceof TableElement) {
 					TableElement elem = (TableElement) element;
 					Object obj = elem.getItems()[index - 1]; // rowNo分
@@ -403,7 +398,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 			sortListener = new TableSortListener(this, 0);
 			row.addSelectionListener(sortListener);
 			row.pack();
-			TableElement element = elements[0]; // ヘッダー用カラム
+			TableElement element = elements[0];
 			zigen.plugin.db.core.TableColumn[] columns = element.getColumns();
 			for (int i = 0; i < columns.length; i++) {
 				zigen.plugin.db.core.TableColumn tColumn = columns[i];
@@ -425,24 +420,20 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 	}
 
 	public void changeColumnColor() {
-		// TODO 自動生成されたメソッド・スタブ
-		throw new UnsupportedOperationException("未実装です"); //$NON-NLS-1$
+		throw new UnsupportedOperationException("Unsupported"); //$NON-NLS-1$
 
 	}
 
 	public void changeColumnColor(Column column) {
-		// TODO 自動生成されたメソッド・スタブ
-		throw new UnsupportedOperationException("未実装です"); //$NON-NLS-1$
+		throw new UnsupportedOperationException("Unsupported"); //$NON-NLS-1$
 	}
 
 	public void editTableElement(Object element, int column) {
-		// TODO 自動生成されたメソッド・スタブ
-		throw new UnsupportedOperationException("未実装です"); //$NON-NLS-1$
+		throw new UnsupportedOperationException("Unsupported"); //$NON-NLS-1$
 	}
 
 	public String getCondition() {
-		// TODO 自動生成されたメソッド・スタブ
-		throw new UnsupportedOperationException("未実装です"); //$NON-NLS-1$
+		throw new UnsupportedOperationException("Unsupported"); //$NON-NLS-1$
 	}
 
 	public IDBConfig getDBConfig() {
@@ -465,13 +456,11 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 	}
 
 	public void setEnabled(boolean enabled) {
-		// TODO 自動生成されたメソッド・スタブ
-		throw new UnsupportedOperationException("未実装です"); //$NON-NLS-1$
+		throw new UnsupportedOperationException("Unsupported"); //$NON-NLS-1$
 
 	}
 
 	public void setTotalCount(int dispCount, long totalCount) {
-	// TODO 自動生成されたメソッド・スタブ
 
 	}
 
@@ -485,7 +474,6 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 
 	public void update(String query, TableElement[] elements, String responseTime, boolean isReload) {
 		try {
-			// Queryは置き換える
 			this.query = query;
 			this.elements = elements;
 			table.dispose();
@@ -495,10 +483,8 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 			sash.layout(true);
 			sash.getParent().layout(true);
 
-			// 応答時間の表示
 			// setResponseTime(responseTime);
 
-			// レコード件数の表示
 			int dispCnt = elements.length - 1;
 			setTotalCount(dispCnt, -1); //$NON-NLS-1$
 
@@ -530,7 +516,6 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 		getSite().registerContextMenu(menuMgr, viewer);
 	}
 
-	// 現在未使用(エディターの場合はこのメソッドをオーバライドしてコンテキストメニューを出すことが標準)
 	protected void editorContextMenuAboutToShow(IMenuManager menu) {
 		super.editorContextMenuAboutToShow(menu);
 		menu.add(new Separator());
@@ -564,64 +549,3 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 	}
 
 }
-// try {
-// ICommandService commandService = (ICommandService)
-// getSite().getService(ICommandService.class);
-// IHandlerService handlerService = (IHandlerService)
-// getSite().getService(IHandlerService.class);
-// IBindingService bindingService = (IBindingService)
-// getSite().getService(IBindingService.class);
-// IContextService contextService = (IContextService)
-// getSite().getService(IContextService.class);
-//
-// Category editCat =
-// commandService.getCategory("org.eclipse.ui.category.edit");
-// String commandId = "z.ex.view.SCommand";
-// Command scmd = commandService.getCommand(commandId);
-// if (!scmd.isDefined()) {
-// scmd.define("SCommand", "Run the SCommand", editCat);
-// }
-//
-// IHandler handler = new AbstractHandler() {
-// public Object execute(ExecutionEvent event) throws ExecutionException {
-// System.out.println("The Handler has landed!");
-// return null;
-// }
-// };
-//
-// handlerService.activateHandler(commandId, handler);
-//
-// // now set up the keybindings
-// String sampleContextId = "sampleViewContext";
-// String parentContextId = "org.eclipse.ui.contexts.window";
-//
-// Context sampleContext = contextService.getContext(sampleContextId);
-// if (!sampleContext.isDefined()) {
-// sampleContext.define("Sample Context", "My Sample Context", parentContextId);
-// }
-// contextService.activateContext(sampleContextId);
-//
-// String defaultSchemeId = "org.eclipse.ui.defaultAcceleratorConfiguration";
-// Scheme defaultScheme = bindingService.getScheme(defaultSchemeId);
-//
-// ParameterizedCommand pscmd = new ParameterizedCommand(scmd, null);
-//
-// //KeySequence keySequence = KeySequence.getInstance("CTRL+ALT+.");
-// KeySequence keySequence = KeySequence.getInstance("CTRL+A");
-// Binding newKey = new KeyBinding(keySequence, pscmd, defaultSchemeId,
-// sampleContextId, null, null, null, Binding.USER);
-// //
-// Binding[] bindings = bindingService.getBindings();
-// Binding[] newBindings = new Binding[bindings.length + 1];
-// newBindings[0] = newKey;
-// System.arraycopy(bindings, 0, newBindings, 1, bindings.length);
-// bindingService.savePreferences(defaultScheme, newBindings);
-//
-//
-// } catch (ParseException e) {
-// // TODO Auto-generated catch block
-// e.printStackTrace();
-// } catch (IOException e) {
-// // TODO Auto-generated catch block
-// e.printStackTrace();
-// }

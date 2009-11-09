@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views;
 
@@ -54,7 +54,6 @@ public class CommitModeAction extends SQLSourceViewerAction implements IMenuCrea
 	}
 
 	public void run() {
-		// ボタン自身を押したときのアクション
 		isAutoCommit = !isAutoCommit;
 		setCommitMode(isAutoCommit);
 		autoCommitSelectHandler();
@@ -99,18 +98,15 @@ public class CommitModeAction extends SQLSourceViewerAction implements IMenuCrea
 	private void autoCommitSelectHandler() {
 		if (isAutoCommit()) {
 			Transaction trans = Transaction.getInstance(config);
-			// 自動コミットの場合は、コミット、ロールバックボタンは非活性
 			if (trans == null || trans.getTransactionCount() == 0) {
 				setCommitMode(true);
 			} else {
-				// ロールバックの確認ダイアログを起動
 				DbPlugin.getDefault().showWarningMessage(Messages.getString("SQLExecuteView.7")); //$NON-NLS-1$
 				setCommitMode(false);
 			}
 		} else {
 			setCommitMode(false);
 		}
-		// 全てのSQL実行ビューに通知し、コミットモードをあわせる
 		DbPlugin.fireStatusChangeListener(this, IStatusChangeListener.EVT_ChangeTransactionMode);
 	}
 
@@ -136,7 +132,6 @@ public class CommitModeAction extends SQLSourceViewerAction implements IMenuCrea
 
 		if (config != null) {
 			config.setAutoCommit(_isAutoCommit);
-			// コミットモードを変更する
 			DBConfigManager.setAutoCommit(config, _isAutoCommit);
 		}
 

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -33,13 +33,6 @@ import zigen.plugin.db.core.rule.symfoware.SymfowareSQLCreatorFactory;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * AbstractInsertMappingFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/06 ZIGEN create.
- */
 public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 
 	protected ITable table;
@@ -71,9 +64,6 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 	}
 
 
-	/**
-	 * Factoryのキャッシュ化
-	 */
 	private static Map map = new HashMap();
 
 	public static final ISQLCreatorFactory getFactory(String driverName, ITable table) {
@@ -85,7 +75,7 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 			factory = (ISQLCreatorFactory) map.get(key);
 			if (factory instanceof DefaultSQLCreatorFactory) {
 				DefaultSQLCreatorFactory _factory = (DefaultSQLCreatorFactory) factory;
-				_factory.setTable(table); // テーブルの参照を再設定する
+				_factory.setTable(table);
 			} else {
 				throw new IllegalStateException(Messages.getString("AbstractSQLCreatorFactory.Message2")); //$NON-NLS-1$
 			}
@@ -133,11 +123,6 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 
 	}
 
-	/**
-	 * キャッシュしない（Diff用）
-	 *
-	 * @return
-	 */
 	public static final ISQLCreatorFactory getFactoryNoCache(String driverName, ITable table) {
 		ISQLCreatorFactory factory = null;
 
@@ -217,7 +202,6 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 
 	}
 
-	// ViewのDDLを取得するSQL
 	abstract String getViewDDL_SQL(String dbName, String owner, String view);
 
 }

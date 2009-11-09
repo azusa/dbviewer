@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.internal;
 
@@ -54,14 +54,6 @@ public class FillCellEditorUtil {
 		return rowAffected;
 	}
 
-	/**
-	 * DBからBLOBを検索し、ファイルに保存する
-	 * 
-	 * @param saveFile
-	 * @param sql
-	 * @param icol
-	 *            検索するカラム番号
-	 */
 	public static void saveAsFile(TableElement tableElement, int colIndex, int dataType, File saveFile) {
 		Connection con = null;
 		Statement st = null;
@@ -115,36 +107,6 @@ public class FillCellEditorUtil {
 		}
 	}
 
-	// /**
-	// * ImageオブジェクトまたはStringオブジェクトを取得するメソッド
-	// *
-	// * @param file
-	// * @return
-	// */
-	// public static Object getObject(File file) {
-	// Object obj = null;
-	// if (file.canRead()) {
-	// try {
-	// obj = new Image(Display.getCurrent(), new BufferedInputStream(new FileInputStream(file)));
-	// } catch (Exception e) {
-	// try {
-	// obj = InputStreamUtil.toString(new BufferedInputStream(new FileInputStream(file)));
-	// } catch (Exception e1) {
-	// DbPlugin.log(e1);
-	// }
-	// }
-	// }
-	// return obj;
-	// }
-
-	/**
-	 * byte[]またはStringを取得するメソッド
-	 * 
-	 * @param tableElement
-	 * @param colIndex
-	 * @param dataType
-	 * @return
-	 */
 	public static Object getObject(TableElement tableElement, int colIndex, int dataType) {
 		Object obj = null;
 		Connection con = null;
@@ -163,17 +125,11 @@ public class FillCellEditorUtil {
 				case Types.BINARY: // -2
 				case Types.VARBINARY: // -3
 				case Types.LONGVARBINARY: // -4
-					// <-- modify start
-					/*
-					 * 2007.4.4 Symfo向けにgetBlobではなくgetBinaryStreamとする Blob blob2 = rs.getBlob(colIndex); if (rs.wasNull()) return null; obj = InputStreamUtil.toByteArray(blob2.getBinaryStream());
-					 * break;
-					 */
 					InputStream is = rs.getBinaryStream(colIndex);
 					if (rs.wasNull())
 						return null;
 					obj = InputStreamUtil.toByteArray(is);
 					break;
-				// modify end -->
 				case Types.BLOB:
 					Blob blob = rs.getBlob(colIndex);
 					if (rs.wasNull())
@@ -185,10 +141,6 @@ public class FillCellEditorUtil {
 					if (rs.wasNull())
 						return null;
 					obj = InputStreamUtil.toString(clob.getCharacterStream()); // String
-					// obj =
-					// InputStreamUtil.toCharArray(clob.getCharacterStream());
-					// //char[]
-
 					break;
 
 				default:

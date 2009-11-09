@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views.internal;
@@ -20,14 +20,6 @@ import org.eclipse.swt.SWT;
 import zigen.plugin.db.DbPluginFormatRule;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
 
-/**
- * SQLKeywordScannerクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/04/07 ZIGEN create. [002] 2005/05/29 ZIGEN SQLキーワードのシンタックスハイライトの修正.
- * 
- */
 public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScanner {
 
 	static class WordDetector implements IWordDetector {
@@ -57,7 +49,6 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 
 		rule = DbPluginFormatRule.getInstance();
 
-		// getInstanceで一度margeしているため、falseで起動
 		initialize(false);
 	}
 
@@ -70,7 +61,6 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 		if (marge)
 			rule.margeTemplate();
 
-		// 記号などの色をデフォルト色にするための指定を追加
 		setDefaultReturnToken(new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT))));
 
 		IRule[] rules = new IRule[2];
@@ -80,7 +70,6 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 		WordRule wordRule = new WordRule(new WordDetector(), other);
 
 
-		// SQLキーワードのシンタックスハイライト
 		String[] keywords = rule.getKeywordNames();
 		for (int i = 0; i < keywords.length; i++) {
 			String key = keywords[i];
@@ -88,7 +77,6 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 			wordRule.addWord(key.toLowerCase(), keyword);
 		}
 
-		// 関数のシンタックスハイライト(テンプレート分は除いたもの）
 		String[] functions = rule.getFunctionNames();
 		for (int i = 0; i < functions.length; i++) {
 			String name = functions[i];

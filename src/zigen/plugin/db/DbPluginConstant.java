@@ -1,19 +1,12 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db;
 
 
-/**
- * DbPluginクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create.
- */
 public class DbPluginConstant {
 
 //	public static String VERSION = "1.1.0 release 2009/01/08"; //$NON-NLS-1$

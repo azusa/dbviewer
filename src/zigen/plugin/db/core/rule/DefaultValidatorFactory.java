@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -10,14 +10,6 @@ import java.sql.Types;
 
 import zigen.plugin.db.core.TableColumn;
 
-/**
- * DefaultValidatorFactory.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- * 
- */
 public class DefaultValidatorFactory extends AbstractValidatorFactory {
 
 	public String validateDataType(TableColumn column, Object value) throws UnSupportedTypeException {
@@ -74,7 +66,6 @@ public class DefaultValidatorFactory extends AbstractValidatorFactory {
 		case Types.TIMESTAMP:
 			return validate_TIMESTAMP(columnName, (String) value);
 
-			// 追加
 		case Types.BINARY: // -2
 		case Types.VARBINARY: // -3
 		case Types.LONGVARBINARY: // -4
@@ -85,30 +76,20 @@ public class DefaultValidatorFactory extends AbstractValidatorFactory {
 		default:
 			return null;
 
-			// // 2006/09/02 add start
-			// case Types.CLOB:
-			// case Types.BLOB:
-			// return null;
-			// // 2006/09/02 add end
-
-			// default:
-			// log.error("カラム名:" + column.getColumnName() + ", 値:" + value);
-			// throw new UnSupportedTypeException(column, value);
-
 		}
 
 	}
 
 	protected String validate_CHAR(String columnName, String value) {
-		return null; // ノーチェック
+		return null;
 	}
 
 	protected String validate_VARCHAR(String columnName, String value) {
-		return null; // ノーチェック
+		return null;
 	}
 
 	protected String validate_LONGVARCHAR(String columnName, String value) {
-		return null; // ノーチェック
+		return null;
 	}
 
 	protected String validate_BIT(String columnName, String value) {

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -24,22 +24,13 @@ import zigen.plugin.db.preference.SQLFormatPreferencePage;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- *
- * DefaultInsertMappingFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/06 ZIGEN create.
- *
- */
 public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 
 	protected Column[] cols;
 
 	protected TablePKColumn[] pks;
 
-	protected String primaryKeyName = null; // UniqueIndexとの重複を防ぐ
+	protected String primaryKeyName = null;
 
 	protected List fks;
 
@@ -49,7 +40,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 
 	protected List nuidxs;
 
-	protected boolean isVisibleSchemaName = true; // デフォルトTrue(表示)
+	protected boolean isVisibleSchemaName = true;
 
 	protected char encloseChar;
 
@@ -64,7 +55,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 	protected void setTable(ITable table) {
 		if (table != null) {
 			this.table = table;
-			this.cols = table.getColumns(); // table要素からカラム要素を取得
+			this.cols = table.getColumns();
 			this.pks = table.getTablePKColumns();
 
 			this.cons = convertTableConstraintColumn(table.getTableConstraintColumns());
@@ -77,10 +68,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		}
 	}
 
-	/**
-	 * テーブル名を取得
-	 * @return
-	 */
 	protected String getTableNameWithSchemaForSQL(ITable table, boolean isVisible){
 		if (isVisible) {
 			return SQLUtil.encodeQuotation(table.getSqlTableName());
@@ -89,7 +76,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		}
 	}
 
-	// 外から使用する
 	public List convertTableIDXColumn(TableIDXColumn[] idxs) {
 
 		if (idxs == null)
@@ -126,7 +112,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		return result;
 	}
 
-	// 外から使用する
 	public List convertTableConstraintColumn(TableConstraintColumn[] cons) {
 
 		if (cons == null)
@@ -163,7 +148,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		return result;
 	}
 
-	// 外から使用する
 	public List convertTableFKColumn(TableFKColumn[] fks) {
 
 		if (fks == null)
@@ -197,9 +181,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		return result;
 	}
 
-	// public String createDDL() {
-	// return getCreateTableStr();
-	// }
 
 	public String createDDL() {
 		StringBuffer sb = new StringBuffer();
@@ -212,10 +193,8 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 			sb.append(getCreateTableStr());
 		}
 
-		// テーブルコメント
 		sb.append(getTableComment());
 
-		// カラムコメント
 		sb.append(getColumnComment());
 		return sb.toString();
 	}
@@ -283,11 +262,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		return sb.toString();
 	}
 
-	/**
-	 * カラム名＋型＋桁
-	 *
-	 * @return
-	 */
 	protected String getColumnLabel(TableColumn column) {
 
 		StringBuffer sb = new StringBuffer();
@@ -423,14 +397,12 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 						type = "CHECK";
 
 						if (column.getSearch_condition() != null) {
-							// Search_conditionの最後に改行が入ることがある
-							// paramater = "(" + column.getSearch_condition().trim() + ")";
-							paramater = "(" + column.getSearch_condition().trim(); // 閉じる括弧はfor文の外で
+							paramater = "(" + column.getSearch_condition().trim();
 
 						}
 
 						sb.append("CONSTRAINT ");
-						sb.append(column.getName()); // 制約名
+						sb.append(column.getName());
 						sb.append(" ");
 						sb.append(type);
 						sb.append(paramater);
@@ -440,13 +412,13 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 					} else {
 						name = column.getName();
 						if (column.isNonUnique()) {
-							type = "NONUNIQUE"; // 制約でNONUNIQEは無いはず
+							type = "NONUNIQUE";
 						} else {
 							type = "UNIQUE";
 						}
 
 						sb.append("CONSTRAINT ");
-						sb.append(column.getName()); // 制約名
+						sb.append(column.getName());
 						sb.append(" ");
 						sb.append(type);
 						sb.append(" (");
@@ -482,7 +454,7 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 				TableIDXColumn column = _idxs[i];
 
 				if (column.getName().equals(primaryKeyName))
-					break; // PKと重複している場合は抜ける
+					break;
 
 				if (i == 0) {
 					sb.append("CONSTRAINT ");
@@ -509,12 +481,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 
 	}
 
-	/**
-	 * 制約文字列の作成
-	 *
-	 * @param header
-	 * @return
-	 */
 	protected String getConstraints() {
 		StringBuffer sb = new StringBuffer();
 
@@ -585,8 +551,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 	}
 
 	public String createSelect(String condition, int limit) {
-		// 対応していないデータベースでは、全件検索する
-		//
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM ");
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
@@ -620,9 +584,9 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT COUNT(*) FROM ( "); //$NON-NLS-1$
 		sb.append(DbPluginConstant.LINE_SEP);
-		sb.append(query); // 最後にインラインコメントがあるとSQLエラーになる（未：インライン対応）
+		sb.append(query);
 		sb.append(DbPluginConstant.LINE_SEP);
-		sb.append(" ) TBL"); // MySQLなどで正常に実行できるように、Alias名を付ける
+		sb.append(" ) TBL");
 		return sb.toString();
 	}
 

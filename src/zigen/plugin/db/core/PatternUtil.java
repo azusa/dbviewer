@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
 
@@ -11,8 +11,9 @@ import java.util.regex.PatternSyntaxException;
 public class PatternUtil {
 
 	/**
-	 * 正規表現ではなく、A や A, B のような検索をするためのPatterを取得 ※複数キーワードはカンマで区切ります。 ※前後方一致検索になります。
-	 * 
+	 * It is a method for the retrieval such as not the regular expression but A, A, and B.
+     * Two or more key words are delimited by the comma.
+	 * It becomes the back and forth agreement retrieval.
 	 * @param key
 	 * @param caseSensitive
 	 * @return
@@ -26,10 +27,7 @@ public class PatternUtil {
 		for (int i = 0; i < keys.length; i++) {
 			String keywd = keys[i];
 			if (keywd != null && keywd.trim().length() > 0) {
-				// キーワードの前後の空白は削除する
 				// keywd = keywd.trim().replaceAll("\\*", "\\.\\*"); //$NON-NLS-1$ //$NON-NLS-2$
-
-				// 前後方一致検索
 				StringBuffer w = new StringBuffer();
 				w.append(".*");
 				w.append(keywd.trim());
@@ -53,14 +51,6 @@ public class PatternUtil {
 
 	}
 
-	/**
-	 * 正規表現ではなく、A* や A, B のような検索をするためのPatterを取得 ※複数キーワードはカンマで区切ります。 ※一致する文字列には*を入れます。(入れない場合は、完全一致になります）
-	 * 
-	 * @param key
-	 * @param caseSensitive
-	 * @return
-	 * @throws PatternSyntaxException
-	 */
 	public static final Pattern getPattern2(String key, boolean caseSensitive) throws PatternSyntaxException {
 		Pattern pattern = null;
 		String[] keys = key.split(","); //$NON-NLS-1$
@@ -69,7 +59,6 @@ public class PatternUtil {
 		for (int i = 0; i < keys.length; i++) {
 			String keywd = keys[i];
 			if (keywd != null && keywd.trim().length() > 0) {
-				// キーワードの前後の空白は削除する
 				keywd = keywd.trim().replaceAll("\\*", "\\.\\*"); //$NON-NLS-1$ //$NON-NLS-2$
 				if (cnt == 0) {
 					sb.append(keywd);

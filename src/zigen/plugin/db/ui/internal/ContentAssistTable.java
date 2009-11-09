@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.internal;
@@ -21,14 +21,6 @@ import zigen.plugin.db.core.TableIDXColumn;
 import zigen.plugin.db.core.TablePKColumn;
 import zigen.plugin.db.core.Transaction;
 
-/**
- * お気に入りクラス. XMLに保存するためのJavaBeans
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/09/25 ZIGEN create.
- *
- */
 public class ContentAssistTable extends TreeNode implements ITable {
 
 	private static final long serialVersionUID = 1L;
@@ -47,21 +39,14 @@ public class ContentAssistTable extends TreeNode implements ITable {
 		super(tableName);
 		this.dbConfig = dbConfig;
 		this.dataBase = new DataBase(dbConfig);
-		// スキーマサポートかどうか判定
 		setSchemaSupport(dataBase);
 
 		if (dataBase.isSchemaSupport()) {
-			// this.schema = new Schema(dbConfig.getSchema().toUpperCase());
 			this.schema = new Schema(schemaName);
 		}
 		this.table = new Table(tableName);
 
 	}
-
-//	public ContentAssistTable(Table table) {
-//		super();
-//		copy(table);
-//	}
 
 	private void setSchemaSupport(DataBase dataBase) {
 		try {
@@ -72,24 +57,6 @@ public class ContentAssistTable extends TreeNode implements ITable {
 			DbPlugin.log(e);
 		}
 	}
-
-//	public void copy(Table original) {
-//		name = new String(original.getName());
-//
-//		// DataBase要素のコピー（DBConfigもコピーされる)
-//		dataBase = (DataBase) original.getDataBase().clone();
-//
-//		// DBConfigのコピー先の参照を設定
-//		dbConfig = dataBase.getDbConfig();
-//
-//		if (original.getSchema() != null) {
-//			schema = (Schema) original.getSchema().clone();
-//		}
-//		table = (Table) original.clone();
-//
-//		folder = (Folder) original.getFolder().clone();
-//
-//	}
 
 	public String getName() {
 		return name;
@@ -155,37 +122,6 @@ public class ContentAssistTable extends TreeNode implements ITable {
 		return sb.toString();
 	}
 
-//	/**
-//	 * スキーマ対応の場合はスキーマ名.テーブル名を返す
-//	 */
-//	public String getSqlTableName() {
-//		char escape = getDataBase().getEscapeChar();
-//		String tableName = getName();
-//		StringBuffer sb = new StringBuffer();
-//		if (getDataBase().isSchemaSupport()) {
-//			String schemaName = getSchema().getName();
-//
-//			if (SQLUtil.requireEscape(schemaName)) {
-//				sb.append(escape);
-//				sb.append(schemaName);
-//				sb.append(escape);
-//			}else{
-//				sb.append(schemaName);
-//			}
-//			sb.append(".");
-//
-//			if (SQLUtil.requireEscape(tableName)) {
-//				sb.append(escape);
-//				sb.append(tableName);
-//				sb.append(escape);
-//			} else {
-//				sb.append(tableName);
-//			}
-//		} else {
-//			sb.append(tableName);
-//		}
-//		return sb.toString();
-//	}
 
 	public boolean isSchemaSupport() {
 		return dataBase.isSchemaSupport();
@@ -214,14 +150,6 @@ public class ContentAssistTable extends TreeNode implements ITable {
 	public void setSchema(Schema schema) {
 		this.schema = schema;
 	}
-
-	// public Folder getFolder() {
-	// return folder;
-	// }
-	//
-	// public void setFolder(Folder folder) {
-	// this.folder = folder;
-	// }
 
 	public IDBConfig getDbConfig() {
 		return dbConfig;
@@ -325,7 +253,7 @@ public class ContentAssistTable extends TreeNode implements ITable {
 	}
 
 	public void setRemarks(String remarks) {
-		throw new UnsupportedOperationException("ContentAssistTable#setRemarksは実装されていません");
+		throw new UnsupportedOperationException("ContentAssistTable#setRemarks");
 	}
 
 	public TableConstraintColumn[] getTableConstraintColumns() {

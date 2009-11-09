@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -22,28 +22,18 @@ import zigen.plugin.db.ui.jobs.RefreshColumnJob;
 import zigen.plugin.db.ui.jobs.RefreshFolderJob;
 import zigen.plugin.db.ui.jobs.TableTypeSearchJob;
 
-/**
- * TreeViewerListenerクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/18 ZIGEN create.
- *
- */
 public class TreeViewListener implements ITreeViewerListener {
 
 //	private boolean showDialog = true;
-	private boolean showDialog = false;	// VISTAの場合描画速度が遅く？ダイアログが良く表示されるのでfalseにする
+	private boolean showDialog = false;
 
 	public void treeCollapsed(TreeExpansionEvent event) {
-	// TODO 自動生成されたメソッド・スタブ
 	}
 
 	public void treeExpanded(TreeExpansionEvent event) {
 		Object element = event.getElement();
 		TreeViewer viewer = (TreeViewer) event.getTreeViewer();
 
-		// <!-- ADD 2007/06/20 ZIGEN Bookmarkで起動してからのDB接続に対応する
 		if (element instanceof DataBase) {
 			DataBase db = (DataBase) element;
 			if (!db.isExpanded()) {
@@ -52,7 +42,7 @@ public class TreeViewListener implements ITreeViewerListener {
 				job.setPriority(ConnectDBJob.SHORT);
 				job.setUser(false);
 				job.setSystem(false);
-				job.schedule(); // 接続に失敗すれば、db.setConnected(false);
+				job.schedule();
 
 			}
 
@@ -137,8 +127,6 @@ public class TreeViewListener implements ITreeViewerListener {
 					}
 				}
 
-				// Tableは、スキーマを展開した際に作成している
-				// display.asyncExec(new TableSearchThread(viewer, folder));
 			}
 		}
 

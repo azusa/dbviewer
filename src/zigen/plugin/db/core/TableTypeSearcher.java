@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -13,13 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TableTypeSearcherクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/18 ZIGEN create.
- */
 public class TableTypeSearcher {
 
 	public static String[] execute(IDBConfig config) throws Exception {
@@ -43,7 +36,7 @@ public class TableTypeSearcher {
 			list = new ArrayList();
 			while (rs.next()) {
 				// list.add(rs.getString("TABLE_TYPE"));
-				// 2006.02.02 zigen sybase用にtrimして格納
+				// for sybase
 				list.add(rs.getString("TABLE_TYPE").trim()); //$NON-NLS-1$
 
 			}
@@ -51,9 +44,6 @@ public class TableTypeSearcher {
 			switch (DBType.getType(con.getMetaData())) {
 			case DBType.DB_TYPE_ORACLE:
 				list.add("SEQUENCE"); //$NON-NLS-1$
-				// ここを追加する場合は、コード補完の場合の処理を見直すこと。
-				// list.add("INDEX"); // ADD //$NON-NLS-1$
-				// コード補完で、Functionも表示する
 				list.add("FUNCTION"); //$NON-NLS-1$
 				break;
 
@@ -77,7 +67,6 @@ public class TableTypeSearcher {
 				list.add("VIEW"); //$NON-NLS-1$
 				break;
 			}
-			// 未サポートのDB用
 			return (String[]) list.toArray(new String[0]);
 
 		} catch (Exception e) {

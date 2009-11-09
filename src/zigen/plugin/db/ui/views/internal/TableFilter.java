@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -49,7 +49,7 @@ public class TableFilter extends ViewerFilter {
 	public boolean select(Viewer viewer, Object parent, Object element) {
 		if (text != null && !"".equals(text)) { //$NON-NLS-1$
 			if (element instanceof Bookmark) {
-				return true; // 今はお気に入りは常に表示
+				return true;
 
 			} else if (element instanceof ITable) {
 				try {

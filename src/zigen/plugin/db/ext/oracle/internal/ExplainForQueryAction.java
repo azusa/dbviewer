@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ext.oracle.internal;
@@ -22,25 +22,13 @@ import zigen.plugin.db.core.Transaction;
 import zigen.plugin.db.ui.actions.SQLSourceViewerAction;
 import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
-/**
- * <Oracle専用>ExplainForQueryActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/08 ZIGEN create.
- */
+
 public class ExplainForQueryAction extends SQLSourceViewerAction {
 
 	private static String PRE_SQL = "EXPLAIN PLAN FOR "; //$NON-NLS-1$
 
 	private static String TRUNCATE_SQL = "truncate table plan_table"; //$NON-NLS-1$
 
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public ExplainForQueryAction(SQLSourceViewer viewer) {
 		super(viewer);
 		this.setText(Messages.getString("ExplainForQueryAction.2")); //$NON-NLS-1$
@@ -48,9 +36,6 @@ public class ExplainForQueryAction extends SQLSourceViewerAction {
 		this.setEnabled(false);
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		try {
@@ -67,11 +52,10 @@ public class ExplainForQueryAction extends SQLSourceViewerAction {
 				return;
 			}
 
-			// 選択中のSQLで実行するように修正
 			TextSelection textSelection = (TextSelection) selection;
 			String sql = textSelection.getText().trim();
 			if (sql.endsWith("/")) { //$NON-NLS-1$
-				sql = sql.substring(0, sql.length() - 1); // 最後の/を外す
+				sql = sql.substring(0, sql.length() - 1);
 			}
 
 			Connection con = trans.getConnection();

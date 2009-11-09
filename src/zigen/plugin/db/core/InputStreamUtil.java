@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -20,13 +20,6 @@ import java.io.StringWriter;
 
 public class InputStreamUtil {
 
-	/**
-	 * InputStream→byte[]変換
-	 * 
-	 * @param inputStream
-	 * @return
-	 * @throws IOException
-	 */
 	public static byte[] toByteArray(InputStream inputStream) throws IOException {
 		byte[] out = null;
 		ByteArrayOutputStream sw = null;
@@ -48,13 +41,6 @@ public class InputStreamUtil {
 
 	}
 
-	/**
-	 * <BLOB型用>inputStreamからFileに出力する
-	 * 
-	 * @param file
-	 * @param inputStream
-	 * @throws IOException
-	 */
 	public static void save(File file, InputStream inputStream) throws IOException {
 		DataInputStream dis = null;
 		FileOutputStream fos = null;
@@ -79,12 +65,6 @@ public class InputStreamUtil {
 
 	}
 
-	/**
-	 * <BLOB型用>inputStreamからStringに出力する(コード変換：JISAutoDetect)
-	 * 
-	 * @param inputStream
-	 * @throws IOException
-	 */
 	public static String toString(InputStream inputStream, String charsetName) throws IOException {
 		String out = null;
 		InputStreamReader br = null;
@@ -112,22 +92,6 @@ public class InputStreamUtil {
 
 	}
 
-	/**
-	 * <BLOB型用>inputStreamからStringに出力する(コード変換：JISAutoDetect)
-	 * 
-	 * @param inputStream
-	 * @throws IOException
-	 */
-	// public static String toString(InputStream inputStream) throws IOException {
-	// return toString(inputStream, "JISAutoDetect"); //$NON-NLS-1$
-	// }
-	/**
-	 * <CLOB型用>inputStreamからFileに出力する
-	 * 
-	 * @param file
-	 * @param inputStream
-	 * @throws IOException
-	 */
 	public static void save(File file, Reader reader) throws IOException {
 		FileWriter fw = null;
 		char[] buf = new char[1024];
@@ -152,12 +116,6 @@ public class InputStreamUtil {
 
 	}
 
-	/**
-	 * <CLOB型用>ReaderからStringに出力する
-	 * 
-	 * @param reader
-	 * @throws IOException
-	 */
 	public static String toString(Reader reader) throws IOException {
 		String out = null;
 		StringWriter sw = null;
@@ -181,13 +139,6 @@ public class InputStreamUtil {
 
 	}
 
-	/**
-	 * <CLOB型用>Reader→char[]変換
-	 * 
-	 * @param inputStream
-	 * @return
-	 * @throws IOException
-	 */
 	public static char[] toCharArray(Reader reader) throws IOException {
 		char[] out = null;
 		CharArrayWriter cw = null;

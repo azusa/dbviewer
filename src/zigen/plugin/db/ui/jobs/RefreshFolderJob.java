@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -57,11 +57,9 @@ public class RefreshFolderJob extends AbstractJob {
 			if (SchemaSearcher.isSupport(con)) {
 				tables = TableSearcher.execute(con, folder.getSchema().getName(), new String[] {folder.getName()});
 			} else {
-				// 第1引数からそれぞれデータベース名、スキーマ名、テーブル名、テーブルの型
 				tables = TableSearcher.execute(con, null, new String[] {folder.getName()});
 			}
 			ts.stop();
-			System.out.println("[TABLE検索] " + folder.getName() + "," + ts.getTotalTime());
 			if (updateTables(monitor, con, folder.getSchema(), folder, tables)) {
 
 			} else {
@@ -123,12 +121,10 @@ public class RefreshFolderJob extends AbstractJob {
 
 			TreeLeaf leaf = folder.getChild(node.getName());
 			if (leaf == null) {
-				addTable(folder, node);// 追加する場合
-				// 新規の場合は、nodeを使う
+				addTable(folder, node);
 				showResults(new RefreshTreeNodeAction(viewer, node, RefreshTreeNodeAction.MODE_NOTHING));
 			} else {
-				updateTable(leaf, node); // 更新する場合
-				// 更新の場合は、leafを使う
+				updateTable(leaf, node);
 				showResults(new RefreshTreeNodeAction(viewer, leaf, RefreshTreeNodeAction.MODE_NOTHING));
 			}
 
@@ -136,14 +132,11 @@ public class RefreshFolderJob extends AbstractJob {
 				return false;
 			}
 			ts1.stop();
-			//System.out.println(tableinfo.getName() + " is loaded. " + ts1.getTotalTime());
 
 			monitor.worked(1);
 		}
 		ts.stop();
-		System.out.println("[TABLE更新数] " + tables.length + "件 ," + ts.getTotalTime());
 
-		// 削除されたテーブルなどを削除する処理
 		TreeLeaf[] leafs = folder.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {
 			TreeLeaf leaf = leafs[i];
@@ -154,16 +147,12 @@ public class RefreshFolderJob extends AbstractJob {
 
 		ts.start();
 
-		System.out.println("[フォルダ更新開始]");
 		try {
-			// Folderの更新
 			showResults(new RefreshTreeNodeAction(viewer, folder, RefreshTreeNodeAction.MODE_NOTHING));
 		} catch (RuntimeException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 		ts.stop();
-		System.out.println("[フォルダ更新終了] " + ts.getTotalTime());
 
 		return true;
 	}
@@ -205,7 +194,6 @@ public class RefreshFolderJob extends AbstractJob {
 
 			job.setPriority(RefreshColumnJob.SHORT);
 			job.schedule();
-			// RefreshColumnJobが終了するまで待機
 			try {
 				job.join();
 			} catch (InterruptedException e) {
@@ -213,7 +201,6 @@ public class RefreshFolderJob extends AbstractJob {
 			}
 
 			ts.stop();
-			System.out.println("updateTable-カラム更新処理時間 " + ts.getTotalTime());
 		}
 
 	}

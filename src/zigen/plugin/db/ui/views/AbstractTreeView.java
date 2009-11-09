@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -52,13 +52,6 @@ import zigen.plugin.db.ui.bookmark.TreeLeafListTransfer;
 import zigen.plugin.db.ui.views.internal.ColumnFilter;
 import zigen.plugin.db.ui.views.internal.TableFilter;
 
-/**
- * TreeViewクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/11/27 ZIGEN create.
- */
 public abstract class AbstractTreeView extends ViewPart implements IStatusChangeListener {
 
 	protected PluginSettingsManager settringMgr = DbPlugin.getDefault().getPluginSettingsManager();
@@ -83,7 +76,6 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 
 	// protected boolean fLinkingEnabled;
 
-	// 微妙な制御(プルダウンして選択した場合や文字選択状態)がうまく行かないので、falseとする
 	protected boolean isAutoSearchMode = false; // キー入力後自動検索する場合
 
 	public void setLinkingEnabled(boolean enabled) {
@@ -114,7 +106,6 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		createFilterBar(main);
 		createTreeArea(main);
 
-		// SelectionProviderに登録(変更を通知させるため）
 		getSite().setSelectionProvider(viewer);
 		makeActions();
 		hookContextMenu();
@@ -142,11 +133,9 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 	}
 
 	protected void hookDoubleClickAction() {
-		// DoubleClickHandlerの追加
 		viewer.addDoubleClickListener(new TreeDoubleClickHandler());
 	}
 
-	// <!-- [002] 追加 ZIGEN 2005/06/02
 	protected void contributeToActionBars() {
 		IActionBars bars = getViewSite().getActionBars();
 		fillLocalPullDown(bars.getMenuManager());
@@ -163,11 +152,6 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 
 	abstract void setGlobalAction(IStructuredSelection selection);
 
-	/**
-	 * 選択された要素によってAction#setEnableを設定する
-	 * 
-	 * @param event
-	 */
 	abstract void selectionChangeHandler(SelectionChangedEvent event);
 
 	protected TreeContentProvider contentProvider;
@@ -179,12 +163,6 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 
 		viewer = new TreeViewer(body, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 
-		// Dragイベントの実装
-		// int dragOption = DND.DROP_COPY | DND.DROP_MOVE;
-		// Transfer[] transfers = new Transfer[] { TextTransfer.getInstance() };
-		// viewer.addDragSupport(dragOption, transfers, new
-		// DragElementAdapter(viewer));
-
 		int dragOption = DND.DROP_DEFAULT | DND.DROP_MOVE | DND.DROP_COPY;
 		Transfer[] transfers = new Transfer[] {TreeLeafListTransfer.getInstance()};
 		viewer.addDragSupport(dragOption, transfers, new DragBookmarkAdapter(viewer));
@@ -194,14 +172,11 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		viewer.setContentProvider(contentProvider);
 		viewer.setLabelProvider(new TreeLabelProvider());
 		viewer.setSorter(new TreeViewSorter());
-		// 検索を高速化
 		viewer.setUseHashlookup(true);
 
 		viewer.setInput(getViewSite());
-		// viewer.expandAll(); // すべて展開状態とする
-		viewer.expandToLevel(2); // 2階層目まで展開する場合
+		viewer.expandToLevel(2);
 
-		// Listenerの追加(スキーマ展開時にテーブルを検索する）
 		viewer.addTreeListener(new TreeViewListener());
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -212,13 +187,6 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		});
 
 	}
-
-	// protected ToolItem targetSchema;
-
-	// protected ToolItem targetTable;
-	//
-	// protected ToolItem targetColumn;
-
 	protected ImageCacher ic = ImageCacher.getInstance();
 
 	protected Composite tool;
@@ -268,8 +236,6 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		columnFilterComb.setText(""); //$NON-NLS-1$
 
 		if (!isAutoSearchMode) {
-			// columnFilterComb.addFocusListener(new TextSelectionListener());
-			// // Textのみ
 			columnFilterComb.addKeyListener(new KeyAdapter() {
 
 				public void keyPressed(KeyEvent e) {
@@ -286,7 +252,6 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 
 		columnFilterHistory = loadColumnFilterHistory();
 
-		// 初期一覧の作成
 		if (columnFilterHistory != null) {
 			if (columnFilterHistory.size() == 0) {
 				columnFilterComb.add(""); //$NON-NLS-1$
@@ -304,15 +269,12 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		tableFilterLabel.setLayoutData(gridData);
 		tableFilterLabel.setText("Filter:");
 
-		// ツールバー
 		tableFilterComb = new Combo(tool, SWT.NONE);
 		tableFilterComb.setVisibleItemCount(20);
 		tableFilterComb.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		tableFilterComb.setText(""); //$NON-NLS-1$
 
 		if (!isAutoSearchMode) {
-			// tableFilterComb.addFocusListener(new TextSelectionListener()); //
-			// Textのみ
 			tableFilterComb.addKeyListener(new KeyAdapter() {
 
 				public void keyPressed(KeyEvent e) {
@@ -329,7 +291,6 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 
 		tableFilterHistory = loadFilterHistory();
 
-		// 初期一覧の作成
 		if (tableFilterHistory != null) {
 			if (tableFilterHistory.size() == 0) {
 				tableFilterComb.add(""); //$NON-NLS-1$
@@ -353,16 +314,14 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 			viewer.removeFilter(fTableFilter);
 		fTableFilter = new TableFilter(condition);
 		viewer.addFilter(fTableFilter);
-		// 一致した条件を一度削除し、最上位に移動させる
 		if (tableFilterHistory.contains(condition)) {
 			tableFilterHistory.remove(condition);
 			tableFilterComb.remove(condition);
 		}
 
-		tableFilterHistory.add(0, condition); // 先頭に追加
-		tableFilterComb.add(condition, 0); // 先頭に追加
-		tableFilterComb.select(0);// 先頭を選択する
-		// 最大値を超えた分を削除する
+		tableFilterHistory.add(0, condition);
+		tableFilterComb.add(condition, 0);
+		tableFilterComb.select(0);
 		removeOverHistory(tableFilterHistory, tableFilterComb);
 
 		// tableFilterComb.setFocus();
@@ -376,15 +335,13 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 		fColumnFilter = new ColumnFilter(condition);
 		viewer.addFilter(fColumnFilter);
 
-		// 一致した条件を一度削除し、最上位に移動させる
 		if (columnFilterHistory.contains(condition)) {
 			columnFilterHistory.remove(condition);
 			columnFilterComb.remove(condition);
 		}
-		columnFilterHistory.add(0, condition); // 先頭に追加
-		columnFilterComb.add(condition, 0); // 先頭に追加
-		columnFilterComb.select(0);// 先頭を選択する
-		// 最大値を超えた分を削除する
+		columnFilterHistory.add(0, condition);
+		columnFilterComb.add(condition, 0);
+		columnFilterComb.select(0);
 		removeOverHistory(columnFilterHistory, columnFilterComb);
 
 		// columnFilterComb.setFocus();
@@ -423,7 +380,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 	}
 
 	private void removeOverHistory(List filterHistory, Combo filterComb) {
-		while (filterHistory.size() > maxSize) { // 空白用を考慮
+		while (filterHistory.size() > maxSize) {
 			int i = filterHistory.size() - 1;
 			filterHistory.remove(i);
 			filterComb.remove(i);

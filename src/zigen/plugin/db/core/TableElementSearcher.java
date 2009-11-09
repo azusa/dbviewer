@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
 
@@ -31,8 +31,6 @@ public class TableElementSearcher extends TableManager {
 			pks = table.getTablePKColumns();
 
 			if (pks == null || pks.length == 0) {
-				// PKが無い場合の対応
-				// 最初のUniqueIndexのみ採用する
 				uidxs = ConstraintUtil.getFirstUniqueIndex(table.getTableUIDXColumns());
 			}
 
@@ -45,10 +43,8 @@ public class TableElementSearcher extends TableManager {
 
 			if (rs.next()) {
 				if (pks != null && pks.length > 0) {
-					// PKを使用
 					elements = createElement(rs, table, columns, pks, element.getRecordNo());
 				} else {
-					// UniqueKeyを使用
 					elements = createElement(rs, table, columns, uidxs, element.getRecordNo());
 				}
 
@@ -66,12 +62,6 @@ public class TableElementSearcher extends TableManager {
 
 	}
 
-	/**
-	 * SQL文の取得
-	 * 
-	 * @param table
-	 * @throws Exception
-	 */
 	static PreparedStatement createPreparedStatement(Connection con, TableElement tableElement, boolean isNew) throws Exception {
 		String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
 
@@ -82,7 +72,7 @@ public class TableElementSearcher extends TableManager {
 		// [002] 2005/11/22 add zigen -->
 
 		if (isNew) {
-			tableElement.modifyUniqueItems(); // 入力データからユニークItemを設定
+			tableElement.modifyUniqueItems();
 		}
 
 		ITable table = tableElement.getTable();
@@ -103,7 +93,6 @@ public class TableElementSearcher extends TableManager {
 					sb.append(" WHERE "); //$NON-NLS-1$
 					sb.append(uniqueColumn.getColumnName());
 
-					// Oracleは""でもNULLで登録されるため、その対応
 					switch (table.getDbConfig().getDbType()) {
 					case DBType.DB_TYPE_ORACLE:
 						if (uniqueItem == null || nullSymbol.equals(uniqueItem) || "".equals(uniqueItem)) { //$NON-NLS-1$
@@ -147,7 +136,6 @@ public class TableElementSearcher extends TableManager {
 			}
 			pst = con.prepareStatement(sb.toString());
 
-			// パラメータの設定
 			int index = 0;
 			for (int i = 0; i < uniqueItems.length; i++) {
 				Object uniqueItem = uniqueItems[i];

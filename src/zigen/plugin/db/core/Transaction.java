@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -12,14 +12,6 @@ import java.util.Hashtable;
 
 import zigen.plugin.db.ui.editors.exceptions.NotFoundDBConfigException;
 
-/**
- * Transactionクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/04/17 ZIGEN create.
- *
- */
 public class Transaction {
 
 	private class TransactionElement {
@@ -45,28 +37,19 @@ public class Transaction {
 
 	private IDBConfig config;
 
-	/**
-	 * インスタンス生成
-	 *
-	 * @param<code>_instance</code>
-	 */
 	public synchronized static Transaction getInstance(IDBConfig config) {
 		if (instance == null) {
 			instance = new Transaction();
 		}
-		instance.config = config; // Configの切り替え
+		instance.config = config;
 		instance.create();
 		return instance;
 
 	}
 
-	/**
-	 * コンストラクタ
-	 */
 	private Transaction() {}
 
 	private void create() {
-		// DBConfigの存在チェック
 		if (config == null)
 			throw new NotFoundDBConfigException("There is no Data Base definition information. "); //$NON-NLS-1$
 
@@ -77,7 +60,6 @@ public class Transaction {
 		} else {
 			TransactionElement element = (TransactionElement) map.get(config.getDbName());
 
-			// コネクションがNULL または 接続ユーザが変更された場合の処理
 			if (element.con == null || !config.getUserId().equals(element.config.getUserId())) {
 				ConnectionManager.closeConnection(element.con);
 				element.con = null;
@@ -105,7 +87,6 @@ public class Transaction {
 			}
 		}
 
-		// System.out.println("Transaction#コミットの状態は " + element.con.getAutoCommit() + ", @" + element.con.toString());
 		return element.con;
 
 	}
@@ -113,7 +94,7 @@ public class Transaction {
 	public void cloesConnection() {
 		TransactionElement element = (TransactionElement) map.get(config.getDbName());
 		ConnectionManager.closeConnection(element.con);
-		element.con = null; // 明示的にNULLを設定する
+		element.con = null;
 	}
 
 	public boolean isConneting() {

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -59,7 +59,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 
 	protected IPreferenceStore preferenceStore;
 
-	protected String sqlFileName; // 開く・保存 時の初期値として使用
+	protected String sqlFileName;
 
 	protected boolean isFormatPreExecute;
 
@@ -71,9 +71,6 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		this.preferenceStore = DbPlugin.getDefault().getPreferenceStore();
 		super.appendVerifyKeyListener(new VerifyKeyAdapter());
 
-		// super.getTextWidget().addKeyListener(new CurrentSqlListener());
-		// super.getTextWidget().addMouseListener(new CurrentSqlListener());
-		// super.addTextListener(new CurrentSqlListener());// こちらは駄目
 
 	}
 
@@ -179,8 +176,8 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 			setEditable(false);
 			SqlFormatJob job = new SqlFormatJob(this, secondaryId);
 			job.setPriority(SqlFormatJob.SHORT);
-			job.setUser(false); // ダイアログを出さない
-			// job.setUser(true); // ダイアログを出す
+			job.setUser(false);
+			// job.setUser(true);
 			job.schedule();
 
 		}
@@ -197,8 +194,8 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 			setEditable(false);
 			SqlFormatJob job = new SqlFormatJob(this, secondaryId);
 			job.setPriority(SqlFormatJob.SHORT);
-			job.setUser(false); // ダイアログを出さない
-			// job.setUser(true); // ダイアログを出す
+			job.setUser(false);
+			// job.setUser(true);
 			job.schedule();
 
 		}
@@ -218,13 +215,12 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 			setEditable(false);
 			SqlFormatJob job = new SqlFormatJob(this, secondaryId);
 			job.setPriority(SqlFormatJob.SHORT);
-			job.setUser(false); // ダイアログを出さない
-			// job.setUser(true); // ダイアログを出す
+			job.setUser(false);
+			// job.setUser(true);
 			job.schedule();
 
 		}
 
-		// ﾌｫｰﾏｯﾄ前のRangeを設定
 		Display display = Display.getDefault();
 		ExecuteSelectedSQLAction action = new ExecuteSelectedSQLAction(config, this, secondaryId, selection);
 		display.syncExec((Runnable) action);
@@ -245,7 +241,6 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 
 	protected void doUnFormat() {
 		try {
-			// 選択部分のアンフォーマット
 			// Point selectedRange = getSelectedRange();
 			// IDocument doc = getDocument();
 			// String text = getSelectedText();
@@ -253,7 +248,6 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 			// doc.replace(selectedRange.x, selectedRange.y, newtext);
 			// setSelectedRange(selectedRange.x, newtext.length());
 
-			// 全SQLのアンフォーマット
 			String preSql = getDocument().get();
 			String formatSql = getUnFormatSQL(preSql);
 			getDocument().replace(0, preSql.length(), formatSql);
@@ -271,8 +265,8 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		setEditable(false);
 		SqlFormatJob job = new SqlFormatJob(this, secondaryId);
 		job.setPriority(SqlFormatJob.SHORT);
-		job.setUser(false); // ダイアログを出さない
-		// job.setUser(true); // ダイアログを出す
+		job.setUser(false);
+		// job.setUser(true);
 		job.schedule();
 
 	}
@@ -296,7 +290,6 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		return sb.toString();
 	}
 
-	// 行の削除
 	protected void doLineDelete() {
 		try {
 			IDocument doc = getDocument();
@@ -326,7 +319,6 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 
 	}
 
-	// SQLのコメントON/OFF
 	protected void doComment() {
 		try {
 			IDocument doc = getDocument();
@@ -348,10 +340,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 					multiTextEdit.apply(doc);
 
 				} else {
-					// コメントON
 					int start = region.getOffset();
-
-					// 最初の文字にする
 					start += StringUtil.firstWordPosition(lineStr);
 
 					int end = region.getOffset() + region.getLength();
@@ -382,7 +371,6 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 
 				} else {
 					int start = startRegion.getOffset();
-					// 最初の文字にする
 					start += StringUtil.firstWordPosition(startLineStr);
 
 					int end = endRegion.getOffset() + endRegion.getLength();
@@ -407,7 +395,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		if (history != null) {
 			getDocument().set(mgr.loadContents(history));
 			setSelectedRange(history.getSql().length(), 0);
-			invalidateTextPresentation(); // テキストエディタを再描画
+			invalidateTextPresentation();
 		} else {
 			getDocument().set(""); //$NON-NLS-1$
 		}
@@ -419,7 +407,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		if (history != null) {
 			getDocument().set(mgr.loadContents(history));
 			setSelectedRange(history.getSql().length(), 0);
-			invalidateTextPresentation(); // テキストエディタを再描画
+			invalidateTextPresentation();
 
 		} else {
 			getDocument().set(""); //$NON-NLS-1$
@@ -498,19 +486,8 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 
 	public void setSqlFile(File sqlFile) {
 		this.sqlFileName = sqlFile.getName();
-
-		// // ステータスバーにファイルパスを表示
-		// SQLExecuteView view = getSQLExecuteView();
-		// if (view != null) {
-		// view.setStatusMessage(sqlFile.getPath());
-		// }
 	}
 
-	/**
-	 * SQL保存する際の初期値に使用する
-	 * 
-	 * @param fileName
-	 */
 	public void setSqlFileName(String fileName) {
 		this.sqlFileName = fileName;
 	}
@@ -523,19 +500,10 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 		this.isFormatPreExecute = isFormatPreExecute;
 	}
 
-	// public boolean isLockedDataBase() {
-	// return isLockedDataBase;
-	// }
-	//
-	// public void setLockedDataBase(boolean isLockedDataBase) {
-	// this.isLockedDataBase = isLockedDataBase;
-	// }
-
 	public class VerifyKeyAdapter implements VerifyKeyListener {
 
 		public void verifyKey(VerifyEvent event) {
 
-			// ENTER キーの取得
 			if (event.character == SWT.CR) {
 				try {
 					String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
@@ -546,7 +514,6 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 						char c = doc.getChar(offset - 1);
 						if (demiliter.equals(new String(new char[] {c}))) {
 							// if (c == '/') {
-							// 1行分のテキストを取得する
 							IRegion region = doc.getLineInformationOfOffset(offset);
 							String wk = doc.get(region.getOffset(), region.getLength() - 1).trim();
 							if (wk.length() == 0) {
@@ -560,14 +527,14 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 				}
 			}
 
-			// Ctrl + Spaceが押下されたかどうか
+			// Ctrl + Space
 			if (event.stateMask == SWT.CTRL && event.character == ' ') {
 				if (canDoOperation(ISourceViewer.CONTENTASSIST_PROPOSALS))
 					doOperation(ISourceViewer.CONTENTASSIST_PROPOSALS);
 				event.doit = false;
 
 			}
-			// Ctrl + Dで、行削除を実行
+			// Ctrl + D
 			if (event.stateMask == SWT.CTRL && event.keyCode == 100) {
 				if (canDoOperation(ISQLOperationTarget.LINE_DEL)) {
 					doOperation(ISQLOperationTarget.LINE_DEL);
@@ -575,20 +542,16 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 				event.doit = false;
 			}
 
-			// Ctrl + Shift + Fで、SQL整形を実行
+			// Ctrl + Shift + F
 			if (event.stateMask == SWT.CTRL + SWT.SHIFT && event.keyCode == 102) {
 				if (canDoOperation(ISQLOperationTarget.FORMAT)) {
 					doOperation(ISQLOperationTarget.FORMAT);
 				}
-				// パーティション単位のフォーマットになるため、却下
-				// if (canDoOperation(ISourceViewer.FORMAT)) {
-				// doOperation(ISourceViewer.FORMAT);
-				// }
 
 				event.doit = false;
 			}
 
-			// Ctrl + SHIFT + U で、非SQL整形を実行
+			// Ctrl + SHIFT + U
 			if (event.stateMask == SWT.CTRL + SWT.SHIFT && event.keyCode == 117) {
 				if (canDoOperation(ISQLOperationTarget.UNFORMAT)) {
 					doOperation(ISQLOperationTarget.UNFORMAT);
@@ -596,7 +559,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 				event.doit = false;
 			}
 
-			// Ctrl + /で、コメント切り替え
+			// Ctrl + /
 			if (event.stateMask == SWT.CTRL && event.keyCode == 47) {
 				if (canDoOperation(ISQLOperationTarget.COMMENT)) {
 					doOperation(ISQLOperationTarget.COMMENT);
@@ -607,7 +570,7 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 			// if(event.stateMask == SWT.SHIFT + SWT.TAB){
 			// doOperation();
 			// event.doit = false;
-			//				
+			//
 			// }
 
 		}

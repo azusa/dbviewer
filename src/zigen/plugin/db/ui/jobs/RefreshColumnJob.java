@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -56,9 +56,6 @@ public class RefreshColumnJob extends AbstractLoadColumnJob {
 		Connection con = null;
 		IDBConfig config = table.getDbConfig();
 		try {
-			// JOB単位に個別のコネクションを使うため、ロックする必要は無い
-			// しかし、テーブルエディターの起動時のカラム検索との排他制御が必要となる
-
 			synchronized (table) {
 				monitor.beginTask(Messages.getString("RefreshColumnJob.6"), 6); //$NON-NLS-1$
 				// Connection con =
@@ -78,8 +75,8 @@ public class RefreshColumnJob extends AbstractLoadColumnJob {
 
 		} catch (NotFoundSynonymInfoException e) {
 			table.setEnabled(false);
-			table.removeChildAll(); // 子ノードを全て削除
-			showResults(new RefreshTreeNodeAction(treeViewer, table)); // 再描画
+			table.removeChildAll();
+			showResults(new RefreshTreeNodeAction(treeViewer, table));
 			showErrorMessage(Messages.getString("RefreshColumnJob.1"), e); //$NON-NLS-1$
 
 		} catch (Exception e) {

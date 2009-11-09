@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -66,18 +66,17 @@ public class SqlFormatJob extends AbstractJob {
 
 		this.selection = (TextSelection) viewer.getSelection();
 		if (selection != null && selection.getText().length() > 0) {
-			this.targetSql = selection.getText(); // cancel用
+			this.targetSql = selection.getText();
 			this.selectionMode = true;
 
 			calcurate(doc, selection);
 
 		} else {
 			this.targetSql = viewer.getDocument().get();
-			// this.targetSql = viewer.getCurrentSql(); // フォーカスが無い場合があることを考慮しないと整形後NULLになる
 
 			this.selectionMode = false;
 		}
-		this.formattedSql = targetSql; // cancel用に設定しておく
+		this.formattedSql = targetSql;
 
 	}
 
@@ -92,22 +91,6 @@ public class SqlFormatJob extends AbstractJob {
 			e.printStackTrace();
 		}
 	}
-
-	// /**
-	// * SQLを選択して実行する場合のSQL整形処理(※選択したSQLの整形ではない）
-	// *
-	// * @param sqlString
-	// * @param secondarlyId
-	// * @param selectOffset
-	// * @param selectLength
-	// */
-	// public SqlFormatJob(SQLSourceViewer viewer, String allSql, String
-	// secondarlyId, int selectOffset, int selectLength, String selectedSql) {
-	// this(viewer, allSql, secondarlyId);
-	// this.selectOffset = selectOffset;
-	// this.selectLength = selectLength;
-	// this.selectedSql = selectedSql; // 選択したSQL
-	// }
 
 	protected IStatus run(IProgressMonitor monitor) {
 		String responseTime = null;
@@ -136,15 +119,12 @@ public class SqlFormatJob extends AbstractJob {
 					if (i < max) {
 						sb.append(SQLFormatter.format(sql, type, onPatch, formattOffset));
 					} else {
-						// 最大数を超える場合は整形しない
 						sb.append(sql);
 					}
 
 					if (!selectionMode) {
-						// 非選択モード
 						addLine(sb, demiliter);
 					} else {
-						// 選択モード場合
 
 						if (tokenCount > 1) {
 							addLine(sb, demiliter);
@@ -165,11 +145,11 @@ public class SqlFormatJob extends AbstractJob {
 			return Status.OK_STATUS;
 
 		} catch (Exception e) {
-			showErrorMessage("エラー", e); //$NON-NLS-1$
+			showErrorMessage("Error", e); //$NON-NLS-1$
 		} finally {
 			showResults(new UnLockAction(secondarlyId, responseTime));
 		}
-		return Status.OK_STATUS; // エラーダイアログを表示するためにOKで返す
+		return Status.OK_STATUS;
 
 	}
 
@@ -211,18 +191,14 @@ public class SqlFormatJob extends AbstractJob {
 
 				TextSelection selection = (TextSelection) viewer.getSelection();
 				if (selection != null && selection.getLength() > 0) {
-					// 選択した部分のみ置換する場合
 					preSql = selection.getText();
 					doc.replace(selection.getOffset() + firstWordPosition, preSql.length() - firstWordPosition, formattedSql);
 
 				} else {
-					// 全体を置換する場合
 					preSql = doc.get();
 					doc.replace(0, preSql.length(), formattedSql);
 				}
 
-
-				// フォーカスを与えるために先にTrueにしておく
 				viewer.setEditable(true);
 
 				if (selectionMode) {
@@ -248,7 +224,6 @@ public class SqlFormatJob extends AbstractJob {
 					setSelection(viewer, new TextSelection(newOffset, 0), true);
 				}
 
-				// outlineに通知するためにイベントを発行
 				viewer.getTextWidget().notifyListeners(SWT.Selection, null);
 
 			} catch (Exception e) {
@@ -286,7 +261,6 @@ public class SqlFormatJob extends AbstractJob {
 				SQLExecuteView view = (SQLExecuteView) DbPlugin.getDefault().findView(DbPluginConstant.VIEW_ID_SQLExecute, secondaryId);
 				if (view != null) {
 
-					// もし、編集不可のままであれば、ロックを解除する
 					if (!view.getSqlViewer().isEditable()) {
 						view.getSqlViewer().setEditable(true);
 					}

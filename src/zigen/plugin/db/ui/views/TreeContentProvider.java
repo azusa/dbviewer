@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -23,14 +23,6 @@ import zigen.plugin.db.ui.internal.Root;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.internal.TreeNode;
 
-/**
- * ViewContentProviderクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- * 
- */
 public class TreeContentProvider implements ITreeContentProvider {
 
 	private BookmarkManager bookMarkMgr = DbPlugin.getDefault().getBookmarkManager();
@@ -81,7 +73,6 @@ public class TreeContentProvider implements ITreeContentProvider {
 		root = new Root("DBViewerPlugin"); //$NON-NLS-1$
 		invisibleRoot.addChild(root);
 
-		// TODO:V0.1.0向け
 		try {
 			bookmarkRoot = bookMarkMgr.getBookmarkRoot();
 		} catch (Exception e) {
@@ -100,11 +91,7 @@ public class TreeContentProvider implements ITreeContentProvider {
 
 	}
 
-	/**
-	 * ツリーを再構築する
-	 */
 	public void createDataBase() {
-		// データベース定義情報からツリーを作成する
 		dbConfigs = DBConfigManager.getDBConfigs();
 		for (int i = 0; i < dbConfigs.length; i++) {
 			IDBConfig config = dbConfigs[i];
@@ -114,13 +101,7 @@ public class TreeContentProvider implements ITreeContentProvider {
 
 	}
 
-	/**
-	 * データベース定義を追加するメソッド
-	 * 
-	 * @param config
-	 */
 	public DataBase addDataBase(IDBConfig config) {
-		// データベース定義情報からツリーを作成する
 		DataBase db = new DataBase(config);
 		root.addChild(db);
 		return db;
@@ -134,41 +115,12 @@ public class TreeContentProvider implements ITreeContentProvider {
 		this.bookmarkRoot = bookmarkRoot;
 	}
 
-	// /**
-	// * お気に入り(Root)にFolderを追加する
-	// * @param config
-	// */
-	// public void addBookmarkFolder(BookmarkFolder folder) {
-	// // データベース定義情報からツリーを作成する
-	// bookmarkRoot.addChild(folder);
-	// }
-	//
-	// /**
-	// * お気に入り(Root)に追加する
-	// * @param config
-	// */
-	// public void addBookmark(TreeNode node) {
-	// // データベース定義情報からツリーを作成する
-	// bookmarkRoot.addChild(node);
-	// }
-	//
-	// /**
-	// * お気に入り(Root)から外す
-	// * @param config
-	// */
-	// public void removeBookmark(TreeNode node) {
-	// // データベース定義情報からツリーを作成する
-	// bookmarkRoot.removeChild(node);
-	// }
-
 	public DataBase findDataBase(Bookmark bookmark) {
 		TreeLeaf[] leafs = root.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {
 			TreeLeaf leaf = leafs[i];
 			if (leaf instanceof DataBase) {
 				DataBase db = (DataBase) leaf;
-
-				// DBの定義名が同じであれば、一緒と見なす。
 				if (db.getName().equals(bookmark.getDataBase().getName())) {
 					return db;
 				}

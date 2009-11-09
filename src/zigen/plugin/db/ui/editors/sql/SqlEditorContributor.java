@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.sql;
@@ -25,16 +25,6 @@ import zigen.plugin.db.ui.editors.IQueryViewEditor;
 import zigen.plugin.db.ui.editors.ITableViewEditor;
 import zigen.plugin.db.ui.views.ISQLOperationTarget;
 
-/**
- * TableViewerContributorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- * 
- */
-// public class SqlEditorContributor extends MultiPageEditorActionBarContributor
-// {
 public class SqlEditorContributor extends TextEditorActionContributor {
 
 	protected SourceViewer sqlViewer;
@@ -45,10 +35,6 @@ public class SqlEditorContributor extends TextEditorActionContributor {
 
 	protected CreateCSVForQueryAction createCSVForQueryAction;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 */
 	public SqlEditorContributor() {
 		selectAllRecordAction = new SelectAllRecordAction();
 		copyAction = new CopyRecordDataAction();
@@ -59,7 +45,6 @@ public class SqlEditorContributor extends TextEditorActionContributor {
 		super.init(bars, page);
 	}
 
-	// メニュー表示
 	public void fillContextMenu(IMenuManager manager) {
 		manager.add(new GlobalAction(sqlViewer, ITextOperationTarget.UNDO));
 		manager.add(new GlobalAction(sqlViewer, ITextOperationTarget.REDO));
@@ -85,7 +70,6 @@ public class SqlEditorContributor extends TextEditorActionContributor {
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	// メニュー表示
 	public void fillContextMenuForResultView(IMenuManager manager) {
 		reflesh();
 		manager.add(copyAction);
@@ -94,28 +78,10 @@ public class SqlEditorContributor extends TextEditorActionContributor {
 		// manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	// ツールバーを追加する場合にオーバーライドする
 	public void contributeToToolBar(IToolBarManager manager) {
 		super.contributeToToolBar(manager);
 
 	}
-
-	// public void contributeToMenu(IMenuManager menu) {
-	// // Menuバーの更新(Enable/Disable)の方法が未定のため、実装しない
-	// // super.contributeToMenu(menu);
-	// // IMenuManager editMenu
-	// // =menu.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
-	// // if(editMenu!=null){
-	// // editMenu.add(executeSQLAction);
-	// // editMenu.add(executeCurrentSQLAction);
-	// // editMenu.add(executeSelectedSQLAction);
-	// // // deleteAction.refresh();
-	// // // editMenu.add(new Separator());
-	// // // editMenu.add(insertAction);
-	// // // editMenu.add(deleteAction);
-	// //
-	// // }
-	// }
 
 	public void setActivePage(IEditorPart target) {
 		if (target != null && target instanceof SqlEditor) {
@@ -123,10 +89,6 @@ public class SqlEditorContributor extends TextEditorActionContributor {
 		}
 
 	}
-
-	// private void makeAction(SqlEditor editor) {
-	// sqlViewer = editor.sqlViewer;
-	// }
 
 	public void setActiveEditor(IEditorPart target) {
 		super.setActiveEditor(target);

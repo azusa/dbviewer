@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -54,15 +54,12 @@ public class SQLHistoryManager extends DefaultXmlManager {
 			Object obj = super.loadXml();
 			if (obj instanceof List) {
 				history = (List) obj;
-				// 現在の位置を設定
 				if (history.size() > 0) {
 					currentPosition = history.size();
 				}
-				// 空のSQLを追加する(履歴には保存されない）
 				// history.add(currentPosition, new SQLHistory(true));
 				history.add(new SQLHistory(true));
 
-				// ソート
 				Collections.sort(history, new SQLHistorySorter());
 
 				return history;
@@ -78,7 +75,6 @@ public class SQLHistoryManager extends DefaultXmlManager {
 			TimeWatcher tw = new TimeWatcher();
 			tw.start();
 
-			// 空白は取り除く
 			for (Iterator iter = history.iterator(); iter.hasNext();) {
 				SQLHistory sql = (SQLHistory) iter.next();
 				if (sql.isBlank()) {
@@ -86,7 +82,6 @@ public class SQLHistoryManager extends DefaultXmlManager {
 				}
 
 				if (!sql.isFileMode()) {
-					// 旧Versionの履歴を変換する処理
 					saveContents(sql);
 				}
 
@@ -117,13 +112,9 @@ public class SQLHistoryManager extends DefaultXmlManager {
 
 	public void saveContents(SQLHistory history) {
 		try {
-			// フォルダ作成
 			createFolder(history);
-			// SQLファイル作成
 			createFile(history);
-			// 短くしたSQLに変換
 			history.setSql(getShortSql(history.getSql()));
-			// フラグを立てる
 			history.setFileMode(true);
 			super.saveXml(history);
 
@@ -135,7 +126,7 @@ public class SQLHistoryManager extends DefaultXmlManager {
 
 	String getShortSql(String fullSql) {
 		// String sql = SQLFormatter.unformat(fullSql);
-		String sql = fullSql; // レスポンス悪化のため、Unformatしない
+		String sql = fullSql;
 		if (sql == null)
 			return "";
 		if (sql.length() > History.MAX_LEN) {
@@ -200,12 +191,12 @@ public class SQLHistoryManager extends DefaultXmlManager {
 	public void removeOverHistory() throws IOException {
 		try {
 			this.maxSize = preferenceStore.getInt(PreferencePage.P_MAX_HISTORY);
-			while (history.size() - 1 > maxSize) { // 空白用を考慮
+			while (history.size() - 1 > maxSize) {
 				SQLHistory sh = (SQLHistory) history.get(0);
 				removeFile(sh); // add
 
 				history.remove(0);
-				currentPosition--; // 減らした分位置を--
+				currentPosition--;
 			}
 		} catch (RuntimeException e) {
 			e.printStackTrace();
@@ -221,25 +212,11 @@ public class SQLHistoryManager extends DefaultXmlManager {
 			SQLHistory his = (SQLHistory) history.get(position);
 			String targetSql = loadContents(his);
 
-			// 大量のINSERT文をunFormatして比較すると、CPUが100%になり、レスポンスが悪化するため、Unformatしないで比較する
+			// It comments for the performance issue.
 			// String hSql = SQLFormatter.unformat(targetSql);
 			// String uSql = SQLFormatter.unformat(sql);
 			String hSql = targetSql;
 			String uSql = sql;
-
-			tw.stop();
-			// tw.start();
-			// // 仮に全部の履歴とチェックする
-			// for (Iterator iter = history.iterator(); iter.hasNext();) {
-			// SQLHistory sh = (SQLHistory) iter.next();
-			// String targetSql2 = loadContents(sh);
-			// String hSql2 = SQLFormatter.unformat(targetSql);
-			// if (uSql.equals(hSql2)) {
-			// }
-			//				
-			// }
-			// tw.stop();
-			//
 
 			if (uSql.equals(hSql)) {
 				return true;
@@ -261,16 +238,14 @@ public class SQLHistoryManager extends DefaultXmlManager {
 
 		if (!isSameHistory(sql, currentPosition)) {
 
-			// SQLファイルを記録
 			saveContents(his);
-			history.add(his); // 最後の１つ前にする
-			currentPosition = history.size() - 2; // カレントを最後から１つ前にする
+			history.add(his);
+			currentPosition = history.size() - 2;
 			isAdd = true;
 		}
 
 		Collections.sort(history, new SQLHistorySorter());
 
-		// 最大数を超えた履歴は削除する
 		removeOverHistory();
 
 		tw.stop();
@@ -278,45 +253,34 @@ public class SQLHistoryManager extends DefaultXmlManager {
 	}
 
 	public void remove(SQLHistory sqlHistory) throws IOException {
-		// TimeWatcher tw = new TimeWatcher();
-		// tw.start();
-
-		removeFile(sqlHistory); // add
+		removeFile(sqlHistory);
 		history.remove(sqlHistory);
 		if (currentPosition > 0) {
 			currentPosition--;
 		}
-
-		// tw.stop();
 	}
-
-	// 現在の履歴を取得
 	public SQLHistory currentHistory() {
 		return (history.size() == 0) ? null : (SQLHistory) history.get(currentPosition);
 
 	}
 
-	// 前の履歴を取得
 	public SQLHistory prevHisotry() {
 		return (currentPosition <= 0) ? null : (SQLHistory) history.get(--currentPosition);
 	}
 
-	// 次の履歴を取得
 	public SQLHistory nextHisotry() {
 		return (currentPosition == history.size() - 1) ? null : (SQLHistory) history.get(++currentPosition);
 	}
 
-	// 前の履歴があるかどうか
 	public boolean hasPrevHistory() {
 		return (currentPosition >= 1);
 	}
 
-	// 次の履歴があるかどうか
 	public boolean hasNextHistory() {
 		return (history.size() - 1 > currentPosition);
 	}
 
-	// デバック用
+	// for debug
 	public int getCurrentPosition() {
 		return currentPosition;
 	}

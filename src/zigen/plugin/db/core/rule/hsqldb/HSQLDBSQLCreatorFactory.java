@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.hsqldb;
@@ -13,15 +13,6 @@ import zigen.plugin.db.core.rule.DefaultSQLCreatorFactory;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- *
- * HSQLDBSQLCreatorFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- *
- */
 public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public HSQLDBSQLCreatorFactory(ITable table) {
@@ -45,7 +36,6 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (orderBy != null && !"".equals(orderBy)) {
 			sb.append(" " + orderBy);
 		} else {
-			// HSQLDBではORDER BYが必要
 			int i;
 			if (pks != null && pks.length > 0) {
 				for (i = 0; i < pks.length; i++) {
@@ -58,13 +48,12 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 					}
 				}
 			}
-			// ↑ ORDER BYを追加
 		}
 
 		if (pks != null && pks.length > 0) {
-			sb.append(" LIMIT " + (limit + 1)); // ダイアログを出す為に＋１
+			sb.append(" LIMIT " + (limit + 1));
 		} else {
-			; // PKが無い場合はLIMITは使わない
+			;
 		}
 
 		return sb.toString();
@@ -74,7 +63,6 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (pks != null && pks.length > 0) {
 			return true;
 		} else {
-			// PKが無い場合はPagerは使えない
 			return false;
 		}
 	}
@@ -96,7 +84,6 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (orderBy != null && !"".equals(orderBy)) {
 			sb.append(" " + orderBy);
 		} else {
-			// HSQLDBではORDER BYが必要
 			int i;
 			if (pks != null && pks.length > 0) {
 				for (i = 0; i < pks.length; i++) {
@@ -109,7 +96,6 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 					}
 				}
 			}
-			// ↑ ORDER BYを追加
 		}
 
 		if (pks != null && pks.length > 0) {
@@ -122,7 +108,7 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			}
 
 		} else {
-			; // PKが無い場合はLIMITは使わない
+			;
 		}
 
 		return sb.toString();
@@ -219,7 +205,6 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(" DROP COLUMN ");
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 
-		// H2:制約の削除は、CASCADEできない
 		return new String[] {sb.toString()};
 
 	}
@@ -232,18 +217,14 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		sb.append(" ");
 
-		sb.append(to.getTypeName());// 型
+		sb.append(to.getTypeName());
 
-		if (isVisibleColumnSize(to.getTypeName())) {// 桁
+		if (isVisibleColumnSize(to.getTypeName())) {
 			sb.append("(");
 			sb.append(to.getSize());
 			sb.append(")");
 		}
 
-		/*
-		 * if (!from.getDefaultValue().equals(to.getDefaultValue())) {// DEFAULT sb.append(" DEFAULT "); if ("".equals(to.getDefaultValue())) { sb.append("NULL"); } else {
-		 * sb.append(to.getDefaultValue()); } }
-		 */
 		sb.append(" DEFAULT ");
 		if ("".equals(to.getDefaultValue())) {
 			sb.append("NULL");
@@ -265,11 +246,10 @@ public class HSQLDBSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("ALTER TABLE ");
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" RENAME TO ");
-		sb.append(SQLUtil.enclose(newTableName, encloseChar));	// ハイフン付名前にも変名可能にする
+		sb.append(SQLUtil.enclose(newTableName, encloseChar));
 		return sb.toString();
 	}
 
-	// / ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ //
 	public String createCreateIndexDDL(String indexName, Column[] columns, int indexType) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE");

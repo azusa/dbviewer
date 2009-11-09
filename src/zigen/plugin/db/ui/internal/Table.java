@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.internal;
@@ -16,14 +16,6 @@ import zigen.plugin.db.core.TableFKColumn;
 import zigen.plugin.db.core.TableIDXColumn;
 import zigen.plugin.db.core.TablePKColumn;
 
-/**
- * Tableクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- *
- */
 public class Table extends TreeNode implements ITable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,30 +32,15 @@ public class Table extends TreeNode implements ITable {
 
 	TableIDXColumn[] tableNonUIDXColumns = null;
 
-	/**
-	 * コンストラクタ
-	 *
-	 * @param name
-	 */
 	public Table(String name, String remarks) {
 		super(name);
 		this.remarks = remarks;
 	}
 
-	/**
-	 * コンストラクタ
-	 *
-	 * @param name
-	 */
 	public Table(String name) {
 		super(name);
 	}
 
-	/**
-	 * コンストラクタ
-	 *
-	 * @param name
-	 */
 	public Table() {
 		super();
 	}
@@ -76,11 +53,6 @@ public class Table extends TreeNode implements ITable {
 		this.tableNonUIDXColumns = node.tableNonUIDXColumns;
 	}
 
-	/*
-	 * (非 Javadoc)
-	 *
-	 * @see zigen.plugin.db.ui.internal.ITable#getLabel()
-	 */
 	public String getLabel() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(name);
@@ -92,11 +64,6 @@ public class Table extends TreeNode implements ITable {
 		return sb.toString();
 	}
 
-	/*
-	 * (非 Javadoc)
-	 *
-	 * @see zigen.plugin.db.ui.internal.ITable#getRemarks()
-	 */
 	public String getRemarks() {
 		return (remarks == null) ? "" : remarks;
 	}
@@ -115,11 +82,6 @@ public class Table extends TreeNode implements ITable {
 		return (Column[]) list.toArray(new Column[0]);
 	}
 
-	/**
-	 * テーブルが所有しているカラムを取得する
-	 *
-	 * @return
-	 */
 	public Column[] getColumns() {
 		return convertColumns(getChildrens());
 	}
@@ -152,9 +114,6 @@ public class Table extends TreeNode implements ITable {
 		return getDataBase().isSchemaSupport;
 	}
 
-	/**
-	 * 以下のequalsメソッドは変更しないこと
-	 */
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -170,9 +129,7 @@ public class Table extends TreeNode implements ITable {
 		IDBConfig config = castedObj.getDbConfig();
 		Schema schema = castedObj.getSchema();
 
-		// 追加 2007/08/20
 		if (config == null) {
-			System.err.println("Table#equals() DBConfigを取得できませんでした。");
 			return false;
 		}
 

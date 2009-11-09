@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.diff;
@@ -43,14 +43,6 @@ import org.eclipse.ui.part.EditorPart;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * TableEditorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- * 
- */
 public class DDLDiffEditor extends EditorPart {
 
 	private IDDLDiff[] diffs;
@@ -110,13 +102,11 @@ public class DDLDiffEditor extends EditorPart {
 
 			treeViewer.addSelectionChangedListener(new DiffTreeSelectionHandler(this));
 
-			// 最初の項目を選択状態にする
 			TreeItem topItem = treeViewer.getTree().getTopItem();
 			treeViewer.getTree().setSelection(new TreeItem[] {topItem});
 
 			sash.setWeights(new int[] {30, 70});
 
-			// ツールバーを更新させる
 			toolBarManager.update(true);
 
 			hookContextMenu();
@@ -150,7 +140,6 @@ public class DDLDiffEditor extends EditorPart {
 				diffviewer.setInput(diffs[0]);
 			}
 
-			// ツールバーを更新させる
 			toolBarManager.update(true);
 		}
 

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -55,11 +55,10 @@ public class ChangeColorRecordDefine implements Runnable {
 		} else {
 			bgcolor = lightblue;
 		}
-		// 行番号の背景色を変更
-		item.setBackground(0, bgcolor); // 背景色
+		item.setBackground(0, bgcolor);
 		for (int k = 0; k < columnSize - 1; k++) {
-			item.setForeground(k + 1, black); // 文字色(黒)
-			item.setBackground(k + 1, bgcolor); // 背景色
+			item.setForeground(k + 1, black);
+			item.setBackground(k + 1, bgcolor);
 		}
 	}
 

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.util;
 
@@ -38,7 +38,7 @@ public class FileUtil {
 			if (file.isAccessible()) {
 				dbName = file.getPersistentProperty(new QualifiedName(DBPropertyPage.QUALIFIER, DBPropertyPage.SELECTED_DB));
 			} else {
-				; // Projectが閉じているため、何もしません
+				;
 			}
 		} catch (Exception e) {
 			DbPlugin.log(e);
@@ -117,17 +117,10 @@ public class FileUtil {
 
 	}
 
-	/**
-	 * 指定したファイルをリネームします。 originalFileName + . + yyyy_mm_dd +_bak
-	 * 
-	 * @param file
-	 * @return
-	 */
 	public static boolean rename(File file) {
 		String folder = file.getParent();
 		String fileName = file.getName();
 
-		// 日付を入れる
 		SimpleDateFormat format = new SimpleDateFormat("yyyy_MM_dd"); //$NON-NLS-1$
 		String date = format.format(Calendar.getInstance().getTime());
 		String suffix = "." + date + "_bak"; //$NON-NLS-1$ //$NON-NLS-2$

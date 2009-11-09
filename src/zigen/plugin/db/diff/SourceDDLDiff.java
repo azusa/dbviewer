@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.diff;
 
@@ -35,7 +35,6 @@ public class SourceDDLDiff extends DDLNode {
 		this.leftDDL = leftContent;
 		this.rightDDL = rightContent;
 
-		// 表示用のテーブル名を設定
 		if (leftContent != null)
 			this.name = leftContent.getTargetName();
 		if (rightContent != null)
@@ -52,29 +51,14 @@ public class SourceDDLDiff extends DDLNode {
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDLDiff#getLeftDDL()
-	 */
 	public IDDL getLeftDDL() {
 		return leftDDL;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDLDiff#getRightDDL()
-	 */
 	public IDDL getRightDDL() {
 		return rightDDL;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDLDiff#getLeftDDLString()
-	 */
 	public String getLeftDDLString() {
 		if (leftDDL != null) {
 			return leftDDL.getDdl();
@@ -83,11 +67,6 @@ public class SourceDDLDiff extends DDLNode {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see zigen.plugin.db.diff.IDDLDiff#getRightDDLString()
-	 */
 	public String getRightDDLString() {
 		if (rightDDL != null) {
 			return rightDDL.getDdl();

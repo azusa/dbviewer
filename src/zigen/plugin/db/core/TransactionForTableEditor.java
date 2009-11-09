@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -13,14 +13,6 @@ import java.util.Hashtable;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * TransactionForTableEditorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/04/17 ZIGEN create.
- * 
- */
 public class TransactionForTableEditor {
 
 	private class TransactionElement {
@@ -46,29 +38,18 @@ public class TransactionForTableEditor {
 
 	private IDBConfig config;
 
-	/**
-	 * テーブル編集時(レコードの貼り付け）でのエラーダイアログを出すか
-	 */
 	private boolean showErrorDialog = true;
 
-	/**
-	 * インスタンス生成
-	 * 
-	 * @param<code>_instance</code>
-	 */
 	public synchronized static TransactionForTableEditor getInstance(IDBConfig config) {
 		if (instance == null) {
 			instance = new TransactionForTableEditor();
 		}
-		instance.config = config; // Configの切り替え
+		instance.config = config;
 		instance.create();
 		return instance;
 
 	}
 
-	/**
-	 * コンストラクタ
-	 */
 	private TransactionForTableEditor() {}
 
 	private void create() {
@@ -80,7 +61,6 @@ public class TransactionForTableEditor {
 		} else {
 			TransactionElement element = (TransactionElement) map.get(config.getDbName());
 
-			// コネクションがNULL または 接続ユーザが変更された場合の処理
 			if (element.con == null || !config.getUserId().equals(element.config.getUserId())) {
 				ConnectionManager.closeConnection(element.con);
 				element.con = null;
@@ -97,21 +77,6 @@ public class TransactionForTableEditor {
 			element.con.setAutoCommit(false);
 			element.count = 0;
 		}
-
-		// テーブル編集用のコネクションは常に手動コミットとする
-		// if (config.isAutoCommit()) {
-		// log.debug("自動コミットモードのコネクションを取得しました");
-		// if (!element.con.getAutoCommit()) {
-		// element.con.setAutoCommit(true);
-		// }
-		// } else {
-		// log.debug("手動コミットモードのコネクションを取得しました");
-		// if (element.con.getAutoCommit()) {
-		// element.con.setAutoCommit(false);
-		// }
-		// }
-
-		// System.out.println("TransactionForTableEditor#コミットの状態は " + element.con.getAutoCommit() + ", @" + element.con.toString());
 		return element.con;
 
 	}
@@ -119,7 +84,7 @@ public class TransactionForTableEditor {
 	public void cloesConnection() {
 		TransactionElement element = (TransactionElement) map.get(config.getDbName());
 		ConnectionManager.closeConnection(element.con);
-		element.con = null; // 明示的にNULLを設定する
+		element.con = null;
 	}
 
 	public boolean isConneting() {

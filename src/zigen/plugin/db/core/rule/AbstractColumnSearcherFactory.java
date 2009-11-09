@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -24,14 +24,6 @@ import zigen.plugin.db.core.rule.mysql.MySQLColumnSearcharFactory;
 import zigen.plugin.db.core.rule.oracle.OracleColumnSearcharFactory;
 import zigen.plugin.db.core.rule.symfoware.SymfowareColumnSearcharFactory;
 
-/**
- * AbstractColumnSearcherFactory.java.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- *
- */
 public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFactory {
 
 	public static final String COLUMN_NAME_STR = "COLUMN_NAME";
@@ -50,35 +42,6 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 
 	public static final String COMMENTS_STR = "COMMENTS";
 
-
-//	/**
-//	 * コンストラクタ
-//	 *
-//	 * @param config
-//	 */
-//	public static IColumnSearcherFactory getFactory(IDBConfig config) {
-//		return getFactory(config.getDriverName(), config.isConvertUnicode());
-//	}
-//
-//	/**
-//	 * コンストラクタ
-//	 *
-//	 * @param objMet
-//	 * @param isConvertUnicode
-//	 */
-//	public static IColumnSearcherFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode) {
-//		try {
-//			return getFactory(objMet.getDriverName(), isConvertUnicode);
-//
-//		} catch (SQLException e) {
-//			throw new IllegalStateException("DriverNameの取得に失敗しました");
-//		}
-//
-//	}
-
-	/**
-	 * MappingFactoryのキャッシュ化
-	 */
 	private static Map map = new HashMap();
 
 
@@ -134,7 +97,7 @@ public abstract class AbstractColumnSearcherFactory implements IColumnSearcherFa
 			String dbName = factory.getDbName();
 			String sql = getCustomColumnInfoSQL(dbName, owner, table);
 			if (sql == null)
-				return map;// nullはここで返さないこと
+				return map;
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {

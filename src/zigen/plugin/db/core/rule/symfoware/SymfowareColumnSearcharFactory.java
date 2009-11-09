@@ -83,10 +83,9 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 			ColumnInfo col = (ColumnInfo) map.get(tCol.getColumnName());
 			if (col != null) {
 				if (col.getData_precision() == null) {
-					// パラメータ無しの型と判定する
 					tCol.setColumnSize(0);
 					tCol.setDecimalDigits(0);
-					tCol.setWithoutParam(true); // パラメータ無し
+					tCol.setWithoutParam(true);
 				} else {
 					if (col.getData_precision() != null) {
 						tCol.setColumnSize(col.getData_precision().intValue());
@@ -98,14 +97,13 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 					} else {
 						tCol.setDecimalDigits(0);
 					}
-					tCol.setWithoutParam(false); // パラメータ有り
+					tCol.setWithoutParam(false);
 				}
 
-				// 初期値には不要な空白が入ることがある場合があるためTrimする
 				if (col.getData_default() != null) {
 					tCol.setDefaultValue(col.getData_default().trim());
 				}
-				String dataType = col.getData_type(); // CNなど
+				String dataType = col.getData_type();
 				tCol.setDataType(getJavaType(dataType));
 				tCol.setTypeName(getTypeName(dataType));
 
@@ -130,7 +128,7 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 		sb.append("SELECT");
 		sb.append("        TRIM(COL.COLUMN_NAME) ").append(COLUMN_NAME_STR);
 		sb.append("        ,COL.DATA_TYPE ").append(DATA_TYPE_STR);
-		sb.append("        ,COL.DATA_TYPE ").append(TYPE_NAME_STR); // ダミー実装
+		sb.append("        ,COL.DATA_TYPE ").append(TYPE_NAME_STR); // for dummy
 		sb.append("        ,CASE");
 		sb.append("            WHEN COL.CHAR_MAX_LENGTH IS NULL THEN COL.NUMERIC_PRECISION");
 		sb.append("            ELSE CASE");

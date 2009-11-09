@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
 
@@ -12,12 +12,6 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
 
-	/**
-	 * 最後の単語の開始オフセットを取得する
-	 * 
-	 * @param text
-	 * @return
-	 */
 	public static int endWordPosition(String text) {
 		boolean flg = false;
 
@@ -45,12 +39,6 @@ public class StringUtil {
 		return 0;
 	}
 
-	/**
-	 * 最初に見つかる文字(空白、改行コード以外）の位置を取得する
-	 * 
-	 * @param text
-	 * @return
-	 */
 	public static int firstWordPosition(String text) {
 		for (int i = 0; i < text.length(); i++) {
 			char chr = text.charAt(i);
@@ -69,13 +57,6 @@ public class StringUtil {
 		return 0;
 	}
 
-	/**
-	 * 配列から配列を削除する
-	 * 
-	 * @param src
-	 * @param target
-	 * @return
-	 */
 	public static Object[] remove(Object[] src, Object[] target) {
 		LinkedList srcList = new LinkedList(Arrays.asList(src));
 		for (int i = 0; i < target.length; i++) {
@@ -84,9 +65,6 @@ public class StringUtil {
 		return srcList.toArray(new Object[srcList.size()]);
 	}
 
-	/*
-	 * 配列に配列を追加
-	 */
 	public static Object[] add(Object[] array1, Object[] array2) {
 		if (array1 != null && array2 == null)
 			return array1;
@@ -107,12 +85,6 @@ public class StringUtil {
 		return tree.toArray();
 	}
 
-	/**
-	 * 数値かどうか
-	 * 
-	 * @param text
-	 * @return
-	 */
 	public static boolean isNumeric(String text) {
 		for (int i = 0; i < text.length(); i++) {
 			char chr = text.charAt(i);
@@ -123,13 +95,6 @@ public class StringUtil {
 		return true;
 	}
 
-	/**
-	 * 空白パディング(バイト合わせ）
-	 * 
-	 * @param value
-	 * @param digit
-	 * @return
-	 */
 	public static String padding(String value, int digit) {
 		StringBuffer sb = new StringBuffer(value);
 
@@ -141,13 +106,6 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	/**
-	 * インデント
-	 * 
-	 * @param value
-	 * @param digit
-	 * @return
-	 */
 	public static String indent(String value, int digit) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < digit; i++) {
@@ -157,13 +115,6 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	/**
-	 * 右側の連続する文字列を削除
-	 * 
-	 * @param str
-	 * @param trimChar
-	 * @return
-	 */
 	public static String rTrim(String str, char trimChar) {
 		int cnt = 0;
 		for (int i = str.length() - 1; i >= 0; i--) {
@@ -176,33 +127,14 @@ public class StringUtil {
 		return str.substring(0, cnt);
 	}
 
-	/**
-	 * 右側の全角空白を削除
-	 * 
-	 * @param str
-	 * @return
-	 */
 	public static String rTrimFullSpace(String str) {
-		return rTrim(str, '　'); // デフォルトは半角空白
+		return rTrim(str, '　'); // 2byte space
 	}
 
-	/**
-	 * 左側の全角空白を削除
-	 * 
-	 * @param str
-	 * @return
-	 */
 	public static String lTrimFullSpace(String str) {
-		return lTrim(str, '　');
+		return lTrim(str, '　'); // 2byte space
 	}
 
-	/**
-	 * 左側の連続する文字を削除する
-	 * 
-	 * @param str
-	 * @param trimChar
-	 * @return
-	 */
 	public static String lTrim(String str, char trimChar) {
 		int cnt = str.length();
 		for (int i = 0; i < str.length(); i++) {
@@ -215,13 +147,6 @@ public class StringUtil {
 		return str.substring(cnt);
 	}
 
-	/**
-	 * 文字列中の「"」をエスケープする。
-	 * 
-	 * @param strSrc
-	 *            元の文字列
-	 * @return 変換後の文字列
-	 */
 	public static final String encodeDoubleQuotation(String str) {
 		return str.replaceAll("\"", "\\\\\"");
 	}
@@ -251,8 +176,8 @@ public class StringUtil {
 	}
 
 	/**
-	 * 改行コードをLF(\n)に統一する
-	 * 
+	 * The line feed code is united to LF(\n).
+	 *
 	 * @param text
 	 * @return
 	 */
@@ -261,12 +186,6 @@ public class StringUtil {
 
 	}
 
-	/**
-	 * 改行コードを任意のコードに統一する
-	 * 
-	 * @param text
-	 * @return
-	 */
 	public static String convertLineSep(String text, String demiliter) {
 		return text.replaceAll("\\r\\n|\\r|\\n", demiliter);
 

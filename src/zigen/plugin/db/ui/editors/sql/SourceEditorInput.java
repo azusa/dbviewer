@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.sql;
@@ -23,15 +23,6 @@ import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceDetailInfo;
 import zigen.plugin.db.ext.oracle.internal.OracleSourceErrorInfo;
 import zigen.plugin.db.ui.internal.OracleSource;
-
-/**
- * QueryViewEditorInputクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create. [2] 2005/10/10 ZIGEN 長いQueryの場合tooltipが見えなくなるためコメントアウト [3] 2005/10/18 ZIGEN Eclipse3.1.x系でtooltipを設定しないとエラーになる
- *
- */
 
 public class SourceEditorInput implements IStorageEditorInput, IEditorInput {
 
@@ -142,7 +133,6 @@ public class SourceEditorInput implements IStorageEditorInput, IEditorInput {
 			}
 
 			public InputStream getContents() throws CoreException {
-				// ファイル・エンコードの取得
 				String encoding = org.eclipse.core.resources.ResourcesPlugin.getEncoding();
 				byte[] bytes = new byte[0];
 				if (sourceDetailInfo != null) {

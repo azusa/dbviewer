@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -39,8 +39,8 @@ public class OracleSequeceSearchJob extends AbstractJob {
 				return Status.CANCEL_STATUS;
 			}
 
-			folder.removeChildAll(); // 子ノードを全て削除
-			showResults(new RefreshTreeNodeAction(viewer, folder)); // 再描画
+			folder.removeChildAll();
+			showResults(new RefreshTreeNodeAction(viewer, folder));
 
 			Schema schema = (Schema) folder.getParent();
 			String owner = schema.getName();
@@ -60,14 +60,6 @@ public class OracleSequeceSearchJob extends AbstractJob {
 		return Status.OK_STATUS;
 	}
 
-	/**
-	 * ソース要素をフォルダ配下に追加する
-	 * 
-	 * @param con
-	 * @param folder
-	 * @param infos
-	 * @throws Exception
-	 */
 	private void addSequences(Connection con, Folder folder, OracleSequenceInfo[] infos) throws Exception {
 		for (int i = 0; i < infos.length; i++) {
 			OracleSequence seq = new OracleSequence();

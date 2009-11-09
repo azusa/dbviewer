@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.popup;
 
@@ -40,19 +40,14 @@ public class ExecSQLFileAction extends Action implements IObjectActionDelegate {
 
 				if (config != null) {
 
-					// SQL実行ビューを表示する
-					// SQLExecuteView view =
-					// (SQLExecuteView)DbPlugin.showView(DbPluginConstant.VIEW_ID_SQLExecute);
-
 					String sql = FileUtil.getContents(file);
 					if (sql != null && sql.trim().length() > 0) {
 
-						// トランザクション取得
 						Transaction trans = Transaction.getInstance(config);
 
 						SqlExecJob job = new SqlExecJob(trans, sql, null);
 						// job.setPriority(Job.SHORT);
-						job.setUser(false); // ダイアログを出さない
+						job.setUser(false);
 						job.schedule();
 
 					} else {
@@ -67,9 +62,6 @@ public class ExecSQLFileAction extends Action implements IObjectActionDelegate {
 		}
 	}
 
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		action.setEnabled(false);
 
@@ -78,9 +70,6 @@ public class ExecSQLFileAction extends Action implements IObjectActionDelegate {
 			Object obj = ss.getFirstElement();
 			if (obj instanceof IFile) {
 				IFile wkfile = (IFile) obj;
-				/*
-				 * ファイルの拡張子がSQLに限らないように修正 if (FileUtil.isSqlFile(wkfile)) { file = wkfile; action.setEnabled(true); }
-				 */
 				file = wkfile;
 				action.setEnabled(true);
 

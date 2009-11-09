@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -21,23 +21,13 @@ import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.TableColumn;
 
 
-/**
- * DefaultColumnSearcherFactory.java.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- *
- */
 public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory implements IColumnSearcherFactory {
 
 	public DefaultColumnSearcherFactory(DatabaseMetaData meta, boolean convertUnicode){
 		this.objMeta = meta;
 		this.convertUnicode = convertUnicode;
 	}
-	/**
-	 * 指定したテーブルのカラム情報取得 性能改善のために、プライマリかどうかの判定は外している。(TODO)
-	 */
+
 	public TableColumn[] execute(Connection con, String schemaPattern, String tableName) throws Exception {
 		List list = new ArrayList();
 		ResultSet rs = null;
@@ -58,7 +48,7 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 			while (rs.next()) {
 				TableColumn column = new TableColumn();
 
-				column.setSeq(seq); // カラム定義順（ソートに使用）
+				column.setSeq(seq);
 
 				column.setColumnName(rs.getString(COLUMN_NAME));
 				column.setDataType(rs.getShort(DATA_TYPE)); // Types.VARCHARなど
@@ -66,18 +56,11 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 				column.setColumnSize(rs.getInt(COLUMN_SIZE));
 				column.setDecimalDigits(rs.getInt(DECIMAL_DIGITS));
 
-				// デフォルト値の追加
-				// column.setDefaultValue(rs.getString("COLUMN_DEF"));
-				// 2006/12/15 ZIGEN Default値をサポートしていない場合を想定
-				// デフォルト値の追加
-				// String defaultValue = rs.getString("COLUMN_DEF");
 				String defaultValue = getDefaultValue(rs, convertUnicode);
 				if (defaultValue != null) {
 					column.setDefaultValue(defaultValue);
 				}
-				// 2006/12/15 ZIGEN end
 
-				// コメント追加
 				// column.setRemarks(rs.getString(REMARKS));
 				String remarks = rs.getString("REMARKS"); //$NON-NLS-1$
 				if (convertUnicode) {
@@ -91,13 +74,6 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 					column.setNotNull(false);
 				}
 
-				// <!-- [002] 修正 ZIGEN 2005/09/17
-				// if (ConstraintSearcher.isPKColumn(pks, column.getColumnName())) {
-				// column.setUniqueKey(true);
-				// }
-				// [002] 修正 ZIGEN 2005/09/17 -->
-
-				// カスタムカラム情報がある場合は上書きする
 				overrideColumnInfo(map, column);
 
 				list.add(column);
@@ -119,12 +95,6 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 		;
 	}
 
-	/**
-	 * 古いSymfoWAREではCOLUMN_DEFのカラムが無いため、SQLExceptionとなる。 そのため、以下のメソッドで個別に処理を行う。
-	 *
-	 * @param rs
-	 * @return
-	 */
 	protected String getDefaultValue(ResultSet rs, boolean convertUnicode) {
 		String defaultValue = null;
 		try {
@@ -132,7 +102,7 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 
 			// TRIMする
 			if (defaultValue != null)
-				defaultValue = defaultValue.trim();// 初期値には不要な空白が入ることがある場合があるためTrimする
+				defaultValue = defaultValue.trim();
 
 			if (convertUnicode) {
 				return JDBCUnicodeConvertor.convert(defaultValue);

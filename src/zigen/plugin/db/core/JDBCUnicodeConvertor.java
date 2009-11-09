@@ -1,28 +1,15 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
 
-/**
- * JDBCUnicodeConvertorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/09/27 ZIGEN create.
- * 
- */
 public class JDBCUnicodeConvertor {
 
 	public static final String convert(String str) {
 
-		/*
-		 * if (str == null || str.length() == 0) { //return new String(str); return null; }
-		 */
-
-		// 空文字の場合にNULLを返さないように修正
 		if (str == null) {
 			return null;
 		}

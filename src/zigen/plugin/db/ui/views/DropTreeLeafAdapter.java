@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -17,14 +17,6 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.util.FileUtil;
 
-/**
- * DropTreeLeafAdapterクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/02/08 ZIGEN create.
- * 
- */
 public class DropTreeLeafAdapter extends DropTargetAdapter {
 
 	SourceViewer viewer;
@@ -52,7 +44,6 @@ public class DropTreeLeafAdapter extends DropTargetAdapter {
 		}
 
 		if (e.data instanceof TreeLeaf[]) {
-			// Dropするオブジェクトは、e.dataを使用すること
 			TreeLeaf[] leafs = (TreeLeaf[]) e.data;
 			StringBuffer sb = new StringBuffer();
 
@@ -67,10 +58,8 @@ public class DropTreeLeafAdapter extends DropTargetAdapter {
 
 			String str = sb.toString();
 
-			// 現在のカーソル位置は
 			int offset = viewer.getTextWidget().getCaretOffset();
 			viewer.getTextWidget().insert(str);
-			// ドラックした文字列の後ろにカーソル移動
 			viewer.getTextWidget().setCaretOffset(offset + str.length());
 			viewer.activatePlugins();
 			viewer.getControl().forceFocus();
@@ -80,7 +69,6 @@ public class DropTreeLeafAdapter extends DropTargetAdapter {
 		} else if (e.data instanceof String[]) {
 
 			String[] strs = (String[]) e.data;
-			// FileTransfer用の実装
 
 			if (strs.length == 1) {
 				File file = new File(strs[0]);
@@ -88,7 +76,6 @@ public class DropTreeLeafAdapter extends DropTargetAdapter {
 
 					String content = FileUtil.getContents(file);
 
-					// 内容の上書き確認を行う
 					String pre = viewer.getDocument().get().trim();
 					if ("".equals(pre)) { //$NON-NLS-1$
 						viewer.getDocument().set(content);

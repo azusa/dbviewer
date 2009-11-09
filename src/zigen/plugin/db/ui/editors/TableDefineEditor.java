@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors;
 
@@ -147,7 +147,6 @@ public class TableDefineEditor {
 				}
 			}
 
-			// // PK,FK以外の制約
 			List otherConstraintList = factory.convertTableConstraintColumn(tableNode.getTableConstraintColumns());
 			if (otherConstraintList != null) {
 				for (Iterator iter = otherConstraintList.iterator(); iter.hasNext();) {
@@ -163,7 +162,7 @@ public class TableDefineEditor {
 					TableIDXColumn[] _idx = (TableIDXColumn[]) iter.next();
 					Index index = new Index(_idx);
 					if (index != null && pk != null && index.getName().equals(pk.getName())) {
-						; // PKと同じ場合は処理をしない
+						;
 					} else {
 						indexRoot.addChild(index);
 					}
@@ -175,7 +174,7 @@ public class TableDefineEditor {
 					TableIDXColumn[] _idx = (TableIDXColumn[]) iter.next();
 					Index index = new Index(_idx);
 					if (index != null && pk != null && index.getName().equals(pk.getName())) {
-						; // PKと同じ場合は処理をしない
+						;
 					} else {
 						TreeLeaf leaf = indexRoot.getChild(index.getName());
 						if (leaf == null) {
@@ -189,18 +188,11 @@ public class TableDefineEditor {
 			columnsPack(constraintViewer.getTree());
 			constraintViewer.reveal(constraintRoot);
 
-			// reveal(constraintRoot)だけでは、若干横にスクロールされているため
-			// showColumnにより、横スクロールを一番左に合わせる
 			TreeColumn col = constraintViewer.getTree().getColumns()[0];
 			constraintViewer.getTree().showColumn(col);
 			table.setVisible(true);
 			constraintViewer.getTree().setVisible(true);
 
-			// changeColorJobDefine = new ChangeColorJobDefine(table,
-			// tableNode);
-			// changeColorJobDefine.setPriority(ChangeColorJob.LONG);
-			// changeColorJobDefine.setUser(false);
-			// changeColorJobDefine.schedule();
 		}
 	}
 
@@ -472,28 +464,27 @@ public class TableDefineEditor {
 				result = ""; // dummy column //$NON-NLS-1$
 				break;
 			case 1:
-				result = col.getName().trim(); // カラム名
+				result = col.getName().trim();
 				break;
 			case 2:
 				StringBuffer typeStr = new StringBuffer();
 				typeStr.append(col.getTypeName());
 
-				// modify start 2007/10/25 NUMBER(引数無し)などに対応
 				// if (col.isVisibleColumnSize()){
 				if (col.isVisibleColumnSize() && !col.getColumn().isWithoutParam()) {
 					typeStr.append("(").append(col.getSize()).append(")"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				// modify end
-				result = typeStr.toString(); // 型・桁
+				result = typeStr.toString();
 				break;
 			case 3:
 				result = ""; //$NON-NLS-1$
 				break;
 			case 4:
-				result = col.getDefaultValue(); // 初期値
+				result = col.getDefaultValue();
 				break;
 			case 5:
-				result = col.getRemarks(); // コメント
+				result = col.getRemarks();
 				break;
 			default:
 				break;

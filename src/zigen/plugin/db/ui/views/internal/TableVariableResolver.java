@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -19,7 +19,7 @@ public class TableVariableResolver extends TemplateVariableResolver {
 		String[] proposals = null;
 		try {
 			if (ci.isConnected()) {
-				TableInfo[] infos = ci.getTableInfo(); // テーブル情報リスト取得
+				TableInfo[] infos = ci.getTableInfo();
 				proposals = new String[infos.length];
 				for (int i = 0; i < infos.length; i++) {
 					proposals[i] = infos[i].getName();
@@ -32,9 +32,6 @@ public class TableVariableResolver extends TemplateVariableResolver {
 		return proposals;
 	}
 
-	/*
-	 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#isUnambiguous(org.eclipse.jface.text.templates.TemplateContext)
-	 */
 	protected boolean isUnambiguous(TemplateContext context) {
 		return resolve(context) != null;
 	}

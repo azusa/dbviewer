@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.postgresql;
@@ -14,15 +14,6 @@ import zigen.plugin.db.core.rule.DefaultSQLCreatorFactory;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- *
- * PostgreSQLSQLCreatorFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- *
- */
 public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public PostgreSQLSQLCreatorFactory(ITable table) {
@@ -43,9 +34,8 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
-		// -->
 		if (limit > 0) {
-			sb.append(" LIMIT " + (limit + 1)); // ダイアログを出す為に＋１ //$NON-NLS-1$
+			sb.append(" LIMIT " + (limit + 1));
 		}
 
 		return sb.toString();
@@ -110,35 +100,6 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		};
 	}
 
-	//
-	// // MYSQLでは、PRIMARY KEYの制約名は表示しない
-	// protected String getConstraintPKStr() {
-	// StringBuffer sb = new StringBuffer();
-	// if (pks == null || pks.length == 0)
-	// return null;
-	//
-	// int i = 0;
-	// for (i = 0; i < pks.length; i++) {
-	// TablePKColumn pkc = pks[i];
-	// if (i == 0) {
-	// primaryKeyName = pkc.getName();
-	//
-	// sb.append("CONSTRAINT ");
-	// //MySQL の PrimaryKey制約では名前は付けない
-	// //sb.append(pkc.getName());
-	// //sb.append(" PRIMARY KEY ");
-	//
-	// sb.append("PRIMARY KEY ");
-	// sb.append("(");
-	// sb.append(pkc.getColumnName());
-	// } else {
-	// sb.append(", " + pkc.getColumnName());
-	// }
-	//
-	// }
-	// sb.append(")");
-	// return sb.toString();
-	// }
 
 	public boolean supportsRemarks() {
 		return true;
@@ -185,11 +146,10 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" RENAME TO "); //$NON-NLS-1$
-		sb.append(SQLUtil.enclose(SQLUtil.encodeQuotation(newTableName), encloseChar));	// ハイフン付名前にも変名可能にする
+		sb.append(SQLUtil.enclose(SQLUtil.encodeQuotation(newTableName), encloseChar));
 		return sb.toString();
 	}
 
-	// for Oracle
 	public String createRenameColumnDDL(Column from, Column to) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
@@ -354,7 +314,7 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(constraintName, encloseChar));
-		sb.append(" UNIQUE "); // UNIQUE KEY ではなく、 UNIQUE //$NON-NLS-1$
+		sb.append(" UNIQUE ");//$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
 			Column column = columns[i];
@@ -440,20 +400,13 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(super.getCreateTableStr());
 		}
 
-		// テーブルコメント
 		sb.append(getTableComment());
 
-		// カラムコメント
 		sb.append(getColumnComment());
 		return sb.toString();
 	}
 
 
-	/**
-	 * カラム名＋型＋桁をオーバライドする(bpchar → charに変換するため)
-	 *
-	 * @return
-	 */
 	protected String getColumnLabel(TableColumn column) {
 
 		StringBuffer sb = new StringBuffer();
@@ -462,7 +415,6 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		String typeName = column.getTypeName().toUpperCase();
 
-		// 大文字にした後に比較する
 		if ("BPCHAR".equals(typeName)) {
 			sb.append("CHAR");
 

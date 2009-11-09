@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors;
@@ -66,10 +66,9 @@ public class ColumnFilterDialog extends Dialog {
 		super(parent);
 		super.setDefaultImage(ImageCacher.getInstance().getImage(DbPlugin.IMG_CODE_DB));
 
-		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE); // 最大化可能、リサイズ可能
+		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE);
 		this.editor = editor;
 
-		// ソート番号を計算しておく
 		initialized(editor.filterInfos);
 	}
 
@@ -109,7 +108,6 @@ public class ColumnFilterDialog extends Dialog {
 	}
 
 	protected void buttonPressed(int buttonId) {
-		// 閉じるが押下された場合はリターン・コードを設定してダイアログを閉じる
 		if (buttonId == IDialogConstants.CANCEL_ID) {
 			setReturnCode(buttonId);
 			close();
@@ -126,10 +124,9 @@ public class ColumnFilterDialog extends Dialog {
 			} catch (InterruptedException e) {
 				DbPlugin.log(e);
 			}
-			// Filter実行
 			TableFilterJob job = new TableFilterJob(editor.getViewer(), editor.filterInfos);
 			job.setPriority(TableFilterJob.SHORT);
-			job.setUser(false); // ダイアログを出す
+			job.setUser(false);
 			job.schedule();
 
 		} else if (buttonId == BUTTON_ID_SELECTALL) {
@@ -267,7 +264,6 @@ public class ColumnFilterDialog extends Dialog {
 		tableComposite.setLayoutData(data);
 
 		columnTableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-		// TableViewerにスクロールを表示させるために以下の設定を行う(重要)
 		columnTableViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
 
@@ -280,8 +276,8 @@ public class ColumnFilterDialog extends Dialog {
 		Table table = columnTableViewer.getTable();
 		table.setFont(DbPlugin.getDefaultFont());
 
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(true); // ラインを表示
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
 		setHeaderColumn(table, headers);
 
@@ -319,15 +315,12 @@ public class ColumnFilterDialog extends Dialog {
 		columnsPack(table);
 
 
-		// デフォルトの設定
 		filterPattern = (editor.filterPattern == null) ? "" : editor.filterPattern; //$NON-NLS-1$
 		filterText.setText(filterPattern);
 
 		visibleCheck.setSelection(editor.checkFilterPattern);
 
 
-		// <-- これは実行しない(Filterパターンの検索が走ってしまうため）
-		// visibleCheck.notifyListeners(SWT.Selection, null);
 		if (visibleCheck.getSelection()) {
 			filterText.setEnabled(true);
 			regularExpressions.setEnabled(true);
@@ -338,7 +331,6 @@ public class ColumnFilterDialog extends Dialog {
 			caseSensitive.setEnabled(false);
 		}
 		isFilterPattern = visibleCheck.getSelection();
-		// -->
 
 		return composite;
 	}
@@ -436,7 +428,6 @@ public class ColumnFilterDialog extends Dialog {
 			case 0:
 			case 1:
 			case 2:
-				;// 文字は表示しない
 				break;
 			case 3:
 				result = (col.getSortNo() == 0) ? "" : String.valueOf(col.getSortNo()); //$NON-NLS-1$
@@ -541,7 +532,7 @@ public class ColumnFilterDialog extends Dialog {
 			if (property == "check") { //$NON-NLS-1$
 				return new Boolean(item.isChecked());
 			} else if (property == "sort") { //$NON-NLS-1$
-				return new Boolean(item.isChecked()); // Booleanを返すようにする
+				return new Boolean(item.isChecked());
 			} else {
 				return item.getColumnName();
 			}
@@ -555,7 +546,6 @@ public class ColumnFilterDialog extends Dialog {
 
 			if (property == "check" && !info.isPrimaryKey()) { //$NON-NLS-1$
 				info.setChecked(((Boolean) value).booleanValue());
-				// テーブル・ビューワを更新
 				columnTableViewer.update(element, new String[] {"check"}); //$NON-NLS-1$
 
 			} else if (property == "sort") { //$NON-NLS-1$
@@ -598,18 +588,11 @@ public class ColumnFilterDialog extends Dialog {
 		columnTableViewer.update(infos, new String[] {"sort"}); //$NON-NLS-1$
 	}
 
-	// /**
-	// * ダイアログサイズ
-	// */
-	// protected Point getInitialSize() {
-	// return new Point(600, 400);
-	// }
-
 
 	private void filter(String condition) {
 
 		if (!visibleCheck.getSelection())
-			return; // 条件が無い場合は抜ける
+			return;
 
 		for (int i = 0; i < columnTableViewer.getTable().getItemCount(); i++) {
 			ColumnFilterInfo info = (ColumnFilterInfo) columnTableViewer.getElementAt(i);

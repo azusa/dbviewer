@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.csv;
@@ -24,13 +24,6 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.InputStreamUtil;
 import zigen.plugin.db.core.JDBCUnicodeConvertor;
 
-/**
- * DefaultMappingFactory.java.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- */
 public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implements ICsvMappingFactory {
 
 	public DefaultCsvMappingFactory(boolean convertUnicode, boolean nonDoubleQuate) {
@@ -42,7 +35,7 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 		ResultSetMetaData rmd = rs.getMetaData();
 
 		String obj = null;
-		int type = rmd.getColumnType(icol); // 最初にカラムタイプをチェックする
+		int type = rmd.getColumnType(icol);
 
 		switch (type) {
 		case Types.CHAR:
@@ -51,32 +44,26 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 			obj = getString(rs, icol);
 			break;
 
-		case Types.BIT: // 一般的にはboolean
+		case Types.BIT:
 		case Types.BOOLEAN:
 			obj = getBoolean(rs, icol);
 			break;
 
 		case Types.TINYINT:
-		case Types.INTEGER: // 一般的にはint
-		case Types.SMALLINT: // 一般的にはshort
-		case Types.BIGINT: // 一般的にはlong
+		case Types.INTEGER:
+		case Types.SMALLINT:
+		case Types.BIGINT:
 			obj = getLong(rs, icol);
 			break;
 
-		case Types.REAL: // 一般的にはfloat
-		case Types.FLOAT: // 一般的にはdouble
-		case Types.DOUBLE: // 一般的にはdouble
+		case Types.REAL:
+		case Types.FLOAT:
+		case Types.DOUBLE:
 			obj = getDouble(rs, icol);
 			break;
 
-		case Types.NUMERIC: // 一般的にはBigDecimal
-		case Types.DECIMAL:// 一般的にはBigDecimal
-		// if (rmd.getScale(icol) > 0) {
-		// obj = getDouble(rs, icol);
-		// } else {
-		// // 整数として表示
-		// obj = getLong(rs, icol);
-		// }
+		case Types.NUMERIC:
+		case Types.DECIMAL:
 			obj = getBigDecimal(rs, icol);
 			break;
 
@@ -96,7 +83,7 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 		case Types.BINARY: // -2
 		case Types.VARBINARY: // -3
 		case Types.LONGVARBINARY: // -4
-			obj = getBinary(rs, icol); // バイナリー表示
+			obj = getBinary(rs, icol);
 			break;
 
 		case Types.CLOB:
@@ -127,11 +114,10 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 			value = JDBCUnicodeConvertor.convert(value);
 		}
 
-		value = convertLineSep(value); // 改行コードを\nに変換
+		value = convertLineSep(value);
 
 		if (!nonDoubleQuate) {
-			value = value.replaceAll("\"", "\"\""); // "があれば、""に置換 //$NON-NLS-1$
-			// //$NON-NLS-2$
+			value = value.replaceAll("\"", "\"\""); //$NON-NLS-1$ //$NON-NLS-2$
 			return "\"" + value + "\""; //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
 			return value;
@@ -234,10 +220,7 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 				return NULL;
 			}
 
-			// data = (byte[]) toByteArray(in); // byte[]で表示する
-			// return toBinary(toByteArray(in)); // バイナリー表示
-
-			String temp = toBinary(toByteArray(in)); // バイナリー表示
+			String temp = toBinary(toByteArray(in));
 			if (!nonDoubleQuate) {
 				return "\"" + temp + "\""; //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
@@ -281,7 +264,7 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 			}
 
 		}catch(IOException e){
-			throw new SQLException("Clob#getCharacterStream()でIOExceptionが発生しました。 " + e.getMessage());
+			throw new SQLException(e.getMessage());
 
 		} finally {
 			if (in != null) {
@@ -331,7 +314,6 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 
 	protected String getOTHER(ResultSet rs, int icol) throws SQLException {
 		Object value = rs.getObject(icol);
-
 		if (rs.wasNull())
 			return NULL;
 		return "<<OTHER>>"; //$NON-NLS-1$

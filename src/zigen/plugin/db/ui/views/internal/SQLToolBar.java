@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -184,11 +184,7 @@ public class SQLToolBar {
 		rollbackAction.setTextViewer(sqlSourceViewer);
 	}
 
-	/**
-	 * 履歴ボタンの有効設定 外部のActionから呼ばれます
-	 */
 	public final void updateHistoryButton() {
-		// 前ボタン
 		if (historyManager.hasPrevHistory()) {
 			if (backSqlAction != null)
 				backSqlAction.setEnabled(true);
@@ -196,7 +192,6 @@ public class SQLToolBar {
 			if (backSqlAction != null)
 				backSqlAction.setEnabled(false);
 		}
-		// 次ボタン
 		if (historyManager.hasNextHistory()) {
 			if (nextSqlAction != null)
 				nextSqlAction.setEnabled(true);
@@ -244,7 +239,6 @@ public class SQLToolBar {
 
 			selectCombo.addSelectionListener(new SelectionAdapter() {
 
-				// 接続先を変更した場合
 				public void widgetSelected(SelectionEvent e) {
 					IDBConfig config = getConfig();
 
@@ -252,7 +246,6 @@ public class SQLToolBar {
 						updateCombo(config);
 					}
 
-					// Viewの場合のみ
 					if (isSaveLastDb) {
 						lastSelectedDB = config.getDbName();
 						setLastSelectedDBName(lastSelectedDB);
@@ -286,12 +279,10 @@ public class SQLToolBar {
 				selectCombo.add(w_config.getSchema() + " : " + w_config.getDbName() + "  "); //$NON-NLS-1$ //$NON-NLS-2$
 
 				if (lastSelectedDB != null && lastSelectedDB.equals(w_config.getDbName())) {
-					// この時点では見た目は変わるが、SourceViewerへの反映ができていない
 					selectCombo.select(i);
 				}
 
 				if (config != null && config.getDbName().equals(w_config.getDbName())) {
-					// この時点では見た目は変わるが、SourceViewerへの反映ができていない
 					selectCombo.select(i);
 				}
 			}

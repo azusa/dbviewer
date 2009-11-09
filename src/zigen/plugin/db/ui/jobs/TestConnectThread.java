@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -42,19 +42,10 @@ public class TestConnectThread implements Runnable {
 		message = sb.toString();
 	}
 
-	/**
-	 * テスト用コネクション接続は、Transactionではなく、ConnectionManagerからコネクションを取得する
-	 */
 	public void run() {
 		Connection con = null;
-//		Transaction trans = Transaction.getInstance(config);
 		try {
-//			con = trans.getConnection();
 			con = ConnectionManager.getConnection(config);
-
-//			if(SchemaSearcher.isSupport(con)){
-//				SchemaSearcher.existSchemaName(con, config.getSchema());
-//			}
 
 			this.isSuccess = true;
 			this.message = Messages.getString("TestConnectThread.2"); //$NON-NLS-1$
@@ -62,14 +53,11 @@ public class TestConnectThread implements Runnable {
 		} catch (Exception e) {
 			DbPlugin.log(e);
 			this.message = Messages.getString("TestConnectThread.3"); //$NON-NLS-1$
-			this.message += "\n" + e.getMessage(); // 例外のメッセージを表示するように変更
+			this.message += "\n" + e.getMessage();
 			this.throwable = e;
 			this.isSuccess = false;
 
 		} finally {
-//			if (isSuccess && !isAlive) {
-//				trans.cloesConnection();
-//			}
 			ConnectionManager.closeConnection(con);
 		}
 	}

@@ -24,7 +24,6 @@ public class OracleConstraintSearcharFactory extends DefaultConstraintSearcherFa
 		super();
 	}
 
-	// PK, FK à»äOÇÃêßñÒÇåüçıÇ∑ÇÈQuery
 	private String getOtherCounstraintQuery(String schemaPattern, String tableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT"); //$NON-NLS-1$
@@ -52,13 +51,11 @@ public class OracleConstraintSearcharFactory extends DefaultConstraintSearcherFa
 		sb.append("        AND CON.TABLE_NAME = IND.TABLE_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_NAME = IND.INDEX_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_TYPE NOT IN('P','R')"); // PK,
-		// FKà»äOÇëŒè€
 		// //$NON-NLS-1$
 		return sb.toString();
 
 	}
 
-	// UniqueIndexÇÃÇ›ï‘Ç∑
 	public TableConstraintColumn[] getConstraintColumns(Connection con, String schemaPattern, String tableName) throws Exception {
 		List list = new ArrayList();
 
@@ -90,7 +87,6 @@ public class OracleConstraintSearcharFactory extends DefaultConstraintSearcherFa
 					} else {
 						column.setNonUnique(true);
 					}
-					// indexTypeÇí«â¡
 					column.setIndexType(rs.getString("INDEX_TYPE")); //$NON-NLS-1$
 					column.setSearch_condition(rs.getString("SEARCH_CONDITION")); //$NON-NLS-1$
 					column.setConstraintType(rs.getString("CONSTRAINT_TYPE")); //$NON-NLS-1$

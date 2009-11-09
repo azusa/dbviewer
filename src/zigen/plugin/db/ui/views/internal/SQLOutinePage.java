@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -115,7 +115,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 		fTreeViewer.setLabelProvider(new TreeLabelProvider());
 		doubleClickListener = new DoubleClickListener();
 		fTreeViewer.addDoubleClickListener(doubleClickListener);
-		// 検索を高速化
 		fTreeViewer.setUseHashlookup(true);
 		fTreeViewer.setInput(fSqlInput);
 		fTreeViewer.expandToLevel(2);
@@ -150,7 +149,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 	}
 
 	public void update() {
-		// 2008/09/24 ZIGEN
 		if (fSQLSourceViewer != null) {
 			int offset = fSQLSourceViewer.getTextWidget().getCaretOffset();
 			String _temp = (currentSql != null) ? currentSql.getSql() : null;
@@ -329,9 +327,8 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			if (node.getChildrenSize() == 1 && node.getChild(0) instanceof ASTParentheses) {
 				ASTParentheses p = (ASTParentheses) node.getChild(0);
 				calc((ASTParentheses) node.getChild(0));
-				// Functionのoffset,lengthを反映する
-				offset = node.getOffset(); // offsetは、Functionのもの
-				length += node.getLength(); // lengthは、Function分を加算
+				offset = node.getOffset();
+				length += node.getLength();
 
 				if (node.hasAlias()) {
 					length = node.getAliasOffset() + node.getAliasLength() - offset;
@@ -440,7 +437,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 				Node node = (Node) parentElement;
 				List list = node.getChildren();
 				if (list != null) {
-					// 通常はカンマ, 内部用Nodeは表示しない
 					for (Iterator iter = list.iterator(); iter.hasNext();) {
 						Object obj = iter.next();
 						if (!(obj instanceof ASTComma) && !(obj instanceof ASTInnerAlias)) {
@@ -537,11 +533,9 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 				visitor = new ASTVisitor2();
 				parser.parse(node);
 				tw.stop();
-				System.out.println("AST変換 " + tw.getTotalTime());
 				tw.start();
 				node.accept(visitor, null);
 				tw.stop();
-				System.out.println("VISITOR " + tw.getTotalTime());
 				monitor.subTask("Complete Parsed SQL " + currentSql);
 				showResults(new Runnable() {
 

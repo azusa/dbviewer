@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -14,15 +14,6 @@ import zigen.plugin.db.core.JDBCUnicodeConvertor;
 import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.preference.PreferencePage;
 
-/**
- *
- * DefaultStatementFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/06 ZIGEN create.
- *
- */
 public class DefaultStatementFactory extends AbstractStatementFactory implements IStatementFactory {
 	protected String nullSymbol;
 
@@ -105,10 +96,7 @@ public class DefaultStatementFactory extends AbstractStatementFactory implements
 		if (convertUnicode) {
 			data = JDBCUnicodeConvertor.convert(data);
 		}
-//		ダブルクォートではなくシングルクォートをエスケープするように修正 2009/02/01 ZIGEN
-//		data = data.replaceAll("\"", "\"\""); // "があれば、""に置換
-		data = data.replaceAll("'", "''"); // 'があれば、''に置換
-		return "'" + data + "'"; // 文字列の前後に'を付ける
+		return "'" + data + "'";
 
 	}
 
@@ -137,6 +125,6 @@ public class DefaultStatementFactory extends AbstractStatementFactory implements
 	}
 
 	public char getEncloseChar(){
-		return '"';	// デフォルトはダブルクォート
+		return '"';
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.db2;
@@ -12,15 +12,6 @@ import zigen.plugin.db.core.rule.DefaultSQLCreatorFactory;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- *
- * OracleInsertFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- *
- */
 public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public DB2SQLCreatorFactory(ITable table) {
@@ -38,7 +29,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		String condition = conditions[0];
 		String orderBy = conditions[1];
 
-		sb.append(" WHERE 0 = 0");// ダミーの条件 //$NON-NLS-1$
+		sb.append(" WHERE 0 = 0");// dummy condition //$NON-NLS-1$
 
 		if (condition != null && !"".equals(condition.trim())) { //$NON-NLS-1$
 			sb.append(" AND " + condition); //$NON-NLS-1$
@@ -48,7 +39,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
 		if (limit > 0) {
-			sb.append(" FETCH FIRST " + (limit + 1) + " ROWS ONLY");// ダイアログを出すために＋１
+			sb.append(" FETCH FIRST " + (limit + 1) + " ROWS ONLY");
 			// //$NON-NLS-1$
 			// //$NON-NLS-2$
 		}
@@ -110,7 +101,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String createRenameColumnDDL(Column from, Column to) {
-		return null; // DB2 ではコマンドからカラム名の変更ができない
+		return null;
 
 	}
 
@@ -145,13 +136,12 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String[] createModifyColumnDDL(Column from, Column to) {
-		return null; // DB2では、コマンドから桁の変更、初期値の変更しかできない
+		return null;
 
 	}
 
 	public String[] createDropColumnDDL(Column column, boolean cascadeConstraints) {
-		return null; // DB2では、コマンドからのカラム削除はできない
-
+		return null;
 	}
 
 	public String createCreateIndexDDL(String indexName, Column[] columns, int indexType) {

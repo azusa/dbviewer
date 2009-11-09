@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.internal;
 
@@ -113,17 +113,16 @@ public class Constraint extends TreeNode {
 				if (i == 0) {
 
 					if (column.getColumnName() == null && !"".equals(column.getSearch_condition())) {
-						// CHECK制約とみなす
 						this.name = column.getName();
 						this.type = "CHECK";
 						this.paramater = "(" + column.getSearch_condition() + ")";
-						return; // ループ1回で抜ける
+						return;
 
 					}
 
 					this.name = column.getName();
 					if (column.isNonUnique()) {
-						this.type = "NONUNIQUE"; // 制約でNONUNIQEは無いはず
+						this.type = "NONUNIQUE";
 					} else {
 						this.type = "UNIQUE";
 					}

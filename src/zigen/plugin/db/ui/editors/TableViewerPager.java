@@ -27,29 +27,14 @@ public class TableViewerPager {
 
 	protected ImageCacher ic = ImageCacher.getInstance();
 
-	/**
-	 * オフセット
-	 */
 	int offset = 1;
 
-	/**
-	 * 1画面あたりの表示数
-	 */
 	int limit = 0;
 
-	/**
-	 * レコード件数
-	 */
 	int recordCount = 0;
 
-	/**
-	 * 総ページ数
-	 */
 	int pageCount;
 
-	/**
-	 * 表示ページ番号（デフォルト1)
-	 */
 	protected int pageNo = 1;
 
 	Label sura;
@@ -154,19 +139,12 @@ public class TableViewerPager {
 		return c;
 	}
 
-	/**
-	 * 総ページ数の計算
-	 * 
-	 * @param <code>pageSize</code> 表示件数
-	 * @param <code>recordCount</code> レコード件数
-	 * @return 総ページ数
-	 */
 	private void calcPageCount(int aPageSize) {
 
-		int wk_recordCount = getRecordCount(); // レコード件数の取得
+		int wk_recordCount = getRecordCount();
 
 		if (aPageSize == 0) {
-			this.pageCount = 1; // 画面あたりのレコード数が無制限の場合は、ページカウントは1
+			this.pageCount = 1;
 		} else {
 			if (wk_recordCount % aPageSize == 0) {
 				this.pageCount = wk_recordCount / aPageSize;
@@ -205,15 +183,9 @@ public class TableViewerPager {
 	public void setRecordCount(int totalCount) {
 		this.recordCount = totalCount;
 
-		// 最新の件数を取得する(制限)
-		// limit =
-		// DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
-
 		if (this.getRecordCount() > 0) {
-			// 総ページ数の計算する
 			this.calcPageCount(limit);
 
-			// 表示するページ番号が、総ページ番号を超えている場合のエラー処理
 			if (pageNo > this.pageCount) {
 				throw new RuntimeException(Messages.getString("TableViewerPager.5")); //$NON-NLS-1$
 			}
@@ -227,9 +199,6 @@ public class TableViewerPager {
 			totalPage.setText(""); //$NON-NLS-1$
 
 		}
-		// sura.pack();
-		// totalPage.pack();
-
 		setEnabledPagerButton();
 
 
@@ -242,11 +211,10 @@ public class TableViewerPager {
 
 	public void setPageNo(int pageNo) {
 		this.pageNo = pageNo;
-		pageNoTxt.setText(String.valueOf(pageNo)); // これはPackしない
+		pageNoTxt.setText(String.valueOf(pageNo));
 		setEnabledPagerButton();
 	}
 
-	// レコードカウントを設定すると連動して、ボタンのEnableが変更になる
 	private void setEnabledPagerButton() {
 		IDBConfig config = table.getDbConfig();
 		ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, table);

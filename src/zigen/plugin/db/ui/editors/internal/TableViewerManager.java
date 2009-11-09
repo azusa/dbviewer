@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal;
@@ -16,22 +16,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import zigen.plugin.db.core.TableElement;
 import zigen.plugin.db.core.TimeWatcher;
 
-/**
- * TableViewerManagerクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/09/17 ZIGEN create.
- *
- */
 public class TableViewerManager {
 
-	/**
-	 * 要素を追加する
-	 *
-	 * @param viewer
-	 * @param newElement
-	 */
 	public static void insert(TableViewer viewer, TableElement newElement) {
 
 		Object obj = viewer.getInput();
@@ -42,24 +28,15 @@ public class TableViewerManager {
 			TableElement[] wk = new TableElement[old.length + 1];
 			System.arraycopy(old, 0, wk, 0, old.length);
 
-			// 最後に新規Elementを追加する
 			wk[old.length] = newElement;
 
-			// viewerに追加したElementをセットする
 			viewer.setInput(wk);
 
 		} else {
-			throw new IllegalArgumentException("TableViewerに格納されているオブジェクトが異なります"); //$NON-NLS-1$
+			throw new IllegalArgumentException("The mistake is found in the specified object. "); //$NON-NLS-1$
 		}
 	}
 
-	/**
-	 * 指定した要素を更新する ※複数行更新された場合でも、実際に更新した行のみ再描画される
-	 *
-	 * @param viewer
-	 * @param from
-	 * @param to
-	 */
 	public static void update(TableViewer viewer, TableElement from, TableElement to) {
 
 		Object obj = viewer.getInput();
@@ -72,28 +49,21 @@ public class TableViewerManager {
 					TableElement ele = elements[i];
 					ele.copy(to);
 					ele.clearMofiedColumn();
-					ele.setRecordNo(from.getRecordNo()); // 1番目はヘッダー
+					ele.setRecordNo(from.getRecordNo());
 					ele.isNew(false);
-					viewer.update(ele, null);// テーブル・ビューワを更新
-					break; // 更新行を見つけたらbreakする
+					viewer.update(ele, null);
+					break;
 				} else {
 
 
 				}
 			}
 		} else {
-			throw new IllegalArgumentException("TableViewerに格納されているオブジェクトが異なります"); //$NON-NLS-1$
+			throw new IllegalArgumentException("The mistake is found in the specified object. "); //$NON-NLS-1$
 		}
 		tw.stop();
 	}
 
-	/**
-	 * 指定した要素を削除する
-	 *
-	 * @param viewer
-	 * @param from
-	 * @param to
-	 */
 	public static void remove(TableViewer viewer, Object target) {
 		Object obj = viewer.getInput();
 
@@ -103,27 +73,17 @@ public class TableViewerManager {
 			List newList = new ArrayList();
 			for (int i = 0; i < elements.length; i++) {
 				if (!elements[i].equals(target)) {
-					// 不一致のElementのみ追加
 					newList.add(elements[i]);
 				}
 			}
-			// viewerに新しいElementをセットする
 			viewer.setInput((TableElement[]) newList.toArray(new TableElement[0]));
-
-			// TableViewerを再描画
 			// viewer.refresh();
 
 		} else {
-			throw new IllegalArgumentException("TableViewerに格納されているオブジェクトが異なります"); //$NON-NLS-1$
+			throw new IllegalArgumentException("The mistake is found in the specified object. "); //$NON-NLS-1$
 		}
 	}
 
-	/**
-	 * 指定した複数の要素を削除する
-	 *
-	 * @param viewer
-	 * @param target
-	 */
 	public static void remove(TableViewer viewer, Object[] target) {
 		TableElement[] contents = (TableElement[]) viewer.getInput();
 

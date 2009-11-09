@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -12,7 +12,6 @@ import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.text.rules.Token;
 
-/** コメント、文字列リテラルを認識するパーテーションスキャナ */
 public class SQLPartitionScanner extends RuleBasedPartitionScanner {
 
 	public static final String SQL_COMMENT = "__sql_comment"; //$NON-NLS-1$
@@ -33,11 +32,9 @@ public class SQLPartitionScanner extends RuleBasedPartitionScanner {
 		// rules[1] = new MultiLineRule("\"", "\"", string, '\\');
 		// rules[2] = new MultiLineRule("\'", "\'", string, '\\');
 
-		// エスケープ無しに変更
 		rules[1] = new MultiLineRule("\"", "\"", string); //$NON-NLS-1$ //$NON-NLS-2$
 		rules[2] = new MultiLineRule("\'", "\'", string); //$NON-NLS-1$ //$NON-NLS-2$
 
-		// JDBCで実行時に--は通らない（またはSQL整形も通らない）
 		rules[3] = new EndOfLineRule("--", comment); // //$NON-NLS-1$
 
 		setPredicateRules(rules);

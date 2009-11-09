@@ -14,22 +14,6 @@ public class SourceDocumentProvider extends StorageDocumentProvider {
 	protected void doSaveDocument(IProgressMonitor monitor, Object element, IDocument document, boolean overwrite) throws CoreException {
 		SourceEditorInput input = (SourceEditorInput) element;
 		String source = document.get();
-
-		// MConnection cn = input.getConnection();
-		// try
-		// {
-		// cn.getSqlExecutor().exec(new SqlCommand(source, ""), false);
-		// }
-		// catch(SqlExecutionException e)
-		// {
-		// throw new CoreException(new Status(4, "de.tl.jora", 0, e.getMessage(), null));
-		// }
-
-
-		/*
-		 * ICompilableDBO dbo = JoraPlSqlEditor.findAndRefreshDocumentsDBO(cn, document); if(dbo != null) { input.setDBO(dbo); String msg = MCompileError.toMessage(dbo.getCompileErrors()); if(msg !=
-		 * null) throw new CoreException(new Status(4, "de.tl.jora", 0, msg, null)); }
-		 */
 	}
 
 	public IAnnotationModel getAnnotationModel(Object element) {

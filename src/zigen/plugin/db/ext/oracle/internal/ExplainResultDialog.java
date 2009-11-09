@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ext.oracle.internal;
@@ -48,7 +48,7 @@ public class ExplainResultDialog extends Dialog {
 	public ExplainResultDialog(Shell parent, ExplainTreeModel model) {
 		super(parent);
 		super.setDefaultImage(ImageCacher.getInstance().getImage(DbPlugin.IMG_CODE_DB));
-		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE); // リサイズ可能
+		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE);
 		this.model = model;
 
 	}
@@ -71,7 +71,6 @@ public class ExplainResultDialog extends Dialog {
 
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == ID_COPY) {
-			// 結果をコピーする
 			StringBuffer sb = new StringBuffer();
 			Clipboard clipboard = ClipboardUtils.getInstance();
 
@@ -90,22 +89,16 @@ public class ExplainResultDialog extends Dialog {
 		composite.setLayout(new GridLayout(1, false));
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		// Label label = new Label(composite, SWT.NONE);
-		// label.setText("説明領域");
-
 		result = new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 
-		// new TreeViewer(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL |
-		// SWT.FULL_SELECTION);
-		// TableViewerにスクロールを表示させるために以下の設定を行う(重要)
 		result.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Tree tree = result.getTree();
 		// FONT
 		tree.setFont(DbPlugin.getDefaultFont());
 
-		tree.setHeaderVisible(true);// ヘッダを可視にする
-		tree.setLinesVisible(true); // ラインを表示
+		tree.setHeaderVisible(true);
+		tree.setLinesVisible(true);
 
 		setHeaderColumn(tree);
 
@@ -275,9 +268,6 @@ public class ExplainResultDialog extends Dialog {
 
 	}
 
-	/**
-	 * ダイアログサイズ
-	 */
 	protected Point getInitialSize() {
 		return new Point(800, 400);
 	}

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -33,7 +33,7 @@ public class RecordCountForTableJob extends AbstractJob {
 
 	private ITable table;
 
-	int dispCount; // 表示件数
+	int dispCount;
 
 	String condition;
 
@@ -49,7 +49,6 @@ public class RecordCountForTableJob extends AbstractJob {
 	}
 
 	protected IStatus run(IProgressMonitor monitor) {
-		// Connection con = null; // レコード件数は独自のコネクションを使う
 		try {
 
 			if (!doCalculate) {
@@ -98,7 +97,7 @@ public class RecordCountForTableJob extends AbstractJob {
 
 		} catch (Exception e) {
 			DbPlugin.log(e);
-			showResults(new SetTotalCountAction(-1)); // レコード件数を表示しない
+			showResults(new SetTotalCountAction(-1));
 
 		} finally {
 			// ConnectionManager.closeConnection(con);

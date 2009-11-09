@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.diff;
 
@@ -98,15 +98,12 @@ public class DDLDiffForFolderJob extends AbstractJob {
 			Folder folder2 = (Folder) f2.clone();
 			folder2.setParent(f2.getParent());
 
-			// 1つ目のスキーマ配下をロード
 			if (loadAll(monitor, folder1, map1) == Status.OK_STATUS) {
-				// 2つ目のスキーマ配下をロード
 				result = loadAll(monitor, folder2, map2);
 			} else {
 				return Status.CANCEL_STATUS;
 			}
 
-			// すべてのテーブル名を並べかえ
 			Collections.sort(allList);
 
 			for (Iterator iter = allList.iterator(); iter.hasNext();) {
@@ -180,11 +177,10 @@ public class DDLDiffForFolderJob extends AbstractJob {
 			IDBConfig config = targetFolder.getDbConfig();
 			con = ConnectionManager.getConnection(config);
 
-			// 削除しない
 			// schema.removeChildAll();
 			targetFolder.setExpanded(true);
 
-			Schema schema = targetFolder.getSchema(); // スキーマサポートしていないDBではNULLになります。
+			Schema schema = targetFolder.getSchema();
 
 			// String[] tableTypes = schema.getDataBase().getTableType();
 			String[] tableTypes = new String[] {targetFolder.getName()};
@@ -216,7 +212,6 @@ public class DDLDiffForFolderJob extends AbstractJob {
 				} else if (currentType.toUpperCase().matches(TargetFolderPattern2)) {
 					if (DBType.getType(config) == DBType.DB_TYPE_ORACLE) {
 						try {
-							// ソース系
 							OracleSourceInfo[] infos = OracleSourceSearcher.execute(con, schema.getName(), currentType);
 							totalWork += infos.length;
 

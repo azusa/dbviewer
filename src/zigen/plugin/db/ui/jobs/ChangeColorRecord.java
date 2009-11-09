@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -67,50 +67,39 @@ public class ChangeColorRecord implements Runnable {
 			} else {
 				bgcolor = lightblue;
 			}
-			// 行番号の背景色を変更
-			item.setBackground(0, bgcolor); // 背景色
+			item.setBackground(0, bgcolor);
 
 			if (tableNode == null || selectedColumn == null) {
-				// 通常
 				for (int k = 0; k < columnSize - 1; k++) {
 					TableColumn tCol = tableColmns[k];
-					// カラムが一致しない場合
 					if (nullSymbol.equals(item.getText(k + 1))) {
-						item.setForeground(k + 1, blue); // // NULL文字色
+						item.setForeground(k + 1, blue);
 					} else {
-						item.setForeground(k + 1, black); // // NULL以外 文字色(黒)
+						item.setForeground(k + 1, black);
 					}
-					item.setBackground(k + 1, bgcolor); // 背景色
+					item.setBackground(k + 1, bgcolor);
 				}
 			} else {
-				// カラム選択モード
-
-				// <-- 2007/12/27 zigen
-				// 1行しか無い場合は、カラム選択が見えないので、選択状態をクリアする
 				if (table.getItemCount() <= 1) {
 					table.setSelection(-1);
 				}
-				// -->
 
 				ITable targetTable = selectedColumn.getTable();
 				for (int k = 0; k < columnSize - 1; k++) {
 					TableColumn tCol = tableColmns[k];
 					if (targetTable.equals(tableNode) && tCol.getColumnName().equals(selectedColumn.getName())) {
-						// カラムが一致する場合(選択状態にする)
-						// item.setForeground(k + 1, white); // 文字色
-						item.setForeground(k + 1, black); // 文字色
-						item.setBackground(k + 1, glay); // 背景色
-						table.showColumn(table.getColumn(k + 1)); // カラム表示(自動スクロール)
+						item.setForeground(k + 1, black);
+						item.setBackground(k + 1, glay);
+						table.showColumn(table.getColumn(k + 1));
 
 
 					} else {
-						// カラムが一致しない場合
 						if (nullSymbol.equals(item.getText(k + 1))) {
-							item.setForeground(k + 1, blue); // // NULL文字色
+							item.setForeground(k + 1, blue);
 						} else {
-							item.setForeground(k + 1, black); // // NULL以外 文字色(黒)
+							item.setForeground(k + 1, black);
 						}
-						item.setBackground(k + 1, bgcolor); // 背景色
+						item.setBackground(k + 1, bgcolor);
 
 
 					}
@@ -118,7 +107,6 @@ public class ChangeColorRecord implements Runnable {
 
 			}
 		} catch (Exception e) {
-			// 以下のエラーはログ出力のみとする
 			DbPlugin.log(e);
 		}
 	}

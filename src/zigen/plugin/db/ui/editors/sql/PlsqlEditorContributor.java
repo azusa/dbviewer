@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0 
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.sql;
@@ -21,17 +21,12 @@ import zigen.plugin.db.ui.views.ISQLOperationTarget;
 public class PlsqlEditorContributor extends SqlEditorContributor {
 
 
-	/**
-	 * コンストラクタ
-	 * 
-	 */
 	public PlsqlEditorContributor() {}
 
 	public void init(IActionBars bars, IWorkbenchPage page) {
 		super.init(bars, page);
 	}
 
-	// メニュー表示
 	public void fillContextMenu(IMenuManager manager) {
 		manager.add(new GlobalAction(sqlViewer, ITextOperationTarget.UNDO));
 		manager.add(new GlobalAction(sqlViewer, ITextOperationTarget.REDO));
@@ -56,7 +51,6 @@ public class PlsqlEditorContributor extends SqlEditorContributor {
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	// ツールバーを追加する場合にオーバーライドする
 	public void contributeToToolBar(IToolBarManager manager) {
 		super.contributeToToolBar(manager);
 	}

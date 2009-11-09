@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -16,14 +16,6 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.Folder;
 import zigen.plugin.db.ui.internal.Root;
 
-/**
- * TreeViewerSorterクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- * 
- */
 public class TreeViewSorter extends ViewerSorter {
 
 	public int compare(Viewer viewer, Object e1, Object e2) {
@@ -66,11 +58,9 @@ public class TreeViewSorter extends ViewerSorter {
 		} else if (e1 instanceof Folder && e2 instanceof Folder) {
 			// Folder folder1 = (Folder) e1;
 			// Folder folder2 = (Folder) e2;
-			// フォルダは並べ替えしない
 			return (0);
 
 		} else {
-			// 上記以外は名前でソート
 			String a = e1.toString();
 			String b = e2.toString();
 			return a.compareTo(b);

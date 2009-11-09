@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -15,39 +15,29 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.preference.PreferencePage;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * TableColumnクラス. １レコード分のデータを保持するクラス
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- * 
- */
 public class TableElement implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ITable table; // テーブル名（テーブルを結合している場合はNULL)
+	protected ITable table;
 
-	protected int recordNo; // レコード番号
+	protected int recordNo;
 
-	protected TableColumn[] columns; // カラム配列
+	protected TableColumn[] columns;
 
-	protected Object[] items; // データ配列
+	protected Object[] items;
 
-	protected TableColumn[] uniqueColumns; // Uniqueカラム配列
+	protected TableColumn[] uniqueColumns;
 
-	protected Object[] uniqueItems; // Uniqueデータ配列
+	protected Object[] uniqueItems;
 
-	// オリジナルデータ保存用
 	protected Object[] orgItems;
 
-	// オプション属性
-	protected List modifiedList = new ArrayList(); // 編集しているカラム
+	protected List modifiedList = new ArrayList();
 
-	protected boolean isNew = false; // 新規レコードかどうか
+	protected boolean isNew = false;
 
-	protected boolean canModify = true; // 編集可能かどうか
+	protected boolean canModify = true;
 
 	protected TablePKColumn[] pks;
 
@@ -76,31 +66,6 @@ public class TableElement implements Serializable, Cloneable {
 		this.fks = convertTableFKColumn(fks);
 	}
 
-	// public String getConstraintPKStr() {
-	// StringBuffer sb = new StringBuffer();
-	//
-	// if (pks == null || pks.length == 0)
-	// return null;
-	//
-	// int i = 0;
-	// for (i = 0; i < pks.length; i++) {
-	//
-	// TablePKColumn pkc = pks[i];
-	// if (i == 0) {
-	// sb.append("CONSTRAINT ");
-	// sb.append(pkc.getName());
-	// sb.append(" PRIMARY KEY ");
-	// sb.append("(");
-	// sb.append(pkc.getColumnName());
-	// } else {
-	// sb.append(", " + pkc.getColumnName());
-	// }
-	//
-	// }
-	// sb.append(")");
-	// return sb.toString();
-	// }
-
 	public List convertTableFKColumn(TableFKColumn[] fks) {
 
 		List result = new ArrayList();
@@ -127,58 +92,6 @@ public class TableElement implements Serializable, Cloneable {
 
 		return result;
 	}
-
-	// public String[] getConstraintFKStr() {
-	//
-	// if (fks == null)
-	// return null;
-	// List result = new ArrayList();
-	// for (Iterator iter = fks.iterator(); iter.hasNext();) {
-	// TableFKColumn[] _fks = (TableFKColumn[]) iter.next();
-	//
-	// StringBuffer sb = new StringBuffer();
-	// StringBuffer sb2 = new StringBuffer();
-	// boolean cascade = false;
-	// for (int i = 0; i < _fks.length; i++) {
-	// TableFKColumn column = _fks[i];
-	// cascade = column.isCasucade();
-	//
-	// if (i == 0) {
-	// sb.append("CONSTRAINT ");
-	// sb.append(column.getName());
-	// sb.append(" FOREIGN KEY ");
-	// sb.append("(");
-	// sb.append(column.getColumnName());
-	//
-	// // Reference
-	// sb2.append(" REFERENCES ");
-	// if (column.getPkSchema() != null) {
-	// sb2.append(column.getPkSchema());
-	// sb2.append(".");
-	// }
-	// sb2.append(column.getPkTableName());
-	// sb2.append(" ");
-	// sb2.append("(");
-	// sb2.append(column.getPkColumnName());
-	//
-	// } else {
-	//
-	// sb.append(", " + column.getColumnName());
-	// sb2.append(", " + column.getColumnName());
-	// }
-	//
-	// }
-	// sb.append(")");
-	// sb2.append(")");
-	// if (cascade) {
-	// sb2.append(" ON DELETE CASCADE");
-	// }
-	// result.add(sb.toString() + sb2.toString());
-	// }
-	//
-	// return (String[]) result.toArray(new String[0]);
-	//
-	// }
 
 	public void addMofiedColumn(int colIndex) {
 		if (columns != null || colIndex <= columns.length - 1)
@@ -207,12 +120,6 @@ public class TableElement implements Serializable, Cloneable {
 		return modifiedValues;
 	}
 
-	/**
-	 * 指定したTableColumnからItemを取得する Selectの結果の場合、同名のカラムが存在するため、 その場合はgetItem(int index)を使用する必要があります
-	 * 
-	 * @param column
-	 * @return
-	 */
 	public Object getItem(TableColumn column) {
 		for (int i = 0; i < columns.length; i++) {
 			if (columns[i].equals(column)) {
@@ -222,28 +129,16 @@ public class TableElement implements Serializable, Cloneable {
 		return null;
 	}
 
-	/**
-	 * 指定したIndexからItemを取得する
-	 * 
-	 * @param column
-	 * @return
-	 */
 	public Object getItem(int index) {
 		return items[index];
 	}
 
-	/**
-	 * Query用用
-	 */
 	public TableElement(int recordNo, TableColumn[] columns, Object[] items) {
 		this.recordNo = recordNo;
 		this.columns = columns;
 		this.items = items;
 	}
 
-	/**
-	 * テーブル編集用
-	 */
 	public TableElement(ITable table, int recordNo, TableColumn[] columns, Object[] items, TableColumn[] uniqueColumns, Object[] uniqueItems) {
 		this.table = table;
 		this.recordNo = recordNo;
@@ -254,44 +149,28 @@ public class TableElement implements Serializable, Cloneable {
 
 		this.items = items;
 
-		// オリジナルデータをコピーしておく
 		if (items != null) {
 			this.orgItems = new Object[items.length];
 			System.arraycopy(items, 0, this.orgItems, 0, items.length);
 		}
 	}
 
-	/**
-	 * @return columNo を戻します。
-	 */
 	public int getRecordNo() {
 		return recordNo;
 	}
 
-	/**
-	 * @return items を戻します。
-	 */
 	public Object[] getItems() {
 		return items;
 	}
 
-	/**
-	 * @return columns を戻します。
-	 */
 	public TableColumn[] getColumns() {
 		return columns;
 	}
 
-	/**
-	 * @return uniqueColumns を戻します。
-	 */
 	public TableColumn[] getUniqueColumns() {
 		return uniqueColumns;
 	}
 
-	/**
-	 * @return uniqueItems を戻します。
-	 */
 	public Object[] getUniqueItems() {
 		return uniqueItems;
 	}
@@ -301,7 +180,6 @@ public class TableElement implements Serializable, Cloneable {
 		if (obj instanceof String) {
 			String value = String.valueOf(obj);
 
-			// NULL文字列であれば、以下の処理は行わない
 			String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
 			if (!value.equals(nullSymbol)) {
 				TableColumn column = columns[index];
@@ -317,18 +195,11 @@ public class TableElement implements Serializable, Cloneable {
 		return obj;
 	}
 
-	/**
-	 * 指定カラムのオブジェクトを更新する
-	 * 
-	 * @param index
-	 * @param obj
-	 */
 	public void updateItems(int index, Object obj) {
 
 		// items[index] = obj;
-		items[index] = padding(index, obj); // CHAR型用に空白パディング
+		items[index] = padding(index, obj);
 
-		// 変更リストに登録する（登録済みの場合は登録されない）
 		addMofiedColumn(index);
 	}
 
@@ -393,10 +264,6 @@ public class TableElement implements Serializable, Cloneable {
 		return orgItems;
 	}
 
-	/**
-	 * ユニークキーに対応する値を更新します
-	 * 
-	 */
 	public void modifyUniqueItems() {
 		Object[] uniequeItems = new Object[uniqueColumns.length];
 
@@ -416,10 +283,6 @@ public class TableElement implements Serializable, Cloneable {
 		this.uniqueItems = uniequeItems;
 	}
 
-	/**
-	 * isModifyをリセットするためのメソッド
-	 * 
-	 */
 	public void clearMofiedColumn() {
 		modifiedList = new ArrayList();
 	}

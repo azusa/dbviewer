@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.sql;
 
@@ -120,7 +120,6 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		PropertyPageChangeListener.addPropertyPageChangeListener(this);
 	}
 
-	// リネームされる場合があるため、都度EditorInputから取得する
 	public IFile getFile() {
 		FileEditorInput fi = (FileEditorInput) getEditorInput();
 		return fi.getFile();
@@ -149,17 +148,6 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		partitioner.connect(doc);
 		doc.setDocumentPartitioner(partitioner);
 
-		// Exception in thread "Thread-2" org.eclipse.swt.SWTError: Cannot
-		// initialize Drop
-		// が発生するため、以下の処理はコメントとする
-		// DropTarget target = new DropTarget(sqlViewer.getTextWidget(),
-		// DND.DROP_DEFAULT | DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK);
-		// Transfer[] types = new Transfer[] {
-		// TreeLeafListTransfer.getInstance(),
-		// TextTransfer.getInstance(), FileTransfer.getInstance() };
-		// target.setTransfer(types);
-		// target.addDropListener(new DropTreeLeafAdapter(sqlViewer));
-
 		ITextViewerExtension2 extension = (ITextViewerExtension2) sqlViewer;
 		MatchingCharacterPainter painter = new MatchingCharacterPainter(sqlViewer, new SQLCharacterPairMatcher());
 		painter.setColor(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_MATCHING));
@@ -171,37 +159,19 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		pviewer.doOperation(ProjectionViewer.TOGGLE);
 		updateFolding();
 
-		// ResourceMarkerAnnotationModelFactory factory = new
-		// ResourceMarkerAnnotationModelFactory();
-		// IPath path = DbPlugin.getDefault().getStateLocation();
-		// path.append("dummy.sql");
-		//		
-		// IAnnotationModel model = factory.createAnnotationModel(path);
-		// model = new ResourceMarkerAnnotationModel(file);
-		// sqlViewer.setDocument(doc, model);
-
-		// getSite().setSelectionProvider(sqlViewer);
-		// getEditorSite().getPage().addSelectionListener(this);
-
 		StyledTextUtil.changeColor(colorManager, sqlViewer.getTextWidget());
 
-		// ポップアップメニュー作成
 		hookContextMenu();
 
-		// ステータスバー作成
-		// contributeToStatusLine();
 
 		toolBar.setSQLSourceViewer(sqlViewer);
 
-		// プロジェクトに登録されている接続先を初期値でだす
 		toolBar.updateCombo(ResourceUtil.getDBConfig(getFile()));
 
-		// リアルタイムでは実行しない
 		sqlViewer.getTextWidget().addKeyListener(new AutoDelayAdapter());
 		sqlViewer.getTextWidget().addMouseListener(new AutoDelayAdapter());
 
 		getSite().setSelectionProvider(sqlViewer);
-		// getEditorSite().getPage().addSelectionListener(this);
 
 	}
 
@@ -243,7 +213,6 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 			if (config != null && toolBar != null && toolBar.getConfig() != null) {
 
 				if (config.getDbName().equals(toolBar.getConfig().getDbName())) {
-					// ツールバーと一致する場合のみ処理する
 					Transaction trans = Transaction.getInstance(config);
 
 					if (trans.isConneting()) {
@@ -251,12 +220,6 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 					} else {
 						super.setTitleImage(ic.getImage(DbPlugin.IMG_CODE_DB));
 					}
-					//
-					// if (config.isAutoCommit()) {
-					// commitModeItem.setText(AUTO_COMMIT);
-					// } else {
-					// commitModeItem.setText(MANUAL_COMMIT);
-					// }
 				}
 
 			}
@@ -274,7 +237,6 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 				getContributor().fillContextMenu(manager);
 			}
 		});
-		// SourceViewerへの割り当ては、TextWidgetに対して行うこと
 		StyledText text = sqlViewer.getTextWidget();
 		Menu menu = menuMgr.createContextMenu(text);
 		text.setMenu(menu);
@@ -300,28 +262,6 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 		return actionBars.getStatusLineManager();
 	}
 
-	// private boolean hasContributionItem(IContributionItem[] items, String
-	// targetId) {
-	// for (int i = 0; i < items.length; i++) {
-	// IContributionItem item = items[i];
-	// if (targetId.equals(item.getId())) {
-	// return true;
-	// }
-	// }
-	// return false;
-	// }
-
-	// public void contributeToStatusLine() {
-	// IStatusLineManager manager = getIStatusLineManager();
-	// IContributionItem[] items = manager.getItems();
-	// String commitMode = Messages.getString("SqlEditor.1"); //$NON-NLS-1$
-	// if (!hasContributionItem(items, commitMode)) {
-	// commitModeItem = new StatusLineContributionItem(commitMode);
-	// commitModeItem.setText(Messages.getString("SqlEditor.2")); //$NON-NLS-1$
-	// manager.add(commitModeItem);
-	// }
-	// }
-
 	public void dispose() {
 		colorManager.dispose();
 		// getEditorSite().getPage().removeSelectionListener(this);
@@ -341,7 +281,7 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 			sqlConfiguration.updatePreferences(sqlViewer.getDocument());
 			StyledTextUtil.changeColor(colorManager, sqlViewer.getTextWidget());
 			// LineNumberRulerColumnUtil.changeColor(colorManager, rulerCol);
-			sqlViewer.invalidateTextPresentation();// テキストエディタを再描画
+			sqlViewer.invalidateTextPresentation();
 		}
 	}
 
@@ -382,21 +322,16 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 			}
 		}
 
-		/*
-		 * if (IContentOutlinePage.class.equals(adapter)) { if (outlinePage == null) { outlinePage = new SQLOutinePage(this); } return outlinePage; }
-		 */
-
 		return super.getAdapter(adapter);
 	}
 
 	protected void updateFolding() {
-
 	// IDocument doc = sqlViewer.getDocument();
 	// int offset = sqlViewer.getTextWidget().getCaretOffset();
-	// setStatusLineMessage(""); // クリアする
+	// setStatusLineMessage("");
 	// ProjectionAnnotationModel model =
 	// sqlViewer.getProjectionAnnotationModel();
-	//		
+	//
 	// if (model != null) {
 	// UpdateSQLFoldingJob job = new UpdateSQLFoldingJob(model, doc, offset,
 	// getIStatusLineManager());
@@ -475,8 +410,6 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 
 	}
 
-	// ---------------------------------------------------------//
-
 	class AutoDelayAdapter extends AutoDelayListener {
 
 		public Runnable createExecutAction() {
@@ -485,7 +418,6 @@ public class SqlEditor extends TextEditor implements ISqlEditor, IPropertyChange
 				public void run() {
 					try {
 						if (outlinePage != null)
-
 							outlinePage.update();
 						// updateFolding();
 					} catch (Exception e) {

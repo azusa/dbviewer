@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -23,24 +23,8 @@ import zigen.plugin.db.core.rule.ISQLCreatorFactory;
 import zigen.plugin.db.preference.PreferencePage;
 import zigen.plugin.db.ui.actions.MaxRecordException;
 
-/**
- * QueryInvokerクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/26 ZIGEN create. [002] 2005/11/22 ZIGEN 複数JDBCMappingに対応
- * 
- */
 public class SQLInvoker {
 
-	/**
-	 * Queryを実行
-	 * 
-	 * @param config
-	 * @param query
-	 * @return
-	 * @throws Exception
-	 */
 	public static TableElement[] executeQuery(IDBConfig config, String query) throws Exception, MaxRecordException {
 		try {
 			Connection con = Transaction.getInstance(config).getConnection();
@@ -58,7 +42,6 @@ public class SQLInvoker {
 
 			if (isNoLockMode) {
 				if (DBType.DB_TYPE_SYMFOWARE == DBType.getType(con.getMetaData())) {
-					// SymfoWAREの場合はロックしないでSELECT文を発行するオプションを付ける
 					if (!query.trim().endsWith("WITH OPTION LOCK_MODE(NL)")) { //$NON-NLS-1$
 						query += " WITH OPTION LOCK_MODE(NL)"; //$NON-NLS-1$
 					}
@@ -68,9 +51,9 @@ public class SQLInvoker {
 			rs = stmt.executeQuery(query);
 			ResultSetMetaData meta = rs.getMetaData();
 			List list = new ArrayList();
-			TableColumn[] columns = getTableColumns(meta); // 1行目にResultSetMetaDataを格納
+			TableColumn[] columns = getTableColumns(meta);
 			TableElement header = new TableHeaderElement(columns);
-			list.add(header); // 検索件数が0件の場合でもヘッダが表示できるようにする
+			list.add(header);
 			int size = meta.getColumnCount();
 			int recordNo = 1;
 			int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
@@ -87,10 +70,8 @@ public class SQLInvoker {
 					// <- [002] 2005/11/22 add zigen
 					items[i] = factory.getObject(rs, i + 1);
 					/*
-					 * // ここで見つけたCLOB/BLOB型はgetObjectしない(メモリ対策) if(CellEditorType.isFileSaveType(columns[i])){ items[i] = CellEditorType.getDataTypeName(columns[i]); }else{ items[i] =
 					 * factory.getObject(rs, i + 1); }
 					 */
-
 					// [002] 2005/11/22 add zigen -->
 				}
 
@@ -130,14 +111,6 @@ public class SQLInvoker {
 
 	}
 
-	/**
-	 * 更新SQLを実行
-	 * 
-	 * @param config
-	 * @param sql
-	 * @return
-	 * @throws Exception
-	 */
 	public static int executeUpdate(IDBConfig config, String sql) throws Exception {
 		try {
 			Connection con = Transaction.getInstance(config).getConnection();
@@ -147,14 +120,6 @@ public class SQLInvoker {
 		}
 	}
 
-	/**
-	 * 更新SQLを実行
-	 * 
-	 * @param config
-	 * @param sql
-	 * @return
-	 * @throws Exception
-	 */
 	public static int executeUpdate(Connection con, String sql) throws Exception {
 		Statement stmt = null;
 		try {
@@ -167,14 +132,7 @@ public class SQLInvoker {
 		}
 	}
 
-	/**
-	 * MySQLのSELECT FROM INTO用 の executeメソッド
-	 * 
-	 * @param config
-	 * @param sql
-	 * @return
-	 * @throws Exception
-	 */
+	// for * MySQL (SELECT FROM INTO)
 	public static boolean execute(Connection con, String sql) throws Exception {
 		boolean b = false;
 		Statement stmt = null;

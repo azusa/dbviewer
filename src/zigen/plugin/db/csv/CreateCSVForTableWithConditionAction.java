@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.csv;
@@ -20,25 +20,13 @@ import zigen.plugin.db.core.TableManager;
 import zigen.plugin.db.preference.CSVPreferencePage;
 import zigen.plugin.db.ui.editors.TableViewEditorFor31;
 
-/**
- * CreateCSV2Actionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/08 ZIGEN create.
- * 
- */
+
 public class CreateCSVForTableWithConditionAction extends Action {
 
 	protected TableViewEditorFor31 editor;
 
 	private IPreferenceStore store;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public CreateCSVForTableWithConditionAction() {
 		this.setText(Messages.getString("CreateCSVForTableWithConditionAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("CreateCSVForTableWithConditionAction.3")); //$NON-NLS-1$
@@ -50,11 +38,8 @@ public class CreateCSVForTableWithConditionAction extends Action {
 		this.editor = editor;
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
+
 	public void run() {
-		// 1件ずつしか処理しない場合
 		invoke();
 
 	}
@@ -71,7 +56,6 @@ public class CreateCSVForTableWithConditionAction extends Action {
 					});
 			String fileName = dialog.open();
 
-			// キャンセル時の処理
 			if (fileName == null)
 				return;
 
@@ -94,7 +78,6 @@ public class CreateCSVForTableWithConditionAction extends Action {
 
 
 			// int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
-			// CSV出力ではリミット条件をつけない
 			String sql = TableManager.getSQLForCSV(editor.getTableNode(), editor.getCondition());
 			config.setQuery(sql);
 			config.setCsvEncoding(encoding);

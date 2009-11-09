@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -15,14 +15,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * XMLManagerクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/05/31 ZIGEN create.
- * 
- */
 public class XMLManager {
 
 	public static void save(File path, Object value) throws IOException {
@@ -60,7 +52,6 @@ public class XMLManager {
 			obj = XMLManager.load(path);
 
 		} catch (java.util.NoSuchElementException e) {
-			// ファイルだけ存在し、中身の無いXMLは削除する
 			path.delete();
 
 		} catch (ArrayIndexOutOfBoundsException e) {

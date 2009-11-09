@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal;
@@ -21,15 +21,6 @@ import zigen.plugin.db.core.TransactionForTableEditor;
 import zigen.plugin.db.ui.editors.ITableViewEditor;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * 
- * RecordDeleteThreadクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/02/08 ZIGEN create.
- * 
- */
 public class RecordDeleteThread implements Runnable {
 
 	private ITableViewEditor editor;
@@ -38,7 +29,6 @@ public class RecordDeleteThread implements Runnable {
 
 	private ITable table;
 
-	// / 使われて無い
 	private RecordDeleteThread(ITableViewEditor editor, ITable table) {
 		this.editor = editor;
 		this.viewer = editor.getViewer();
@@ -54,16 +44,11 @@ public class RecordDeleteThread implements Runnable {
 			rowAffected = delete(trans.getConnection());
 
 			if (DbPlugin.getDefault().confirmDialog(rowAffected + Messages.getString("RecordDeleteThread.0"))) { //$NON-NLS-1$
-				// コミット
 				trans.commit();
-				// TableViewerから削除する
 				removeElement();
 			} else {
-				// ロールバック
 				trans.rollback();
 			}
-
-			// NULL文字の色を変更
 			editor.changeColumnColor();
 
 		} catch (Exception e) {

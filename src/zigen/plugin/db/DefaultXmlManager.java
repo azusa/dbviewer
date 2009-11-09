@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 /*
  * 作成日
@@ -31,12 +31,6 @@ public class DefaultXmlManager {
 		XMLManager.save(file, obj);
 	}
 
-	/**
-	 * XMLからJavaオブジェクトを復元する 復元エラー時は、強制的にリネームする ※DBViewer自体の起動ができなくなるため
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
 	public Object loadXml() throws Exception {
 		Object obj = null;
 		if (file.exists()) {

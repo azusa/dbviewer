@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors;
@@ -19,14 +19,6 @@ import zigen.plugin.db.csv.CreateCSVForQueryAction;
 import zigen.plugin.db.ui.actions.CopyRecordDataAction;
 import zigen.plugin.db.ui.actions.SelectAllRecordAction;
 
-/**
- * TableViewerContributorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- * 
- */
 public class QueryViewerContributor extends MultiPageEditorActionBarContributor {
 
 	private SelectAllRecordAction selectAllAction;
@@ -35,10 +27,6 @@ public class QueryViewerContributor extends MultiPageEditorActionBarContributor 
 
 	private CreateCSVForQueryAction createCSVForQueryAction;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 */
 	public QueryViewerContributor() {
 		copyRecordDataAction = new CopyRecordDataAction();
 		createCSVForQueryAction = new CreateCSVForQueryAction();
@@ -49,9 +37,6 @@ public class QueryViewerContributor extends MultiPageEditorActionBarContributor 
 		super.init(bars, page);
 	}
 
-	// メニュー表示
-	// public void fillContextMenu(IMenuManager manager, IStructuredSelection
-	// selection, String query, TableColumn[] columns) {
 	public void fillContextMenu(IMenuManager manager) {
 		reflesh();
 
@@ -64,10 +49,7 @@ public class QueryViewerContributor extends MultiPageEditorActionBarContributor 
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	// ツールバーを追加する場合にオーバーライドする
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-	// ツールバーを作成
-	// toolBarManager.add(new MyAction());
 	}
 
 	public void setActivePage(IEditorPart target) {

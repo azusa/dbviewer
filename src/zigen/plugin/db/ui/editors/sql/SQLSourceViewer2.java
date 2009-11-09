@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.sql;
 
@@ -47,7 +47,6 @@ public class SQLSourceViewer2 extends SQLSourceViewer {
 		if (isFormatPreExecute)
 			doFormat();
 
-		// ﾌｫｰﾏｯﾄ前のRangeを設定
 		Display display = Display.getDefault();
 		display.syncExec(new ExecuteSelectedSQLForEditorAction(editor));
 

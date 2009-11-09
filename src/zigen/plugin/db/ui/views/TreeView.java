@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -87,14 +87,6 @@ import zigen.plugin.db.ui.views.internal.ElementFilter;
 import zigen.plugin.db.ui.views.internal.ElementFilterDialog;
 import zigen.plugin.db.ui.views.internal.FolderFilter;
 
-/**
- * TreeViewクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create. [002] 2005/07/15 ZIGEN VO、CSV作成機能。テーブルリネーム機能追加 [003] 2005/10/01 ZIGEN Oracle用表領域見積もり機能の追加
- *
- */
 public class TreeView extends AbstractTreeView {
 
 	PluginSettingsManager pluginMgr = DbPlugin.getDefault().getPluginSettingsManager();
@@ -188,7 +180,7 @@ public class TreeView extends AbstractTreeView {
 	void makeActions() {
 		registDBAction = new RegistDBAction(viewer);
 		removeDBAction = new RemoveDBAction(viewer);
-		removeDBAction.setEnabled(false); // 初期状態False
+		removeDBAction.setEnabled(false);
 		editDBAction = new EditDBAction(viewer);
 		connectDBAction = new ConnectDBAction(viewer);
 		closeDBAction = new CloseDBAction(viewer);
@@ -226,9 +218,6 @@ public class TreeView extends AbstractTreeView {
 
 	}
 
-	/**
-	 * お気に入り用Action作成
-	 */
 	void bookMarkActions() {
 		registBookmarkFolderAction = new RegistBookmarkFolderAction(viewer);
 		renameBookmarkFolderAction = new RenameBookmarkFolderAction(viewer);
@@ -237,9 +226,6 @@ public class TreeView extends AbstractTreeView {
 		removeBookmarkAction = new RemoveBookmarkAction(viewer);
 	}
 
-	/**
-	 * クリップボード用Action作成
-	 */
 	void clipboardActions() {
 
 		copySchemaNameAction = new CopySchemaNameAction(viewer);
@@ -254,11 +240,10 @@ public class TreeView extends AbstractTreeView {
 	}
 
 	void fillContextMenu(IMenuManager manager) {
-		// 選択したものによって表示するメニューを変更
 		Object obj = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
 
 		if (obj instanceof Root) {
-			removeDBAction.setEnabled(false); // 削除不可能
+			removeDBAction.setEnabled(false);
 			manager.add(registDBAction);
 			manager.add(removeDBAction);
 			manager.add(new Separator());
@@ -277,23 +262,22 @@ public class TreeView extends AbstractTreeView {
 
 		} else if (obj instanceof DataBase) {
 			DataBase db = (DataBase) obj;
-			removeDBAction.setEnabled(true); // 削除可能
-			manager.add(connectDBAction); // 接続
-			manager.add(closeDBAction); // 切断
-			// manager.add(refreshAction); // 更新（再接続）
+			removeDBAction.setEnabled(true);
+			manager.add(connectDBAction);
+			manager.add(closeDBAction);
+			// manager.add(refreshAction);
 			manager.add(new Separator());
 
-			manager.add(registDBAction); // DB定義登録
-			manager.add(editDBAction); // DB定義編集
-			manager.add(removeDBAction); // DB定義削除
-			manager.add(copyDBAction); // DB定義複写
+			manager.add(registDBAction);
+			manager.add(editDBAction);
+			manager.add(removeDBAction);
+			manager.add(copyDBAction);
 			// manager.add(new Separator());
 			// manager.add(importDBConfigAction);
 			// manager.add(exportDBConfigAction);
 			manager.add(new Separator());
-			manager.add(showDriverVersionAction); // Driver Version表示
+			manager.add(showDriverVersionAction);
 
-			// 選択したDataBase要素に応じて、接続/切断のsetEnabledを行う
 			if (db.isConnected()) {
 				// refreshAction.setEnabled(true);
 				connectDBAction.setEnabled(false);
@@ -308,16 +292,14 @@ public class TreeView extends AbstractTreeView {
 
 		} else if (obj instanceof Schema) {
 			// refreshAction.setEnabled(true);
-			manager.add(refreshAction); // 更新（再接続）
-			manager.add(copySchemaNameAction); // クリップボードにテーブル名を貼り付け
+			manager.add(refreshAction);
+			manager.add(copySchemaNameAction);
 
-			// <!-- [003] 追加 ZIGEN 2005/10/01
-			// Oracle Only
 			Schema schema = (Schema) obj;
 			switch (DBType.getType(schema.getDbConfig())) {
 			case DBType.DB_TYPE_ORACLE:
 				manager.add(new Separator());
-				manager.add(calcTableSpaceWizardAction); // 表領域の見積
+				manager.add(calcTableSpaceWizardAction);
 
 				if (schema.getName().compareToIgnoreCase(schema.getDbConfig().getUserId()) == 0) {
 					manager.add(new Separator());
@@ -329,14 +311,12 @@ public class TreeView extends AbstractTreeView {
 			default:
 				break;
 			}
-			// [003] 追加 ZIGEN 2005/10/01 -->
 
 			manager.add(diffForSchemaAction);
 
-			// <!-- [003] 追加 ZIGEN 2005/06/25
 		} else if (obj instanceof Folder) {
 			// refreshAction.setEnabled(true);
-			manager.add(refreshAction); // 更新（再接続）
+			manager.add(refreshAction);
 
 			Folder folder = (Folder) obj;
 			if (folder.getName().equalsIgnoreCase("TABLE")) { //$NON-NLS-1$
@@ -353,8 +333,6 @@ public class TreeView extends AbstractTreeView {
 
 		}
 
-		// [003] 追加 ZIGEN 2005/06/25 -->
-
 		else if (obj instanceof ITable) {
 
 			try {
@@ -363,17 +341,16 @@ public class TreeView extends AbstractTreeView {
 				manager.add(openEditorAction);
 				// manager.add(tableDefineEditAction);
 
-				manager.add(refreshAction); // 更新（再接続）
+				manager.add(refreshAction);
 
 				manager.add(new Separator());
-				manager.add(copyTableNameAction); // クリップボードにテーブル名を貼り付け
-				manager.add(copyTableNameWithRemarksAction); // クリップボードにテーブル名を貼り付け
+				manager.add(copyTableNameAction);
+				manager.add(copyTableNameWithRemarksAction);
 				manager.add(new GroupMarker("group.copy.table"));
 				manager.add(new Separator());
 				manager.add(new GroupMarker("group.copy.statement"));
 
 
-				// <!-- [002] 追加 ZIGEN 2005/07/15
 				manager.add(new Separator());
 				manager.add(renameTableAction);
 				manager.add(deleteFromTableAction);
@@ -385,10 +362,8 @@ public class TreeView extends AbstractTreeView {
 
 				manager.add(diffAction);
 
-				// お気に入りに追加
 				manager.add(new Separator());
 
-				// お気に入りに追加はTableのみ
 				if (obj instanceof Table) {
 					manager.add(registBookmarkAction);
 				} else if (obj instanceof Bookmark) {
@@ -411,7 +386,6 @@ public class TreeView extends AbstractTreeView {
 			// manager.add(copyColumnNameWithRemarksAction);
 		}
 
-		// 「お気に入り」用のContextMenu作成
 		bookMarkFillContextMenu(manager, obj);
 
 		// Other plug-ins can contribute there actions here
@@ -419,18 +393,12 @@ public class TreeView extends AbstractTreeView {
 	}
 
 	void bookMarkFillContextMenu(IMenuManager manager, Object obj) {
-	// if (obj instanceof BookmarkRoot) {
-	// manager.add(refreshAction); // 更新
-	// } else if (obj instanceof BookmarkFolder) {
-	// manager.add(refreshAction); // 更新
-	// } else if (obj instanceof Bookmark) {
-	// manager.add(refreshAction); // 更新
-	// }
+
 	}
 
 	protected void fillLocalPullDown(IMenuManager manager) {
-		// manager.add(registDBAction); // DB定義登録
-		// manager.add(removeDBAction); // DB定義登録
+		// manager.add(registDBAction);
+		// manager.add(removeDBAction);
 		manager.add(new Separator());
 		manager.add(importDBConfigAction);
 		manager.add(exportDBConfigAction);
@@ -450,8 +418,8 @@ public class TreeView extends AbstractTreeView {
 	}
 
 	void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(registDBAction); // DB定義登録
-		// manager.add(removeDBAction); // DB定義登録
+		manager.add(registDBAction);
+		// manager.add(removeDBAction);
 		manager.add(new Separator());
 		manager.add(importDBConfigAction);
 		manager.add(exportDBConfigAction);
@@ -468,13 +436,9 @@ public class TreeView extends AbstractTreeView {
 		return selectedColumn;
 	}
 
-	/**
-	 * 選択した要素によってメニューの活性・非活性を制御
-	 */
 	void selectionChangeHandler(SelectionChangedEvent event) {
 
-		selectedColumn = null;// 選択カラムを初期化
-
+		selectedColumn = null;
 		removeDBAction.setEnabled(false);
 		renameTableAction.setEnabled(false);
 		diffForSchemaAction.setEnabled(false);
@@ -521,7 +485,6 @@ public class TreeView extends AbstractTreeView {
 			Object ele2 = selection.iterator().next();
 
 			if (ele1 instanceof ITable && ele2 instanceof ITable) {
-				// 現時点ではOracleのみDiff機能を提供
 				// ITable table1 = (ITable) ele1;
 				// ITable table2 = (ITable) ele2;
 				/*
@@ -573,7 +536,6 @@ public class TreeView extends AbstractTreeView {
 			}
 		}
 
-		// 選択した要素数に関係なく
 		Object element = (Object) (selection).getFirstElement();
 		if (element instanceof Schema) {
 			bars.setGlobalActionHandler(ActionFactory.COPY.getId(), copySchemaNameAction);
@@ -608,7 +570,6 @@ public class TreeView extends AbstractTreeView {
 		} else if (status == IStatusChangeListener.EVT_ChangeTransactionMode) {
 
 			if (obj instanceof CommitModeAction) {
-				// コミットモードを設定する
 				IDBConfig config = ((CommitModeAction) obj).getDbConfig();
 				DataBase db = contentProvider.findDataBase(config);
 				db.getDbConfig().setAutoCommit(config.isAutoCommit());
@@ -663,8 +624,6 @@ public class TreeView extends AbstractTreeView {
 			ElementFilterDialog dialog = new ElementFilterDialog(shell, treeView);
 			int ret = dialog.open();
 			if (ret == IDialogConstants.OK_ID) {
-				// Filter実行
-
 				FolderInfo[] filterFolders = (FolderInfo[]) pluginMgr.getValue(PluginSettingsManager.KEY_ELEM_FILTER_FOLDER_LIST);
 				if (folderFilter != null)
 					treeView.getTreeViewer().removeFilter(folderFilter);

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.views.internal;
 
@@ -23,8 +23,8 @@ public class SQLAutoEditStrategy implements IAutoEditStrategy {
 
 	private void addText(DocumentCommand command, String addString) {
 		command.text = command.text + addString;
-		command.caretOffset = command.offset + 1; // 手動でcaretを１つ移動する
-		command.shiftsCaret = false; // 自動的にcaretをシフトしない
+		command.caretOffset = command.offset + 1;
+		command.shiftsCaret = false;
 		command.doit = false;
 	}
 

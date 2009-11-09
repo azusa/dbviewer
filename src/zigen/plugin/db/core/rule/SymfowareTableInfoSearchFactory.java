@@ -94,10 +94,9 @@ public class SymfowareTableInfoSearchFactory extends DefaultTableInfoSearchFacto
 			String[] wk = url.split("/");
 			if (wk.length >= 4) {
 				String s = wk[3];
-				int index = s.indexOf(';'); // パラメータの区切り文字
+				int index = s.indexOf(';');
 				if (index >= 0) {
 					name = s.substring(0, index);
-					// の前までを使う
 				} else {
 					name = s;
 				}

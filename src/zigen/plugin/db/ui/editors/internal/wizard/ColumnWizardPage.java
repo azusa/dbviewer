@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal.wizard;
@@ -95,7 +95,6 @@ public class ColumnWizardPage extends DefaultWizardPage {
 		txtColumnName.setLayoutData(gd);
 		txtColumnName.setText(column.getName());
 		txtColumnName.addFocusListener(new TextSelectionListener());
-		// Derbyでは、カラム名の変更がうまくいかない
 		if (!isAddColumn & DBType.DB_TYPE_DERBY == DBType.getType(table.getDbConfig())) {
 			txtColumnName.setEnabled(false);
 		}
@@ -269,7 +268,7 @@ public class ColumnWizardPage extends DefaultWizardPage {
 	}
 
 	protected void createOptionControl(Composite container) {
-		; // 拡張用メソッド
+		;
 	}
 
 	private void validate() {

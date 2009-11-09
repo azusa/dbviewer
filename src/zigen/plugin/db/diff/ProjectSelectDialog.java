@@ -53,13 +53,13 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 	public ProjectSelectDialog(Shell parentShell, String text) {
 		super(parentShell);
 		this.title = Messages.getString("ProjectSelectDialog.1"); //$NON-NLS-1$
-		setShellStyle(getShellStyle() | SWT.RESIZE); // リサイズ可能
+		setShellStyle(getShellStyle() | SWT.RESIZE);
 		parentShell.setText(text);
 	}
 
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(title); // ダイアログウィンドウのタイトル
+		shell.setText(title);
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
@@ -67,15 +67,8 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
-	/*
-	 * (非 Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
-	 */
 	protected Control createDialogArea(Composite parent) {
-		// タイトルの設定
 		super.setTitle(title);
-		// デフォルトのメッセージ
 		super.setMessage(Messages.getString("ProjectSelectDialog.5"), IMessageProvider.NONE); //$NON-NLS-1$
 
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -85,7 +78,6 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 
 		composite2.setLayout(new GridLayout(1, false));
 
-		// ツリーの作成
 		viewer = new TreeViewer(composite2, SWT.BORDER);
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -96,7 +88,6 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 		Label label = new Label(composite3, SWT.NONE);
 		label.setText(Messages.getString("ProjectSelectDialog.2")); //$NON-NLS-1$
 
-		// // パスを表示するためのテキストボックス
 		fileText = new Text(composite3, SWT.BORDER);
 		fileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		fileText.setText(Messages.getString("ProjectSelectDialog.3")); //$NON-NLS-1$
@@ -112,22 +103,17 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 
 		});
 
-		// Javaプロジェクト表示の設定
 		viewer.setContentProvider(new WorkbenchContentProvider());
 
-		// フィルタの設定
 		viewer.addFilter(new SourceDirViewerFilter());
 
-		// ラベルプロバイダーの設定
 		WorkbenchLabelProvider provider = new WorkbenchLabelProvider();
 		viewer.setLabelProvider(provider);
 
 		IWorkspace ws = ResourcesPlugin.getWorkspace();
 		viewer.setInput(ws);
 
-		// ツリーを選択したときの処理
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
 			public void selectionChanged(SelectionChangedEvent event) {
 				selectionChangeHandler(event);
 			}
@@ -150,9 +136,7 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 	}
 
 	private void selectionChangeHandler(SelectionChangedEvent event) {
-		// 選択したものによって表示するメニューを変更
 		Object obj = (Object) ((StructuredSelection) event.getSelection()).getFirstElement();
-
 		if (obj instanceof IAdaptable) {
 			IAdaptable adaptable = (IAdaptable) obj;
 			IResource resource = (IResource) adaptable.getAdapter(IResource.class);

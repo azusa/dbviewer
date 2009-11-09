@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.csv;
@@ -22,25 +22,13 @@ import zigen.plugin.db.core.TableManager;
 import zigen.plugin.db.preference.CSVPreferencePage;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * CreateCSVActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/08 ZIGEN create.
- * 
- */
+
 public class CreateCSVAction extends Action {
 
 	private StructuredViewer viewer = null;
 
 	private IPreferenceStore store;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public CreateCSVAction(StructuredViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("CreateCSVAction.0")); //$NON-NLS-1$
@@ -48,11 +36,8 @@ public class CreateCSVAction extends Action {
 		this.store = DbPlugin.getDefault().getPreferenceStore();
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
+
 	public void run() {
-		// 1件ずつしか処理しない場合
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		Object element = selection.getFirstElement();
 		invoke(element);
@@ -64,7 +49,7 @@ public class CreateCSVAction extends Action {
 		// Object obj = iter.next();
 		// invoke(dialog.getPackageFragment(), obj);
 		// }
-		//            
+		//
 		// }
 	}
 
@@ -81,7 +66,6 @@ public class CreateCSVAction extends Action {
 						});
 				String fileName = dialog.open();
 
-				// キャンセル時の処理
 				if (fileName == null)
 					return;
 
@@ -104,7 +88,7 @@ public class CreateCSVAction extends Action {
 				boolean nonDoubleQuate = store.getBoolean(CSVPreferencePage.P_NON_DOUBLE_QUATE);
 
 				config.setQuery(TableManager.getSQLForCSV(table));
-				config.setCsvEncoding(encoding); // 現在固定
+				config.setCsvEncoding(encoding);
 				config.setSeparator(separator);
 				config.setNonHeader(nonHeader);
 				config.setNonDoubleQuate(nonDoubleQuate);

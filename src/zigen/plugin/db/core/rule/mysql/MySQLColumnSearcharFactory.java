@@ -86,7 +86,7 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 				while (rs.next()) {
 					TableColumn column = new TableColumn();
 
-					column.setSeq(seq); // カラム定義順（ソートに使用）
+					column.setSeq(seq);
 
 					column.setColumnName(rs.getString("COLUMN_NAME"));
 					column.setTypeName(rs.getString("TYPE_NAME"));
@@ -94,9 +94,6 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 					column.setDecimalDigits(rs.getInt("DECIMAL_DIGITS"));
 					column.setDefaultValue(rs.getString("COLUMN_DEF"));
 
-					// -----------------------------------------------------
-					// DATA_TYPEが0で取得するSQLとしているため、独自変換する
-					// -----------------------------------------------------
 					column.setDataType(getJavaType(column.getTypeName())); // Types.VARCHARなど
 
 					String remarks = rs.getString("REMARKS"); //$NON-NLS-1$
@@ -110,20 +107,12 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 						column.setNotNull(false);
 					}
 
-					// <!-- [002] 修正 ZIGEN 2005/09/17
-					// if (ConstraintSearcher.isPKColumn(pks, column.getColumnName())) {
-					// column.setUniqueKey(true);
-					// }
-					// log.debug(column);
-					// [002] 修正 ZIGEN 2005/09/17 -->
-					// map.put(column.getColumnName(), column);
 					list.add(column);
 
 					seq++;
 				}
 				return (TableColumn[]) list.toArray(new TableColumn[0]);
 			} else {
-				// MySQL5以外
 				return super.execute(con, schemaPattern, tableName);
 			}
 

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.oracle;
@@ -14,25 +14,12 @@ import zigen.plugin.db.core.rule.DefaultSQLCreatorFactory;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * OracleInsertFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- */
 public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public OracleSQLCreatorFactory(ITable table) {
 		super(table);
 	}
 
-
-	/**
-	 * カラム名＋型＋桁(Oracle用にDefault表示を追加)
-	 *
-	 * @return
-	 */
 	protected String getColumnLabel(TableColumn column) {
 
 		StringBuffer sb = new StringBuffer();
@@ -43,7 +30,6 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 		sb.append(typeName);
 
-		// パラメータ無しの型対応(例 NUMBER型)
 		// if (isVisibleColumnSize(typeName)) {
 		if (isVisibleColumnSize(typeName) && !column.isWithoutParam()) {
 			if (column.getDecimalDigits() == 0) {
@@ -53,7 +39,6 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			}
 		}
 
-		// DEFAULTの追加
 		if (column.getDefaultValue() != null && !"".equals(column.getDefaultValue())) { //$NON-NLS-1$
 			sb.append(" DEFAULT "); //$NON-NLS-1$
 			sb.append(column.getDefaultValue().trim());
@@ -75,12 +60,12 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (condition != null && !"".equals(condition.trim())) { //$NON-NLS-1$
 			sb.append(" WHERE " + condition); //$NON-NLS-1$
 			if (limit > 0) {
-				sb.append(" AND ROWNUM <= " + (++limit));// ダイアログを出すために＋１
+				sb.append(" AND ROWNUM <= " + (++limit));
 				// //$NON-NLS-1$
 			}
 		} else {
 			if (limit > 0) {
-				sb.append(" WHERE ROWNUM <= " + (++limit));// ダイアログを出すために＋１
+				sb.append(" WHERE ROWNUM <= " + (++limit));
 				// //$NON-NLS-1$
 			}
 		}
@@ -117,7 +102,6 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		addColumnName(sb);
 		sb.append(" FROM (SELECT W.*, ROWNUM LINE FROM ("); //$NON-NLS-1$
 
-		// <-- 元のSQL
 		sb.append(" SELECT * FROM "); //$NON-NLS-1$
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
@@ -132,9 +116,6 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (orderBy != null && !"".equals(orderBy)) { //$NON-NLS-1$
 			sb.append(" " + orderBy); //$NON-NLS-1$
 		}
-		// -->
-
-		// sb.append(") W ) T WHERE line BETWEEN ").append(offset).append(" AND ").append(offset + limit); // MaxReocordExceptionをあえて発生する場合
 		sb.append(") W ) T WHERE line BETWEEN ").append(offset).append(" AND ").append(offset + limit - 1);
 
 		return sb.toString();
@@ -338,7 +319,6 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	}
 
-	// / ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ //
 	public String createCreateIndexDDL(String indexName, Column[] columns, int indexType) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE"); //$NON-NLS-1$

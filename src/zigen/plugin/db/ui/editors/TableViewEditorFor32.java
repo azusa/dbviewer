@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors;
@@ -37,16 +37,9 @@ import zigen.plugin.db.ui.contentassist.ContentAssistUtil;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.views.internal.SQLWhitespaceDetector;
 
-/**
- * TableEditorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- */
 public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITableViewEditor {
 
-	private int wordLen = 0;// コードアシスト用単語の長さを格納
+	private int wordLen = 0;
 
 	private boolean contentAssisting = false;
 
@@ -73,11 +66,9 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 				final String colName = col.getName();
 				final String value = ContentAssistUtil.subString(colName, wordLen);
 				if (word != null && !"".equals(word)) { //$NON-NLS-1$
-					proposalFiltering = true; // 候補の絞り込みモードON
+					proposalFiltering = true;
 					if (value.compareToIgnoreCase(word) == 0) {
-						// 候補の作成と追加
 						IContentProposal p = new IContentProposal() {
-
 							public String getContent() {
 								return colName;
 							}
@@ -91,9 +82,6 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 							}
 
 							public int getCursorPosition() {
-								// 絞り込んだ分引く
-								// return col.getName().length() - wordLen;
-								// 絞り込んだ場合は、上書きするため、通常どおり返す
 								return col.getName().length();
 
 							}
@@ -101,8 +89,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 						proposalList.add(p);
 					}
 				} else {
-					proposalFiltering = false; // 候補の絞り込みモードOFF
-					// 候補の作成と追加
+					proposalFiltering = false;
 					IContentProposal p = new IContentProposal() {
 
 						public String getContent() {
@@ -132,9 +119,8 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 				final String keyword = Keywords[i];
 				final String value = ContentAssistUtil.subString(keyword, wordLen);
 				if (word != null && !"".equals(word)) { //$NON-NLS-1$
-					proposalFiltering = true; // 候補の絞り込みモードON
+					proposalFiltering = true;
 					if (value.compareToIgnoreCase(word) == 0) {
-						// 候補の作成と追加
 						IContentProposal p = new IContentProposal() {
 
 							public String getContent() {
@@ -150,9 +136,6 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 							}
 
 							public int getCursorPosition() {
-								// 絞り込んだ分引く
-								// return col.getName().length() - wordLen;
-								// 絞り込んだ場合は、上書きするため、通常どおり返す
 								return keyword.length();
 
 							}
@@ -160,8 +143,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 						proposalList.add(p);
 					}
 				} else {
-					proposalFiltering = false; // 候補の絞り込みモードOFF
-					// 候補の作成と追加
+					proposalFiltering = false;
 					IContentProposal p = new IContentProposal() {
 
 						public String getContent() {
@@ -192,7 +174,6 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 			wordLen = word.length();
 			setColumnProposal(proposalList, word);
 			setKeywordProposal(proposalList, word);
-			// 候補が０の場合を考慮する
 			if (proposalList.size() == 0) {
 				contentAssisting = false;
 			}
@@ -205,7 +186,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 
 		public void insertControlContents(Control control, String text, int cursorPosition) {
 			super.insertControlContents(control, text, cursorPosition);
-			contentAssisting = false;// コンテンツアシスト終了
+			contentAssisting = false;
 		}
 
 		public void setControlContents(Control control, String text, int cursorPosition) {
@@ -213,7 +194,6 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 		}
 
 		public void setCursorPosition(Control control, int index) {
-			// 絞り込みしている文字分引くこと ＆ 絞り込み文字は置き換える
 			Combo cmb = (Combo) control;
 			String text = cmb.getText();
 			cmb.setText(text.substring(0, index - wordLen) + text.substring(index));
@@ -232,8 +212,8 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 			e.doit = true;
 			whereString = conditionComb.getText();
 
-			pager.setPageNo(1); // Where条件で検索すると必ず1ページに移動する
-			offset = 1; // offsetを初期化
+			pager.setPageNo(1);
+			offset = 1;
 			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD); // 制限を初期化
 			updateTableViewer(whereString, offset, limit);
 
@@ -244,22 +224,16 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 		}
 	}
 
-	// 現在のオフセットから直前の空白までの文字列を返すメソッド
 	private String getPreviousWord(String contents, int position) {
 		SQLWhitespaceDetector whiteSpace = new SQLWhitespaceDetector();
 		StringBuffer buf = new StringBuffer();
 		while (true) {
 			try {
 				char c = contents.charAt(--position);
-				// 空白かピリオドに到達
-				// if (Character.isWhitespace(c) || c == '.') return
-				// buf.reverse().toString();
 				if (whiteSpace.isWhitespace(c) || c == '.')
 					return buf.reverse().toString();
-				// 文字を追加
 				buf.append(c);
 			} catch (Exception e) {
-				// ドキュメントの先頭まで到達した場合
 				return buf.reverse().toString();
 			}
 		}
@@ -268,7 +242,6 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 	IContentProposalProvider proposal = null;
 
 	protected void AddContentAssist2() {
-		// テーブルのRefleshの場合、再度実行するため、キャッシュしないようにする
 		try {
 			Column[] columns = tableNode.getColumns();
 			proposal = new ColumnContentProposal(columns);
@@ -307,10 +280,8 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 		// IInformationControlCreatorの設定
 		// contentAssistant.setInformationControlCreator(getInformationControlCreator(sourceViewer));
 
-		// 自動アクティベーションを有効にする場合はtrue
 		contentAssistant.enableAutoActivation(true);
 
-		// 候補が１つしかない場合は、自動的に候補を挿入する場合はtrue
 		contentAssistant.enableAutoInsert(true);
 
 		return contentAssistant;

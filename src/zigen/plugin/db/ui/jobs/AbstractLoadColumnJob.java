@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -90,7 +90,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			columns = factory.execute(con, schemaName, tableName);
 
 			ts.stop();
-			System.out.println("[カラム検索時間] " + tableName +", "+ ts.getTotalTime());
 			ts.start();
 
 			monitor.worked(1);
@@ -100,7 +99,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			IConstraintSearcherFactory constraintFactory = DefaultConstraintSearcherFactory.getFactory(config);
 			pks = constraintFactory.getPKColumns(con, schemaName, tableName);
 			ts.stop();
-			System.out.println("[PKカラム検索時間] " + ts.getTotalTime());
 			ts.start();
 
 			monitor.worked(1);
@@ -109,7 +107,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			// fks = ConstraintSearcher.getFKColumns(con, schemaName, tableName);
 			fks = constraintFactory.getFKColumns(con, schemaName, tableName);
 			ts.stop();
-			System.out.println("[FKカラム検索時間] " + ts.getTotalTime());
 
 			monitor.worked(1);
 
@@ -121,18 +118,9 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 				cons = constraintFactory.getConstraintColumns(con, schemaName, tableName);
 
 				ts.stop();
-				System.out.println("[制約検索時間] " + ts.getTotalTime());
 				ts.start();
 
 				monitor.worked(1);
-				// <-- modify start response up
-				// monitor.subTask(Messages.getString("RefreshColumnJob.10")); //$NON-NLS-1$
-				// uidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, true);
-				// monitor.worked(1);
-				//
-				// monitor.subTask(Messages.getString("RefreshColumnJob.11")); //$NON-NLS-1$
-				// nonuidxs = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName, false);
-				// monitor.worked(1);
 
 				monitor.subTask(Messages.getString("RefreshColumnJob.10"));//$NON-NLS-1$
 				TableIDXColumn[][] indexies = OracleIndexSearcher.getIDXColumns(con, schemaName, tableName);
@@ -141,7 +129,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 				monitor.worked(2);
 
 				ts.stop();
-				System.out.println("[インデックス検索時間] " + ts.getTotalTime());
 
 				// -->
 
@@ -156,7 +143,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 				// uidxs = ConstraintSearcher.getUniqueIDXColumns(con, schemaName, tableName, true);
 				uidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, true);
 				ts.stop();
-				System.out.println("[ユニークインデックス検索時間] " + ts.getTotalTime());
 				ts.start();
 
 				monitor.worked(1);
@@ -167,7 +153,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 				nonuidxs = constraintFactory.getUniqueIDXColumns(con, schemaName, tableName, false);
 
 				ts.stop();
-				System.out.println("[アンユニークインデックス検索時間] " + ts.getTotalTime());
 
 				monitor.worked(1);
 
@@ -212,7 +197,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 		if (monitor.isCanceled()) {
 			return false;
 		}
-		// Table要素にPK,FKを登録
 		table.setTablePKColumns(pks);
 		table.setTableFKColumns(fks);
 		table.setTableConstraintColumns(cons);
@@ -220,7 +204,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 		table.setTableNonUIDXColumns(nonuidxs);
 		table.removeChild(table.getChild(DbPluginConstant.TREE_LEAF_LOADING));
 
-		// Table要素(Table)にカラム要素(Column)を追加(共通）
 		List newColumnList = new ArrayList();
 
 		for (int i = 0; i < columns.length; i++) {
@@ -230,9 +213,9 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			newColumnList.add(w_column.getColumnName());
 			TreeLeaf leaf = table.getChild(w_column.getColumnName());
 			if (leaf == null) {
-				addColumn(table, w_column, w_pk, w_fks);// 追加する場合
+				addColumn(table, w_column, w_pk, w_fks);
 			} else {
-				updateColumn(table, (Column) leaf, w_column, w_pk, w_fks); // 更新する場合
+				updateColumn(table, (Column) leaf, w_column, w_pk, w_fks);
 			}
 			if (monitor.isCanceled()) {
 				return false;
@@ -240,14 +223,13 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 		}
 
 
-		removeDeleteColumn(table, newColumnList); // 削除されたカラムを削除する処理
-		table.setExpanded(true); // カラム情報の読み込み完了
+		removeDeleteColumn(table, newColumnList);
+		table.setExpanded(true);
 
 		return true;
 	}
 
 
-	// 削除されたカラムをTable要素から削除する
 	private void removeDeleteColumn(ITable table, List newColumnList) {
 		TreeLeaf[] leafs = table.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {
@@ -266,7 +248,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			break;
 
 		default:
-			// 通常
 			table.addChild(new Column(w_column, w_pk, w_fks));
 			break;
 		}
@@ -280,7 +261,6 @@ abstract public class AbstractLoadColumnJob extends AbstractJob {
 			newColumn = new OracleColumn(w_column, w_pk, w_fks);
 			break;
 		default:
-			// 通常
 			newColumn = new Column(w_column, w_pk, w_fks);
 			break;
 		}

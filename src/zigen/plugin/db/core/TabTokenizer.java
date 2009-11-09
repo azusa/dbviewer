@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -9,7 +9,6 @@ package zigen.plugin.db.core;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
-// Recordの貼り付け用
 public class TabTokenizer implements Enumeration {
 
 	public static final String DEMILITER = "\t"; //$NON-NLS-1$
@@ -70,7 +69,7 @@ public class TabTokenizer implements Enumeration {
 
 		currentPosition += (DEMILITER).length();
 
-		// <-- 2008/01/30 ZIGEN 勝手にTRIMしないこと(Char型の場合に検索できなくなります)
+		// <-- 2008/01/30 no trime.
 		// String out = sb.toString().trim();
 		String out = sb.toString();
 		// -->

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -15,14 +15,6 @@ import java.util.regex.Pattern;
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.preference.PreferencePage;
 
-/**
- * SqlUtilクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/30 ZIGEN create.
- *
- */
 public class SQLUtil {
 
 	private static Pattern BIN = Pattern.compile("^BIN\\$.*==\\$0$");
@@ -34,23 +26,11 @@ public class SQLUtil {
 			return null;
 		}
 	}
-	/**
-	 * Oracle10gで作成されるDELETE後のテーブル名とマッチするか
-	 *
-	 * @param str
-	 * @return
-	 */
 	public static boolean isBinTableForOracle(String str) {
 		Matcher matcher = BIN.matcher(str);
 		return matcher.matches();
 	}
 
-	/**
-	 * エスケープ文字で囲む必要なある文字かどうか(スキーマ名やテーブル名)
-	 *
-	 * @param str
-	 * @return
-	 */
 	private static boolean requireEnclose(String str) {
 		if (isBinTableForOracle(str) || StringUtil.isNumeric(str) || str.indexOf("-") > 0) {
 			return true;
@@ -59,13 +39,6 @@ public class SQLUtil {
 		}
 	}
 
-
-	/**
-	 * エスケープ文字で囲まれている場合、それを除く
-	 * @param str
-	 * @param encloseChar
-	 * @return
-	 */
 	public static final String removeEnclosedChar(String str, char encloseChar){
 		if(str == null) return str;
 
@@ -77,12 +50,7 @@ public class SQLUtil {
 			return str;
 		}
 	}
-	/**
-	 * エスケープ文字で囲む必要があれば囲む。（そうでなければ、何もしない)
-	 * @param str
-	 * @param encloseChar
-	 * @return
-	 */
+
 	public static final String enclose(String str, char encloseChar){
 		if(str == null) return str;
 
@@ -93,13 +61,6 @@ public class SQLUtil {
 		}
 	}
 
-	/**
-	 * 文字列中の「'」をDBアクセス可能に変換する。
-	 *
-	 * @param strSrc
-	 *            元の文字列
-	 * @return 変換後の文字列
-	 */
 	public static final String encodeQuotation(String str) {
 		if (str == null)
 			return str;
@@ -116,13 +77,6 @@ public class SQLUtil {
 		return sb.toString();
 	}
 
-	/**
-	 * 文字列中の「%」,「_」,「\」をDBアクセス可能に変換する。 ※これを使う場合は、ESCAPE 句が必要です
-	 *
-	 * @param strSrc
-	 *            元の文字列
-	 * @return 変換後の文字列
-	 */
 	public static final String encodeEscape(String str) {
 		int nLen = str.length();
 		StringBuffer sb = new StringBuffer(nLen * 2);
@@ -147,10 +101,10 @@ public class SQLUtil {
 	}
 
 	public static boolean isSelect(String sql) throws Exception {
-		String s = StringUtil.removeComment(sql); // /* コメント*/ を外す
-		s = StringUtil.removeLineComment(s); // -- コメント を外す
-		s = StringUtil.removeLeftFullSpace(s); // 左部の不要な全角スペースを外す
-		s = s.trim(); // 不要な改行を取り除く
+		String s = StringUtil.removeComment(sql);
+		s = StringUtil.removeLineComment(s);
+		s = StringUtil.removeLeftFullSpace(s);
+		s = s.trim();
 
 		if (s.startsWith("(")) {
 			s = s.substring(1);
@@ -158,11 +112,11 @@ public class SQLUtil {
 				s = s.substring(0, s.length() - 1);
 				return isSelect(s);
 			} else {
-				throw new IllegalArgumentException("SQLに誤りがあります。')'がありません");
+				throw new IllegalArgumentException("The mistake is found in SQL. There is no ')'.");
 			}
 		} else {
 			// SELECT文
-			s = s.toUpperCase(); // 大文字で判定する
+			s = s.toUpperCase();
 			if (s.startsWith("SELECT") || s.startsWith("SHOW") || s.startsWith("DESCRIBE")) {
 				return true;
 			} else {
@@ -173,22 +127,10 @@ public class SQLUtil {
 
 	}
 
-	/**
-	 * "hogehoge", 'hogehoge'以外の文字を全て大文字に変換する
-	 *
-	 * @param sql
-	 * @return
-	 */
 	public static String toUpperCase(String sql) {
 		return toCase(sql, MODE_TO_UPPER);
 	}
 
-	/**
-	 * "hogehoge", 'hogehoge'以外の文字を全て小文字に変換する
-	 *
-	 * @param sql
-	 * @return
-	 */
 	public static String toLowerCase(String sql) {
 		return toCase(sql, MODE_TO_LOWER);
 	}
@@ -202,7 +144,7 @@ public class SQLUtil {
 		StringTokenizer t = new StringTokenizer(sql, " ");
 		String token = null;
 		int indent = 0;
-		int preIndent = 0; // 1つ前のインデント
+		int preIndent = 0;
 
 		while ((token = t.nextToken()) != null) {
 			if (token.trim().length() == 0) {
@@ -276,13 +218,13 @@ class Tokenizer extends StreamTokenizer {
 		wordChars('"', '"');
 		wordChars('\n', '\n');
 		wordChars('\r', '\r');
-		wordChars('.', '.'); // ピリオドでは分割しない
-		wordChars('*', '*'); // *では分割しない
-		wordChars('/', '/'); // /では分割しない
+		wordChars('.', '.');
+		wordChars('*', '*');
+		wordChars('/', '/');
 		// quoteChar(TT_QUOTE);
 		// quoteChar(TT_DOUBLE_QUOTE);
-		// tokenizer.parseNumbers(); // 数字解析しない
-		eolIsSignificant(false);// EOLの判定false
+		// tokenizer.parseNumbers();
+		eolIsSignificant(false);
 		// slashStarComments(true);
 		// slashSlashComments(true);
 	}

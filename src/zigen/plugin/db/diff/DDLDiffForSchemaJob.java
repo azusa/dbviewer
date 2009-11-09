@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.diff;
 
@@ -99,15 +99,12 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 			Schema schema2 = (Schema) s2.clone();
 			schema2.setParent(s2.getParent());
 
-			// 1つ目のスキーマ配下をロード
 			if (loadAll(monitor, schema1, map1) == Status.OK_STATUS) {
-				// 2つ目のスキーマ配下をロード
 				result = loadAll(monitor, schema2, map2);
 			} else {
 				return Status.CANCEL_STATUS;
 			}
 
-			// すべてのテーブル名を並べかえ
 			Collections.sort(allTables);
 
 			for (Iterator iter = allTables.iterator(); iter.hasNext();) {
@@ -203,7 +200,6 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 				} else if (currentType.toUpperCase().matches(TargetFolderPattern2)) {
 					if (DBType.getType(config) == DBType.DB_TYPE_ORACLE) {
 						try {
-							// ソース系
 							OracleSourceInfo[] infos = OracleSourceSearcher.execute(con, schema.getName(), currentType);
 							totalWork += infos.length;
 
@@ -226,19 +222,6 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 				} else {
 					continue;
 				}
-
-				// else if ("SEQUENCE".equals(tableTypes[i])) { //$NON-NLS-1$
-				// // SEQUENCE は、Oracleのみ対応
-				// switch (DBType.getType(schema.getDbConfig())) {
-				// case DBType.DB_TYPE_ORACLE:
-				// Folder folder = new Folder();
-				// folder.setName(tableTypes[i]);
-				// OracleSequence seq = new OracleSequence();
-				// seq.setName(DbPluginConstant.TREE_LEAF_LOADING);
-				// folder.addChild(seq);
-				// schema.addChild(folder);
-				// }
-				// }
 
 				monitor.beginTask(config.getDbName() + "/" + schema.getName() + Messages.getString("DDLDiffJob.1") + tableTypes[i] + Messages.getString("DDLDiffJob.2"), totalWork); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				TreeLeaf leaf = schema.getChild(currentType);

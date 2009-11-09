@@ -1,23 +1,14 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
 
 import java.sql.DatabaseMetaData;
 
-/**
- * DBTypeクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/30 ZIGEN create.
- * 
- */
 public class DBType {
-
 
 	public static final int DB_TYPE_UNKNOWN = -1;
 
@@ -83,7 +74,7 @@ public class DBType {
 		// //$NON-NLS-1$
 		final String DB_INTERBASE = "interbase"; //$NON-NLS-1$
 
-		driverName = driverName.toLowerCase();// 小文字変換
+		driverName = driverName.toLowerCase();
 
 		if (driverName.indexOf(DB_ORACLE) >= 0) {
 			return DB_TYPE_ORACLE;

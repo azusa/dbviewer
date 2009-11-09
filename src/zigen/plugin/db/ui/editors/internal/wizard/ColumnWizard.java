@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal.wizard;
@@ -45,7 +45,6 @@ public class ColumnWizard extends DefaultWizard implements IConfirmDDLWizard {
 
 	}
 
-	// オーバーライド
 	public boolean canFinish() {
 		if (page1.isPageComplete() && confirmPage.isPageComplete()) {
 			return true;
@@ -78,15 +77,13 @@ public class ColumnWizard extends DefaultWizard implements IConfirmDDLWizard {
 			for (int i = 0; i < sqls.length; i++) {
 				list.add(sqls[i]);
 			}
-			list.add(factory.createCommentOnColumnDDL(newColumn));// カラムコメントの設定
+			list.add(factory.createCommentOnColumnDDL(newColumn));
 
 		} else {
-			// カラム名の変更
 			if (!column.getName().equals(newColumn.getName())) {
 				list.add(factory.createRenameColumnDDL(column, newColumn));
 
 			}
-			// カラム型・桁の変更
 			if (!column.getTypeName().equals(newColumn.getTypeName()) || !column.getSize().equals(newColumn.getSize())
 					|| !column.getDefaultValue().equals(newColumn.getDefaultValue()) || column.isNotNull() != newColumn.isNotNull()) {
 
@@ -97,7 +94,7 @@ public class ColumnWizard extends DefaultWizard implements IConfirmDDLWizard {
 			}
 
 			if (!column.getRemarks().equals(newColumn.getRemarks())) {
-				list.add(factory.createCommentOnColumnDDL(newColumn));// カラムコメントの設定
+				list.add(factory.createCommentOnColumnDDL(newColumn));
 			}
 
 		}

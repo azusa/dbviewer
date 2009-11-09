@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0 
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal.wizard;
@@ -33,7 +33,6 @@ abstract public class DefaultWizard extends Wizard implements IConfirmDDLWizard 
 
 	public DefaultWizard(ISQLCreatorFactory factory, ITable tableNode) {
 		super();
-		// super.setWindowTitle("PrimaryKey制約・設定ウィザード");
 		this.factory = factory;
 		this.tableNode = tableNode;
 		this.config = tableNode.getDbConfig();
@@ -46,8 +45,6 @@ abstract public class DefaultWizard extends Wizard implements IConfirmDDLWizard 
 
 	public boolean performFinish() {
 		try {
-
-			// 前ページに戻ってからの終了ボタンでも反映させるために、再度SQLを生成する
 			confirmPage.generateSQL();
 
 			int rowAffected = 0;

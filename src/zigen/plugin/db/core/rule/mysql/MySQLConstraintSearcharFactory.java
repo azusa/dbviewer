@@ -49,7 +49,6 @@ public class MySQLConstraintSearcharFactory extends DefaultConstraintSearcherFac
 				return (TablePKColumn[]) list.toArray(new TablePKColumn[0]);
 
 			} else {
-				// MySQL5ˆÈŠO
 				return super.getPKColumns(con, schemaPattern, tableName);
 			}
 

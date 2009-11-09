@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -14,14 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * SchemaSearcherクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/18 ZIGEN create.
- *
- */
 public class SchemaSearcher {
 
 	public static String[] execute(IDBConfig config) throws Exception {
@@ -42,7 +34,6 @@ public class SchemaSearcher {
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
 
-			// add ZIGEN スキーマサポートのチェックを追加
 			if (!isSupport(con)) {
 				return new String[0];
 			}
@@ -106,20 +97,12 @@ public class SchemaSearcher {
 		}
 	}
 
-	/**
-	 * 指定したスキーマ名が存在するか(大文字小文字の区別をしない)
-	 * @param con
-	 * @param target
-	 * @return
-	 * @throws Exception
-	 */
 	public static void existSchemaName(Connection con, String target) throws SQLException {
 		ResultSet rs = null;
 		Statement st = null;
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
 
-			// add ZIGEN スキーマサポートのチェックを追加
 			if (!isSupport(con)) {
 				return;
 			}

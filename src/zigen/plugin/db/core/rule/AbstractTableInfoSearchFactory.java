@@ -23,9 +23,6 @@ import zigen.plugin.db.core.rule.symfoware.SymfowareColumnSearcharFactory;
 
 abstract public class AbstractTableInfoSearchFactory implements ITableInfoSearchFactory {
 
-	/**
-	 * Factory‚ÌƒLƒƒƒbƒVƒ…‰»
-	 */
 	private static Map map = new HashMap();
 
 	public static ITableInfoSearchFactory getFactory(DatabaseMetaData meta) throws SQLException{
@@ -115,32 +112,5 @@ abstract public class AbstractTableInfoSearchFactory implements ITableInfoSearch
 	abstract public String getTableInfoAllSql(String owner, String[] types);
 
 	abstract public String getTableInfoSql(String owner, String tableName, String type);
-
-//	public Map getRemarkMap(Connection con, String owner) throws Exception {
-//	Map result = null;
-//	ResultSet rs = null;
-//	Statement st = null;
-//	try {
-//		st = con.createStatement();
-//		String query = getCommnentsSql(owner);
-//		if (query != null) {
-//			result = new HashMap();
-//			rs = st.executeQuery(query);
-//			while (rs.next()) {
-//				TableComment info = new TableComment();
-//				info.setTableName(rs.getString(1));
-//				info.setRemarks(rs.getString(2));
-//				result.put(info.getTableName(), info);
-//			}
-//		}
-//	} catch (Exception e) {
-//		DbPlugin.log(e);
-//		throw e;
-//	} finally {
-//		ResultSetUtil.close(rs);
-//		StatementUtil.close(st);
-//	}
-//	return result;
-//}
 
 }

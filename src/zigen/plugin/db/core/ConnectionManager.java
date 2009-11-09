@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 
@@ -14,22 +14,8 @@ import java.sql.SQLException;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * ConnectionManagerクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/16 ZIGEN create.
- */
 public class ConnectionManager {
 
-	/**
-	 * Connectionオブジェクトの取得
-	 *
-	 * @param config
-	 * @return
-	 * @throws Exception
-	 */
 	public static Connection getConnection(IDBConfig config) throws Exception {
 
 		if (config == null) {
@@ -65,7 +51,7 @@ public class ConnectionManager {
 		} catch (SQLException e) {
 			// System.err.println(e.getMessage());
 		} catch (Error e) {
-			; // symfoware では java.lang.AbstractMethodErrorが発生する
+			; // symfoware throw java.lang.AbstractMethodError
 		}
 		return version;
 	}
@@ -77,7 +63,7 @@ public class ConnectionManager {
 		} catch (SQLException e) {
 			// System.err.println(e.getMessage());
 		} catch (Error e) {
-			;// symfoware では java.lang.AbstractMethodErrorが発生する
+			;// symfoware throw java.lang.AbstractMethodError
 		}
 		return version;
 	}
@@ -89,7 +75,7 @@ public class ConnectionManager {
 		} catch (SQLException e) {
 			// System.err.println(e.getMessage());
 		} catch (Error e) {
-			;// symfoware では java.lang.AbstractMethodErrorが発生する
+			;// symfoware throw  java.lang.AbstractMethodError
 		}
 		return version;
 	}
@@ -115,11 +101,6 @@ public class ConnectionManager {
 		}
 	}
 
-	/**
-	 * コネクションのCLOSE処理
-	 *
-	 * @param con
-	 */
 	public static void closeConnection(Connection con) {
 		if (con != null) {
 			try {
@@ -129,17 +110,9 @@ public class ConnectionManager {
 			} catch (SQLException e) {
 				DbPlugin.log(e);
 			}
-
-			// apache derby のファイルモードの場合は、以下の処理が必要
-
 		}
 	}
 
-	/**
-	 * コネクションのCLOSE処理
-	 *
-	 * @param con
-	 */
 	public static void closeConnection(IDBConfig config, Connection con) {
 		if (con != null) {
 			try {
@@ -149,9 +122,6 @@ public class ConnectionManager {
 			} catch (SQLException e) {
 				DbPlugin.log(e);
 			}
-
-			// apache derby のファイルモードの場合は、以下の処理が必要
-
 		}
 	}
 
@@ -164,7 +134,6 @@ public class ConnectionManager {
 
 				String jdbcDriver = config.getDriverName();
 				if (jdbcDriver.indexOf("EmbeddedDriver") > 0) { //$NON-NLS-1$
-					// 組み込みの場合のみ
 					Driver driver = manager.getDriver(config);
 					driver.connect("jdbc:derby:;shutdown=true", null); //$NON-NLS-1$
 				}
@@ -175,20 +144,14 @@ public class ConnectionManager {
 			}
 
 		} catch (SQLException e) {
-			// derbyのシャットダウンは必ずSQL例外が発生する
+			// SQL exception is generated in the shutdown of derby
 			throw e;
 		} finally {
-			// キャッシュから削除する
 			manager.removeCach(config);
 		}
 
 	}
 
-	/**
-	 * ロールバック処理
-	 *
-	 * @param con
-	 */
 	static void rollbackConnection(Connection con) {
 		if (con != null) {
 			try {
@@ -200,22 +163,21 @@ public class ConnectionManager {
 			}
 		}
 	}
-	
+
 	public static String getDBName(Connection con) {
 		String name = null;
 		try {
 			DatabaseMetaData objMet = con.getMetaData();
-			
+
 			switch (DBType.getType(objMet)) {
 				case DBType.DB_TYPE_SYMFOWARE:
 					String url = objMet.getURL();
 					String[] wk = url.split("/");
 					if (wk.length >= 4) {
 						String s = wk[3];
-						int index = s.indexOf(';'); // パラメータの区切り文字
+						int index = s.indexOf(';');
 						if (index >= 0) {
 							name = s.substring(0, index);
-							// の前までを使う
 						} else {
 							name = s;
 						}

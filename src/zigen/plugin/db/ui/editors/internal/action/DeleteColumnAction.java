@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal.action;
@@ -21,18 +21,9 @@ import zigen.plugin.db.ui.editors.internal.thread.DropColumnThread;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * InsertRecordActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class DeleteColumnAction extends TableViewEditorAction {
 
 	public DeleteColumnAction() {
-		// テキストやツールチップ、アイコンの設定
 		this.setText(Messages.getString("DeleteColumnAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("DeleteColumnAction.1")); //$NON-NLS-1$
 		this.setImageDescriptor(ISharedImages.IMG_TOOL_DELETE);
@@ -66,7 +57,6 @@ public class DeleteColumnAction extends TableViewEditorAction {
 							thread.run();
 						}
 					} else {
-						// cascade constraintsオプションをサポートしていない場合はこちら
 						if (DbPlugin.getDefault().confirmDialog(msg)) {
 							thread = new DropColumnThread(table, col, false);
 							thread.run();
@@ -74,8 +64,7 @@ public class DeleteColumnAction extends TableViewEditorAction {
 					}
 
 				} else {
-					throw new IllegalStateException("想定しているクラスではありません " + obj.getClass().getName()); //$NON-NLS-1$
-
+					;
 				}
 			}
 		} catch (Exception e) {

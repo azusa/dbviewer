@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.mysql;
@@ -14,15 +14,6 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.Constraint;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- *
- * OracleInsertFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- *
- */
 public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public MySQLSQLCreatorFactory(ITable table) {
@@ -67,7 +58,6 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		};
 	}
 
-	// MYSQLでは、PRIMARY KEYの制約名は表示しない
 	protected String getConstraintPKStr() {
 		StringBuffer sb = new StringBuffer();
 		if (pks == null || pks.length == 0)
@@ -80,7 +70,6 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 				primaryKeyName = pkc.getName();
 
 				sb.append("CONSTRAINT "); //$NON-NLS-1$
-				// MySQL の PrimaryKey制約では名前は付けない
 				// sb.append(pkc.getName());
 				// sb.append(" PRIMARY KEY ");
 
@@ -115,7 +104,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		}
 
 		if (limit > 0) {
-			sb.append(" LIMIT " + (limit + 1)); // ダイアログを出す為に＋１ //$NON-NLS-1$
+			sb.append(" LIMIT " + (limit + 1));//$NON-NLS-1$
 		}
 
 		return sb.toString();
@@ -171,7 +160,6 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String createRenameColumnDDL(Column from, Column to) {
-		// 名前だけ変更する
 		StringBuffer sb = new StringBuffer();
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
@@ -181,9 +169,8 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
 
-		// MySQLではカラム名の変更でも、型と桁は必要。
-		sb.append(to.getTypeName());// 型
-		if (isVisibleColumnSize(from.getTypeName())) {// 桁
+		sb.append(to.getTypeName());
+		if (isVisibleColumnSize(from.getTypeName())) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(from.getSize());
 			sb.append(")"); //$NON-NLS-1$
@@ -201,8 +188,8 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(" ADD ("); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
-		sb.append(column.getTypeName());// 型
-		if (isVisibleColumnSize(column.getTypeName())) {// 桁
+		sb.append(column.getTypeName());
+		if (isVisibleColumnSize(column.getTypeName())) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(column.getSize());
 			sb.append(")"); //$NON-NLS-1$
@@ -229,12 +216,12 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append("ALTER TABLE "); //$NON-NLS-1$
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" CHANGE COLUMN "); //$NON-NLS-1$
-		sb.append(SQLUtil.enclose(to.getName(), encloseChar)); // TOのカラム名を使用
+		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
 		sb.append(to.getTypeName());// 型
-		if (isVisibleColumnSize(to.getTypeName())) {// 桁
+		if (isVisibleColumnSize(to.getTypeName())) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(to.getSize());
 			sb.append(")"); //$NON-NLS-1$
@@ -267,7 +254,6 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" DROP COLUMN "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
-		// MySQL では未サポート
 		// sb.append(" CASCADE CONSTRAINTS ");
 		return new String[] {sb.toString()};
 
@@ -303,7 +289,6 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" BITMAP"); //$NON-NLS-1$
 		}
 		sb.append(" INDEX "); //$NON-NLS-1$
-		// INDEX名
 		sb.append(SQLUtil.enclose(indexName, encloseChar));
 		sb.append(" ON "); //$NON-NLS-1$
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
@@ -357,7 +342,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(constraintName, encloseChar));
-		sb.append(" UNIQUE "); // UNIQUE KEY ではなく、 UNIQUE //$NON-NLS-1$
+		sb.append(" UNIQUE ");//$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
 			Column column = columns[i];
@@ -435,13 +420,6 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(super.getCreateTableStr());
 		}
 
-		// MySQLは、COMMENT ON 句ではない
-		// テーブルコメント
-		// sb.append(getTableComment());
-
-		// MySQLは、COMMENT ON 句ではない
-		// カラムコメント
-		// sb.append(getColumnComment());
 		return sb.toString();
 	}
 

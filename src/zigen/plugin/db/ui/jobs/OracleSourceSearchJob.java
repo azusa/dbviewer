@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -48,10 +48,6 @@ public class OracleSourceSearchJob extends AbstractJob {
 				return Status.CANCEL_STATUS;
 			}
 
-			//folder.removeChildAll(); // 子ノードを全て削除
-			//showResults(new RefreshTreeNodeAction(viewer, folder)); // 再描画
-
-			// Folderの上位は、Schema前提
 			Schema schema = (Schema) folder.getParent();
 			String owner = schema.getName();
 			String type = folder.getName();
@@ -82,20 +78,12 @@ public class OracleSourceSearchJob extends AbstractJob {
 		return Status.OK_STATUS;
 	}
 
-	/**
-	 * ソース要素をフォルダ配下に追加する
-	 *
-	 * @param con
-	 * @param folder
-	 * @param infos
-	 * @throws Exception
-	 */
 	private void addSources(Connection con, Folder folder, OracleSourceInfo[] infos, Map errorMap) throws Exception {
 
 		List newList = new ArrayList();
 
 		for (int i = 0; i < infos.length; i++) {
-			newList.add(infos[i].getName());	// 要素名を保存しておく
+			newList.add(infos[i].getName());
 
 			OracleSource source;
 			if ("FUNCTION".equals(folder.getName())) { //$NON-NLS-1$
@@ -103,9 +91,7 @@ public class OracleSourceSearchJob extends AbstractJob {
 			} else {
 				source = new OracleSource();
 			}
-			// OracleInfomationを設定する
 			source.setOracleSourceInfo(infos[i]);
-			// 要素単位のエラーアイコン更新
 			source.setHasError(errorMap.containsKey(source.getName()));
 
 			TreeLeaf leaf = folder.getChild(source.getName());
@@ -125,7 +111,6 @@ public class OracleSourceSearchJob extends AbstractJob {
 
 		}
 
-		// 削除された要素などを削除する処理
 		TreeLeaf[] leafs = folder.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {
 			TreeLeaf leaf = leafs[i];

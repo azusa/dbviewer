@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.wizard;
@@ -18,14 +18,7 @@ import zigen.plugin.db.core.SameDbNameException;
 import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.views.TreeContentProvider;
 
-/**
- * TestWizardクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
+
 public class ImpDBConfigWizard extends Wizard {
 
 	private ImpWizardPage1 page1;
@@ -52,7 +45,6 @@ public class ImpDBConfigWizard extends Wizard {
 			for (int i = 0; i < tableItems.length; i++) {
 				TableItem item = tableItems[i];
 				if (item.isChecked()) {
-					// 設定を保存する
 					saveDBConfig(item.getConfig());
 
 				}
@@ -68,7 +60,6 @@ public class ImpDBConfigWizard extends Wizard {
 
 	}
 
-	// オーバーライド
 	public boolean canFinish() {
 		if (page1.isPageComplete()) {
 			return true;
@@ -77,12 +68,6 @@ public class ImpDBConfigWizard extends Wizard {
 		}
 	}
 
-	/**
-	 * 同じ名前があると「のコピー」と付ける
-	 * 
-	 * @param config
-	 * @param saveName
-	 */
 	private void saveDBConfig(IDBConfig config) {
 		try {
 			DBConfigManager.save(config);
@@ -90,16 +75,14 @@ public class ImpDBConfigWizard extends Wizard {
 			IContentProvider obj = viewer.getContentProvider();
 			if (obj instanceof TreeContentProvider) {
 				TreeContentProvider provider = (TreeContentProvider) obj;
-				DataBase registDb = provider.addDataBase(config); // データベースを追加する
-				// 追加 2007/11/22
+				DataBase registDb = provider.addDataBase(config);
 				viewer.expandToLevel(provider.getRoot(), 1);
 				viewer.refresh();
 
-				// 追加したデータエースに選択を与える
 				viewer.setSelection(new StructuredSelection(registDb), true);
 			}
 		} catch (SameDbNameException e) {
-			config.setDbName(config.getDbName() + "のコピー");
+			config.setDbName(config.getDbName() + Messages.getString("ImpDBConfigWizard.0")); //$NON-NLS-1$
 			saveDBConfig(config);
 		}
 	}

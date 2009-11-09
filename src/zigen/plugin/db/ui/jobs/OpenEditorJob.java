@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -56,24 +56,11 @@ public class OpenEditorJob extends RefreshColumnJob {
 
 				monitor.beginTask("Open Editor...", 10);
 
-				// カラム情報をロード
-				// if (!table.isExpanded()) {
-				/*
-				 * for test if (!super.loadColumnInfo(monitor, con, config.isConvertUnicode())) { table.setExpanded(false); return Status.CANCEL_STATUS; }
-				 */
-
-				// テーブル編集エディター起動時は、カラムを展開しない
-				// showResults(new RefleshTableNodeAction(viewer, table));
-				// showSyncResults(new RefreshTreeNodeAction(viewer, table,
-				// RefreshTreeNodeAction.MODE_NOTHING));
-				// }
-				// SQL実行ビューに起動
 				showResults(new ShowSQLViewerAction(table));
 				if (monitor.isCanceled()) {
 					return Status.CANCEL_STATUS;
 				}
 
-				// エディターにフォーカスが飛ぶように順番入れ替え
 				showSyncResults(new ShowTableEditorAction(table));
 
 				if (table instanceof Bookmark) {
@@ -88,7 +75,6 @@ public class OpenEditorJob extends RefreshColumnJob {
 						} else {
 							db.addChild(new Folder(DbPluginConstant.TREE_LEAF_LOADING)); // ダミーノード追加
 						}
-						// DB未接続状態から接続状態にする、その際にDBノードは展開しない
 						showResults(new RefreshTreeNodeAction(viewer, db, RefreshTreeNodeAction.MODE_COLLAPSE)); // 展開しない
 
 					}
@@ -98,8 +84,8 @@ public class OpenEditorJob extends RefreshColumnJob {
 
 		} catch (NotFoundSynonymInfoException e) {
 			table.setEnabled(false);
-			table.removeChildAll(); // 子ノードを全て削除
-			showResults(new RefreshTreeNodeAction(viewer, table)); // 再描画
+			table.removeChildAll();
+			showResults(new RefreshTreeNodeAction(viewer, table));
 			showErrorMessage(Messages.getString("OpenEditorJob.1"), e); //$NON-NLS-1$
 
 		} catch (Exception e) {
@@ -122,9 +108,6 @@ public class OpenEditorJob extends RefreshColumnJob {
 			try {
 				IDBConfig config = table.getDbConfig();
 				if (config != null) {
-
-					// SQL実行ビューに起動
-					// 存在チェックして、存在しない場合のみ起動するように修正 20071205 ZIGEN
 
 					SQLExecuteView view = null;
 					IWorkbenchPage page = DbPlugin.getDefault().getPage();
@@ -186,7 +169,7 @@ public class OpenEditorJob extends RefreshColumnJob {
 				if (editor instanceof TableViewEditorFor31) {
 					TableViewEditorFor31 tEditor = (TableViewEditorFor31) editor;
 					tEditor.setSelection(viewer.getSelection());
-					boolean isSearch = false; // 再検索しない
+					boolean isSearch = false;
 					tEditor.createResultPage(config, table, isSearch);
 
 				}

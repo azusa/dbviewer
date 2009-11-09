@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal.wizard;
@@ -282,26 +282,5 @@ public class PKWizardPage extends DefaultWizardPage {
 		}
 	}
 
-	// public String getTargetColumn(){
-	// StringBuffer sb = new StringBuffer();
-	// //sb.append(tableNode.getName());
-	// //sb.append("(");
-	// for (int i = 0; i < selectedList.size() ; i++) {
-	// Column column = (Column)selectedList.get(i);
-	// if(i == 0){
-	// sb.append(column.getColumn().getColumnName());
-	// }else{
-	// sb.append(", ");
-	// sb.append(column.getColumn().getColumnName());
-	// }
-	// }
-	//
-	// //sb.append(")");
-	// return sb.toString();
-	// }
-	//
-	// public int getTargetColumnCount(){
-	// return selectedList.size();
-	// }
 
 }

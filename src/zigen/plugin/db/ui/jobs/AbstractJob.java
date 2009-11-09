@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.jobs;
@@ -17,14 +17,7 @@ import zigen.plugin.db.JobException;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.ui.views.SQLExecuteView;
 
-/**
- * AbstractOpenEditorJobクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/02/08 ZIGEN create.
- * 
- */
+
 public abstract class AbstractJob extends Job {
 
 	protected IPreferenceStore store;
@@ -67,24 +60,6 @@ public abstract class AbstractJob extends Job {
 	protected void updateMessage(IDBConfig config, String message, String secondaryId) {
 		Display.getDefault().asyncExec((Runnable) new UpdateStatusMessageAction(message, secondaryId));
 	}
-
-	// protected boolean isModal(Job job) {
-	// Boolean isModal = (Boolean)
-	// job.getProperty(IProgressConstants.PROPERTY_IN_DIALOG);
-	// if (isModal == null)
-	// return true; // ダイアログが無い場合は検索結果を即表示するためtrueにする
-	// return isModal.booleanValue();
-	// }
-	//
-	// protected void showResults(Runnable action) {
-	// if (isModal(this)) {
-	// Display.getDefault().asyncExec(action);
-	// } else {
-	// setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
-	// setProperty(IProgressConstants.ACTION_PROPERTY, action);
-	// }
-	// }
-
 
 	public class ShowInformationMessageAction implements Runnable {
 
@@ -166,32 +141,6 @@ public abstract class AbstractJob extends Job {
 			}
 		}
 	}
-
-	// public class UpdateResponseTimeAction implements Runnable {
-	// String msg = null;
-	// public UpdateResponseTimeAction(String msg) {
-	// this.msg = msg;
-	// }
-	// public void run() {
-	// try {
-	// IViewPart part = DbPlugin.findView(DbPluginConstant.VIEW_ID_SQLExecute);
-	// // if (part instanceof SQLExecuteView) {
-	// // SQLExecuteView view = (SQLExecuteView) part;
-	// // view.setResponseTime(msg);
-	// // }
-	// SQLExecuteView view = DbPlugin.getDefault().getActiveSQLExecuteView();
-	// if (view != null) {
-	// view.setResponseTime(msg);
-	// }
-	//
-	// } catch (Exception e) {
-	// DbPlugin.log(e);
-	// }
-	//
-	// }
-	//
-	// }
-
 	public class UpdateStatusMessageAction implements Runnable {
 
 		private String message;

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0 
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -37,7 +37,6 @@ public class SourceTypeSearchJob extends AbstractJob {
 			Connection con = Transaction.getInstance(schema.getDbConfig()).getConnection();
 
 			schema.removeChildAll();
-			// 結果反映
 			showResults(new RefreshTreeNodeAction(viewer, schema));
 
 			String owner = schema.getName();

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -29,11 +29,11 @@ import zigen.plugin.db.core.TimeWatcher;
 
 /**
  * DefaultColumnSearcherFactory.java.
- * 
+ *
  * @author ZIGEN
  * @version 1.0
  * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- * 
+ *
  */
 public class DefaultConstraintSearcherFactory extends AbstractConstraintSearcherFactory implements IConstraintSearcherFactory {
 
@@ -138,10 +138,6 @@ public class DefaultConstraintSearcherFactory extends AbstractConstraintSearcher
 			tw.stop();
 
 
-			// if (log.isDebugEnabled()) {
-			// log.debug("INDEX検索時間：" + tw.getTotalTime()); //$NON-NLS-1$
-			// }
-
 			while (rs.next()) {
 				String indexName = rs.getString("INDEX_NAME"); //$NON-NLS-1$
 				if (indexName != null) {
@@ -168,7 +164,7 @@ public class DefaultConstraintSearcherFactory extends AbstractConstraintSearcher
 
 		} catch (SQLException e) {
 			DbPlugin.log(e);
-			return new TableIDXColumn[0];// 未サポート用
+			return new TableIDXColumn[0];
 
 		} catch (Exception e) {
 			DbPlugin.log(e);

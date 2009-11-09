@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.sql;
 
@@ -99,9 +99,6 @@ public class SequenceEditor extends EditorPart implements IPropertyChangeListene
 		// hookContextMenu();
 	}
 
-	// /**
-	// * ポップアップメニュー作成メソッド
-	// */
 	// private void hookContextMenu() {
 	// MenuManager menuMgr = new MenuManager("#PopupMenu");
 	// menuMgr.setRemoveAllWhenShown(true);
@@ -212,7 +209,7 @@ public class SequenceEditor extends EditorPart implements IPropertyChangeListene
 			sqlConfiguration.updatePreferences(sqlViewer.getDocument());
 			StyledTextUtil.changeColor(colorManager, sqlViewer.getTextWidget());
 			// LineNumberRulerColumnUtil.changeColor(colorManager, rulerCol);
-			sqlViewer.invalidateTextPresentation();// テキストエディタを再描画
+			sqlViewer.invalidateTextPresentation();
 		}
 	}
 
@@ -229,8 +226,6 @@ public class SequenceEditor extends EditorPart implements IPropertyChangeListene
 	}
 
 	public void setFocus() {
-	// TODO Auto-generated method stub
-	// setGlobalAction();
 	}
 
 	public void dispose() {

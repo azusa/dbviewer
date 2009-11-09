@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -71,13 +71,6 @@ import zigen.plugin.db.ui.views.internal.SQLCodeConfiguration;
 import zigen.plugin.db.ui.views.internal.SQLDocument;
 import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
-/**
- * TreeViewクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/11/27 ZIGEN create.
- */
 public class HistoryView extends ViewPart implements IStatusChangeListener {
 
 	protected SQLHistoryManager mgr = DbPlugin.getDefault().getHistoryManager();
@@ -144,11 +137,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 
 		// viewer = new TreeViewer(sash, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL);
 
-		/*
-		 * DND処理はコメントアウト int dragOption = DND.DROP_DEFAULT | DND.DROP_MOVE | DND.DROP_COPY; Transfer[] transfers = new Transfer[]{ TreeLeafListTransfer.getInstance() };
-		 * viewer.addDragSupport(dragOption, transfers, new DragBookmarkAdapter(viewer)); viewer.addDropSupport(dragOption, transfers, new DropBookmarkAdapter(viewer));
-		 */
-
 		HistoryContentProvider hcp = new HistoryContentProvider();
 
 		viewer.setContentProvider(hcp);
@@ -185,7 +173,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 
 		sash.setWeights(new int[] {50, 50});
 
-		// SelectionProviderに登録(変更を通知させるため）
 		getSite().setSelectionProvider(viewer);
 		DbPlugin.addStatusChangeListener(this);
 
@@ -195,9 +182,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		hookContextMenu();
 	}
 
-	/**
-	 * 選択した要素によってメニューの活性・非活性を制御
-	 */
 	void selectionChangeHandler(SelectionChangedEvent event) {
 		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 		if (selection.size() == 1) {
@@ -253,9 +237,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		label1.setLayoutData(gridData);
 		label1.setText(" Filter:"); //$NON-NLS-1$
 
-		// ツールバー
-		// ToolBar toolbar = new ToolBar(tool, SWT.FLAT);
-
 		filterComb = new Combo(tool, SWT.NONE);
 		filterComb.setVisibleItemCount(20);
 		filterComb.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -283,7 +264,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 
 		});
 		filterHistory = loadFilterHistory();
-		// 初期一覧の作成
 		if (filterHistory != null) {
 			if (filterHistory.size() == 0) {
 				filterComb.add("");
@@ -304,22 +284,20 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		if (!"".equals(condition)) { //$NON-NLS-1$
 			viewer.addFilter(new HistoryViewTableFilter(condition));
 		}
-		// 一致した条件を一度削除し、最上位に移動させる
 		if (filterHistory.contains(condition)) {
 			filterHistory.remove(condition);
 			filterComb.remove(condition);
 		}
-		filterHistory.add(0, condition); // 先頭に追加
-		filterComb.add(condition, 0); // 先頭に追加
-		filterComb.select(0);// 先頭を選択する
-		// 最大値を超えた分を削除する
+		filterHistory.add(0, condition);
+		filterComb.add(condition, 0);
+		filterComb.select(0);
 		removeOverHistory();
 
 		filterComb.setFocus();
 	}
 
 	private void removeOverHistory() {
-		while (filterHistory.size() > maxSize) { // 空白用を考慮
+		while (filterHistory.size() > maxSize) {
 			int i = filterHistory.size() - 1;
 			filterHistory.remove(i);
 			filterComb.remove(i);
@@ -341,7 +319,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 	}
 
 	protected void hookDoubleClickAction() {
-		// DoubleClickHandlerの追加
 		viewer.addDoubleClickListener(new HistoryDoubleClickHandler());
 	}
 
@@ -367,7 +344,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 	}
 
 	void fillContextMenu(IMenuManager manager) {
-		// 選択したものによって表示するメニューを変更
 		Object obj = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
 		if (obj instanceof HistoryFolder || obj instanceof History) {
 			manager.add(removeHistoryAction);
@@ -377,7 +353,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 	}
 
 	public void setFocus() {
-		// SQL実行ビューの実行履歴ボタンを選択にする
 		viewer.getControl().notifyListeners(SWT.Selection, null);
 		DbPlugin.fireStatusChangeListener(this, SWT.Selection);
 
@@ -419,7 +394,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 					TreeViewer viewer = (TreeViewer) view;
 					Object element = ((StructuredSelection) selection).getFirstElement();
 					if (element instanceof History) {
-						// ダブルクリックで接続する
 						History history = (History) element;
 						SQLExecuteView sview;
 						if (lastSecondaryId == null) {
@@ -431,18 +405,14 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 							SQLHistory sh = history.getSqlHistory();
 							sview.setSqlText(mgr.loadContents(sh));
 							if (sh.getConfig() != null) {
-								// 旧Versionは、DBConfigを持たない
 								sview.updateCombo(sh.getConfig());
 							}
 
-							// 履歴の位置を更新する
 							historyManager.modifyCurrentPosition(sh);
-							// 履歴ボタンを更新する
 							sview.updateHistoryButton();
 
 						}
 					} else if (element instanceof TreeNode) {
-						// それ以外のノード要素は展開または非展開処理を行う
 						changeExpandedState(viewer, (TreeNode) element);
 					}
 
@@ -453,29 +423,18 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 
 		}
 
-		/**
-		 * 展開・非展開の切り替え
-		 * 
-		 * @param element
-		 */
 		private void changeExpandedState(TreeViewer viewer, TreeNode element) {
-			// 要素が展開状態かどうか
 			if (!viewer.getExpandedState(element)) {
-				viewer.expandToLevel(element, 1); // 展開状態にする
+				viewer.expandToLevel(element, 1);
 
 			} else {
-				viewer.collapseToLevel(element, 1); // 非展開状態にする
+				viewer.collapseToLevel(element, 1);
 			}
 
 		}
 
 	}
 
-	/**
-	 * SQL履歴ビューを更新する
-	 * 
-	 * @param history
-	 */
 	public void updateHistoryView(SQLHistory history) {
 		IContentProvider cp = viewer.getContentProvider();
 		if (cp instanceof HistoryContentProvider) {
@@ -487,7 +446,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 		}
 	}
 
-	// <!-- [002] 追加 ZIGEN 2005/06/02
 	protected void contributeToActionBars() {
 		IActionBars bars = getViewSite().getActionBars();
 		// fillLocalPullDown(bars.getMenuManager());
@@ -517,7 +475,6 @@ public class HistoryView extends ViewPart implements IStatusChangeListener {
 			ToolItem verticalItem = new ToolItem(toolbar, SWT.RADIO);
 			ToolItem horizonItem = new ToolItem(toolbar, SWT.RADIO);
 
-			// 保存されているレイアウトタイプをデフォルトとしておく
 			Object obj = settringMgr.getValue(PluginSettingsManager.KEY_SQLHISTORY_LAYOUT);
 			if (obj != null && obj instanceof String) {
 				String value = (String) obj;

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal.wizard;
@@ -80,10 +80,8 @@ public class FKWizardPage2 extends PKWizardPage {
 
 		setPageComplete(false);
 
-		// 選択したテーブルで作成するために初期化する
 		columnList = new ArrayList();
 
-		// テーブル一覧作成
 		createTableList();
 
 	}
@@ -169,14 +167,13 @@ public class FKWizardPage2 extends PKWizardPage {
 				TableInfo tableInfo = (TableInfo) refTableList.get(index);
 				createColumnList(tableInfo.getName());
 
-				selectColumnViewer.setInput(null); // 初期化
+				selectColumnViewer.setInput(null);
 			}
 
 		});
 	}
 
 	protected void createOptionControl(Composite container) {
-		; // 拡張用メソッド
 		chkDeleteCascade = new Button(container, SWT.CHECK);
 		chkDeleteCascade.setText(Messages.getString("FKWizardPage2.12")); //$NON-NLS-1$
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -206,12 +203,6 @@ public class FKWizardPage2 extends PKWizardPage {
 
 	}
 
-	// protected void setHeaderColumn(Table table) {
-	// TableColumn col1 = new TableColumn(table, SWT.NONE);
-	// col1.setText("dummy");
-	// col1.pack();
-	//
-	// }
 
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);

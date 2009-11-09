@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -53,7 +53,6 @@ public class LoadColumnsJob extends AbstractLoadColumnJob {
 			for (int i = 0; i < tables.length; i++) {
 				ITable table = tables[i];
 				if (!table.isExpanded()) {
-					// Oracle10gでBIN$からはじめるテーブルは無視する
 					if (DBType.getType(config) == DBType.DB_TYPE_ORACLE && config.getDataBaseProductMajorVersion() == 10) {
 						if (!table.getName().startsWith("BIN$")) { //$NON-NLS-1$
 							loadTable(monitor, con, table, total);
@@ -96,15 +95,13 @@ public class LoadColumnsJob extends AbstractLoadColumnJob {
 				}
 
 				table.setExpanded(true);
-				// showResults(new RefreshTreeNodeAction(viewer, table));
-				// カラムを展開する
 				showResults(new RefreshTreeNodeAction(viewer, table, RefreshTreeNodeAction.MODE_EXPAND));
 			}
 
 		} catch (NotFoundSynonymInfoException e) {
 			table.setEnabled(false);
-			table.removeChildAll(); // 子ノードを全て削除
-			showResults(new RefreshTreeNodeAction(viewer, table)); // 再描画
+			table.removeChildAll();
+			showResults(new RefreshTreeNodeAction(viewer, table));
 			// showErrorMessage(Messages.getString("RefreshColumnJob.1"), e);// //$NON-NLS-1$
 			throw e;
 

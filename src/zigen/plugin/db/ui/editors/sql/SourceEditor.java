@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.sql;
 
@@ -172,7 +172,6 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 
 		StyledTextUtil.changeColor(colorManager, sourceViewer.getTextWidget());
 
-		// ポップアップメニュー作成
 		hookContextMenu();
 
 	}
@@ -185,7 +184,7 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 		Composite content = new Composite(parent, SWT.NONE);
 		FormLayout layout = new FormLayout();
 		content.setLayout(layout);
-		//		
+		//
 		createToolbarPart(content);
 
 		sash = new SashForm(content, SWT.VERTICAL | SWT.NONE);
@@ -232,7 +231,6 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 
 		hookContextMenu();
 
-		// sourceViewer作成後に、Actionに割り当てる
 		setSQLViewerToAction(sourceViewer);
 
 		return sourceViewer;
@@ -267,7 +265,6 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 		toolBarMgr2.add(openSQLAction);
 		toolBarMgr2.add(saveSQLAction);
 
-		// 2007/11/22 ファイル開く／保存を前に持ってきた
 		coolBarMgr.add(new ToolBarContributionItem(toolBarMgr2));
 		coolBarMgr.add(new ToolBarContributionItem(toolBarMgr1));
 		coolBarMgr.update(true);
@@ -298,7 +295,6 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 				getContributor().fillContextMenu(manager);
 			}
 		});
-		// SourceViewerへの割り当ては、TextWidgetに対して行うこと
 		StyledText text = sourceViewer.getTextWidget();
 		Menu menu = menuMgr.createContextMenu(text);
 		text.setMenu(menu);
@@ -358,11 +354,9 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 			sqlConfiguration.updatePreferences(sourceViewer.getDocument());
 			StyledTextUtil.changeColor(colorManager, sourceViewer.getTextWidget());
 			// LineNumberRulerColumnUtil.changeColor(colorManager, rulerCol);
-			sourceViewer.invalidateTextPresentation();// テキストエディタを再描画
+			sourceViewer.invalidateTextPresentation();
 
 			cpainter.setHighlightColor(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_CURSOR_LINE));
-
-			// ここから
 
 			StyledTextUtil.changeColor(colorManager, sourceViewer.getTextWidget());
 			LineNumberRulerColumnUtil.changeColor(colorManager, rulerCol);
@@ -370,13 +364,12 @@ public class SourceEditor extends TextEditor implements IPlsqlEditor, IPropertyC
 			painter.setColor(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_MATCHING));
 			cpainter.setHighlightColor(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_CURSOR_LINE));
 
-			// 変更したキーによって反映先を変更する
 			String property = event.getProperty();
 			if (SQLEditorPreferencePage.P_COLOR_FIND_SCOPE.equals(property)) {
 				initializeFindScopeColor(sourceViewer);
 			}
 
-			sourceViewer.invalidateTextPresentation();// テキストエディタを再描画
+			sourceViewer.invalidateTextPresentation();
 
 		}
 	}

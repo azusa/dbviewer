@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -16,14 +16,6 @@ import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.rule.mysql.MySQLConstraintSearcharFactory;
 import zigen.plugin.db.core.rule.oracle.OracleConstraintSearcharFactory;
 
-/**
- * AbstractColumnSearcherFactory.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- * 
- */
 public abstract class AbstractConstraintSearcherFactory implements IConstraintSearcherFactory {
 
 	public static final String getIndexTypeName(int indexType) {
@@ -41,21 +33,10 @@ public abstract class AbstractConstraintSearcherFactory implements IConstraintSe
 		}
 	}
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param config
-	 */
 	public static IConstraintSearcherFactory getFactory(IDBConfig config) {
 		return getFactory(config.getDriverName());
 	}
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param objMet
-	 * @param isConvertUnicode
-	 */
 	public static IConstraintSearcherFactory getFactory(DatabaseMetaData objMet) {
 		try {
 			return getFactory(objMet.getDriverName());
@@ -66,9 +47,6 @@ public abstract class AbstractConstraintSearcherFactory implements IConstraintSe
 
 	}
 
-	/**
-	 * MappingFactoryのキャッシュ化
-	 */
 	private static Map map = new HashMap();
 
 	public static IConstraintSearcherFactory getFactory(String driverName) {

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.wizard;
@@ -23,14 +23,6 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.internal.Root;
 
-/**
- * SelectTableWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class ExpWizardPage1 extends DefaultWizardPage {
 
 	public static final String MSG = Messages.getString("ExpWizardPage1.0"); //$NON-NLS-1$
@@ -71,32 +63,25 @@ public class ExpWizardPage1 extends DefaultWizardPage {
 		tableViewer = new TableViewer(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
 		Table table = tableViewer.getTable();
 		table.setLayoutData(gridData);
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(true); // ラインを表示
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
-		// テーブルヘッダの設定
 		setHeaderColumn(table, headers);
 
 		gridData = new GridData(GridData.FILL_BOTH);
 		tableViewer.getControl().setLayoutData(gridData);
 
 		String[] properties = new String[] {"check", ""}; //$NON-NLS-1$ //$NON-NLS-2$
-		// カラム・プロパティの設定
 		tableViewer.setColumnProperties(properties);
 
-		// 各カラムに設定するセル・エディタの配列
 		CellEditor[] editors = new CellEditor[] {new CheckboxCellEditor(table), null};
 
-		// セル・エディタの設定
 		tableViewer.setCellEditors(editors);
 
 		tableViewer.setCellModifier(new ExpWizardPage1CellModifier(this));
 		tableViewer.setContentProvider(new TableContentProvider());
 		tableViewer.setLabelProvider(new TableLabelProvider());
 
-		// ---------------------------
-		// テーブルItemの作成
-		// ---------------------------
 		createTableItems();
 
 		if (tableItems != null) {
@@ -128,9 +113,5 @@ public class ExpWizardPage1 extends DefaultWizardPage {
 		}
 
 	}
-
-	// public void setVisible(boolean visible) {
-	// super.setVisible(visible);
-	// }
 
 }

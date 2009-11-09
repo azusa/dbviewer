@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -28,16 +28,6 @@ import zigen.plugin.db.ui.internal.Table;
 import zigen.plugin.db.ui.internal.TreeNode;
 import zigen.plugin.db.ui.internal.View;
 
-/**
- * 
- * TableSearcherThreadクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/21 ZIGEN create. [002] 2005/11/23 ZIGEN スキーマ未サポートDB用の修正.
- * 
- * 
- */
 public class TableSearchThread implements Runnable {
 
 	StructuredViewer viewer;
@@ -56,10 +46,9 @@ public class TableSearchThread implements Runnable {
 			if (SchemaSearcher.isSupport(con)) {
 				tables = TableSearcher.execute(con, folder.getSchema().getName(), new String[] {folder.getName()});
 			} else {
-				// 第1引数からそれぞれデータベース名、スキーマ名、テーブル名、テーブルの型
 				tables = TableSearcher.execute(con, null, new String[] {folder.getName()});
 			}
-			AddTables(con, folder.getSchema(), folder, tables); // Schema未対応場合は、第二引数はNULLになる
+			AddTables(con, folder.getSchema(), folder, tables);
 
 			viewer.refresh(folder);
 
@@ -87,7 +76,6 @@ public class TableSearchThread implements Runnable {
 			TableInfo tableinfo = tables[i];
 			TreeNode node;
 			if ("SYNONYM".equals(label)) { //$NON-NLS-1$
-				// Synonymインスタンス作成
 				node = new Synonym(tableinfo.getName(), tableinfo.getComment());
 				switch (DBType.getType(con.getMetaData())) {
 				case DBType.DB_TYPE_ORACLE:

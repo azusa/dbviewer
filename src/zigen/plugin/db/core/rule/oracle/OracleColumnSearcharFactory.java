@@ -20,10 +20,9 @@ public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
 			ColumnInfo col = (ColumnInfo) map.get(tCol.getColumnName());
 
 			if (col.getData_precision() == null) {
-				// パラメータ無しの型と判定する
 				tCol.setColumnSize(0);
 				tCol.setDecimalDigits(0);
-				tCol.setWithoutParam(true); // パラメータ無し
+				tCol.setWithoutParam(true);
 			} else {
 				if (col.getData_precision() != null) {
 					tCol.setColumnSize(col.getData_precision().intValue());
@@ -35,10 +34,9 @@ public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
 				} else {
 					tCol.setDecimalDigits(0);
 				}
-				tCol.setWithoutParam(false); // パラメータ有り
+				tCol.setWithoutParam(false);
 			}
 
-			// 初期値には不要な空白が入ることがある場合があるためTrimする
 			if (col.getData_default() != null) {
 				tCol.setDefaultValue(col.getData_default().trim());
 			}
@@ -47,10 +45,8 @@ public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		}
 	}
 
-	// Oracle用SQL
 	protected String getCustomColumnInfoSQL(String dbName, String owner, String table) {
 		int databaseProductMajorVersion = getDatabaseMajorVersion();
-		System.out.println("ORACLEのバージョンは " + databaseProductMajorVersion);
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT");
 		sb.append("        COL.COLUMN_NAME ").append(COLUMN_NAME_STR);
@@ -58,15 +54,10 @@ public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		// sb.append(" ,COL.DATA_PRECISION");
 		if (databaseProductMajorVersion <= 8) {
 			// for Oracle8i
-			// Oracle 8i では、ALL_TAB_COLUMNSにCHAR_LENGTHが存在しなため、DATA_TYPEを使う。
-			// NUMBER型の場合は、DATA_PRECISIONを見るように変更したが、他の型を追加する必要があるかも
 			sb.append("        ,DECODE(COL.DATA_TYPE, 'NUMBER', COL.DATA_PRECISION, COL.DATA_LENGTH) ").append(DATA_PRECISION_STR);
 		} else {
 			// for Oracle 9i, 10g
-			// CHAR_LENGTHを使って、数値型の桁と文字型の桁を判定する
 			sb.append("        ,DECODE(CHAR_LENGTH, 0, COL.DATA_PRECISION, CHAR_LENGTH) ").append(DATA_PRECISION_STR); // Oracle9i
-			// or
-			// Oracle10gのみ
 		}
 		sb.append("        ,COL.DATA_SCALE ").append(DATA_SCALE_STR);
 		sb.append("        ,COL.DATA_DEFAULT ").append(DATA_DEFAULT_STR);
@@ -82,8 +73,6 @@ public class OracleColumnSearcharFactory extends DefaultColumnSearcherFactory {
 		sb.append("        AND COL.TABLE_NAME = '" + SQLUtil.encodeQuotation(table) + "'");
 		sb.append("    ORDER BY");
 		sb.append("        COL.COLUMN_ID");
-
-		System.out.println("カラム検索SQL \n" + sb.toString());
 		return sb.toString();
 	}
 

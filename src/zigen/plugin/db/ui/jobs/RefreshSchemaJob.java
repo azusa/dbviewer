@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -69,12 +69,10 @@ public class RefreshSchemaJob extends AbstractJob {
 					default:
 					}
 				}
-				System.out.println("RefreshSchama");
 				RefreshFolderJob job = new RefreshFolderJob(viewer, folder);
 				job.setPriority(RefreshFolderJob.SHORT);
 				job.schedule();
 
-				// RefreshFolderJobが終了するまで待機
 				try {
 					job.join();
 				} catch (InterruptedException e) {
@@ -85,7 +83,6 @@ public class RefreshSchemaJob extends AbstractJob {
 
 			}
 			schema.setExpanded(true);
-			// 再描画
 			showResults(new RefreshTreeNodeAction(viewer, schema, RefreshTreeNodeAction.MODE_NOTHING));
 
 		} catch (Exception e) {
@@ -95,7 +92,8 @@ public class RefreshSchemaJob extends AbstractJob {
 		} finally {
 		}
 
-		return Status.OK_STATUS; // エラーダイアログを表示するためにOKで返す
+		return Status.OK_STATUS;
+		// エラーダイアログを表示するためにOKで返す
 	}
 
 }

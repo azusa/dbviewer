@@ -1,13 +1,12 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
 
 import java.util.Enumeration;
 
-// ダブルクォートおよびシングルクォート内のデミリターは無視する
 public class StringTokenizer implements Enumeration {
 
 	private String demiliter = null;

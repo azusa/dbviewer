@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -65,7 +65,7 @@ public class SqlExecJob extends AbstractJob {
 
 	boolean isSuccess = false;
 
-	boolean isRelead = false; // Reloadボタン用
+	boolean isRelead = false;
 
 	public SqlExecJob(Transaction trans, String sqlString, String secondarlyId) {
 		this(trans, sqlString, secondarlyId, false);
@@ -106,14 +106,11 @@ public class SqlExecJob extends AbstractJob {
 				sql = tokenizer.nextToken();
 				if (sql != null && sql.length() > 0) {
 
-					// 実行するSQLを表示
-					String dispSql = sql.replaceAll("\\r\\n|\\r|\\n", ""); // 改行を取り除く
+					String dispSql = sql.replaceAll("\\r\\n|\\r|\\n", "");
 					monitor.subTask(cnt + "/" + total + " : " + dispSql); //$NON-NLS-1$ //$NON-NLS-2$
 
 					executeSingleSQL(trans, sql);
-					executeCount++; // 実行行をカウント
-					// for Test
-					// Thread.sleep(500);
+					executeCount++;
 
 					monitor.worked(1);
 
@@ -124,7 +121,6 @@ public class SqlExecJob extends AbstractJob {
 
 			}
 
-			// SQL履歴ビューを更新する
 			if (!isRelead) {
 				addHistory(trans.getConfig(), sqlString);
 				showResults(new UpdateSQLHistoryAction());
@@ -142,7 +138,7 @@ public class SqlExecJob extends AbstractJob {
 		} finally {
 
 		}
-		return Status.OK_STATUS; // エラーダイアログを表示するためにOKで返す
+		return Status.OK_STATUS;
 
 	}
 
@@ -232,7 +228,7 @@ public class SqlExecJob extends AbstractJob {
 			case DBType.DB_TYPE_ORACLE:
 				sql = StringUtil.convertLineSep(sql, "\n");
 				executeUpdate(sql);
-				showErrorMessageForOracle(trans, parseSql(sql)); // 入力時のSQLを実行
+				showErrorMessageForOracle(trans, parseSql(sql));
 				break;
 			default:
 				executeUpdate(sql);
@@ -322,7 +318,6 @@ public class SqlExecJob extends AbstractJob {
 
 	void addHistory(IDBConfig config, String sql) {
 		try {
-			// SQL履歴に保存
 			SQLHistory history = new SQLHistory(config, sql);
 			this.fSQLHistory = history;
 			this.isSuccess = mgr.addHistory(history);
@@ -344,11 +339,11 @@ public class SqlExecJob extends AbstractJob {
 
 			} else {
 				int rowAffected = SQLInvoker.executeUpdate(trans.getConnection(), sql);
-				trans.addCount(rowAffected); // トランザクションクラスに更新件数を追加する
+				trans.addCount(rowAffected);
 				message = createQueryMessage(trans.getTransactionCount());
 
 				if (trans.getConfig().isAutoCommit()) {
-					trans.resetCount(); // 更新件数をクリアする
+					trans.resetCount();
 				}
 			}
 			updateMessage(trans.getConfig(), message, secondarlyId);
@@ -442,7 +437,6 @@ public class SqlExecJob extends AbstractJob {
 
 	}
 
-	// SQL履歴ビューの更新処理
 	protected class UpdateSQLHistoryAction implements Runnable {
 
 		public UpdateSQLHistoryAction() {
@@ -458,7 +452,6 @@ public class SqlExecJob extends AbstractJob {
 						hv.updateHistoryView(fSQLHistory);
 						DbPlugin.fireStatusChangeListener(hv, IStatusChangeListener.EVT_UpdateHistory);
 					} else {
-						// SQL履歴ビューが無い場合の処理
 						DbPlugin.fireStatusChangeListener(null, IStatusChangeListener.EVT_UpdateHistory);
 					}
 

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors.internal.action;
@@ -44,19 +44,11 @@ public class AddColumnAction extends TableViewEditorAction {
 
 		Shell shell = DbPlugin.getDefault().getShell();
 
-		/*
-		 * TableDefineInputDialog dialog = new TableDefineInputDialog(shell, factory, tableNode, col, true); if (dialog.open() != Window.OK) { }
-		 */
-
 		// int column = tableNode.getChildrens().length;
 		ColumnWizard wizard = new ColumnWizard(factory, tableNode, col, true);
 		WizardDialog dialog2 = new WizardDialog(shell, wizard);
 		int ret = dialog2.open();
 		if (ret == IDialogConstants.OK_ID) {
-
-			// if(tableViewer != null){
-			// tableViewer.getTable().setSelection(column);
-			// }
 		}
 
 	}

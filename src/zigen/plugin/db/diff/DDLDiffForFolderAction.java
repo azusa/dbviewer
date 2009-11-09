@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.diff;
@@ -31,9 +31,6 @@ public class DDLDiffForFolderAction extends Action implements Runnable {
 		this.setToolTipText(Messages.getString("DDLDiffForFolderAction.1")); //$NON-NLS-1$
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		try {
@@ -57,13 +54,11 @@ public class DDLDiffForFolderAction extends Action implements Runnable {
 
 			if (index == 2) {
 
-				// ２つ選択されている場合のみ実行
 				DDLDiffForFolderJob job = new DDLDiffForFolderJob(viewer, left, right);
 				// job.setPriority(DDLDiffJob.SHORT);
 				job.setPriority(DDLDiffForSchemaJob.SHORT);
-				// job.setPriority(DDLDiffJob.DECORATE); // もっとも軽い
-
-				job.setUser(showDialog); // ダイアログを出す
+				// job.setPriority(DDLDiffJob.DECORATE);
+				job.setUser(showDialog);
 				job.schedule();
 
 			}

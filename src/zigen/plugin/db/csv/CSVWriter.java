@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.csv;
@@ -18,14 +18,6 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.Transaction;
 
-/**
- * CSVWriterクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- * 
- */
 public class CSVWriter {
 
 	private String DEMILITER = ","; //$NON-NLS-1$
@@ -36,11 +28,6 @@ public class CSVWriter {
 
 	private ICsvMappingFactory factory = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param config
-	 */
 	public CSVWriter(IDBConfig config, CSVConfig csvConfig) {
 		this.config = config;
 		this.csvConfig = csvConfig;
@@ -53,14 +40,7 @@ public class CSVWriter {
 
 	}
 
-	/**
-	 * 実行
-	 * 
-	 * @param config
-	 * @param query
-	 * @return
-	 * @throws Exception
-	 */
+
 	public void execute() throws Exception {
 		try {
 			Connection con = Transaction.getInstance(config).getConnection();
@@ -70,13 +50,7 @@ public class CSVWriter {
 		}
 	}
 
-	/**
-	 * コネクションを維持しながらSQLを連続実行する場合は直接起動する. その場合は、自分でConnectionのCloseを行うこと.
-	 * 
-	 * @param con
-	 * @param query
-	 * @throws Exception
-	 */
+
 	public void execute(Connection con, String query) throws Exception {
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -92,11 +66,9 @@ public class CSVWriter {
 			ResultSetMetaData meta = rs.getMetaData();
 
 			if (!csvConfig.isNonHeader()) {
-				// カラムラベルの書き込み
 				writeColumnLabel(pout, meta);
 			}
 
-			// カラム値の書き込み
 			writeColumnValue(pout, rs);
 
 		} catch (Exception e) {
@@ -113,10 +85,8 @@ public class CSVWriter {
 
 	}
 
-	// カラム名の書き込み
 	private void writeColumnLabel(PrintStream pout, ResultSetMetaData meta) throws SQLException {
 		int size = meta.getColumnCount();
-		// カラムの書き込み
 		for (int i = 0; i < size; i++) {
 			if (i == size - 1) {
 				pout.println("\"" + meta.getColumnLabel(i + 1) + "\""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -126,7 +96,6 @@ public class CSVWriter {
 		}
 	}
 
-	// カラムデータの書き込み
 	private int writeColumnValue(PrintStream pout, ResultSet rs) throws Exception {
 		ResultSetMetaData meta = rs.getMetaData();
 		int size = meta.getColumnCount();

@@ -1,7 +1,7 @@
 /*
- * ’˜ìŒ : Copyright (c) 2007|2008 ZIGEN
- * ƒ‰ƒCƒZƒ“ƒXFEclipse Public License - v 1.0 
- * Œ´•¶Fhttp://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007|2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.event;
 
@@ -11,7 +11,7 @@ public class PasteRecordMonitor {
 
 	public static void begin() {
 		Boolean b = new Boolean(true);
-		session.set(b); // ThreadLocal‚É“o˜^‚µ‚Ä‚¨‚­
+		session.set(b);
 	}
 
 	public static void end() {

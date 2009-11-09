@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -26,14 +26,6 @@ import zigen.plugin.db.ui.internal.Root;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.internal.TreeNode;
 
-/**
- * ViewContentProviderクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- * 
- */
 public class HistoryContentProvider implements ITreeContentProvider {
 
 	protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); //$NON-NLS-1$
@@ -85,9 +77,6 @@ public class HistoryContentProvider implements ITreeContentProvider {
 
 	}
 
-	/**
-	 * ツリーを再構築する
-	 */
 	public void addElement() {
 
 		TimeWatcher tw = new TimeWatcher();
@@ -97,7 +86,6 @@ public class HistoryContentProvider implements ITreeContentProvider {
 
 		// TreeLeaf last = null;
 
-		// 日付単位にする
 		for (Iterator iter = historys.iterator(); iter.hasNext();) {
 			SQLHistory element = (SQLHistory) iter.next();
 
@@ -109,7 +97,6 @@ public class HistoryContentProvider implements ITreeContentProvider {
 			String sql = history.getName();
 
 			if (!"".equals(sql)) { //$NON-NLS-1$
-				// 日付フォルダを探す
 				TreeNode node = (TreeNode) invisibleRoot.getChild(folder.getName());
 
 				if (node == null) {
@@ -159,9 +146,7 @@ public class HistoryContentProvider implements ITreeContentProvider {
 				if (sqlHistorys.contains(history.getSqlHistory())) {
 
 				} else {
-					// 一致しない履歴は削除します
 					folder.removeChild(history);
-					// 子要素(履歴)が全て無いのであれば、フォルダから削除します
 					if (folder.getChildren().size() == 0) {
 						invisibleRoot.removeChild(folder);
 						folders.remove(folders);
@@ -170,8 +155,6 @@ public class HistoryContentProvider implements ITreeContentProvider {
 				}
 			}
 		}
-
-		// 追加分の履歴をここで登録
 		History h = new History(newHistory);
 		HistoryFolder current = getHistoryHolder(newHistory.getDate());
 		if (current != null) {

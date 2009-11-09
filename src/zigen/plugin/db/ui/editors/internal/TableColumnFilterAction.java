@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.editors.internal;
 
@@ -28,7 +28,6 @@ public class TableColumnFilterAction extends Action implements Runnable {
 		Table table = viewer.getTable();
 		TableColumn[] cols = viewer.getTable().getColumns();
 
-		// 一時的に描画をとめる
 		table.setVisible(false);
 
 		try {
@@ -41,7 +40,6 @@ public class TableColumnFilterAction extends Action implements Runnable {
 					// column.setResizable(true);
 
 					if (!column.getResizable()) {
-						// サイズ変更不可ということは非表示と判定する
 						column.pack();
 						column.setResizable(true);
 					}
@@ -54,7 +52,6 @@ public class TableColumnFilterAction extends Action implements Runnable {
 		} catch (Exception e) {
 			DbPlugin.log(e);
 		}
-		// 描画を再開する
 		table.setVisible(true);
 	}
 

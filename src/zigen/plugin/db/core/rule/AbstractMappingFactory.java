@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -32,69 +32,48 @@ import zigen.plugin.db.core.rule.postgresql.PostgreSQLMappingFactory;
 import zigen.plugin.db.core.rule.symfoware.SymfowareMappingFactory;
 import zigen.plugin.db.preference.PreferencePage;
 
-/**
- * AbstractMappingFactory.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- * 
- */
 public abstract class AbstractMappingFactory implements IMappingFactory {
-	
+
 	protected SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
 	protected SimpleDateFormat timeStampFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-	
+
 	protected SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-	
+
 	protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	
+
 	protected boolean convertUnicode;
-	
+
 	protected String nullSymbol;
-	
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param config
-	 */
+
 	public static IMappingFactory getFactory(IDBConfig config) {
 		return getFactory(config.getDriverName(), config.isConvertUnicode());
 	}
-	
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param objMet
-	 * @param isConvertUnicode
-	 */
+
+
 	public static IMappingFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode) {
 		try {
 			return getFactory(objMet.getDriverName(), isConvertUnicode);
-			
+
 		} catch (SQLException e) {
 			throw new IllegalStateException("DriverNameの取得に失敗しました");
 		}
-		
+
 	}
-	
-	/**
-	 * MappingFactoryのキャッシュ化
-	 */
+
 	private static Map map = new HashMap();
-	
+
 	public static IMappingFactory getFactory(String driverName, boolean isConvertUnicode) {
 		IMappingFactory factory = null;
-		
+
 		String key = driverName + ":" + isConvertUnicode;
-		
+
 		if (map.containsKey(key)) {
 			factory = (IMappingFactory) map.get(key);
 			factory.setConvertUnicode(isConvertUnicode);
 		} else {
 			switch (DBType.getType(driverName)) {
-				
+
 				case DBType.DB_TYPE_ORACLE:
 					// log.debug("OracleMappingRule生成");
 					factory = new OracleMappingFactory(isConvertUnicode);
@@ -119,22 +98,21 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 					factory = new DefaultMappingFactory(isConvertUnicode);
 					break;
 			}
-			
+
 			map.put(key, factory);
 		}
-		
-		// 最新のNULL文字を設定する
+
 		factory.setNullSymbol(DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL));
 		return factory;
-		
+
 	}
-	
+
 	abstract public boolean canModifyDataType(int dataType);
-	
+
 	abstract public Object getObject(ResultSet rs, int icol) throws Exception;
-	
+
 	abstract public void setObject(PreparedStatement pst, int icol, TableColumn column, Object value) throws Exception;
-	
+
 	protected java.sql.Date toDate(String s) throws Exception {
 		try {
 			return java.sql.Date.valueOf(s);
@@ -142,7 +120,7 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 			throw e;
 		}
 	}
-	
+
 	protected java.sql.Time toTime(String s) throws Exception {
 		try {
 			return java.sql.Time.valueOf(s);
@@ -150,11 +128,11 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 			throw e;
 		}
 	}
-	
+
 	protected Timestamp toTimestamp(String str) throws Exception {
 		DateFormat df = null;
 		Date date = null;
-		
+
 		if (str.length() <= 10) {
 			if (str.indexOf("/") > 0) {
 				df = new SimpleDateFormat("yyyy/MM/dd");
@@ -170,25 +148,25 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 		}
 		date = df.parse(str);
 		return new Timestamp(date.getTime());
-		
+
 	}
-	
+
 	protected Timestamp toTimestamp2(String str) throws Exception {
 		DateFormat df = null;
 		Date date = null;
-		
+
 		if (str.indexOf("/") > 0) {
 			df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
 		} else {
 			df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		}
-		
+
 
 		date = df.parse(str);
 		return new Timestamp(date.getTime());
-		
+
 	}
-	
+
 	protected byte[] toBytes(Object obj) throws Exception {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -198,12 +176,12 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 		bos.close();
 		return bos.toByteArray();
 	}
-	
+
 	protected String toBinary(byte[] bytes) {
 		if (bytes == null)
 			return null;
 		StringBuffer sb = new StringBuffer();
-		
+
 		for (int i = 0; i < bytes.length; i++) {
 			String hx = Integer.toHexString(bytes[i] & 0xff);
 			String prefix = "";
@@ -215,12 +193,12 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 		}
 		return sb.toString().toUpperCase();
 	}
-	
+
 	protected byte[] toByteArray(InputStream is) {
 		ByteArrayOutputStream baos = null;
 		byte[] buf = new byte[1024];
 		int count = 0;
-		
+
 		try {
 			baos = new ByteArrayOutputStream();
 			while ((count = is.read(buf)) != -1) {
@@ -228,10 +206,10 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 					baos.write(buf, 0, count);
 			}
 			return baos.toByteArray();
-			
+
 		} catch (IOException e) {
 			DbPlugin.log(e);
-			
+
 		} finally {
 			if (baos != null) {
 				try {
@@ -242,17 +220,17 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 		}
 		return null;
 	}
-	
+
 	public String getNullSymbol() {
 		return nullSymbol;
 	}
-	
+
 	public void setNullSymbol(String nullSymbol) {
 		this.nullSymbol = nullSymbol;
 	}
-	
+
 	public void setConvertUnicode(boolean convertUnicode) {
 		this.convertUnicode = convertUnicode;
 	}
-	
+
 }

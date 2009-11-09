@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors;
@@ -24,15 +24,7 @@ import zigen.plugin.db.ui.editors.internal.ColumnFilterInfo;
 import zigen.plugin.db.ui.editors.internal.FileCellEditor;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * 
- * CellModifierクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/26 ZIGEN create. [002] 2005/11/20 ZIGEN 同一行編集時にデットロックになる障害に対応. [003] 2005/11/22 ZIGEN 複数JDBCMapping対応.
- * 
- */
+
 public class CellModifier implements ICellModifier {
 
 	protected ITableViewEditor editor;
@@ -72,7 +64,6 @@ public class CellModifier implements ICellModifier {
 	public boolean canModify(Object element, String property) {
 		int index = Integer.parseInt(property);
 
-		// modify 2007/11/02 ZIGEN 行番号を選択した場合は抜ける
 		if (index == 0)
 			return false;
 
@@ -81,17 +72,12 @@ public class CellModifier implements ICellModifier {
 
 			if (elem.isCanModify()) {
 
-				// modify 2007/04/15 ZIGEN
-				// Filterされているカラムは編集不可にする
 				ColumnFilterInfo info = filterInfos[index - 1];
 				if (!info.isChecked())
 					return false;
-				// modify end
 
-				// 編集できる場合の処理
 				TableColumn col = elem.getColumns()[index - 1]; // rowNo分
 
-				// 新規レコード作成時は、Blob/Clobは編集不可
 				if (elem.isNew()) {
 					switch (col.getDataType()) {
 					case Types.BINARY: // -2
@@ -103,13 +89,11 @@ public class CellModifier implements ICellModifier {
 					}
 				}
 
-				// <- [003] 2005/11/22 add zigen
 				if (factory.canModifyDataType(col.getDataType())) {
 					return true;
 				} else {
 					return false;
 				}
-				// [003] 2005/11/22 add zinen -->
 
 			}
 		}
@@ -117,10 +101,10 @@ public class CellModifier implements ICellModifier {
 	}
 
 	public Object getValue(Object element, String property) {
-		int index = Integer.parseInt(property);// 数値に変換
+		int index = Integer.parseInt(property);
 		if (element instanceof TableElement) {
 			TableElement elem = (TableElement) element;
-			Object obj = elem.getItems()[index - 1]; // rowNo分
+			Object obj = elem.getItems()[index - 1];
 
 			if (obj != null) {
 				if (obj instanceof String) {
@@ -139,16 +123,12 @@ public class CellModifier implements ICellModifier {
 		return null;
 	}
 
-	/**
-	 * 見た目上は更新するが、DBはまだアップデートしない
-	 */
 	public void modify(Object element, String property, Object value) {
 		// + ", new:" + value);
 
 		if (value == null)
 			value = ""; //$NON-NLS-1$
 
-		// 編集中のTableElementを取得する
 		TableElement tableElement = getTableElement(element);
 
 		newValue = value;
@@ -156,7 +136,7 @@ public class CellModifier implements ICellModifier {
 			FileCellEditor fc = (FileCellEditor) value;
 
 			if (!fc.isOpened()) {
-				fc.setOpened(true); // 2重に起動しないようにフラグを追加
+				fc.setOpened(true);
 				Shell shell = viewer.getControl().getShell();
 				int colIndex = Integer.parseInt(property);
 				try {
@@ -175,7 +155,6 @@ public class CellModifier implements ICellModifier {
 			}
 
 		} else {
-			// 編集されているかチェック
 			if (oldValue != null) {
 				int col = Integer.parseInt(property);
 
@@ -186,7 +165,6 @@ public class CellModifier implements ICellModifier {
 
 					if (!tableElement.isUpdatedDataBase()) {
 
-						// 1.変更した場合は、見た目を変更する(その結果 isModify = trueになる)
 						handler.updateColumn(tableElement, col, value);
 
 					} else {
@@ -200,7 +178,7 @@ public class CellModifier implements ICellModifier {
 
 	private TableElement getTableElement(Object obj) {
 		if (obj instanceof Item) {
-			Object o = ((Item) obj).getData(); // TableElementの参照を渡す
+			Object o = ((Item) obj).getData();
 			if (o instanceof TableElement) {
 				return (TableElement) o;
 			}

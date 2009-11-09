@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.symfoware;
@@ -17,15 +17,6 @@ import zigen.plugin.db.preference.SQLFormatPreferencePage;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- *
- * SymfowareSQLCreatorFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- *
- */
 public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public SymfowareSQLCreatorFactory(ITable table) {
@@ -54,12 +45,9 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		/*
 		 * if (table.getDbConfig().isNoLockMode()) { if (!sb.toString().trim().endsWith("WITH OPTION LOCK_MODE(NL)")) { sb.append(" WITH OPTION LOCK_MODE(NL)"); } }
 		 */
-		// テーブル編集エディターからの更新、削除がロックするため、以下を追加する
 		if (!sb.toString().trim().endsWith("WITH OPTION LOCK_MODE(NL)")) {
 			sb.append(" WITH OPTION LOCK_MODE(NL)");
 		}
-
-		// sb.append(" LIMIT " + limit+1); //ダイアログを出す為に＋１
 
 		return sb.toString();
 	}
@@ -90,7 +78,6 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			boolean onPatch = DbPlugin.getDefault().getPreferenceStore().getBoolean(SQLFormatPreferencePage.P_FORMAT_PATCH);
 			int type = DbPlugin.getDefault().getPreferenceStore().getInt(SQLFormatPreferencePage.P_USE_FORMATTER_TYPE);
 
-			// Symfowareでは、CREATE OR REPLACE は無い
 			// wk.append("CREATE OR REPLACE VIEW "); //$NON-NLS-1$
 			wk.append("CREATE VIEW "); //$NON-NLS-1$
 			wk.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
@@ -145,52 +132,42 @@ public class SymfowareSQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 
 	public String[] createAddColumnDDL(Column column) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String createCommentOnColumnDDL(Column column) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String createCommentOnTableDDL(String commnets) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String[] createDropColumnDDL(Column column, boolean cascadeConstraints) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String[] createModifyColumnDDL(Column from, Column to) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String createRenameColumnDDL(Column from, Column to) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public String createRenameTableDDL(String newTableName) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	public boolean supportsModifyColumnSize(String columnType) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean supportsModifyColumnType() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean supportsRemarks() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors;
@@ -90,10 +90,6 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 
 	private IDBConfig config;
 
-	/**
-	 * コンストラクタ
-	 *
-	 */
 	public TableViewerContributor() {
 		insertRecordAction = new InsertRecordAction();
 		insertRecordAction.setEnabled(false);
@@ -126,15 +122,14 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		super.init(bars, page);
 	}
 
-	// メニュー表示
 	public void fillContextMenu(IMenuManager manager) {
 		reflesh();
-		manager.add(insertRecordAction); // 新規レコードの作成
+		manager.add(insertRecordAction);
 		manager.add(new Separator());
-		manager.add(copyRecordDataAction); // レコードコピー
+		manager.add(copyRecordDataAction);
 		manager.add(copyTrimAction);
 
-		manager.add(pasteRecordAction); // レコードの貼り付け
+		manager.add(pasteRecordAction);
 
 
 		manager.add(new Separator());
@@ -142,22 +137,17 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		manager.add(selectAllAction);
 		manager.add(new Separator());
 
-		manager.add(copyStringInsertStatementAction); // Insert文に変換
+		manager.add(copyStringInsertStatementAction);
 		manager.add(createCSVAction);
 
-		// TODO:現在開発中
-		// manager.add(createCSV2Action);
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	// メニュー表示
 	public void fillContextMenuForDDL(IMenuManager manager) {
 		reflesh();
-		// manager.add(saveAction);
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	// メニュー表示
 	public void fillContextMenuForDefine(IMenuManager manager, ISelection selection) {
 		Object obj = (Object) ((StructuredSelection) selection).getFirstElement();
 
@@ -181,7 +171,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		case DBType.DB_TYPE_DB2:
 			addColumnAction.setEnabled(true);
 			editColumnAction.setEnabled(false);
-			deleteColumnAction.setEnabled(false); // DB2ではカラム削除はできない
+			deleteColumnAction.setEnabled(false);
 			break;
 
 		default:
@@ -195,7 +185,6 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	// メニュー表示
 	public void fillContextMenuForConstraints(IMenuManager manager, ISelection selection) {
 		Object obj = (Object) ((StructuredSelection) selection).getFirstElement();
 
@@ -300,7 +289,6 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
-	// ツールバーを追加する場合にオーバーライドする
 	public void contributeToToolBar(IToolBarManager manager) {
 		super.contributeToToolBar(manager);
 		// manager.add(new Separator());
@@ -309,7 +297,6 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 	}
 
 	public void contributeToMenu(IMenuManager menu) {
-	// Menuバーの更新(Enable/Disable)の方法が未定のため、実装しない
 
 	// super.contributeToMenu(menu);
 	// IMenuManager editMenu =
@@ -367,7 +354,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 
 	void reflesh() {
 		deleteRecordAction.refresh();
-		copyRecordDataAction.refresh(); // selectionがrefleshされる
+		copyRecordDataAction.refresh();
 		pasteRecordAction.refresh();
 		copyStringInsertStatementAction.refresh();
 

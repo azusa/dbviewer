@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -30,14 +30,6 @@ import zigen.plugin.db.ui.jobs.OracleSourceSearchJob;
 import zigen.plugin.db.ui.jobs.RefreshFolderJob;
 import zigen.plugin.db.ui.jobs.TableTypeSearchJob;
 
-/**
- * VerifyKeyAdapterクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/04/03 ZIGEN create.
- *
- */
 public class TreeDoubleClickHandler implements IDoubleClickListener {
 
 	private boolean showDialog = false;
@@ -56,19 +48,17 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 				Object element = ((StructuredSelection) selection).getFirstElement();
 
 				if (element instanceof DataBase) {
-					// ダブルクリックで接続する
 					DataBase db = (DataBase) element;
-					if (!db.isExpanded()) { // db.isConnect ではなく、isExpandで判定する
+					if (!db.isExpanded()) {
 						db.setConnected(true);
 						db.setExpanded(true);
 						ConnectDBJob job = new ConnectDBJob(viewer, db);
 						job.setPriority(ConnectDBJob.SHORT);
 						job.setUser(false);
 						job.setSystem(false);
-						job.schedule(); // 接続に失敗すれば、db.setConnected(false);
+						job.schedule();
 
 					} else {
-						// 接続済みであれば、展開状態のみ切り替え
 						changeExpandedState(viewer, (TreeNode) element);
 					}
 
@@ -79,14 +69,12 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 					job.schedule();
 
 				} else if (element instanceof OracleSource || element instanceof OracleSequence) {
-					// 展開済みの場合に、ダブルクリックで閉じない
 					OpenSourceEditorJob job = new OpenSourceEditorJob(viewer);
 					job.setPriority(OpenSourceEditorJob.SHORT);
 					job.setUser(showDialog);
 					job.schedule();
 
 				} else if (element instanceof TreeNode) {
-					// それ以外のノード要素は展開または非展開処理を行う
 					changeExpandedState(viewer, (TreeNode) element);
 				}
 
@@ -97,19 +85,11 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 
 	}
 
-	/**
-	 * 展開・非展開の切り替え
-	 *
-	 * @param element
-	 */
 	private void changeExpandedState(TreeViewer viewer, TreeNode element) {
 
-		// 要素が展開状態かどうか
 		if (!viewer.getExpandedState(element)) {
 
-			viewer.expandToLevel(element, 1); // 展開状態にする
-
-			// 現在は「TABLE」フォルダ配下をあらかじめ検索しているため、以下の処理でOK
+			viewer.expandToLevel(element, 1);
 
 			if (element instanceof Schema) {
 
@@ -117,10 +97,9 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 
 				if (!schema.isExpanded()) {
 					schema.setExpanded(true);
-					// テーブル一覧を検索（非同期にて実行）
 					TableTypeSearchJob job = new TableTypeSearchJob(viewer, schema);
 					job.setPriority(TableTypeSearchJob.SHORT);
-					job.setUser(showDialog); // ダイアログを出す
+					job.setUser(showDialog);
 					job.schedule();
 				}
 
@@ -170,12 +149,10 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 								}
 							}
 						default:
-							// ↓ Oracle以外でフォルダをダブルクリックした場合の処理を追加
 							RefreshFolderJob job = new RefreshFolderJob(viewer, folder);
 							job.setPriority(RefreshFolderJob.SHORT);
 							job.setUser(showDialog);
 							job.schedule();
-							// ↑
 							break;
 						}
 					}
@@ -184,7 +161,7 @@ public class TreeDoubleClickHandler implements IDoubleClickListener {
 			}
 
 		} else {
-			viewer.collapseToLevel(element, 1); // 非展開状態にする
+			viewer.collapseToLevel(element, 1);
 		}
 
 	}

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors;
@@ -14,26 +14,14 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.StringUtil;
 import zigen.plugin.db.core.TableElement;
 
-/**
- * TableLabelProviderクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- *
- */
 public class TableViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 
-	/**
-	 * カラムデータ取得メソッド 第１引数のObject：レコード単位のオブジェクト（TableElement） 第２引数のindeex：カラム番号
-	 */
 	public String getColumnText(Object obj, int index) {
 		try {
 			if (obj instanceof TableElement) {
 				TableElement element = (TableElement) obj;
 
 				if (index == 0) {
-					// 新規レコードは*で表示する
 					if (element.isNew()) {
 						return "*"; //$NON-NLS-1$
 
@@ -57,7 +45,6 @@ public class TableViewLabelProvider extends LabelProvider implements ITableLabel
 
 					if (elem != null) {
 						//return elem.toString();
-						// 性能改善：表示用には、右側の半角空白をトリムする
 						return StringUtil.rTrim(elem.toString(), ' ');
 
 					} else {
@@ -68,7 +55,7 @@ public class TableViewLabelProvider extends LabelProvider implements ITableLabel
 				}
 
 			} else {
-				throw new RuntimeException("予期しない型です"); //$NON-NLS-1$
+				throw new RuntimeException("It is a type not anticipated."); //$NON-NLS-1$
 			}
 
 		} catch (Exception e) {
@@ -83,8 +70,6 @@ public class TableViewLabelProvider extends LabelProvider implements ITableLabel
 	}
 
 	public Image getImage(Object obj) {
-		// return PlatformUI.getWorkbench().
-		// getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
 		return null;
 	}
 }

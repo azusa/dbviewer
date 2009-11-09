@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -78,10 +78,8 @@ public class RecordSearchJob extends AbstractJob {
 				ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, table);
 
 				if (factory.isSupportPager()) {
-					// ページャ対応の場合は、常に全体件数を計算する
 					showResults(new ShowResultAction(condition, elements, time.getTotalTime(), true));
 				} else {
-					// ページャ非対応の場合は、最大件数を超えていないので、全体件数を再計算しない
 					showResults(new ShowResultAction(condition, elements, time.getTotalTime(), false));
 				}
 			}
@@ -89,7 +87,6 @@ public class RecordSearchJob extends AbstractJob {
 		} catch (MaxRecordException e) {
 			time.stop();
 			elements = e.getTableElements();
-			// 最大件数を超える場合は、全体件数を計算する
 			showResults(new ShowResultAction(condition, elements, time.getTotalTime(), e.getMessage(), true));
 
 		} catch (SQLException e) {

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
 
@@ -15,12 +15,6 @@ import zigen.plugin.db.ui.internal.ITable;
 
 public class SQLCreator {
 
-	/**
-	 * SELECTの生成
-	 * 
-	 * @param iTable
-	 * @return
-	 */
 	public static String selectSql(ITable iTable) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
@@ -28,17 +22,11 @@ public class SQLCreator {
 		return sb.toString();
 	}
 
-	/**
-	 * SQL文の取得
-	 * 
-	 * @param table
-	 * @throws Exception
-	 */
 	public static String createSelectSql(TableElement tableElement, boolean isNew) throws SQLException {
 		String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
 
 		if (isNew) {
-			tableElement.modifyUniqueItems(); // 入力データからユニークItemを設定
+			tableElement.modifyUniqueItems();
 		}
 
 		ITable table = tableElement.getTable();
@@ -62,7 +50,6 @@ public class SQLCreator {
 				sb.append(" WHERE "); //$NON-NLS-1$
 				sb.append(col.getColumnName());
 
-				// Oracleは"" を IS NULL で判定する必要がある
 				switch (table.getDbConfig().getDbType()) {
 				case DBType.DB_TYPE_ORACLE:
 					if (uniqueItem == null || nullSymbol.equals(uniqueItem) || "".equals(uniqueItem)) { //$NON-NLS-1$
@@ -111,17 +98,6 @@ public class SQLCreator {
 		return sb.toString();
 	}
 
-	/**
-	 * UPDATE文の作成
-	 * 
-	 * @param table
-	 * @param updateColumns
-	 * @param updateItems
-	 * @param uniqueColumns
-	 * @param uniqueItems
-	 * @return
-	 * @throws SQLException
-	 */
 	public static String createUpdateSql(ITable table, TableColumn[] updateColumns, Object[] updateItems, TableColumn[] uniqueColumns, Object[] uniqueItems) throws SQLException {
 
 		String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
@@ -175,15 +151,6 @@ public class SQLCreator {
 
 	}
 
-	/**
-	 * INSERT文の作成
-	 * 
-	 * @param table
-	 * @param insertColumns
-	 * @param insertItems
-	 * @return
-	 * @throws Exception
-	 */
 	public static String createInsertSql(ITable table, TableColumn[] insertColumns, Object[] insertItems) throws Exception {
 
 		String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
@@ -203,7 +170,6 @@ public class SQLCreator {
 				sb.append(","); //$NON-NLS-1$
 			}
 
-			// Oracleでは''でInsertしてもNULLになる
 			if (value == null || nullSymbol.equals(value)) {
 				sb.append("null"); //$NON-NLS-1$
 			} else {

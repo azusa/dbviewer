@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.csv;
@@ -23,14 +23,6 @@ import zigen.plugin.db.core.DBType;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.preference.PreferencePage;
 
-/**
- * AbstractMappingFactory.java.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- *
- */
 public abstract class AbstractCsvMappingFactory implements ICsvMappingFactory {
 
 	protected SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$
@@ -43,39 +35,25 @@ public abstract class AbstractCsvMappingFactory implements ICsvMappingFactory {
 
 	protected boolean convertUnicode;
 
-	/**
-	 * NULLはCSV上、ダブルクォートなしの空文字()とする 空文字は、CSV上は、ダブルクォート有りの空文字("")とする
-	 */
-	protected static final String NULL = ""; // CSVではNULLを空文字で表現する(ダブルクォートなし）
 
-	// //$NON-NLS-1$
+	protected static final String NULL = "";//$NON-NLS-1$
 
 	protected String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
 
 
 	protected boolean nonDoubleQuate;
 
-	/**
-	 * コンストラクタ
-	 *
-	 * @param config
-	 */
 	public static ICsvMappingFactory getFactory(IDBConfig config, boolean nonDoubleQuate) {
 		return getFactory(config.getDriverName(), config.isConvertUnicode(), nonDoubleQuate);
 	}
 
-	/**
-	 * コンストラクタ
-	 *
-	 * @param objMet
-	 * @param isConvertUnicode
-	 */
+
 	public static ICsvMappingFactory getFactory(DatabaseMetaData objMet, boolean isConvertUnicode, boolean nonDoubleQuate) {
 		try {
 			return getFactory(objMet.getDriverName(), isConvertUnicode, nonDoubleQuate);
 
 		} catch (SQLException e) {
-			throw new IllegalStateException("DriverNameの取得に失敗しました"); //$NON-NLS-1$
+			throw new IllegalStateException("Failed get DriverName"); //$NON-NLS-1$
 		}
 
 	}

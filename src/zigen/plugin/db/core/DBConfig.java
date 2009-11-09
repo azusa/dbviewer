@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -9,14 +9,6 @@ package zigen.plugin.db.core;
 import java.io.Serializable;
 import java.util.Properties;
 
-/**
- * DBConfigクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create. [2] 2005/09/27 ZIGEN create.
- *
- */
 public class DBConfig implements IDBConfig, Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
@@ -73,78 +65,42 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 
 	private boolean checkFilterPattern;
 
-	/**
-	 * コンストラクタ
-	 */
 	public DBConfig() {}
 
-	/**
-	 * @return classPath を戻します。
-	 */
 	public String[] getClassPaths() {
 		return classPaths;
 	}
 
-	/**
-	 * @param classPath
-	 *            classPath を設定。
-	 */
 	public void setClassPaths(String[] classPaths) {
 		this.classPaths = classPaths;
 	}
 
-	/**
-	 * @return dbName を戻します。
-	 */
 	public String getDbName() {
 		return dbName;
 	}
 
-	/**
-	 * @param dbName
-	 *            dbName を設定。
-	 */
 	public void setDbName(String dbName) {
 		this.dbName = dbName;
 	}
 
-	/**
-	 * @return driver を戻します。
-	 */
 	public String getDriverName() {
 		return driverName;
 	}
 
-	/**
-	 * @param driverNae
-	 *            driverName を設定。
-	 */
 	public void setDriverName(String driverName) {
 		this.driverName = driverName;
 		this.dbType = DBType.getType(driverName);
 
 	}
 
-	/**
-	 * @return password を戻します。
-	 */
 	public String getPassword() {
 		return password;
 	}
 
-	/**
-	 * @param password
-	 *            password を設定。
-	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	/**
-	 * JDBC接続用のPropertiesクラスを返す。
-	 *
-	 * @return properties を戻します。
-	 */
 	public Properties getProperties() {
 		Properties properties = new Properties();
 		properties.setProperty("user", this.getUserId()); //$NON-NLS-1$
@@ -191,67 +147,38 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 		return properties;
 	}
 
-	/**
-	 * @return url を戻します。
-	 */
 	public String getUrl() {
 		return url;
 	}
 
-	/**
-	 * @param url
-	 *            url を設定。
-	 */
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
-	/**
-	 * @return userId を戻します。
-	 */
 	public String getUserId() {
 		return userId;
 	}
 
-	/**
-	 * @param userId
-	 *            userId を設定。
-	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	/**
-	 * @return charset を戻します。
-	 */
 	public String getCharset() {
 		return charset;
 	}
 
-	/**
-	 * @param charset
-	 *            charset を設定。
-	 */
 	public void setCharset(String charset) {
 		this.charset = charset;
 	}
 
-	/**
-	 * @return schema を戻します。
-	 */
 	public String getSchema() {
 		if (this.schema != null) {
 			return schema;
 		} else {
-			// スキーマ指定が無い場合は、接続ユーザとする
 			return userId;
 		}
 	}
 
-	/**
-	 * @param schema
-	 *            schema を設定。
-	 */
 	public void setSchema(String schema) {
 		this.schema = schema;
 	}

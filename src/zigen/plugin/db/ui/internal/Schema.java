@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.internal;
@@ -12,32 +12,16 @@ import java.util.List;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.SQLUtil;
 
-/**
- * Schemaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- *
- */
 public class Schema extends TreeNode {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * ソースタイプ(Oracle用) ※FunctionやPROCEDUREなど
-	 */
 	private String[] sourceTypes;
 
 	public Schema() {
 		super();
 	}
 
-	/**
-	 * コンストラクタ
-	 *
-	 * @param name
-	 */
 	public Schema(String name) {
 		super(name);
 	}
@@ -45,21 +29,6 @@ public class Schema extends TreeNode {
 	public void update(Schema node) {
 		this.sourceTypes = node.sourceTypes;
 	}
-
-//	private Schema getNewSchema(Schema schema) {
-//		String schemaName = schema.getName();
-//		DataBase db = schema.getDataBase();
-//		TreeLeaf[] leafs = db.getChildrens();
-//		for (int i = 0; i < leafs.length; i++) {
-//			if (leafs[i] instanceof Schema) {
-//				Schema newSchema = (Schema) leafs[i];
-//				if (schemaName.equals(newSchema.getName())) {
-//					return newSchema;
-//				}
-//			}
-//		}
-//		return null;
-//	}
 
 	private Table[] convertTables(TreeLeaf[] leafs) {
 		List list = new ArrayList(leafs.length);
@@ -71,11 +40,6 @@ public class Schema extends TreeNode {
 		return (Table[]) list.toArray(new Table[0]);
 	}
 
-	/**
-	 * スキーマが所有しているテーブルを取得する
-	 *
-	 * @return
-	 */
 	public Table[] getTables() {
 		TreeLeaf[] leafs = getChildrens();
 		for (int i = 0; i < leafs.length; i++) {
@@ -90,9 +54,6 @@ public class Schema extends TreeNode {
 		return null;
 	}
 
-	/**
-	 * 以下のequalsメソッドは変更しないこと
-	 */
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -104,18 +65,10 @@ public class Schema extends TreeNode {
 			return false;
 		}
 
-		/**
-		 * スキーマ名だけでなくDBConfigが同じかどうか確認すること
-		 */
 		Schema castedObj = (Schema) o;
 		IDBConfig config = castedObj.getDbConfig();
-		/*
-		 * if (castedObj.getName().equals(getName()) && config.equals(getDbConfig())) { return true; } else { return false; }
-		 */
 
-		// 追加 2007/08/20
 		if (config == null) {
-			System.err.println("Schema#equals() DBConfigを取得できませんでした。");
 			return false;
 		}
 

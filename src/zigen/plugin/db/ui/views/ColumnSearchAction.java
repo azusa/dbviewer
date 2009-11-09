@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -37,15 +37,6 @@ import zigen.plugin.db.ui.internal.ITable;
 import zigen.plugin.db.ui.internal.OracleColumn;
 import zigen.plugin.db.ui.internal.Synonym;
 
-/**
- *
- * ColumnSearchThreadクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/21 ZIGEN create.
- *
- */
 public class ColumnSearchAction implements Runnable {
 
 
@@ -70,12 +61,6 @@ public class ColumnSearchAction implements Runnable {
 		this.table = table;
 	}
 
-	/**
-	 * コードアシスト用(軽量版)
-	 *
-	 * @param treeViewer
-	 * @param table
-	 */
 	public ColumnSearchAction(ITable table) {
 		this.viewer = null;
 		this.isAssist = true;
@@ -87,13 +72,9 @@ public class ColumnSearchAction implements Runnable {
 		TableColumn[] columns = null;
 
 		try {
-			// "読み込み中"を削除
-			// table.removeChild((Column)
-			// table.getChild(DbPluginConstant.TREE_LEAF_LOADING));
 			table.removeChild(table.getChild(DbPluginConstant.TREE_LEAF_LOADING));
 
 			if (viewer != null) {
-				// コード保管で使う場合は、ViewerがNULLの場合がある
 				viewer.refresh(table);// 再描画
 			}
 
@@ -161,7 +142,6 @@ public class ColumnSearchAction implements Runnable {
 				}
 			}
 
-			// Table要素にPK,FKを登録
 			table.setTablePKColumns(pks);
 			if (!isAssist) {
 				table.setTableFKColumns(fks);
@@ -170,8 +150,6 @@ public class ColumnSearchAction implements Runnable {
 				table.setTableUIDXColumns(nonuidxs);
 			}
 			ts.stop();
-			System.out.println("カラム検索Action " + ts.getTotalTime());
-			// Table要素(Table)にカラム要素(Column)を追加(共通）
 
 			// JDBCMapping mapping = new JDBCMapping(table.getDBConfig());
 			for (int i = 0; i < columns.length; i++) {
@@ -179,23 +157,19 @@ public class ColumnSearchAction implements Runnable {
 				TablePKColumn w_pk = getPKColumn(pks, w_column);
 				TableFKColumn[] w_fks = getFKColumns(fks, w_column);
 
-				// <- [003] 2005/11/22 add zigen
 				addChild(con, w_column, w_pk, w_fks);
-				// [003] 2005/11/22 add zigen -->
 
 			}
 
-			// 再描画
 			if (viewer != null) {
-				// コード保管で使う場合は、ViewerがNULLの場合がある
 				viewer.refresh(table);// 再描画
 			}
 
 		} catch (NotFoundSynonymInfoException e) {
 			table.setEnabled(false);
-			table.removeChildAll(); // 子ノードを全て削除
+			table.removeChildAll();
 			if (viewer != null) {
-				viewer.refresh(table);// 再描画
+				viewer.refresh(table);
 			}
 			DbPlugin.getDefault().showErrorDialog(e);
 

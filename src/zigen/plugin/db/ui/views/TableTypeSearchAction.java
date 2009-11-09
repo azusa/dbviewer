@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -21,15 +21,6 @@ import zigen.plugin.db.ui.internal.Folder;
 import zigen.plugin.db.ui.internal.OracleSequence;
 import zigen.plugin.db.ui.internal.Schema;
 
-/**
- * 
- * TableTypeSearchThreadクラス. スキーマ下にTable-Typeを検索する
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/21 ZIGEN create.
- * 
- */
 public class TableTypeSearchAction implements Runnable {
 
 	TreeViewer viewer;
@@ -77,7 +68,6 @@ public class TableTypeSearchAction implements Runnable {
 						}
 
 					} else {
-						// シノニム対応 2006.09.18
 						TableInfo[] tables = TableSearcher.execute(con, schema.getName(), types);
 						TableSearchThread.addFolderAndTables(con, schema, tableTypes[i], tables);
 
@@ -86,7 +76,6 @@ public class TableTypeSearchAction implements Runnable {
 				}
 				schema.setExpanded(true);
 
-				// 再描画
 				viewer.refresh(schema);
 
 			}

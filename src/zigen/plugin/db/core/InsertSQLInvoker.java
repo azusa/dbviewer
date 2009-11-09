@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.core;
 
@@ -12,14 +12,6 @@ import zigen.plugin.db.core.rule.AbstractMappingFactory;
 import zigen.plugin.db.core.rule.IMappingFactory;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * InsertSQLInvokerクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/26 ZIGEN create.
- * 
- */
 public class InsertSQLInvoker {
 
 	public static int invoke(IDBConfig config, ITable table, TableColumn[] insertColumns, Object[] insertItems) throws Exception {

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.editors;
@@ -92,7 +92,7 @@ public class LobViewDialog extends Dialog {
 
 	public LobViewDialog(Shell parent, TableElement tableElement, int colIndex) {
 		super(parent);
-		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE); // リサイズ可能
+		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE);
 		this.tableElement = tableElement;
 		this.colIndex = colIndex;
 		this.column = tableElement.getColumns()[colIndex - 1];
@@ -106,18 +106,10 @@ public class LobViewDialog extends Dialog {
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
-		// 閉じるの作成
-		// createButton(parent, BUTTON_ID_EXP, "ファイルに保存", false);
-		// createButton(parent, BUTTON_ID_IMP, "データの変更", false);
-		// createButton(parent, BUTTON_ID_DEL, "データの削除", false);
 		createButton(parent, IDialogConstants.CLOSE_ID, IDialogConstants.CLOSE_LABEL, true);
 
 	}
 
-	/**
-	 * エクスポート
-	 * 
-	 */
 	private void doExport() {
 		FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
 		dialog.setFilterExtensions(new String[] {"*.*"}); //$NON-NLS-1$
@@ -134,11 +126,6 @@ public class LobViewDialog extends Dialog {
 		}
 	}
 
-	/**
-	 * Clobかどうか
-	 * 
-	 * @return
-	 */
 	private boolean isClob() {
 		switch (dataType) {
 		case Types.CLOB:
@@ -148,12 +135,7 @@ public class LobViewDialog extends Dialog {
 		}
 	}
 
-	/**
-	 * インポート
-	 * 
-	 */
 	private void doImport() {
-		// if (DbPlugin.getDefault().confirmDialog("データを更新しますが、よろしいですか？")) {
 		FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
 		dialog.setFilterExtensions(new String[] {"*.*"}); //$NON-NLS-1$
 		dialog.setFilterNames(new String[] {Messages.getString("LobViewDialog.6")}); //$NON-NLS-1$
@@ -171,7 +153,6 @@ public class LobViewDialog extends Dialog {
 					// addImagePages((byte[])newData, "*" + file.getName());
 					// }
 
-					// 文字字コードの変更を行うために、byte[]で取得
 					newData = InputStreamUtil.toByteArray(new FileInputStream(file));
 					addImagePages((byte[]) newData, "*" + file.getName()); //$NON-NLS-1$
 
@@ -215,11 +196,9 @@ public class LobViewDialog extends Dialog {
 
 				CTabItem[] list = tabFolder.getItems();
 				if (list.length == 1) {
-					// オリジナルを削除
 					list[0].setText(ORIGINAL);
 
 				} else if (list.length == 2) {
-					// オリジナルを削除
 					list[0].dispose();
 					list[1].setText(ORIGINAL);
 				}
@@ -236,13 +215,8 @@ public class LobViewDialog extends Dialog {
 		} else {
 			DbPlugin.getDefault().showWarningMessage(Messages.getString("LobViewDialog.9")); //$NON-NLS-1$
 		}
-		// close();
 	}
 
-	/**
-	 * 削除
-	 * 
-	 */
 	private void doDelete() {
 		if (DbPlugin.getDefault().confirmDialog(Messages.getString("LobViewDialog.10"))) { //$NON-NLS-1$
 			try {
@@ -259,7 +233,6 @@ public class LobViewDialog extends Dialog {
 					CTabItem control = list[i];
 					control.dispose();
 				}
-				// NULLならば
 				updateItem.setEnabled(false);
 				deleteItem.setEnabled(false);
 				expItem.setEnabled(false);
@@ -330,7 +303,6 @@ public class LobViewDialog extends Dialog {
 
 		String defaultCharset = DEFAULT_CHARSET;
 
-		// 保存されているcharsetをデフォルトとしておく
 		Object obj = pluginMgr.getValue(PluginSettingsManager.KEY_LOB_CHARSET);
 		if (obj != null && obj instanceof String) {
 			defaultCharset = (String) obj;
@@ -366,17 +338,14 @@ public class LobViewDialog extends Dialog {
 		originalData = FillCellEditorUtil.getObject(tableElement, colIndex, dataType);
 
 		if (originalData == null) {
-			// NULLならば
 			updateItem.setEnabled(false);
 			deleteItem.setEnabled(false);
 			expItem.setEnabled(false);
 			charsetItem.setEnabled(false);
 		} else if (originalData instanceof String) {
-			// Stringならば(CLOBならば)
 			addTextPages((String) originalData, ORIGINAL, false);
 
 		} else if (originalData instanceof byte[]) {
-			// byte[]ならば(BLOBやBinary)
 			addImagePages((byte[]) originalData, ORIGINAL);
 			updateItem.setEnabled(false);
 			deleteItem.setEnabled(true);
@@ -395,9 +364,6 @@ public class LobViewDialog extends Dialog {
 		return item;
 	}
 
-	/**
-	 * タブフォルダを作成します
-	 */
 	private void createTabFolder(Composite composite) {
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		tabFolder = new CTabFolder(composite, SWT.NONE);
@@ -413,14 +379,11 @@ public class LobViewDialog extends Dialog {
 			private void setCharsetItemEnable(String label) {
 				if (ORIGINAL.equals(label)) {
 					if (originalData instanceof String) {
-						// Stringの場合は falseにする
 						charsetItem.setEnabled(false);
 					} else {
-						// byte[]の場合は、Trueにする
 						charsetItem.setEnabled(true);
 					}
 				} else {
-					// 追加用のTabItemは、常にTrueにする
 					charsetItem.setEnabled(true);
 				}
 			}
@@ -490,11 +453,10 @@ public class LobViewDialog extends Dialog {
 			tabFolder.setSelection(tabItem);
 			removeTabItem();
 
-			// Imageの場合は、キャラセットは変更できない
 			charsetItem.setEnabled(false);
 		} catch (Exception e) {
 			String str = ByteArrayUtil.toString(bytes, charsetItem.getText());
-			addTextPages(str, label, true); // byte[]なので、charsetの変更は可能
+			addTextPages(str, label, true);
 
 		}
 
@@ -565,10 +527,6 @@ public class LobViewDialog extends Dialog {
 
 	}
 
-	/**
-	 * オリジナルデータと最後に追加したTabItemは削除しない
-	 * 
-	 */
 	private void removeTabItem() {
 		CTabItem[] list = tabFolder.getItems();
 		for (int i = 0; i < list.length - 1; i++) {
@@ -582,18 +540,10 @@ public class LobViewDialog extends Dialog {
 		}
 	}
 
-	/**
-	 * ダイアログサイズ
-	 */
 	protected Point getInitialSize() {
 		return new Point(640, 480);
 	}
 
-	/**
-	 * 選択しているのがオリジナルデータのタブアイテムかどうか
-	 * 
-	 * @return
-	 */
 	private boolean selectedOriginalTabItem() {
 		CTabItem item = tabFolder.getSelection();
 		if (item != null) {
@@ -605,7 +555,6 @@ public class LobViewDialog extends Dialog {
 
 
 	protected void buttonPressed(int buttonId) {
-		// 閉じるが押下された場合はリターン・コードを設定してダイアログを閉じる
 		if (buttonId == IDialogConstants.CLOSE_ID) {
 			setReturnCode(buttonId);
 			close();
@@ -655,8 +604,6 @@ public class LobViewDialog extends Dialog {
 		}
 
 		private void changeText(String charset) {
-
-			// 設定したcharsetを記録しておく
 			pluginMgr.setValue(PluginSettingsManager.KEY_LOB_CHARSET, charset);
 
 			if (selectedOriginalTabItem()) {

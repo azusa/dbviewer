@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -115,16 +115,9 @@ import zigen.plugin.db.ui.views.internal.SQLOutinePage;
 import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 import zigen.plugin.db.ui.views.internal.SQLToolBar;
 
-/**
- * SQLExecuteViewクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/08/20 ZIGEN create. [002] 2005/11/23 ZIGEN ドラック文字の後ろにカーソルが移動するように変更.
- */
 public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, IPropertyChangeListener, ISelectionListener, IStatusChangeListener {
 
-	//  
+	//
 	public static final String AUTO_COMMIT = Messages.getString("AbstractSQLExecuteView.0"); //$NON-NLS-1$
 
 	public static final String MANUAL_COMMIT = Messages.getString("AbstractSQLExecuteView.1"); //$NON-NLS-1$
@@ -311,7 +304,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		sqlViewer = new SQLSourceViewer(sqlComposite, ruler, null, false, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 
-		// sqlViewerにsecondaryIdを伝える
 		sqlViewer.setSecondaryId(getViewSite().getSecondaryId());
 		sqlViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -328,7 +320,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		sqlConfiguration = new SQLCodeConfiguration(colorManager);
 		sqlViewer.configure(sqlConfiguration);
 
-		// 元の処理
 		sqlViewer.setDocument(new SQLDocument());
 
 		// char[] pair = { '(', ')' };
@@ -396,7 +387,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 			if (config != null && toolBar != null && toolBar.getConfig() != null) {
 
 				if (config.getDbName().equals(toolBar.getConfig().getDbName())) {
-					// ツールバーと一致する場合のみ処理する
 					trans = Transaction.getInstance(config);
 					ic = ImageCacher.getInstance();
 					if (trans.isConneting()) {
@@ -424,7 +414,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		getViewSite().getPage().removeSelectionListener(this);
 		DbPlugin.removeStatusChangeListener(this);
 
-		// 拡張しているリスナーを破棄する
 		for (Iterator iter = extensionList.iterator(); iter.hasNext();) {
 			ISelectionListener listener = (ISelectionListener) iter.next();
 			getViewSite().getPage().removeSelectionListener(listener);
@@ -493,13 +482,12 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 			painter.setColor(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_MATCHING));
 			cpainter.setHighlightColor(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_CURSOR_LINE));
 
-			// 変更したキーによって反映先を変更する
 			String property = event.getProperty();
 			if (SQLEditorPreferencePage.P_COLOR_FIND_SCOPE.equals(property)) {
 				initializeFindScopeColor(sqlViewer);
 			}
 
-			sqlViewer.invalidateTextPresentation();// テキストエディタを再描画
+			sqlViewer.invalidateTextPresentation();
 
 		}
 		if (event.getProperty().equals(PreferencePage.P_MAX_HISTORY)) {
@@ -518,14 +506,13 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 			sqlViewer.getControl().setFocus();
 			// sqlViewer.updateOutlinePage();
 
-			setGlobalAction();// Focus時にショートカットを有効にする
+			setGlobalAction();
 
 			if (toolBar != null && toolBar.getConfig() != null) {
 				changeTitleImageAndCommitModeText(toolBar.getConfig());
 			}
 
 		}
-		// 実行履歴ビューが存在すれば実行履歴ボタンを押下状態にする
 		IViewPart view = DbPlugin.findView(DbPluginConstant.VIEW_ID_HistoryView);
 		if (showHistoryViewAction != null) {
 			if (view != null) {
@@ -655,16 +642,13 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 
 	private void setExtensionPoint() {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		// 拡張ポイントを取得
 		IExtensionPoint point = registry.getExtensionPoint(DbPlugin.getDefault().getBundle().getSymbolicName() + ".selection"); //$NON-NLS-1$
-		// コントリビュートされた拡張を取得
 		IExtension[] extensions = point.getExtensions();
 		for (int i = 0; i < extensions.length; i++) {
 			IConfigurationElement[] elements = extensions[i].getConfigurationElements();
 			for (int j = 0; j < elements.length; j++) {
 				if (elements[j].getName().equals("contributor")) { //$NON-NLS-1$
 					try {
-						// class属性で指定されたクラスの
 						ISelectionListener listener = (ISelectionListener) elements[j].createExecutableExtension("class"); //$NON-NLS-1$
 						getViewSite().getPage().addSelectionListener(listener);
 						extensionList.add(listener);
@@ -696,7 +680,7 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		} else if (obj instanceof CommitModeAction) {
 			CommitModeAction action = (CommitModeAction) obj;
 			switch (status) {
-			case IStatusChangeListener.EVT_ChangeTransactionMode: // コミットモード変更
+			case IStatusChangeListener.EVT_ChangeTransactionMode:
 				toolBar.setCommitMode(action.getDbConfig(), action.isAutoCommit);
 				changeTitleImageAndCommitModeText(action.getDbConfig());
 				break;
@@ -706,11 +690,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 
 		} else if (obj instanceof IDBConfig) {
 			if (status == IStatusChangeListener.EVT_ChangeDataBase) {
-				// if (!sqlViewer.isFormatPreExecute()) {
-				// toolBar.updateCombo((IDBConfig) obj);
-				// changeTitleImage((IDBConfig) obj);
-				// }else{
-				// }
 				toolBar.updateCombo((IDBConfig) obj);
 				changeTitleImageAndCommitModeText((IDBConfig) obj);
 
@@ -719,11 +698,9 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		}
 
 		if (status == IStatusChangeListener.EVT_UpdateHistory) {
-			// 履歴ボタンの更新
 			toolBar.updateHistoryButton();
 
 		} else if (status == IStatusChangeListener.EVT_UpdateDataBaseList) {
-			// DBリストの更新
 			toolBar.initializeSelectCombo();
 		}
 
@@ -751,7 +728,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 					config = ((TreeNode) obj).getDbConfig();
 				}
 
-				// DBConfigがあれば、変更する
 				if (config != null) {
 					toolBar.updateCombo(config);
 					changeTitleImageAndCommitModeText(config);
@@ -772,7 +748,7 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 			if (textSelection.getLength() > 0) {
 				// executeSelectedSQLAction.setEnabled(true);
 				if (toolBar.getConfig() != null && toolBar.getConfig().getDbType() == DBType.DB_TYPE_ORACLE) {
-					explainForQueryAction.setEnabled(true);// Oracleのみ「実行計画」の実行が可能
+					explainForQueryAction.setEnabled(true);
 				}
 			} else {
 				// executeSelectedSQLAction.setEnabled(false);
@@ -815,10 +791,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		if (Widget.class.equals(required)) {
 			return sqlViewer.getTextWidget();
 		}
-
-		/*
-		 * if (IContentOutlinePage.class.equals(required)) { if (outlinePage == null) { outlinePage = new SQLOutinePage(sqlViewer); } return outlinePage; }
-		 */
 
 		return null;
 	}

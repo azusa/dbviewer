@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.internal;
@@ -17,14 +17,6 @@ import zigen.plugin.db.core.TableFKColumn;
 import zigen.plugin.db.core.TableIDXColumn;
 import zigen.plugin.db.core.TablePKColumn;
 
-/**
- * お気に入りクラス. XMLに保存するためのJavaBeans
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/09/25 ZIGEN create.
- *
- */
 public class Bookmark extends TreeNode implements ITable {
 
 	private static final long serialVersionUID = 1L;
@@ -55,10 +47,8 @@ public class Bookmark extends TreeNode implements ITable {
 	public void copy(Table original) {
 		name = new String(original.getName());
 
-		// DataBase要素のコピー（DBConfigもコピーされる)
 		dataBase = (DataBase) original.getDataBase().clone();
 
-		// DBConfigのコピー先の参照を設定
 		dbConfig = dataBase.getDbConfig();
 
 		if (original.getSchema() != null) {
@@ -90,17 +80,10 @@ public class Bookmark extends TreeNode implements ITable {
 		super();
 		copy(table);
 
-		// 展開状態でExportされているため、ここで非展開にする 過去のバージョン用
 		this.isEnabled = false;
 	}
 
 	public void update(Table table) {
-		// this.dbConfig = node.dbConfig;
-		// this.dataBase = node.dataBase;
-		// this.schema = node.schema;
-		// this.table = table;
-		// this.folder = node.folder;
-		// this.type = node.type;
 		this.table.update(table);
 	}
 
@@ -220,20 +203,10 @@ public class Bookmark extends TreeNode implements ITable {
 		this.dbConfig = dbConfig;
 	}
 
-	/**
-	 * 所属するBookmarkRootの取得
-	 *
-	 * @return
-	 */
 	public BookmarkRoot getBookmarkRoot() {
 		return getBookmarkRoot(this);
 	}
 
-	/**
-	 * 所属するBookmarkFolderの取得
-	 *
-	 * @return
-	 */
 	public BookmarkFolder getBookmarkFolder() {
 		return getBookmarkFolder(this);
 	}
@@ -246,7 +219,7 @@ public class Bookmark extends TreeNode implements ITable {
 				return getBookmarkRoot(leaf.getParent());
 			} else {
 				// return null;
-				throw new IllegalStateException("BookmarkRoot要素が上位に存在しません");
+				throw new IllegalStateException("getBookmarkRoot#BookmarkRoot");
 			}
 		}
 	}
@@ -278,7 +251,6 @@ public class Bookmark extends TreeNode implements ITable {
 		}
 		Bookmark castedObj = (Bookmark) o;
 
-		// tableの等価を追記した
 		return ((this.dbConfig == null ? castedObj.dbConfig == null : this.dbConfig.equals(castedObj.dbConfig))
 				&& (this.dataBase == null ? castedObj.dataBase == null : this.dataBase.equals(castedObj.dataBase))
 				&& (this.schema == null ? castedObj.schema == null : this.schema.equals(castedObj.schema)) && (this.table == null ? castedObj.table == null : this.table

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule;
@@ -27,14 +27,6 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.JDBCUnicodeConvertor;
 import zigen.plugin.db.core.TableColumn;
 
-/**
- * DefaultMappingFactory.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/25 ZIGEN create.
- * 
- */
 public class DefaultMappingFactory extends AbstractMappingFactory implements IMappingFactory {
 
 	protected DefaultMappingFactory(boolean convertUnicode) {
@@ -45,7 +37,7 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 		ResultSetMetaData rmd = rs.getMetaData();
 
 		Object obj = null;
-		int type = rmd.getColumnType(icol); // 最初にカラムタイプをチェックする
+		int type = rmd.getColumnType(icol);
 
 		switch (type) {
 		case Types.CHAR:
@@ -54,26 +46,26 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 			obj = getString(rs, icol);
 			break;
 
-		case Types.BIT: // 一般的にはboolean
-		case Types.BOOLEAN: // 追加
+		case Types.BIT: // boolean
+		case Types.BOOLEAN:
 			obj = getBoolean(rs, icol);
 			break;
 
 		case Types.TINYINT:
-		case Types.INTEGER: // 一般的にはint
-		case Types.SMALLINT: // 一般的にはshort
-		case Types.BIGINT: // 一般的にはlong
+		case Types.INTEGER: // int
+		case Types.SMALLINT: // short
+		case Types.BIGINT: // long
 			obj = getLong(rs, icol);
 			break;
 
-		case Types.REAL: // 一般的にはfloat
-		case Types.FLOAT: // 一般的にはdouble
-		case Types.DOUBLE: // 一般的にはdouble
+		case Types.REAL: // float
+		case Types.FLOAT: // double
+		case Types.DOUBLE: // double
 			obj = getDouble(rs, icol);
 			break;
 
-		case Types.NUMERIC: // 一般的にはBigDecimal
-		case Types.DECIMAL:// 一般的にはBigDecimal
+		case Types.NUMERIC: // BigDecimal
+		case Types.DECIMAL:// BigDecimal
 			obj = getBigDecimal(rs, icol);
 
 			break;
@@ -93,7 +85,7 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 		case Types.BINARY: // -2
 		case Types.VARBINARY: // -3
 		case Types.LONGVARBINARY: // -4
-			obj = getBinary(rs, icol); // バイナリー表示
+			obj = getBinary(rs, icol);
 			break;
 
 		case Types.CLOB:
@@ -108,7 +100,7 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 			break;
 
 		default:
-			obj = "<<不明な型(" + type + ")>>";
+			obj = "<<Unknown Type (" + type + ")>>";
 			break;
 		}
 		return obj;
@@ -198,13 +190,11 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 		return true;
 	}
 
-	// CLOBが取得できるように修正 2006/09/02
 	protected boolean canModify_CLOB() {
 		// return false;
 		return true;
 	}
 
-	// BLOBが取得できるように修正 2006/09/02
 	protected boolean canModify_BLOB() {
 		// return false;
 		return true;
@@ -299,8 +289,8 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 		BigDecimal value = rs.getBigDecimal(icol);
 		if (rs.wasNull())
 			return nullSymbol;
-		// return toStringForDisplay(value); // 1.0 → 1 に変換
-		return value.toString(); // BigDecimalでは自動的に1.0→1に変換される
+		// return toStringForDisplay(value); // 1.0 to 1
+		return value.toString();
 	}
 
 	protected String getLong(ResultSet rs, int icol) throws SQLException {
@@ -313,7 +303,6 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 			return String.valueOf(value);
 		} catch (SQLException e) {
 
-			// Longでも桁あふれが起こる場合があるので、その場合はBigDecimalで受ける
 			BigDecimal value = rs.getBigDecimal(icol);
 			if (rs.wasNull())
 				return nullSymbol;
@@ -327,7 +316,7 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 			return nullSymbol;
 
 		// return String.valueOf(value);
-		return toStringForDisplay(value); // 1.0 → 1 に変換
+		return toStringForDisplay(value); // 1.0 to 1
 	}
 
 	protected String getDate(ResultSet rs, int icol) throws SQLException {
@@ -368,7 +357,7 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 			if (rs.wasNull())
 				return nullSymbol;
 
-			obj = "<< Binaryデータ >>";
+			obj = "<<Binary>>";
 
 		} catch (Exception e) {
 			DbPlugin.log(e);
@@ -520,14 +509,6 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 		}
 	}
 
-	/**
-	 * BLOBの格納
-	 * 
-	 * @param pst
-	 * @param icol
-	 * @param value
-	 * @throws SQLException
-	 */
 	protected void setBlob(PreparedStatement pst, int icol, Object value) throws SQLException {
 		if (value == null) {
 			pst.setNull(icol, Types.BLOB);
@@ -566,14 +547,6 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 		}
 	}
 
-	/**
-	 * CLOBの格納
-	 * 
-	 * @param pst
-	 * @param icol
-	 * @param value
-	 * @throws SQLException
-	 */
 	protected void setClob(PreparedStatement pst, int icol, Object value) throws SQLException {
 		if (value == null) {
 			pst.setNull(icol, Types.CLOB);
@@ -613,7 +586,7 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 		try {
 			int type = column.getDataType();
 
-			String str = String.valueOf(value); // Stringへ変換
+			String str = String.valueOf(value);
 
 			switch (type) {
 			case Types.CHAR:

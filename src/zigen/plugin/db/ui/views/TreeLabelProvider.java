@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.views;
@@ -34,29 +34,13 @@ import zigen.plugin.db.ui.internal.Synonym;
 import zigen.plugin.db.ui.internal.TreeNode;
 import zigen.plugin.db.ui.internal.View;
 
-/**
- * ViewLabelProviderクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- *
- */
 public class TreeLabelProvider extends LabelProvider {
 
 	ImageCacher ic = ImageCacher.getInstance();
 
-	/**
-	 * 表示するラベルの取得
-	 */
 	public String getText(Object obj) {
 		if (obj instanceof Column) {
 			Column column = (Column) obj;
-			// 読み込み中の場合があるのでいきなり、
-			// getColumnLabel()を実行しない
-			// return column.getColumnLabel(); // << 呼ばない
-
-			// TableColumnのタイプを判定して表示
 			TableColumn _column = column.getColumn();
 			if (_column.getTypeName() != null) {
 				return ((Column) obj).getColumnLabel();
@@ -64,19 +48,15 @@ public class TreeLabelProvider extends LabelProvider {
 				return obj.toString();
 			}
 
-			// <!-- [002] 修正 ZIGEN 2005/07/30
 		} else if (obj instanceof ITable) {
 			ITable table = (ITable) obj;
 
-			// テーブルのコメントON
 			if (DbPlugin.getDefault().getPreferenceStore().getBoolean(DBTreeViewPreferencePage.P_DISPLAY_TBL_COMMENT)) {
 				return table.getLabel();
 
 			} else {
 				return table.getName();
 			}
-
-			// [002] 修正 ZIGEN 2005/07/30 -->
 
 		} else if (obj instanceof Schema) {
 			Schema schema = (Schema) obj;
@@ -95,9 +75,6 @@ public class TreeLabelProvider extends LabelProvider {
 		}
 	}
 
-	/**
-	 * 表示する画像の取得
-	 */
 	public Image getImage(Object obj) {
 
 		String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
@@ -165,7 +142,7 @@ public class TreeLabelProvider extends LabelProvider {
 			return ic.getImage(DbPlugin.IMG_CODE_CLOCK);
 
 		} else if (obj instanceof HistoryFolder) {
-			imageKey = ISharedImages.IMG_OBJ_FOLDER; // Folderアイコン
+			imageKey = ISharedImages.IMG_OBJ_FOLDER;
 
 		} else if (obj instanceof DDLDiff) {
 			return ic.getImage(DbPlugin.IMG_CODE_TABLE);
@@ -181,9 +158,9 @@ public class TreeLabelProvider extends LabelProvider {
 		} else if (obj instanceof OracleSource) {
 			OracleSource source = (OracleSource)obj;
 			if(source.hasError()){
-				return ic.getImage(DbPlugin.IMG_CODE_FILE_ERR);// Folder エラーアイコン
+				return ic.getImage(DbPlugin.IMG_CODE_FILE_ERR);
 			}else{
-				imageKey = ISharedImages.IMG_OBJ_FILE; // Folderアイコン
+				imageKey = ISharedImages.IMG_OBJ_FILE;
 			}
 
 
@@ -194,12 +171,12 @@ public class TreeLabelProvider extends LabelProvider {
 		} else if(obj instanceof Folder){
 			Folder folder = (Folder)obj;
 			if(folder.hasError()){
-				return ic.getImage(DbPlugin.IMG_CODE_FOLDER_ERR);// Folder エラーアイコン
+				return ic.getImage(DbPlugin.IMG_CODE_FOLDER_ERR);
 			}else{
-				imageKey = ISharedImages.IMG_OBJ_FOLDER; // Folderアイコン
+				imageKey = ISharedImages.IMG_OBJ_FOLDER;
 			}
 		} else if (obj instanceof TreeNode) {
-			imageKey = ISharedImages.IMG_OBJ_FOLDER; // Folderアイコン
+			imageKey = ISharedImages.IMG_OBJ_FOLDER;
 		}
 
 		return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);

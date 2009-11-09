@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -77,7 +77,7 @@ public class RecordUpdateJob extends AbstractJob {
 				tw.start();
 
 				if (rowAffected < 1) {
-					showWarningMessage(("更新に失敗しました"));
+					showWarningMessage(Messages.getString("RecordUpdateJob.0")); //$NON-NLS-1$
 				} else if (rowAffected == 1) {
 					// showResults(new RefreshElementAction(con, true));
 					Display.getDefault().syncExec(new RefreshElementAction(con, true));
@@ -105,76 +105,6 @@ public class RecordUpdateJob extends AbstractJob {
 		return Status.OK_STATUS;
 	}
 
-	// private int insert(Connection con) throws Exception {
-	// String sql = SQLCreator.createInsertSql(table, element.getColumns(), element.getItems());
-	//
-	// int rowAffected = 0;
-	// try {
-	// rowAffected = InsertSQLInvoker.invoke(con, table, element.getColumns(), element.getItems());
-	//
-	// if (rowAffected > 0) {
-	// // TableEditorLogUtil.successLog(sql);
-	// } else {
-	// // TableEditorLogUtil.failureLog(sql);
-	// }
-	//
-	// // 登録したレコードを検索
-	// TableElement updatedElem = TableElementSearcher.findElement(con, element, true);
-	//
-	// // element ⇒ updatedElem に置き換える
-	// TableViewerManager.update(viewer, element, updatedElem);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// // TableEditorLogUtil.failureLog(sql);
-	// throw e;
-	// }
-	//
-	// return rowAffected;
-	// }
-	//
-	// private int update(Connection con) throws Exception {
-	//
-	// String sql = SQLCreator.createUpdateSql(table, element.getModifiedColumns(), element.getModifiedItems(), element.getUniqueColumns(), element.getUniqueItems());
-	//
-	// int rowAffected = 0;
-	//
-	// try {
-	// rowAffected = UpdateSQLInvoker.invoke(con, table, element.getModifiedColumns(), element.getModifiedItems(), element.getUniqueColumns(), element.getUniqueItems());
-	//
-	// StringBuffer sb = new StringBuffer();
-	//
-	// if (rowAffected == 0) {
-	// // TableEditorLogUtil.failureLog(sql);
-	// sb.append(Messages.getString("RecordUpdateThread.3")); //$NON-NLS-1$
-	// sb.append(Messages.getString("RecordUpdateThread.4")); //$NON-NLS-1$
-	// DbPlugin.getDefault().showWarningMessage(sb.toString());
-	//
-	// } else if (rowAffected == 1) {
-	// // TableEditorLogUtil.successLog(sql);
-	// TableElement updatedElem = TableElementSearcher.findElement(con, element, true);
-	// if (updatedElem != null) {
-	// TableViewerManager.update(viewer, element, updatedElem);
-	// } else {
-	// sb.append(Messages.getString("RecordUpdateThread.5")); //$NON-NLS-1$
-	// sb.append(Messages.getString("RecordUpdateThread.6")); //$NON-NLS-1$
-	// DbPlugin.getDefault().showWarningMessage(sb.toString());
-	// }
-	//
-	// } else {
-	// // TableEditorLogUtil.successLog(sql);
-	// sb.append(Messages.getString("RecordUpdateThread.7") + rowAffected + Messages.getString("RecordUpdateThread.8")); //$NON-NLS-1$ //$NON-NLS-2$
-	// DbPlugin.getDefault().showWarningMessage(sb.toString());
-	// // reload(con, table);
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// // TableEditorLogUtil.failureLog(sql);
-	// throw e;
-	// }
-	// return rowAffected;
-	// }
-
-
 	class RefreshElementAction implements Runnable {
 
 		Connection con;
@@ -189,11 +119,9 @@ public class RecordUpdateJob extends AbstractJob {
 		public void run() {
 			try {
 
-				// 登録したレコードを検索
 				TableElement updatedElem = TableElementSearcher.findElement(con, element, isNew);
 
 				if (updatedElem != null) {
-					// element ⇒ updatedElem に置き換える
 					TableViewerManager.update(viewer, element, updatedElem);
 				}
 
@@ -224,7 +152,6 @@ public class RecordUpdateJob extends AbstractJob {
 					viewer.setInput(elements);
 
 				} catch (MaxRecordException e) {
-					// 最大件数を超えた場合の処理
 					viewer.setInput(e.getTableElements());
 					DbPlugin.getDefault().showWarningMessage(e.getMessage());
 				}
@@ -237,41 +164,5 @@ public class RecordUpdateJob extends AbstractJob {
 
 		}
 	}
-
-	// protected class WriteErrorMessageAction implements Runnable {
-	// Connection con;
-	// ITable table;
-	//		
-	//
-	// public WriteErrorMessageAction(Connection con, ITable table) {
-	// this.con = con;
-	// this.table = table;
-	// }
-	// public void run() {
-	// try {
-	// TimeWatcher tw = new TimeWatcher();
-	// tw.start();
-	//
-	// TableElement[] elements;
-	// try {
-	// elements = TableManager.invoke(con, table);
-	// viewer.setInput(elements);
-	//
-	// } catch (MaxRecordException e) {
-	// // 最大件数を超えた場合の処理
-	// viewer.setInput(e.getTableElements());
-	// DbPlugin.getDefault().showWarningMessage(e.getMessage());
-	// }
-	//
-	// viewer.refresh();
-	// tw.stop();
-	//				
-	//				
-	// } catch (Exception e) {
-	// DbPlugin.log(e);
-	// }
-	//
-	// }
-	// }
 
 }

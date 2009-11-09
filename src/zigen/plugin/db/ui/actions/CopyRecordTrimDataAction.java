@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.actions;
@@ -70,7 +70,7 @@ public class CopyRecordTrimDataAction extends CopyRecordDataAction {
 
 							// 右側の半角空白をトリムする
 							String value = String.valueOf(elem.getItem(i));
-							if(value != null || value.length() > 0){
+							if(value != null && value.length() > 0){
 								if(!" ".equals(value)){
 									value = StringUtil.rTrim(value, ' ');
 									if(value.length() == 0){

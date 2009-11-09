@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.wizard;
@@ -29,14 +29,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-/**
- * DefaultWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/02 ZIGEN create.
- * 
- */
 abstract class DefaultWizardPage extends WizardPage {
 
 	protected int LEVEL_FIELD_WIDTH = 20;
@@ -103,7 +95,6 @@ abstract class DefaultWizardPage extends WizardPage {
 		}
 
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// log.debug("未実装です");
 			contents = null;
 		}
 
@@ -123,13 +114,6 @@ abstract class DefaultWizardPage extends WizardPage {
 
 	abstract public void createControl(Composite parent);
 
-	/**
-	 * テーブルヘッダーを設定する
-	 * 
-	 * @param meta
-	 * @param table
-	 * @throws SQLException
-	 */
 	protected void setHeaderColumn(Table table, String[] headers) {
 
 		for (int i = 0; i < headers.length; i++) {
@@ -141,9 +125,6 @@ abstract class DefaultWizardPage extends WizardPage {
 		}
 	}
 
-	/**
-	 * 各カラムの幅の自動計算
-	 */
 	protected void columnsPack(Table table) {
 		table.setVisible(false);
 		TableColumn[] cols = table.getColumns();
@@ -153,11 +134,6 @@ abstract class DefaultWizardPage extends WizardPage {
 		table.setVisible(true);
 	}
 
-	/**
-	 * Statusバーを更新
-	 * 
-	 * @param message
-	 */
 	void updateStatus(String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
@@ -170,12 +146,6 @@ abstract class DefaultWizardPage extends WizardPage {
 		line.setLayoutData(gridData);
 	}
 
-	/**
-	 * 共通のComposite作成メソッド
-	 * 
-	 * @param parent
-	 * @return
-	 */
 	protected Composite createDefaultComposite(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout();
@@ -196,23 +166,12 @@ abstract class DefaultWizardPage extends WizardPage {
 		return composite;
 	}
 
-	/**
-	 * 共通のGridData取得メソッド GridDataの使いまわしNGの為、必ずNewしたものを返す
-	 * 
-	 * @param width
-	 * @return
-	 */
 	protected GridData getGridData(int width) {
 		GridData gd = new GridData();
 		gd.widthHint = convertWidthInCharsToPixels(width);
 		return gd;
 	}
 
-	/**
-	 * １つでも選択状態があればTrue
-	 * 
-	 * @return
-	 */
 	protected final boolean isSelected() {
 		for (int i = 0; i < tableItems.length; i++) {
 			IItem item = tableItems[i];
@@ -224,12 +183,6 @@ abstract class DefaultWizardPage extends WizardPage {
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
-	// 閉じるの作成
-	// createButton(parent, BUTTON_ID_EXP, "ファイルに保存", false);
-	// createButton(parent, BUTTON_ID_IMP, "データの変更", false);
-	// createButton(parent, BUTTON_ID_DEL, "データの削除", false);
-	// createButton(parent, IDialogConstants.CLOSE_ID,
-	// IDialogConstants.CLOSE_LABEL, true);
 
 	}
 

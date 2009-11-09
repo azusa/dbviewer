@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.wizard;
@@ -22,14 +22,6 @@ import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.XMLManager;
 import zigen.plugin.db.ui.internal.Root;
 
-/**
- * TestWizardクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class ExpDBConfigWizard extends Wizard {
 
 	private ExpWizardPage1 page1;
@@ -76,7 +68,6 @@ public class ExpDBConfigWizard extends Wizard {
 	}
 
 	private boolean save(IDBConfig[] configs) throws IOException {
-		// CSV用保存ダイアログ表示
 		Shell shell = DbPlugin.getDefault().getShell();
 		File file = saveXml(shell, null);
 
@@ -88,7 +79,6 @@ public class ExpDBConfigWizard extends Wizard {
 					return false;
 				}
 			}
-			// 複数対応用
 			XMLManager.save(file, configs);
 		}
 		return true;

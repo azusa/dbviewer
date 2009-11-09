@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core.rule.derby;
@@ -12,15 +12,6 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.Constraint;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- *
- * H2SQLCreatorFactory.javaクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/05/07 ZIGEN create.
- *
- */
 public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 	public DerbySQLCreatorFactory(ITable table) {
@@ -49,8 +40,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String createRenameColumnDDL(Column from, Column to) {
-
-		// Derbyは、カラム名の変更をサポートしているはずであるが、実行できない
+		// Derby no work.
 		// StringBuffer sb = new StringBuffer();
 		// sb.append("RENAME COLUMN ");
 		// sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
@@ -73,10 +63,8 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" ");
 
-		// 型
 		sb.append(column.getTypeName());
 
-		// 桁
 		if (isVisibleColumnSize(column.getTypeName())) {
 			sb.append("(");
 			sb.append(column.getSize());
@@ -121,17 +109,15 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		// sb.append(SQLUtil.encodeQuotation(to.getName()));
 		// sb.append(" SET ");
 		//
-		// // 型
 		// sb.append(to.getTypeName());
 		//
-		// // 桁
 		// if(isVisibleColumnSize(to.getTypeName())){
 		// sb.append("(");
 		// sb.append(to.getSize());
 		// sb.append(")");
 		// }
 
-		// VARCHARの場合のみ桁を変更することができる
+		// only can modify VARCHAR
 		if (!from.getSize().equals(to.getSize()) && "VARCHAR".equals(to.getTypeName())) {
 			sb.append("ALTER TABLE ");
 			sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
@@ -152,7 +138,6 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 
 			sb2.append(" DEFAULT ");
 			if ("".equals(to.getDefaultValue())) {
-				// NULLに設定したが、反映されない。(Derbyのバグ？)
 				sb2.append("NULL");
 			} else {
 				sb2.append(to.getDefaultValue());
@@ -186,8 +171,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public String[] createDropColumnDDL(Column column, boolean cascadeConstraints) {
-		// Derbyでは、カラムの削除ができない
-
+		// Derby no work
 		// StringBuffer sb = new StringBuffer();
 		// sb.append("ALTER TABLE ");
 		// sb.append(SQLUtil.encodeQuotation(table.getSqlTableName()));
@@ -201,17 +185,14 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 	}
 
 	public boolean supportsModifyColumnSize(String columnType) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean supportsModifyColumnType() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	public boolean supportsRemarks() {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
@@ -223,24 +204,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		return true;
 	}
 
-	/*
-	 *
-	 * １．カラム情報の更新はほとんで不可 ＞ カラムの列の型変更はできない。（VARCHARのみ桁を変更できる。以外は不可）
-	 *
-	 * ２．カラムの削除ができない（理由は不明）
-	 *
-	 * ３．DEFAULTに設定したあと、解除の方法が無い？ DEFAULT NULLは実行できるが反映されない
-	 *
-	 *
-	 *
-	 * ALTER TABLE APP.TEST ALTER COLUMN COL2 NOT NULL ALTER TABLE APP.TEST ALTER COLUMN COL2 NULL
-	 *
-	 * ALTER TABLE APP.TEST ALTER COLUMN COL2 DEFAULT 1 ALTER TABLE APP.TEST ALTER COLUMN COL2 WITH DEFAULT NULL << 実行エラーにはならないが、反映されない
-	 *
-	 * //DERBY では、列の型は変更不可 //サイズの変更は、VARCHARのみ（あとは、内部で固定） ALTER TABLE APP.TEST ALTER COLUMN COL2 SET DATA TYPE VARCHAR(100)
-	 */
 
-	// / ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ //
 	public String createCreateIndexDDL(String indexName, Column[] columns, int indexType) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE");
@@ -378,7 +342,6 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 
 		if (Constraint.PRIMARY_KEY.equals(type)) {
-			// PKを削除する場合は以下
 			sb.append(" DROP PRIMARY KEY");
 		} else {
 			sb.append(" DROP CONSTRAINT ");

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0 
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.core;
@@ -9,14 +9,6 @@ package zigen.plugin.db.core;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * TimeWatcherクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/18 ZIGEN create.
- * 
- */
 public class TimeWatcher {
 
 	// private static TimeWatcher instance;
@@ -25,70 +17,40 @@ public class TimeWatcher {
 
 	private Date stopTime = null;
 
-	private boolean isStart = false; // 計測中かどうかの判定
+	private boolean isStart = false;
 
-	// /**
-	// * インスタンス生成
-	// * @param<code>_instance</code>
-	// */
-	// public synchronized static TimeWatcher getInstance() {
-	// if (instance == null) {
-	// instance = new TimeWatcher();
-	// }
-	// return instance;
-	//
-	// }
-
-	/**
-	 * コンストラクタ
-	 */
 	public TimeWatcher() {}
 
-	/**
-	 * リセット処理 ※finally処理で呼び出してください。
-	 */
 	public void reset() {
 		isStart = false;
 		startTime = null;
 		stopTime = null;
 	}
 
-	/**
-	 * 測定開始
-	 */
 	public void start() {
 		if (isStart) {
-			throw new IllegalStateException("測定開始中です"); //$NON-NLS-1$
+			throw new IllegalStateException("The response is being measured now."); //$NON-NLS-1$
 		} else {
 			isStart = true;
 		}
 		startTime = new Date();
 	}
 
-	/**
-	 * 測定終了
-	 */
 	public void stop() {
 		if (!isStart) {
-			throw new IllegalStateException("測定を開始してください"); //$NON-NLS-1$
+			throw new IllegalStateException("Please begin measuring."); //$NON-NLS-1$
 		} else {
 			isStart = false;
 		}
 		stopTime = new Date();
 	}
 
-	/**
-	 * トータル時間を取得
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
 	public String getTotalTime() {
 		if (startTime == null) {
-			throw new IllegalStateException("測定開始してください"); //$NON-NLS-1$
+			throw new IllegalStateException("Please begin measuring. "); //$NON-NLS-1$
 		}
 		if (stopTime == null) {
-			throw new IllegalStateException("測定終了してください"); //$NON-NLS-1$
+			throw new IllegalStateException("Please end measuring. "); //$NON-NLS-1$
 		}
 
 		return getString((stopTime.getTime() - startTime.getTime()) / 1000.0);
@@ -96,10 +58,10 @@ public class TimeWatcher {
 
 	private String getString(double second) {
 		StringBuffer sb = new StringBuffer();
-		if ((int) (second / 3600) > 0) { // intで丸める
+		if ((int) (second / 3600) > 0) {
 			sb.append((int) (second / 3600) + "h"); //$NON-NLS-1$
 		}
-		if ((int) ((second % 3600) / 60) > 0) { // intで丸める
+		if ((int) ((second % 3600) / 60) > 0) {
 			sb.append((int) (second % 3600) / 60 + "min"); //$NON-NLS-1$
 		}
 		sb.append(formart(second % 60) + "sec"); //$NON-NLS-1$
@@ -109,19 +71,13 @@ public class TimeWatcher {
 	private static String formart(double time) {
 		BigDecimal decimal = new BigDecimal(time);
 		// decimal = decimal.movePointLeft(4);
-		decimal = decimal.setScale(1, BigDecimal.ROUND_UP); // 切上げ
-		// decimal = decimal.setScale(2, BigDecimal.ROUND_UP); // 切上げ (小数2桁)
-
-		// decimal = decimal.setScale(1, BigDecimal.ROUND_DOWN); // 切捨て
-		// decimal = decimal.setScale(1, BigDecimal.ROUND_UP); // 四捨五入
+		decimal = decimal.setScale(1, BigDecimal.ROUND_UP);
+		// decimal = decimal.setScale(2, BigDecimal.ROUND_UP);
+		// decimal = decimal.setScale(1, BigDecimal.ROUND_DOWN);
+		// decimal = decimal.setScale(1, BigDecimal.ROUND_UP);
 		return decimal.toString();
 	}
 
-	/**
-	 * 計測中かどうかの判定メソッド
-	 * 
-	 * @return
-	 */
 	public boolean isStart() {
 		return isStart;
 	}

@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ui.internal;
@@ -11,14 +11,6 @@ import java.text.SimpleDateFormat;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.SQLHistory;
 
-/**
- * Tableクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
- */
 public class History extends TreeNode {
 
 	private static final long serialVersionUID = 1L;
@@ -27,11 +19,6 @@ public class History extends TreeNode {
 
 	protected SQLHistory sqlHistory;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param name
-	 */
 	public History(SQLHistory history) {
 		this.sqlHistory = history;
 	}
@@ -41,10 +28,6 @@ public class History extends TreeNode {
 	}
 
 	public static final int MAX_LEN = 100;
-
-	/*
-	 * public String getDate() { return dateFormat.format(history.getDate()); }
-	 */
 
 	public String getTime() {
 		return timeFormat.format(sqlHistory.getDate());
@@ -64,9 +47,7 @@ public class History extends TreeNode {
 	}
 
 	private String getShortSql() {
-
-		// String sql = SQLFormatter.unformat(sqlHistory.getSql());
-		String sql = sqlHistory.getSql(); // レスポンス悪化のため、Unformatしない
+		String sql = sqlHistory.getSql();
 		if (sql == null)
 			return "";
 		if (sql.length() > MAX_LEN) {
@@ -80,11 +61,6 @@ public class History extends TreeNode {
 		return sqlHistory.getConfig();
 	}
 
-	/**
-	 * Returns <code>true</code> if this <code>History</code> is the same as the o argument.
-	 * 
-	 * @return <code>true</code> if this <code>History</code> is the same as the o argument.
-	 */
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;

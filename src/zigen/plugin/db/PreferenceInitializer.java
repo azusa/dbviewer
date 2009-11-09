@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db;
@@ -20,38 +20,27 @@ import zigen.plugin.db.preference.SQLEditorPreferencePage;
 import zigen.plugin.db.preference.SQLFormatPreferencePage;
 import zigen.plugin.db.preference.URLPreferencePage;
 
-/**
- * PreferenceInitializerクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- *
- */
+
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 	public void initializeDefaultPreferences() {
-		// PreferencePageのデフォルト値の設定する
 		IPreferenceStore store = DbPlugin.getDefault().getPreferenceStore();
-		store.setDefault(PreferencePage.P_MAX_VIEW_RECORD, 500);// 最大検索結果
-		store.setDefault(PreferencePage.P_NULL_SYMBOL, "<NULL>");// NULLの表示 //$NON-NLS-1$
-		// //$NON-NLS-1$
-		store.setDefault(PreferencePage.P_CHANGE_NULL_COLOR, true);// NULLのFont色を変更する
-		store.setDefault(PreferencePage.P_MAX_HISTORY, 50); // 履歴//
-		// SQL実行履歴(保存するSQL数)
-		store.setDefault(PreferencePage.P_COLOR_BACKGROUND, "232,242,254");// 明細の背景色（偶数行) //$NON-NLS-1$
-		// //$NON-NLS-1$
-		store.setDefault(PreferencePage.P_QUERY_TIMEOUT_FOR_COUNT, 10); // 10秒
-		store.setDefault(PreferencePage.P_CONNECT_TIMEOUT, 5); // 5秒
+		store.setDefault(PreferencePage.P_MAX_VIEW_RECORD, 500);
+		store.setDefault(PreferencePage.P_NULL_SYMBOL, "<NULL>");//$NON-NLS-1$
+		store.setDefault(PreferencePage.P_CHANGE_NULL_COLOR, true);
+		store.setDefault(PreferencePage.P_MAX_HISTORY, 50);
+		store.setDefault(PreferencePage.P_COLOR_BACKGROUND, "232,242,254");//$NON-NLS-1$
+		store.setDefault(PreferencePage.P_QUERY_TIMEOUT_FOR_COUNT, 10); // 10 sec.
+		store.setDefault(PreferencePage.P_CONNECT_TIMEOUT, 5); // 5 sec.
 
 		store.setDefault(PreferencePage.P_NO_CONFIRM_CONNECT_DB, false);
 
 		store.setDefault(PreferencePage.P_LOCKE_COLUMN_WIDTH, false);
 
-		store.setDefault(DBTreeViewPreferencePage.P_DISPLAY_TBL_COMMENT, true);// テーブルコメントの表示
-		store.setDefault(DBTreeViewPreferencePage.P_DISPLAY_COL_COMMENT, true);// カラムコメントの表示
+		store.setDefault(DBTreeViewPreferencePage.P_DISPLAY_TBL_COMMENT, true);
+		store.setDefault(DBTreeViewPreferencePage.P_DISPLAY_COL_COMMENT, true);
 		store.setDefault(CodeAssistPreferencePage.P_SQL_CODE_ASSIST_MODE, CodeAssistPreferencePage.MODE_PARSE);
-		store.setDefault(CodeAssistPreferencePage.P_SQL_CODE_ASSIST_CACHE_TIME, 60); // ６０秒
+		store.setDefault(CodeAssistPreferencePage.P_SQL_CODE_ASSIST_CACHE_TIME, 60); // 60sec
 		store.setDefault(CodeAssistPreferencePage.P_SQL_CODE_ASSIST_AUTO_ACTIVATE_DELAY_TIME, 200); // 200ms
 		// //$NON-NLS-1$
 		store.setDefault(SQLEditorPreferencePage.P_COLOR_KEYWORD, "128,0,64"); //$NON-NLS-1$
@@ -94,7 +83,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	}
 
 	private List createURL() {
-		// 接続文字列
 		List list = new ArrayList();
 		// for oracle
 		list.add(new String[] {"oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@<host>:1521:<sid>"}); //$NON-NLS-1$ //$NON-NLS-2$
@@ -142,7 +130,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		return list;
 	}
 
-	// URLテンプレート用プロパティの保存
 	private void saveURLPreferencePage(IPreferenceStore store, List properties) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < properties.size(); i++) {

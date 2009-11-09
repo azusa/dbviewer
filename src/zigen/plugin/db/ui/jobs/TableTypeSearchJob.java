@@ -1,7 +1,7 @@
 /*
- * 著作権: Copyright (c) 2007－2008 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007－2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.jobs;
 
@@ -49,7 +49,6 @@ public class TableTypeSearchJob extends AbstractJob {
 			Connection con = Transaction.getInstance(schema.getDbConfig()).getConnection();
 
 			schema.removeChildAll();
-			// 再描画
 			showResults(new RefreshTreeNodeAction(viewer, schema));
 
 			String[] tableTypes = schema.getDataBase().getTableType();
@@ -75,7 +74,6 @@ public class TableTypeSearchJob extends AbstractJob {
 					schema.addChild(folder);
 
 				} else if ("SEQUENCE".equals(tableTypes[i])) { //$NON-NLS-1$
-					// SEQUENCE は、Oracleのみ対応
 					switch (DBType.getType(schema.getDbConfig())) {
 					case DBType.DB_TYPE_ORACLE:
 						Folder folder = new Folder();
@@ -90,7 +88,6 @@ public class TableTypeSearchJob extends AbstractJob {
 					return Status.CANCEL_STATUS;
 				}
 				ts.stop();
-				System.out.println("[TABLE情報検索] " + tableTypes[i] + "," + ts.getTotalTime());
 
 				monitor.worked(1);
 			}
@@ -100,7 +97,6 @@ public class TableTypeSearchJob extends AbstractJob {
 			IDBConfig conifg = schema.getDbConfig();
 			switch (DBType.getType(conifg)) {
 			case DBType.DB_TYPE_ORACLE:
-				// 拡張テーブルタイプの検索
 				String owner = schema.getName();
 
 				TimeWatcher ts1 = new TimeWatcher();
@@ -108,7 +104,6 @@ public class TableTypeSearchJob extends AbstractJob {
 				monitor.subTask("SELECT DISTINCT TYPE FROM ALL_SOURCE...");
 				String[] sourceTypes = OracleSourceTypeSearcher.execute(con, owner);
 				ts1.stop();
-				System.out.println("[ソースタイプの取得処理] " + ts1.getTotalTime());
 
 
 				schema.setSourceType(sourceTypes);
@@ -123,19 +118,16 @@ public class TableTypeSearchJob extends AbstractJob {
 					source.setName(DbPluginConstant.TREE_LEAF_LOADING);
 					folder.addChild(source);
 
-					// エラーアイコンの更新
 					int errorCount = OracleSourceErrorSearcher.execute(con, owner, stype).length;
 					schema.addChild(folder);
 					if (monitor.isCanceled()) {
 						return Status.CANCEL_STATUS;
 					}
 					ts.stop();
-					System.out.println("[ソース毎のエラーカウントの取得処理] " + sourceTypes[i]  + ", "+ ts.getTotalTime());
 				}
 			default:
 			}
 			schema.setExpanded(true);
-			// 再描画
 			showResults(new RefreshTreeNodeAction(viewer, schema, RefreshTreeNodeAction.MODE_EXPAND));
 
 		} catch (Exception e) {
@@ -144,7 +136,7 @@ public class TableTypeSearchJob extends AbstractJob {
 			showErrorMessage(Messages.getString("TableTypeSearchJob.5"), e); //$NON-NLS-1$
 		}
 
-		return Status.OK_STATUS; // エラーダイアログを表示するためにOKで返す
+		return Status.OK_STATUS;
 	}
 
 }
