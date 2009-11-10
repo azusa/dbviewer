@@ -1,469 +1,469 @@
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.1.1.200901xx
 ------------------------------------------------------------------
-[�V�@�\/����]
+[新機能/改良]
 
-�E�f�[�^�̓\��t�����Ƀe�[�u���f�[�^���ꎞ�I�ɔ�\���ɂ��邱�Ƃŏ������x������(11/04 )
-�ESQL��؂蕶���̏����l��/����;�ɕύX(11/02)
-�EDB�c���[�r���[�ɂăr���[�t�H���_��W�J���鎞�ɁA�d�����Č������Ă����������C��(09/15)
-.SYSOPER�̂Ƃ����SYSOPEA�ŕ\������Ă���s����C���i�����ڂ̃��e�����̂ݏC���j
-  �����������ł͐�����SYSOPER�ƂȂ��Ă��邽�߁A����ɖ��͂���܂���(09/10)
-�E�e�[�u���ҏW�G�f�B�^�[�ɂāA�u���R�[�h��Trim���ăR�s�[����v�@�\��ǉ�(08/24)
- char(512)�Ȃǂ̃e�[�u���̏ꍇ�A�R�s�[���Excel�ɓ\���Excel�̐����ɂ��f�[�^��####... �ƕ\������Ă��܂��ꍇ�Ɏg�p����
-�E���\���P�̂��߁A�e�[�u���ҏW�G�f�B�^�[�ŁA�\���p�̕�����͉E���̔��p�󔒂������I�Ƀg�������܂��B(08/29)
-�ESymfoware�Ńe�[�u���R�����g�A�J�����R�����g���\������܂��B
-�E����PLSQL�̃R���p�C���Ɏ��Ԃ�������s����C�����܂����B(PLSQL�����ނ▼�O����邽�߂̉�͂Ɏ��Ԃ��������Ă���)
+・データの貼り付け時にテーブルデータを一時的に非表示にすることで処理速度を向上(11/04 )
+・SQL区切り文字の初期値を/から;に変更(11/02)
+・DBツリービューにてビューフォルダを展開する時に、重複して検索していた処理を修正(09/15)
+.SYSOPERのところをSYSOPEAで表示されている不具合を修正（見た目のリテラルのみ修正）
+  ※内部処理では正しくSYSOPERとなっているため、動作に問題はありません(09/10)
+・テーブル編集エディターにて、「レコードをTrimしてコピーする」機能を追加(08/24)
+ char(512)などのテーブルの場合、コピー後にExcelに貼るとExcelの制限によりデータが####... と表示されてしまう場合に使用する
+・性能改善のため、テーブル編集エディターで、表示用の文字列は右側の半角空白を自動的にトリムします。(08/29)
+・Symfowareでテーブルコメント、カラムコメントが表示されます。
+・長いPLSQLのコンパイルに時間がかかる不具合を修正しました。(PLSQLから種類や名前を取るための解析に時間がかかっていた)
 
-[��Q�C��]
+[障害修正]
 
-<DB�c���[�r���[>
-�EOracle��Function��StoredProcedure�ŃG���[������ꍇ�A�A�C�R���ɃG���[���\������܂��B
-  �܂��A�폜�����ۂɁA�Ώۂ̃G�f�B�^�[���폜����悤�ɏC�����܂����B
-�EDB2�ŃX�L�[�}�ꗗ���擾�ł��Ȃ����ɑΉ�
- �X�L�[�}��������rs.getString("TABLE_SCHEM")�ł͂Ȃ��Ars.getString(1)���g�p����悤�ɏC��
-�EOracle��NCHAR�����NVARCHAR2�̌���\������悤�ɏC��
+<DBツリービュー>
+・OracleのFunctionやStoredProcedureでエラーがある場合、アイコンにエラーが表示されます。
+  また、削除した際に、対象のエディターを削除するように修正しました。
+・DB2でスキーマ一覧が取得できない問題に対応
+ スキーマ検索時にrs.getString("TABLE_SCHEM")ではなく、rs.getString(1)を使用するように修正
+・OracleのNCHARおよびNVARCHAR2の桁を表示するように修正
 
-<�e�[�u���ҏW�G�f�B�^�[>
-�E��L�[�A�O���L�[�A���j�[�NIndex�쐬���̐��񖼂������\������悤�ɏC��
-�E�e�[�u���C���f�b�N�X�쐬����Index���������\������悤�ɏC��
+<テーブル編集エディター>
+・主キー、外部キー、ユニークIndex作成時の制約名を初期表示するように修正
+・テーブルインデックス作成時のIndex名を初期表示するように修正
 
-<�e�[�u���ҏW�G�f�B�^�[>
-�ELinux�Ńf�[�^�̓\��t�����ł��Ȃ���Q���C��(11/04)
+<テーブル編集エディター>
+・Linuxでデータの貼り付けができない障害を修正(11/04)
 
 
-<Folder�w���Diff(Oracle����)>
-�EFolder�P�ʂ�Diff�����Ȃ��Ƃ����s����C�����܂����B
-  �܂��ADiff��ʂ̍��v�f�̃^�C�g�����u���ݒ�v�ɂȂ�s����C�����܂����B
-   ���{���́A[DataBase��`��]+�X�L�[�}��+�v�f��
+<Folder指定のDiff(Oracle限定)>
+・Folder単位でDiffが取れないという不具合を修正しました。
+  また、Diff画面の左要素のタイトルが「未設定」になる不具合を修正しました。
+   ※本来は、[DataBase定義名]+スキーマ名+要素名
 
-<SQL�R�[�h�⊮>
-�E�X�L�[�}�Ή����̃��x���_�E�����C�����܂����B
-  �X�L�[�}���w�莞�ɃJ�������̌����Ɍ�肪����܂����B
+<SQLコード補完>
+・スキーマ対応時のレベルダウンを修正しました。
+  スキーマ未指定時にカラム名の検索に誤りがありました。
 
-<�e�[�u���ҏW�G�f�B�^�[>
-�EINSERT���Ƃ��ăR�s�[�ɂ����āA�f�[�^�ɃV���O���N�H�[�g������ꍇ���l�����܂���
+<テーブル編集エディター>
+・INSERT文としてコピーにおいて、データにシングルクォートがある場合を考慮しました
 
 
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.1.0.20090121
 ------------------------------------------------------------------
-[�V�@�\/����]
+[新機能/改良]
 
-<DB�c���[�r���[>
-�ECollapseAll�{�^����ǉ�(�W�J����Ă���v�f�����ׂĕ���@�\)
-�E�u�S�ẴJ���������擾����v�@�\�ŁA�J�������W�J�����悤�ɂ��܂����B
- �g�����FDB�c���[�r���[��TABLE�t�H���_���E�N���b�N����u�S�ẴJ���������擾����v��I��
+<DBツリービュー>
+・CollapseAllボタンを追加(展開されている要素をすべて閉じる機能)
+・「全てのカラム情報を取得する」機能で、カラムが展開されるようにしました。
+ 使い方：DBツリービューのTABLEフォルダを右クリックから「全てのカラム情報を取得する」を選択
 
-<Source�G�f�B�^�[>
-�E���[�N�X�y�[�X�̐ݒ�Ńe�L�X�g�E�t�@�C���G���R�[�f�B���O��ύX�����ꍇ�A�̃}���`�o�C�g����������������C��
+<Sourceエディター>
+・ワークスペースの設定でテキスト・ファイルエンコーディングを変更した場合、のマルチバイト文字が化ける問題を修正
 
-<SQL�R�[�h�⊮>
-�E�X�L�[�}�Ή����܂����B(�X�L�[�}���̈ꗗ���\������܂��j
+<SQLコード補完>
+・スキーマ対応しました。(スキーマ名の一覧が表示されます）
 
-[��Q�C��]
-<�e�[�u���ҏW�G�f�B�^�[>
-�EDDL�̕\���ŁAUNIQUEKEY���񂾂�������ꍇ�ɃJ���}���s�����Ă����Q���C��
+[障害修正]
+<テーブル編集エディター>
+・DDLの表示で、UNIQUEKEY制約だけがある場合にカンマが不足している障害を修正
 
-<PLSQL�G�f�B�^(for File)�[>
-�E�R���p�C���G���[�擾���ɍs���Ă���SQL��͂ŗ�O�ɂȂ�s����C��
-�E�p�b�P�[�W���Ȃǂ��������̏ꍇ�R���p�C���G���[���擾�ł��Ȃ��s����C��
-�E�t�@�C����ۑ��ł��Ȃ��s����C��
+<PLSQLエディタ(for File)ー>
+・コンパイルエラー取得時に行っているSQL解析で例外になる不具合を修正
+・パッケージ名などが小文字の場合コンパイルエラーが取得できない不具合を修正
+・ファイルを保存できない不具合を修正
 
-[���̑�]
-�ESVN�Ƀ\�[�X���|�W�g����o�^���܂����B
-�EDBViewer�{�̂̃\�[�X���t�H�[�}�b�g���܂����B
- �t�H�[�}�b�g���[��(CodeFormatter)�́A�ȉ��ɓo�^���Ă��܂��B
+[その他]
+・SVNにソースリポジトリを登録しました。
+・DBViewer本体のソースをフォーマットしました。
+ フォーマットルール(CodeFormatter)は、以下に登録しています。
  http://svn.sourceforge.jp/svnroot/dbviewer/DBViewer/trunk/profile/DBViewer_CodeFormatterProfile.xml
- �����̃v���W�F�N�g�͂܂��A�t�H�[�}�b�g���Ă��܂���B
+ ※他のプロジェクトはまだ、フォーマットしていません。
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.9.20080914
 ------------------------------------------------------------------
 
-[�V�@�\/����]
-<�e�[�u���ҏW�G�f�B�^�[>
-�E���s�t�R�����g�ɑΉ����܂����B
+[新機能/改良]
+<テーブル編集エディター>
+・改行付コメントに対応しました。
 
-[��Q�C��]
-<DB�c���[�r���[>
-�E�e�[�u����I�����āA�u���R�[�h�̈ꊇ�폜�v�����s��A�R�l�N�V�������N���[�Y���Ă��܂������C��
+[障害修正]
+<DBツリービュー>
+・テーブルを選択して、「レコードの一括削除」を実行後、コネクションがクローズしてしまう問題を修正
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.8.20080511
 ------------------------------------------------------------------
 
-[�V�@�\/����]
-<DB �c���[�r���[>
-�ESELECT�����R�s�[����@�\��ǉ�
-�ECOMMENT�����R�s�[����@�\��ǉ�
+[新機能/改良]
+<DB ツリービュー>
+・SELECT文をコピーする機能を追加
+・COMMENT文をコピーする機能を追加
 
-<�e�[�u���ҏW�G�f�B�^�[>
-�E���[�U�C���^�[�t�F�C�X�̉���
-�E�y�[�W���ɑΉ�
-  �Ή�DB�FOracle, MySQL, PostgreSQL, H2, HSQLDB��Ή�
+<テーブル編集エディター>
+・ユーザインターフェイスの改良
+・ページャに対応
+  対応DB：Oracle, MySQL, PostgreSQL, H2, HSQLDBを対応
 
-<�A�E�g���C��>
-�E�A�E�g���C�������SQL���s�@�\
-  ���⍇�킹��(SelectStatement)���E�N���b�N���Ď��s���邱�Ƃ��ł��܂��B
+<アウトライン>
+・アウトラインからのSQL実行機能
+  副問合わせ文(SelectStatement)を右クリックして実行することができます。
 
-<SQL�G�f�B�^�[>
-�E�t�@�C���P�ʂɐڑ���f�[�^�x�[�X��ۑ����邱�Ƃ��ł��܂�
-�ESELECT�̌��ʂ��G�f�B�^�[�̉����ɕ\������܂��B
-�ECTRL+ENTER�ɂ����s���\(�J�[�\���ʒu�ɂ���SQL�����s���܂�)
+<SQLエディター>
+・ファイル単位に接続先データベースを保存することができます
+・SELECTの結果をエディターの下部に表示されます。
+・CTRL+ENTERによる実行が可能(カーソル位置にあるSQLを実行します)
 
-<SQL�R�[�h�⊮>
-�ELEFT JOIN��RIGHTJOIN�Ȃǂ̊O�������ɑΉ�
-�E�P��e�[�u���̏ꍇ���ʖ����⊮�ł���悤�ɑΉ�
+<SQLコード補完>
+・LEFT JOINやRIGHTJOINなどの外部結合に対応
+・単一テーブルの場合も別名が補完できるように対応
 
-<�f�[�^�x�[�X��`�̐ݒ�_�C�A���O>
-�E�o�^�ς݂�JDBCDriver��I���ł���悤�ɂ��܂����B
+<データベース定義の設定ダイアログ>
+・登録済みのJDBCDriverを選択できるようにしました。
 
-<DDL�̔�r>
-�EDDL�̌��ʂ��t�@�C���ɕۑ�����@�\��ǉ��B
+<DDLの比較>
+・DDLの結果をファイルに保存する機能を追加。
 
-<�I�v�e�B�}�C�U�̎��s�v��擾>
-�E���ʂ��N���b�v�{�[�h�ɃR�s�[�ł���悤�ɂ��܂����B
+<オプティマイザの実行計画取得>
+・結果をクリップボードにコピーできるようにしました。
 
-[��Q�C��]
+[障害修正]
 
-<�e�[�u���ҏW�G�f�B�^�[>
- �EFilter�@�\�ŁA�u�S�ĉ����v�����PK����\���ɕs�������
- �E�e�[�u���ҏW�G�f�B�^�[��FilterDialog�����ƁA�O�̐ݒ���o���Ă��Ȃ��s�������
- �E���R�[�h�̓\��t��������PrimaryKey��Char�^������ƍX�V�ł��Ȃ��s�������
- �EDDL�o�͓��e�̕s�������
+<テーブル編集エディター>
+ ・Filter機能で、「全て解除」するとPKも非表示に不具合を解決
+ ・テーブル編集エディターのFilterDialogを閉じると、前の設定を覚えていない不具合を解決
+ ・レコードの貼り付け処理でPrimaryKeyにChar型があると更新できない不具合を解決
+ ・DDL出力内容の不具合を解決
 
-<SQL���s����>
- �E�����̃J����������ꍇ�ɁA���R�[�h�R�s�[���������s�Ȃ��Ȃ��s�������
+<SQL実行結果>
+ ・同名のカラムがある場合に、レコードコピーが正しく行なわれない不具合を解決
 
-<CSV�o��>
-�E�ݒ�I�v�V�����������Ă��Ȃ��s�������
+<CSV出力>
+・設定オプションが効いていない不具合を解決
 
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.7.20080318
 ------------------------------------------------------------------
-[�V�@�\/����]
-<DB �c���[�r���[>
-�@�E�X�L�[�}�t�B���^�[�i�f�[�^�x�[�X��`�Őݒ�j
-�@�E�ȈՃt�B���^�[�iDB�c���[�r���[�Őݒ�j
-�@�@���ȈՃt�B���^�[�͈�v������̂�\�����܂��B
-�@�@���u���C�ɓ���v�́A��ɕ\�����܂��B
-�@�E�t�B���^�[�ݒ�(DB�c���[�r���[�Őݒ�j
-�@�@���\�����Ȃ����ڂ�ݒ肵�܂��B
-�@�E�f�[�^�x�[�X�ڑ����̃��X�|���X�����サ�܂��B
-�@�EDL��r�́A�X�L�[�}������������r�ɂȂ�܂��B
+[新機能/改良]
+<DB ツリービュー>
+　・スキーマフィルター（データベース定義で設定）
+　・簡易フィルター（DBツリービューで設定）
+　　※簡易フィルターは一致するものを表示します。
+　　※「お気に入り」は、常に表示します。
+　・フィルター設定(DBツリービューで設定）
+　　※表示しない項目を設定します。
+　・データベース接続時のレスポンスが向上します。
+　・DL比較は、スキーマ名を除いた比較になります。
 
-<�e�[�u���ҏW�G�f�B�^�[>
-�@�E�J�����t�B���^�[�@�\�̉���
-�@�E�e�[�u���ҏW�G�f�B�^�[�N�����̃��X�|���X�����サ�܂��B
+<テーブル編集エディター>
+　・カラムフィルター機能の改良
+　・テーブル編集エディター起動時のレスポンスが向上します。
 
-<SQL�G�f�B�^�[>
-�@�ESQL���̃A�E�g���C���\��(�������Łj
+<SQLエディター>
+　・SQL文のアウトライン表示(お試し版）
 
-<�J�X�^�}�C�Y�ݒ�>
-�@�E�e���v���[�g�ɑ΂���t�H�[�}�b�g(���`�j���\�ɂȂ�܂��B
-�@�@���v���r���[�́A��x�u�R�[�h�E�t�H�[�}�b�^�[�̎g�p�v��ON�ɂ��āA�ݒ�y�[�W����x���Ȃ���΂����܂���B
-�@�E�e�[�u���ҏW�G�f�B�^�[�̐ݒ�Łu�J�������̌Œ�v�̏����l�iON/OFF)��ݒ肪�\�ɂȂ�܂��B
-�@�E�����ɐ��`���邱�Ƃ��ł���SQL����ύX�ł��܂��B�i�����l��10�ł�)
-�@�@�����X�|���X�ւ̉e�����l���āA�L���ɂ��邱�Ƃɂ��܂����B
+<カスタマイズ設定>
+　・テンプレートに対するフォーマット(整形）が可能になります。
+　　※プレビューは、一度「コード・フォーマッターの使用」をONにして、設定ページを一度閉じなければいけません。
+　・テーブル編集エディターの設定で「カラム幅の固定」の初期値（ON/OFF)を設定が可能になります。
+　・同時に整形することができるSQL数を変更できます。（初期値は10です)
+　　※レスポンスへの影響を考えて、有限にすることにしました。
 
 <PostgreSQL>
-�@�EView��DDL�\��������܂ł�萳�����\������܂��B
-�@�ETable��DDL�\����COMMENT�����ǉ�����܂��B
-�@�Ebpchar�^�́Achar�^�ŕ\�������悤�ɂȂ�܂��B
+　・ViewのDDL表示がこれまでより正しく表示されます。
+　・TableのDDL表示でCOMMENT文が追加されます。
+　・bpchar型は、char型で表示されるようになります。
 
 <MySQL5>
-�@�EDB�c���[�r���[���X�L�[�}�\���ɂȂ�܂��B
-�@�E�f�[�^�x�[�X��`�Ńf�t�H���g�X�L�[�}�̐ݒ�͂ł��Ȃ��Ȃ�܂��B
-�@�@���ڑ�URL�̃f�[�^�x�[�X�����X�L�[�}�Ƃ��Ĕ��f����܂��B
-�@�EView��DDL�\��������܂ł�萳�����\������܂�
+　・DBツリービューがスキーマ表示になります。
+　・データベース定義でデフォルトスキーマの設定はできなくなります。
+　　※接続URLのデータベース名がスキーマとして判断されます。
+　・ViewのDDL表示がこれまでより正しく表示されます
 
 <Oracle>
-�@�EView��DDL�\���ŁA�J��������\������悤�ɏC�����܂����B
+　・ViewのDDL表示で、カラム名を表示するように修正しました。
 
-[��Q�C��]
-<DB�c���[�r���[>
-�@�EView�t�H���_���_�u���N���b�N���Ă��Anow loading �̂܂܂ɂȂ�s����C�����܂����B
-�@�E���C�ɓ���ɂ���e�[�u���Ɠ����̃e�[�u�����_�u���N���b�N�����ۂ̕s����C�����܂����B
+[障害修正]
+<DBツリービュー>
+　・Viewフォルダをダブルクリックしても、now loading のままになる不具合を修正しました。
+　・お気に入りにあるテーブルと同名のテーブルをダブルクリックした際の不具合を修正しました。
 
-<�e�[�u���ҏW�G�f�B�^�[>
-�@�E�ҏW���[�h��TAB�ړ������ۂɁA�J�����ԍ��������Ȃ��Ȃ�s����C�����܂����B
-�@�E�ҏW���[�h�œ��̓G���[�ɂȂ����ꍇ�ɁA���͒l���N���A�����s����C�����܂����B
-�@�Eblob/clob�^�̃J������ҏW���[�h�ɂ����ۂɁu�J�[�\��/TAB�ړ��v�ł��Ȃ��Ȃ�s����C�����܂����B
-�@�Eblob/clob�^���܂܂�郌�R�[�h�́AINSERT��clob/blob��I���ł��Ȃ��悤�ɏC�����܂����B
-�@�@�����R�[�h���쐬(INSERT)��AUPDATE��blob/clob�f�[�^��o�^���܂��B
-�@�E��ʃ��R�[�h�̃R�s�[���\��t��������CPU��100%�ɂȂ�s����C�����܂����B
-�@�E���R�[�h�̃R�s�[���\��t�������ŁA���ꃌ�R�[�h�͓\��t������DB�Ɏ����X�V���Ȃ��悤�ɂ��܂����B
+<テーブル編集エディター>
+　・編集モードでTAB移動した際に、カラム番号が見えなくなる不具合を修正しました。
+　・編集モードで入力エラーになった場合に、入力値がクリアされる不具合を修正しました。
+　・blob/clob型のカラムを編集モードにした際に「カーソル/TAB移動」できなくなる不具合を修正しました。
+　・blob/clob型が含まれるレコードは、INSERTでclob/blobを選択できないように修正しました。
+　　※レコードを作成(INSERT)後、UPDATEでblob/clobデータを登録します。
+　・大量レコードのコピー＆貼り付け処理でCPUが100%になる不具合を修正しました。
+　・レコードのコピー＆貼り付け処理で、同一レコードは貼り付け時にDBに自動更新しないようにしました。
 
-<SQL���s�r���[�^SQL�G�f�B�^�[>
-�@�ECreate�����G���[�ɂȂ�s����C�����܂����B
-�@�EDECLARE�X�e�[�g�����g�����s�ł��Ȃ��s����C�����܂����B
-�@�E����SQL������ꍇ�ɁA�t�H�[���f�B���O�@�\�ɂ��CPU��100���ɂȂ�s����C�����܂����B�iSQL�G�f�B�^�[�̂݁j
+<SQL実行ビュー／SQLエディター>
+　・Create文がエラーになる不具合を修正しました。
+　・DECLAREステートメントが実行できない不具合を修正しました。
+　・複数SQLがある場合に、フォールディング機能によりCPUが100％になる不具合を修正しました。（SQLエディターのみ）
 
 <DBViewer SQLFormatter>
-�@�EDBViewer SQL Formatter��#�̑O�ɋ󔒂�����Ȃ��悤�ɏC��
-�@�EDBViewer SQL Formatter��::�̊Ԃɋ󔒂�����Ȃ��悤�ɏC��
-  �ESQL���`���X�|���X�����サ�܂�
+　・DBViewer SQL Formatterで#の前に空白が入らないように修正
+　・DBViewer SQL Formatterで::の間に空白が入らないように修正
+  ・SQL整形レスポンスが向上します
 
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.6.20080209
 ------------------------------------------------------------------
 
-[�V�@�\]
+[新機能]
 
-<SQL���s����>
-�@�EQuery���ʂɑ΂��āA�Z���P�ʂőI���ł���悤�ɂ���܂��B(�ҏW�͂ł��܂���)
-�@�@�� �Z���P�ʂ̃R�s�[���\�ɂȂ�܂��B
+<SQL実行結果>
+　・Query結果に対して、セル単位で選択できるようにあります。(編集はできません)
+　　→ セル単位のコピーが可能になります。
 
-<SQL���s�r���[>
-�@�E�V�������s�r���[���N������ۂɁA�u�s�����߁v��Ԃ������p����܂��B
+<SQL実行ビュー>
+　・新しい実行ビューを起動する際に、「ピン留め」状態が引き継がれます。
 
-<�f�[�^�x�[�X�ڑ���`>
-�@�EOracle�̏ꍇ�A�ڑ��I�v�V�����u�W���v�uSYSDBA�v�uSYSOPEA�v��ǉ�
+<データベース接続定義>
+　・Oracleの場合、接続オプション「標準」「SYSDBA」「SYSOPEA」を追加
 
-<�e�[�u���ҏW�G�f�B�^�[>
-�@�E�J���������Œ�ɂ���(ON/OFF)�I�v�V������ǉ����܂����B
-�@�EFilter�@�\�Ƀ\�[�g�����w��ł���悤�ɂ��܂����B
-�@�@�� ORDER BY��Where�����ɋL�ڂ��Ă���ꍇ�́AWHERE��������D��ɂ��܂��B
+<テーブル編集エディター>
+　・カラム幅を固定にする(ON/OFF)オプションを追加しました。
+　・Filter機能にソート順を指定できるようにしました。
+　　→ ORDER BYをWhere条件に記載している場合は、WHERE条件側を優先にします。
 
-[��Q�C��]
-<�e�[�u���ҏW�G�f�B�^�[>
-�@�EOracle8i�ŁuORA-00904:�񖼂������ł��B�v��������������������܂����B
-�@�E���l�^�̏ꍇ-2147483648�`2147483647�𒴂���Ɛ���ɕ\������Ȃ������������܂����B
-�@�E�N���b�v�{�[�h����̃��R�[�h�f�[�^�\�t�����Ŕ�����������������܂����B
-�@�@�� char�^�ւ̓\��t�������܂��s���Ȃ���肪����܂����B
-�@�@��Where���������f����Ȃ��ŁA�ĕ`�悳��Ă����B
-  �E���R�[�h�̃R�s�[�@�\�ŁA�����̃J����������ꍇ�̖����������܂����B
+[障害修正]
+<テーブル編集エディター>
+　・Oracle8iで「ORA-00904:列名が無効です。」が発生する問題を解決しました。
+　・数値型の場合-2147483648～2147483647を超えると正常に表示されない問題を解決しました。
+　・クリップボードからのレコードデータ貼付処理で発生する問題を解決しました。
+　　→ char型への貼り付けがうまく行かない問題がありました。
+　　※Where条件が反映されないで、再描画されていた。
+  ・レコードのコピー機能で、同名のカラムがある場合の問題を解決しました。
 
-<SQL���s�r���[>
-�@�E�R�~�b�g���[�h��ύX�����ۂɁA�X�e�[�^�X�ɕ\�����Ă���R�~�b�g���[�h�����ύX����Ȃ������������܂����B
-�@�EDB�c���[�r���[��DB��I�������ۂɁA�ڑ��A�C�R���ɂȂ�Ȃ������������܂����B
-�@�E��ʂ�SQL���s���ɁACPU��100%�ɂȂ�A���X�|���X���x���Ȃ�����������܂����B
-�@�@�� �ߋ���SQL�Ɣ�r����ۂɁAUnFormat���Ȃ��悤�ɏC��(���X�|���X��D��j
-�@�@�� �����r���[�ŕ\������Z�kSQL��Unformat���Ȃ��悤�ɏC���i���X�|���X��D��j
+<SQL実行ビュー>
+　・コミットモードを変更した際に、ステータスに表示しているコミットモード名が変更されない問題を解決しました。
+　・DBツリービューでDBを選択した際に、接続アイコンにならない問題を解決しました。
+　・大量のSQL発行時に、CPUが100%になり、レスポンスが遅くなる問題を解決しました。
+　　→ 過去のSQLと比較する際に、UnFormatしないように修正(レスポンスを優先）
+　　→ 履歴ビューで表示する短縮SQLをUnformatしないように修正（レスポンスを優先）
 
-<SQL�t�H�[�}�b�^�[>
-�@�EV$Session�� V $ Session�ɐ��`���������������܂����B
+<SQLフォーマッター>
+　・V$Sessionが V $ Sessionに整形される問題を解決しました。
 
 
-<SEQUECE�e�[�u���쐬>
-�@�ECreate Sequence �����s����ƁuPL/SQL���s���S�ł��v�ƕ\�����������������܂����B
+<SEQUECEテーブル作成>
+　・Create Sequence を実行すると「PL/SQLが不完全です」と表示される問題を解決しました。
 
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.5.v20071225
 ------------------------------------------------------------------
-[�V�@�\]
+[新機能]
 
-<CSV�o��>
-�@�E�ȉ���CSV�ݒ�I�v�V������ǉ�����܂��B
-�@�@(1)CSV��؂蕶����ύX�\(�f�t�H���g�̓J���})
-�@  (2)�u1�s�ڂɃJ���������o�͂��Ȃ��v��I���ł��܂��i�f�t�H���g�͏o�͂���܂��j
-�@�@(3)�u��������_�u���N�H�[�g�ň͂܂Ȃ��v��I���ł��܂�(�f�t�H���g�̓_�u���N�H�[�g�ň͂܂�܂�)
+<CSV出力>
+　・以下のCSV設定オプションを追加されます。
+　　(1)CSV区切り文字を変更可能(デフォルトはカンマ)
+　  (2)「1行目にカラム名を出力しない」を選択できます（デフォルトは出力されます）
+　　(3)「文字列をダブルクォートで囲まない」を選択できます(デフォルトはダブルクォートで囲まれます)
 
-<DB�c���[�r���[>
-�@�E�e�[�u�����A�J�������̃R�s�[�ŁA�R�����g(remarks)�t���ŃR�s�[�ł���悤�ɂȂ�܂��B
+<DBツリービュー>
+　・テーブル名、カラム名のコピーで、コメント(remarks)付きでコピーできるようになります。
 
-<SQL���`>
-�@�ESQL�t�H�[�}�b�^�[��ǉ�����܂��B(�V DBViewer Formatter)
-�@�ESQL���`��SQL���s���ɍs��"�������`�@�\"���ǉ�����܂��B
-  �E�I������SQL�𐮌`���邱�Ƃ��ł��܂��B
-�@
-<�V���^�b�N�X�n�C���C�g>
-�@�ESQL�֐��̋����\������悤�ɂȂ�܂��B
+<SQL整形>
+　・SQLフォーマッターを追加されます。(新 DBViewer Formatter)
+　・SQL整形をSQL実行時に行う"自動整形機能"が追加されます。
+  ・選択したSQLを整形することができます。
+　
+<シンタックスハイライト>
+　・SQL関数の強調表示するようになります。
 
-<SQL�e���v���[�g>
-�@�E�R���e���c�^�C�v��SQL��Function�ɕ�������܂��B
-�@�@Function�Ƃ��ēo�^����ƁASQL�֐��Ƃ��ẴV���^�b�N�X�n�C���C�g�̑ΏۂƂȂ�܂��B
-
-
-<SQL�G�f�B�^�[�^PLSQL�G�f�B�^�[>
-�@�E�e�L�X�g�G�f�B�^�[��i�ɁA�c�[���o�[���\������܂��B
+<SQLテンプレート>
+　・コンテンツタイプをSQLとFunctionに分割されます。
+　　Functionとして登録すると、SQL関数としてのシンタックスハイライトの対象となります。
 
 
-<�R�[�h�⊮>
-�@�EDROP TABLE���ŁA�e�[�u�����A�r���[�����⊮�ł���悤�ɂȂ�܂��B
-
-[���X�|���X���P]
-<�e�[�u���ҏW�G�f�B�^�[>
-�@�E�_�C���N�g�ҏC�@�\�̃��X�|���X���P
-�@�@�����X�|���X�����コ���邽�߂ɁA�ҏW���R�[�h�̂�DB�X�V��ĕ`�悷��悤�ɂ��܂��B
-
-<SQL���`>
-�@�E�V����SQL�t�H�[�}�b�^�[�̓����ɂ��ASQL�̐��`���X�|���X���P
-�@�ESQL���`������񓯊������ɂ�郌�X�|���X���P
+<SQLエディター／PLSQLエディター>
+　・テキストエディター上段に、ツールバーが表示されます。
 
 
-<SQL�����r���[>
-�@�ESQL�����̃��X�|���X���P
-�@�@SQL�̗����́ASQL���s�����������ꍇ�ɂ̂݋L�^�����悤�ɕύX����܂��B
-�@�@����SQL����ʂɂ���ꍇ�ł����K�ɓ��삷��悤�ɂȂ�܂��B
+<コード補完>
+　・DROP TABLE文で、テーブル名、ビュー名が補完できるようになります。
+
+[レスポンス改善]
+<テーブル編集エディター>
+　・ダイレクト編修機能のレスポンス改善
+　　※レスポンスを向上させるために、編集レコードのみDB更新後再描画するようにします。
+
+<SQL整形>
+　・新しいSQLフォーマッターの導入により、SQLの整形レスポンス改善
+　・SQL整形処理を非同期処理によるレスポンス改善
 
 
-[�d�l�ύX]
-<SQL���s�r���[>
-�@�EGridLayout����FormLayout�ɕύX����܂��B
-�@�@����ɂ��A�E�B���h�E�T�C�Y��ύX�����ۂɁA�����I�Ƀc�[���o�[�����s����܂��B
+<SQL履歴ビュー>
+　・SQL履歴のレスポンス改善
+　　SQLの履歴は、SQL実行が成功した場合にのみ記録されるように変更されます。
+　　長いSQLが大量にある場合でも快適に動作するようになります。
 
 
-[��Q�C��]
-���e�[�u���ҏW�G�f�B�^�[��
-�@�E�V�K���R�[�h�쐬����ƁA�����l��(' ')�̏ꍇ�ɁA' '���\�������s����C������܂��B
-�@�EView�����C�ɓ���ɒǉ������ꍇ�ɁA�X�V����ƃG���[�ɂȂ�s����C������܂��B
+[仕様変更]
+<SQL実行ビュー>
+　・GridLayoutからFormLayoutに変更されます。
+　　これにより、ウィンドウサイズを変更した際に、自動的にツールバーが改行されます。
 
-��DB�c���[�r���[��
-�@�E�����ɕ����̃f�[�^�x�[�X��ڑ������ۂɁA�G���[�ɂȂ�s����C�����܂����B
 
-------------------------------------------------------------------
-DBViewer Plugin for Eclipse V1.0.4.v20071�P15
-------------------------------------------------------------------
-[�V�@�\]
-�ESQL���s�r���[�̃��[�U�C���^�[�t�F�C�X�̕ύX
-�E�t�@�C���p��PL/SQL�G�f�B�^�[�̒ǉ�(�p�b�P�[�W�G�N�X�v���[���p)
-�@�G���[�}�[�J�\���@�\�A"���r���["�A�g
-�@�g���q��*.plsql�Ƃ��邱�ƂŁA�t�@�C�����E�N���b�N�ŁuScript���s�v���I���ł��܂�
+[障害修正]
+＜テーブル編集エディター＞
+　・新規レコード作成すると、初期値が(' ')の場合に、' 'が表示される不具合が修正されます。
+　・Viewをお気に入りに追加した場合に、更新するとエラーになる不具合が修正されます。
 
-[��Q�C��]
-�EDB�c���[�r���[����e�[�u�����ύX(F2)�ŁA�����ڂ͕ς�邪�ADB�̃��l�[�����ł��Ă��Ȃ��B�i�����R��j
-�E�e�[�u���ҏW�G�f�B�^�[/SQL���s�r���[�̃\�[�g�@�\�ŁA���l���傫���ꍇ�͐������\�[�g����Ȃ��B
-�EDB�c���[�pPLSQL�G�f�B�^�[�ŕ����G���[�\������悤�Ƀ��[�U�C���^�[�t�F�C�X�C��
- �������݂��C����
-�EDB�c���[�r���[��Filter�@�\�̏C��
-  �J���������F�J���������e�[�u���̂ݕ\������܂��B�i���O�ɃJ�������������Ă���K�v������܂��j
-  �X�L�[�}�����F���C�ɓ���ɑ΂��Ă��A�X�L�[�}�������K������܂��B�i��������X�L�[�}�����܂��j
-�E�e�[�u���ҏW�G�f�B�^�[��WHERE�����ŁAENTER�ōČ�������Ȃ����Ƃ�����B
-�E���R�[�h�̐V�K�쐬�ŁA�f�t�H���g�l���\������Ȃ��s����C��
-�E�e�[�u���ҏW�G�f�B�^�[�ŁA�s�ԍ����N���b�N����ƁA��O���������A���O���o�͂����s����C��
-�EOracle��SQL���s�v��_�C�A���O�����T�C�Y�ł��Ȃ��s����C��
-�E�e�[�u���ҏW�G�f�B�^�[��Fileter�_�C�A���O�����T�C�Y�ł��Ȃ��s����C��
-�EDB�c���[�r���[��Schema�X�V(F5)�Ńt�H���_���Ď擾����悤�ɏC��
-
+＜DBツリービュー＞
+　・同時に複数のデータベースを接続した際に、エラーになる不具合を修正しました。
 
 ------------------------------------------------------------------
-DBViewer Plugin for Eclipse V1.0.3.v20071�P01
+DBViewer Plugin for Eclipse V1.0.4.v20071１15
 ------------------------------------------------------------------
-Version1.0.3�̕s��Ή��łł��B
-[�V�@�\]
-�E�Ȃ�
-[�d�l�ύX]
-�E�e�[�u���ҏW�G�f�B�^�[�ł̕\��������ύX(�� 1.0��1�ŕ\��)
-�E�e�[�u���̔w�i�F�ύX������JOB�����邱�ƂŃ��X�|���X����
-�E�G���[�_�C�A���O�̓���������ύX
-�ECSV�o�͂̃f�t�H���g�G���R�[�f�B���O�́A�V�X�e���v���p�e�B����擾����悤�ɕύX
-�@System.getProperty("file.encoding")
-�ESQL���s�r���[�́u�J���v�u�ۑ��v�ɂ�����f�t�H���g��SQL�t�@�C���G���R�[�f�B���O�́A
-�@�V�X�e���v���p�e�B����擾����悤�ɕύX
-�@SQL�t�@�C���G���R�[�f�B���O�́A�ݒ�y�[�W����ύX���\�B
+[新機能]
+・SQL実行ビューのユーザインターフェイスの変更
+・ファイル用のPL/SQLエディターの追加(パッケージエクスプローラ用)
+　エラーマーカ表示機能、"問題ビュー"連携
+　拡張子は*.plsqlとすることで、ファイルを右クリックで「Script実行」が選択できます
+
+[障害修正]
+・DBツリービューからテーブル名変更(F2)で、見た目は変わるが、DBのリネームができていない。（処理漏れ）
+・テーブル編集エディター/SQL実行ビューのソート機能で、数値が大きい場合は正しくソートされない。
+・DBツリー用PLSQLエディターで複数エラー表示するようにユーザインターフェイス修正
+ →※現在も修正中
+・DBツリービューのFilter機能の修正
+  カラム検索：カラムを持つテーブルのみ表示されます。（事前にカラムを検索している必要があります）
+  スキーマ検索：お気に入りに対しても、スキーマ検索が適応されます。（所属するスキーマを見ます）
+・テーブル編集エディターのWHERE条件で、ENTERで再検索されないことがある。
+・レコードの新規作成で、デフォルト値が表示されない不具合を修正
+・テーブル編集エディターで、行番号をクリックすると、例外が発生し、ログが出力される不具合を修正
+・OracleのSQL実行計画ダイアログがリサイズできない不具合を修正
+・テーブル編集エディターのFileterダイアログがリサイズできない不具合を修正
+・DBツリービューのSchema更新(F5)でフォルダを再取得するように修正
 
 
-[��Q�Ή�]
-�E�e�[�u���ҏW�G�f�B�^�[�̒�`���ɂāANUMBER(��������)��NUMBER(0)��
-�@�\�������s����C���B(���킹�ăJ�����ҏW���̕s����C��)
-�@INTGER(��������)��NUMBER(�O)�ŕ\�������s����C��
-�EDB�c���[�r���[��Synonym��View�͍X�V(F5)�݂̂ł���悤�ɏC��
-�@���C�ɓ���̃e�[�u��/�r���[�́A�X�V(F5)�ł���悤�ɏC��
-�E�X�L�[�}�P�ʂ�Diff���ʂ��ꕔ���{�ꂪ�c���Ă����s����C��
-�EH2�ɂ����āABOOLEAN�^�̃f�[�^���������\������Ȃ��s����C��
-�ESQL�R�[�h�⊮�̕s����C��
-�@SQL�e���v���[�g�g�p��ɕ⊮����ƁA�������⊮����Ȃ����Ƃ��������B
-�E�f�[�^�x�[�X��`�E�B�U�[�h�łQ�y�[�W�ڂɑJ�ڂ���ۂɃG���[���O���o�͂����s����C��
-�E�e�[�u��(�v�f)���_�u���N���b�N����ƍČ�������Ă��܂��s����C��
+------------------------------------------------------------------
+DBViewer Plugin for Eclipse V1.0.3.v20071１01
+------------------------------------------------------------------
+Version1.0.3の不具合対応版です。
+[新機能]
+・なし
+[仕様変更]
+・テーブル編集エディターでの表示書式を変更(例 1.0は1で表示)
+・テーブルの背景色変更処理をJOB化することでレスポンス向上
+・エラーダイアログの内部処理を変更
+・CSV出力のデフォルトエンコーディングは、システムプロパティから取得するように変更
+　System.getProperty("file.encoding")
+・SQL実行ビューの「開く」「保存」におけるデフォルトのSQLファイルエンコーディングは、
+　システムプロパティから取得するように変更
+　SQLファイルエンコーディングは、設定ページから変更が可能。
+
+
+[障害対応]
+・テーブル編集エディターの定義情報にて、NUMBER(引数無し)がNUMBER(0)で
+　表示される不具合を修正。(合わせてカラム編集時の不具合を修正)
+　INTGER(引数無し)→NUMBER(０)で表示される不具合を修正
+・DBツリービューでSynonymやViewは更新(F5)のみできるように修正
+　お気に入りのテーブル/ビューは、更新(F5)できるように修正
+・スキーマ単位のDiff結果が一部日本語が残っていた不具合を修正
+・H2において、BOOLEAN型のデータが正しく表示されない不具合を修正
+・SQLコード補完の不具合を修正
+　SQLテンプレート使用後に補完すると、正しく補完されないことがあった。
+・データベース定義ウィザードで２ページ目に遷移する際にエラーログが出力される不具合を修正
+・テーブル(要素)をダブルクリックすると再検索されてしまう不具合を修正
 
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.3.v20071025
 ------------------------------------------------------------------
-Version1.0.3�̕s��Ή��łł��B
-[�V�@�\]
-�E�Ȃ�
+Version1.0.3の不具合対応版です。
+[新機能]
+・なし
 
-[��Q�Ή�]
-�E�O���L�[���\������Ȃ��ꍇ������s����C��
-�EDB�ڑ��Ɏ��s�����ꍇ�̃G���[��\������悤�ɏC��
-�EOracle��NUMBER(�������Ȃ�)�^�̕s����C��
-  �� ���{������JDBCDriver�̖��B
-�@�� NUMBER(��������)��NUMBER(22)�ŏ�������Ă������̂�
-�@   Oracle��ALL_TAB_COLUMNS������悤�ɌʃJ�X�^�}�C�Y�����{
-�ELobViewer�ŕ��鏈���ł̕s����C��
-  �� 1��ڂ̕���ƍēxLobViewer���N�����Ă����B
+[障害対応]
+・外部キーが表示されない場合がある不具合を修正
+・DB接続に失敗した場合のエラーを表示するように修正
+・OracleのNUMBER(引数無なし)型の不具合を修正
+  → 根本原因はJDBCDriverの問題。
+　→ NUMBER(引数無し)がNUMBER(22)で処理されていたものを
+　   OracleのALL_TAB_COLUMNSを見るように個別カスタマイズを実施
+・LobViewerで閉じる処理での不具合を修正
+  → 1回目の閉じると再度LobViewerが起動していた。
 
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.3.v20071023
 ------------------------------------------------------------------
-[�V�@�\]
-�E�Ȃ�
-[��Q�Ή�]
-�Eplugin.xml����JDT�ˑ��֌W���폜
-�E�X�L�[�}�P�ʂ�DDL��r�@�\�̕s����C��(Oracle����@�\)
-�EPURGE RECYCLEBIN�����������s�ł���悤�ɏC��(Oracle����@�\)
-�EOracle��"FLOAT�^"�������ŕ\�������s����C��
-�@�����t�ŕ\�������Ƃ��낪�A�����ŕ\������Ă����B
-�E�J�[�\���ʒu�ɂ���SQL�̎��s���̕s����C��
-�@�R�����g(/**/)������ꍇ�ɃJ�����gSQL�����������肳��Ȃ��������B
+[新機能]
+・なし
+[障害対応]
+・plugin.xmlからJDT依存関係を削除
+・スキーマ単位のDDL比較機能の不具合を修正(Oracle限定機能)
+・PURGE RECYCLEBINが正しく実行できるように修正(Oracle限定機能)
+・Oracleの"FLOAT型"が整数で表示される不具合を修正
+　小数付で表示されるところが、整数で表示されていた。
+・カーソル位置にあるSQLの実行時の不具合を修正
+　コメント(/**/)がある場合にカレントSQLが正しく判定されないかった。
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.3
 ------------------------------------------------------------------
-[�V�K�@�\]
-�ESQL���`�����ŁA�J�[�\���ʒu��ێ����܂��B
-�@�܂��A���`��̃X�N���[�����J�[�\���ʒu�ɂȂ�܂��B
-�ESQL���s�r���[�Łu���ݍs�̋����\���v�F��ݒ�ł���悤�ɂȂ�܂��B
-�ESQL���s�r���[����̐ڑ��ŁA�u�m�F�_�C�A���O�v��\�����Ȃ��I�v�V������ǉ����܂����B
-[�C�����e]
-�E�e�[�u����`(����EIndex)���r���Ő؂��s��ɑΉ�
-�@�����F�s��(pack�����s��H�j
-�@�Ή��F���T�C�Y�\�ȃw�b�_�[��\��
-�@�⑫�FWindowsXP�ł͖�肪�������ALinux�Ŗ{��Q������
-�E�e�[�u���ҏW�G�f�B�^�[�Ń��R�[�h�̃R�s�[�̕s����C��
-�@���e�F0�o�C�g�f�[�^���ɁA""�ł͂Ȃ�"�ɕϊ�����Ă���B
-�ESQL���s�r���[��*��/�Ȃǂ̋L�����f�t�H���g�F�ɕύX����Ȃ��s����C��
-�@���l�FSQL�G�f�B�^�[�A�e�[�u���ҏW�G�f�B�^�[��DDL�\��
-�ESQL�R�[�h�⊮�ŁA�s�R�����g(-- �R�����g)���ʖ��Ɣ��肳���s����C��
+[新規機能]
+・SQL整形処理で、カーソル位置を保持します。
+　また、整形後のスクロールもカーソル位置になります。
+・SQL実行ビューで「現在行の強調表示」色を設定できるようになります。
+・SQL実行ビューからの接続で、「確認ダイアログ」を表示しないオプションを追加しました。
+[修正内容]
+・テーブル定義(制約・Index)が途中で切れる不具合に対応
+　原因：不明(pack処理不具合？）
+　対応：リサイズ可能なヘッダーを表示
+　補足：WindowsXPでは問題が無いが、Linuxで本障害が発生
+・テーブル編集エディターでレコードのコピーの不具合を修正
+　内容：0バイトデータ時に、""ではなく"に変換されている。
+・SQL実行ビューで*や/などの記号がデフォルト色に変更されない不具合を修正
+　同様：SQLエディター、テーブル編集エディターのDDL表示
+・SQLコード補完で、行コメント(-- コメント)が別名と判定される不具合を修正
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.2
 ------------------------------------------------------------------
-[�V�@�\]
-�E�G�f�B�^�[�����N�̍쐬
-�@�@DB�c���[�r���[�ƃe�[�u���ҏW�G�f�B�^�[�̃����N���ł���悤�ɂȂ�܂�
-[�C�����e]
-�@�E�����v���W�F�N�g��I�������ۂɃG���[�ɂȂ�s����C��
-�@�E�f�[�^�x�[�X��`�̃G�N�X�|�[�g/�C���|�[�g�ŁA�u�ڑ��X�L�[�}�̂ݕ\���v�̐ݒ肪�����p����Ȃ��s����C��
-�@�E���b�Z�[�W���\�[�X�C��
-�@�@�u�f�[�^�x�[�X�ɐڑ�����Ă��܂���B��DB�c���[�E�r���[�ɂĐڑ��������s���Ă��������v
-�@�@�uRefleshAction�̖��O�̐ݒ肪�X�V&(F)�ɂȂ��Ă����̂��C���v
-�@�E�J�������̕ҏW�̕s��iOracle�̂ݏC���j
-�@�E���C�ɓ���̃��[�g���폜�ł��Ă��܂��s�
-�@�EDB��`�̃C���|�[�g�Łu�S�đI���v�u�S�ĉ����v���ق����Ƃ����v�]�ɑΉ�
-�@�EDB�c���[����̃h���b�N&�h���b�v�ŁASQL���s�r���[���A�N�e�B�u�ɂȂ�Ȃ��s����C��
-�@�E�J�[�\���ʒu�ɂ���SQL���s�̕s����C��
-�@�E�������ő匏���𒴂����ꍇ�ł�SQL�����r���[�c���Ă���s����C��
-�@�ESQL���s�r���[�̗����{�^���A�f�[�^�x�[�X�s�����߂�
-�@�@ContributeItem�ł͂Ȃ�Action(CheckBox)�ɕύX�B
-�@�E�e�[�u���ҏW�G�f�B�^�[�̃\�[�g�}�[�N���t�ɂȂ��Ă������̂��C��
-�@�E�����R�~�b�g���[�h���ɃR�~�b�g�����𐳂����\��
-�@�EDBViewer����JDT�𕪗����܂����B(ValueObject�����@�\�̓I�v�V���������܂����j
-�@�EDB�c���[�r���[�̃��R�[�h�ꊇ�폜(���[���o�b�N�s�j�̃g�����U�N�V�����s����C��
-�@�ESQL�R�[�h�⊮�ŁA�e�[�u�����̑啶��������������ꕔ�C��
-�@�E�f�[�^�x�[�X��`�E�B�U�[�h�̃N���X�p�X�\�����̃��C�A�E�g�C��
+[新機能]
+・エディターリンクの作成
+　　DBツリービューとテーブル編集エディターのリンクができるようになります
+[修正内容]
+　・閉じたプロジェクトを選択した際にエラーになる不具合を修正
+　・データベース定義のエクスポート/インポートで、「接続スキーマのみ表示」の設定が引き継がれない不具合を修正
+　・メッセージリソース修正
+　　「データベースに接続されていません。※DBツリー・ビューにて接続処理を行ってください」
+　　「RefleshActionの名前の設定が更新&(F)になっていたのを修正」
+　・カラム情報の編集の不具合（Oracleのみ修正）
+　・お気に入りのルートが削除できてしまう不具合
+　・DB定義のインポートで「全て選択」「全て解除」がほしいという要望に対応
+　・DBツリーからのドラック&ドロップで、SQL実行ビューがアクティブにならない不具合を修正
+　・カーソル位置にあるSQL実行の不具合を修正
+　・履歴が最大件数を超えた場合でもSQL履歴ビュー残っている不具合を修正
+　・SQL実行ビューの履歴ボタン、データベースピン留めを
+　　ContributeItemではなくAction(CheckBox)に変更。
+　・テーブル編集エディターのソートマークが逆になっていたものを修正
+　・自動コミットモード時にコミット件数を正しく表示
+　・DBViewerからJDTを分離しました。(ValueObject生成機能はオプション化しました）
+　・DBツリービューのレコード一括削除(ロールバック不可）のトランザクション不具合を修正
+　・SQLコード補完で、テーブル名の大文字小文字判定を一部修正
+　・データベース定義ウィザードのクラスパス表示部のレイアウト修正
 
 ------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.0.1
 ------------------------------------------------------------------
-[�V�@�\]
-�E�v���O�C���̍��ۉ��i���{��\�L�ȊO�ɁA�p��\�L�ɑΉ����܂����j
-�@�����ڏ�̕�����⃁�b�Z�[�W�����ۉ����Ă��܂��B
-�ESQL���s�r���[�ŃL�����b�g�̈ʒu���X�e�[�^�X�o�[�ɕ\��
-�EDB�c���[�r���[�ŃX�L�[�}���A�e�[�u�����A�J���������R�s�[(CTRL+C)�\�Ƃ��܂����B
-�EDB�c���[�r���[�ŁA�X�L�[�}�A�t�H���_�A�e�[�u�����X�V(F5)�\�Ƃ��܂����B
-[�ύX���e]
-�E�ő�\�������𒴂����ꍇ�̒ʒm���@��ύX
-�@�_�C�A���O�ɂ��ʒm�ł͂Ȃ��A�G�f�B�^�[�����ɕ\��
-[��Q�C��]
-�EOracle9i JDBC Driver�ɂ�����Date�^/Timestamp�^�̕s��ɑΉ�
-�ESQL�����̕\��(�O��SQL�A����SQL�j�@�\�̕s����C���B
-�E�J�����gSQL�����s���鏈��(CTRL+ENTER)�ł̈ꕔ�s����C���i�Ă�)
-�E�s�폜�̕s����C��
+[新機能]
+・プラグインの国際化（日本語表記以外に、英語表記に対応しました）
+　見た目上の文字列やメッセージを国際化しています。
+・SQL実行ビューでキャレットの位置をステータスバーに表示
+・DBツリービューでスキーマ名、テーブル名、カラム名をコピー(CTRL+C)可能としました。
+・DBツリービューで、スキーマ、フォルダ、テーブルを更新(F5)可能としました。
+[変更内容]
+・最大表示件数を超えた場合の通知方法を変更
+　ダイアログによる通知ではなく、エディター下部に表示
+[障害修正]
+・Oracle9i JDBC DriverにおけるDate型/Timestamp型の不具合に対応
+・SQL履歴の表示(前のSQL、次のSQL）機能の不具合を修正。
+・カレントSQLを実行する処理(CTRL+ENTER)での一部不具合を修正（再び)
+・行削除の不具合を修正

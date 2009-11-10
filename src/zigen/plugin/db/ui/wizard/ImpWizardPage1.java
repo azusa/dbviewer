@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,28 +19,20 @@ import org.eclipse.swt.widgets.Table;
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.IDBConfig;
 
-/**
- * SelectTableWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class ImpWizardPage1 extends DefaultWizardPage {
 
-	private final String LINE_SEP = System.getProperty("line.separator");
+	private final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
 
-	public static final String MSG = "インポート対象を選択し、終了ボタンを押下してください";
+	public static final String MSG = Messages.getString("ImpWizardPage1.1"); //$NON-NLS-1$
 
-	private String[] headers = {"データベース論理名", "接続文字列"};
+	private String[] headers = {Messages.getString("ImpWizardPage1.2"), Messages.getString("ImpWizardPage1.3")}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	private IDBConfig[] configs;
 
 	public ImpWizardPage1(IDBConfig[] configs) {
-		super("wizardPage");
+		super("wizardPage"); //$NON-NLS-1$
 		this.configs = configs;
-		setTitle("データベース定義のインポート");
+		setTitle(Messages.getString("ImpWizardPage1.5")); //$NON-NLS-1$
 		setDescription(MSG);
 		setPageComplete(false);
 
@@ -52,7 +44,7 @@ public class ImpWizardPage1 extends DefaultWizardPage {
 		container.setLayout(new GridLayout(1, false));
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText("選択可能なデータベース定義一覧(&T):");
+		label.setText(Messages.getString("ImpWizardPage1.6")); //$NON-NLS-1$
 
 		createTable(container);
 
@@ -74,32 +66,26 @@ public class ImpWizardPage1 extends DefaultWizardPage {
 		tableViewer = new TableViewer(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
 		Table table = tableViewer.getTable();
 		table.setLayoutData(gridData);
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(true); // ラインを表示
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
-		// テーブルヘッダの設定
 		setHeaderColumn(table, headers);
 
 		gridData = new GridData(GridData.FILL_BOTH);
 		tableViewer.getControl().setLayoutData(gridData);
 
-		String[] properties = new String[] {"check", ""};
-		// カラム・プロパティの設定
+		String[] properties = new String[] {"check", ""}; //$NON-NLS-1$ //$NON-NLS-2$
+
 		tableViewer.setColumnProperties(properties);
 
-		// 各カラムに設定するセル・エディタの配列
 		CellEditor[] editors = new CellEditor[] {new CheckboxCellEditor(table), null};
 
-		// セル・エディタの設定
 		tableViewer.setCellEditors(editors);
 
 		tableViewer.setCellModifier(new ImpWizardPage1CellModifier(this));
 		tableViewer.setContentProvider(new TableContentProvider());
 		tableViewer.setLabelProvider(new TableLabelProvider());
 
-		// ---------------------------
-		// テーブルItemの作成
-		// ---------------------------
 		createTableItems();
 
 		if (tableItems != null) {

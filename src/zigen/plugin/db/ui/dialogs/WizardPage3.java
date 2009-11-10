@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007|2009 ZIGEN
+ * Copyright (c) 2007ï¿½|2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
@@ -470,7 +470,6 @@ public class WizardPage3 extends DefaultWizardPage {
 		filterText.setText(filterPattern);
 		visibleCheck.setSelection(checkFilterPattern);
 		setEnabled(checkFilterPattern);
-		// visibleCheck.notifyListeners(SWT.Selection, null); // ‚±‚ê‚ğŒÄ‚Ô‚ÆAFilter‚ªÀs‚³‚ê‚Ä‚µ‚Ü‚¤
 
 	}
 

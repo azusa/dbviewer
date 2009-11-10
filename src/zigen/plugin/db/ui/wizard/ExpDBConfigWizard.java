@@ -58,7 +58,6 @@ public class ExpDBConfigWizard extends Wizard {
 
 	}
 
-	// オーバーライド
 	public boolean canFinish() {
 		if (page1.isPageComplete()) {
 			return true;

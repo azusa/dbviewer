@@ -31,11 +31,11 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 
 	public static final String P_NULL_SYMBOL = "PreferencePage.NullSymbol"; //$NON-NLS-1$
 
-	public static final String P_CHANGE_NULL_COLOR = "PreferencePage.ChangeNullColor"; // NULL文字の色を変更するか //$NON-NLS-1$
+	public static final String P_CHANGE_NULL_COLOR = "PreferencePage.ChangeNullColor"; //$NON-NLS-1$
 
-	public static final String P_MAX_HISTORY = "PreferencePage.MaxHistory"; // SQL実行履歴の保存数 //$NON-NLS-1$
+	public static final String P_MAX_HISTORY = "PreferencePage.MaxHistory"; //$NON-NLS-1$
 
-	public static final String P_COLOR_BACKGROUND = "PreferencePage.BackGround"; // 明細の背景色 //$NON-NLS-1$
+	public static final String P_COLOR_BACKGROUND = "PreferencePage.BackGround";//$NON-NLS-1$
 
 	public static final String P_CONNECT_TIMEOUT = "PreferencePage.ConnectTimeout"; //$NON-NLS-1$
 

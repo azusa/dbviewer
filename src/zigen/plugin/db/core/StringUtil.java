@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007ÔøΩ|2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
@@ -128,11 +128,11 @@ public class StringUtil {
 	}
 
 	public static String rTrimFullSpace(String str) {
-		return rTrim(str, 'Å@'); // 2byte space
+		return rTrim(str, '„ÄÄ'); // 2byte space
 	}
 
 	public static String lTrimFullSpace(String str) {
-		return lTrim(str, 'Å@'); // 2byte space
+		return lTrim(str, '„ÄÄ'); // 2byte space
 	}
 
 	public static String lTrim(String str, char trimChar) {
@@ -155,9 +155,9 @@ public class StringUtil {
 
 	private static Pattern lineCommentPattern = Pattern.compile("--.*?(\r|\n|$)");
 
-	private static Pattern leftTrimPattern = Pattern.compile("^(Å@| )+");
+	private static Pattern leftTrimPattern = Pattern.compile("^(ÔøΩ@| )+");
 
-	private static Pattern rightTrimPattern = Pattern.compile("(Å@| )+$");
+	private static Pattern rightTrimPattern = Pattern.compile("(ÔøΩ@| )+$");
 
 	public static String removeComment(String s) {
 		return commentPattern.matcher(s).replaceAll("");
