@@ -111,7 +111,7 @@ public class PLSQLKeywordScanner extends SQLKeywordScanner {
 			"WHEN", //$NON-NLS-1$
 			"WHERE", //$NON-NLS-1$
 			"WITH", //$NON-NLS-1$
-			/* PL/SQLキーワード */"A", //$NON-NLS-1$
+			"A", //$NON-NLS-1$
 			"ADD", //$NON-NLS-1$
 			"AGENT", //$NON-NLS-1$
 			"AGGREGATE", //$NON-NLS-1$

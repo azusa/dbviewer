@@ -98,7 +98,7 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 		Label label = new Label(grp, SWT.NONE);
 		label.setText("Format Max SQL:");
 		maxText = new Text(grp, SWT.BORDER);
-		maxText.setTextLimit(5); // ç≈ëÂ5åÖ
+		maxText.setTextLimit(5);
 		maxText.addModifyListener(this);
 		gd = new GridData();
 		gd.widthHint = 100;
@@ -203,7 +203,7 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 		tabSize4.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		specialFormatDecode = new Button(grp, SWT.CHECK);
-		specialFormatDecode.setText(Messages.getString("SQLFormatPreferencePage.5")); // default=true(â¸çsÇ∑ÇÈ)
+		specialFormatDecode.setText(Messages.getString("SQLFormatPreferencePage.5"));
 		// //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;

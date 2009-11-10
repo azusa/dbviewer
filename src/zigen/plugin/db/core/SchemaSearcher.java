@@ -85,7 +85,6 @@ public class SchemaSearcher {
 			DatabaseMetaData objMet = con.getMetaData();
 
 			if (DBType.getType(objMet) == DBType.DB_TYPE_MYSQL && objMet.getDatabaseMajorVersion() >= 5) {
-				// ã≠êßìIÇ…TRUE
 				return true;
 			} else {
 				return objMet.supportsSchemasInTableDefinitions();

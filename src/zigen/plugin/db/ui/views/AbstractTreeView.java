@@ -75,7 +75,7 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 
 	// protected boolean fLinkingEnabled;
 
-	protected boolean isAutoSearchMode = false; // ƒL[“ü—ÍŒã©“®ŒŸõ‚·‚éê‡
+	protected boolean isAutoSearchMode = false;
 
 	public void setLinkingEnabled(boolean enabled) {
 		// fLinkingEnabled = enabled;

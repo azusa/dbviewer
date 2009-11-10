@@ -180,7 +180,7 @@ public class PlsqlEditor extends SqlEditor2 implements IPlsqlEditor, IPropertyCh
 					OracleSourceErrorInfo info = errors[i];
 
 					int errorLine = info.getLine() > 0 ? info.getLine() - 1 : 0;
-					int errorPosition = info.getPosition() > 0 ? info.getPosition() - 1 : 0; // position‚Í‚P‚©‚çŽn‚Ü‚é
+					int errorPosition = info.getPosition() > 0 ? info.getPosition() - 1 : 0;
 
 					try {
 						IRegion region = doc.getLineInformation(errorLine);

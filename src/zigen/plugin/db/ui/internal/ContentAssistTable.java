@@ -234,7 +234,6 @@ public class ContentAssistTable extends TreeNode implements ITable {
 	}
 
 	public String getFolderName() {
-		// ‰ºˆÊŒİŠ·ˆ—
 		if (folder == null)
 			return "TABLE";
 

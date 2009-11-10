@@ -292,7 +292,7 @@ public class DefaultCsvMappingFactory extends AbstractCsvMappingFactory implemen
 				return NULL;
 
 			in = new BufferedInputStream(blob.getBinaryStream());
-			String temp = toBinary(toByteArray(in)); // バイナリー表示
+			String temp = toBinary(toByteArray(in));
 			if (!nonDoubleQuate) {
 				return "\"" + temp + "\""; //$NON-NLS-1$ //$NON-NLS-2$
 			} else {

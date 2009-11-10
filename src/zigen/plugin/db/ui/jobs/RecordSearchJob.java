@@ -70,7 +70,6 @@ public class RecordSearchJob extends AbstractJob {
 			}
 
 			if (limit == 0) {
-				// –³§ŒÀ‚Ìê‡‚ÍAŒ”‚ğŒvZ‚µ‚È‚¢‚Å‚æ‚¢
 				showResults(new ShowResultAction(condition, elements, time.getTotalTime(), false));
 
 			} else {

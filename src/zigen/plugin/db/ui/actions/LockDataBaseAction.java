@@ -24,7 +24,6 @@ public class LockDataBaseAction extends SQLSourceViewerAction {
 
 	public void setChecked(boolean checked) {
 		super.setChecked(checked);
-		// アイコンを変更する
 	}
 
 }

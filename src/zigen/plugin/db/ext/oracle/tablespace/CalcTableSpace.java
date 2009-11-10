@@ -166,7 +166,7 @@ public class CalcTableSpace {
 		sb.append("   TABLE SPACE:"); //$NON-NLS-1$
 		sb.append("  " + getTableSpaceSize() + " MB"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("\n"); //$NON-NLS-1$
-		sb.append("   TABLE SPACE Å~" + getSafeCoefficient() + ":"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("   TABLE SPACE :" + getSafeCoefficient() + ":"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("  " + getTableSpaceSafeSize() + " MB"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("\n"); //$NON-NLS-1$
 		return sb.toString();
@@ -177,7 +177,7 @@ public class CalcTableSpace {
 
 		list.add(ownerName);
 		list.add(tableName);
-		list.add(""); // Indexñº //$NON-NLS-1$
+		list.add("");
 
 		list.add(String.valueOf(blockSize));
 		list.add(String.valueOf(pctFree));
@@ -195,7 +195,7 @@ public class CalcTableSpace {
 		sb.append(","); //$NON-NLS-1$
 		sb.append(tableName);
 		sb.append(","); //$NON-NLS-1$
-		sb.append(""); // indexNameÇÕÇ»Çµ //$NON-NLS-1$
+		sb.append(""); //$NON-NLS-1$
 		sb.append(","); //$NON-NLS-1$
 		sb.append(maxRecord);
 		sb.append(","); //$NON-NLS-1$

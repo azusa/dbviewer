@@ -360,7 +360,7 @@ public class SqlEditor2 extends SqlEditor implements ITableViewEditor, IQueryVie
 				int index = Integer.parseInt(property);
 				if (element instanceof TableElement) {
 					TableElement elem = (TableElement) element;
-					Object obj = elem.getItems()[index - 1]; // rowNo•ª
+					Object obj = elem.getItems()[index - 1];
 					if (obj != null) {
 						if (obj instanceof String) {
 							return (String) obj;

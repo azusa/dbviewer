@@ -41,7 +41,6 @@ public class FillCellEditorUtil {
 	}
 
 	public static int delete(Connection con, TableElement tableElement, int colIndex) throws Exception {
-		// lobデータをNULLで更新する
 		int rowAffected = 0;
 		tableElement.updateItems(colIndex - 1, null);
 		rowAffected = UpdateSQLInvoker.invoke(con, tableElement.getTable(), tableElement.getModifiedColumns(), tableElement.getModifiedItems(), tableElement.getUniqueColumns(),

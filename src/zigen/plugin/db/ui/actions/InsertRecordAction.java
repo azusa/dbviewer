@@ -58,15 +58,15 @@ public class InsertRecordAction extends TableViewEditorAction {
 		if (defaultValue != null && !"".equals(defaultValue)) { //$NON-NLS-1$
 
 			if (defaultValue.matches("^'.*'$")) { //$NON-NLS-1$
-				defaultValue = defaultValue.replaceAll("^'|'$", "");// 前後の'を外す //$NON-NLS-1$ //$NON-NLS-2$
-				defaultValue = defaultValue.replaceAll("''", "'");// '' → //$NON-NLS-1$ //$NON-NLS-2$
+				defaultValue = defaultValue.replaceAll("^'|'$", "");//$NON-NLS-1$ //$NON-NLS-2$
+				defaultValue = defaultValue.replaceAll("''", "'");//$NON-NLS-1$ //$NON-NLS-2$
 				return defaultValue;
 			} else if (defaultValue.matches("^\\(.*\\)$")) { //$NON-NLS-1$
-				defaultValue = defaultValue.replaceAll("^\\(|\\)$", "");// 前後の()を外す //$NON-NLS-1$ //$NON-NLS-2$
+				defaultValue = defaultValue.replaceAll("^\\(|\\)$", "");//$NON-NLS-1$ //$NON-NLS-2$
 
 				if (defaultValue.matches("^'.*'$")) { //$NON-NLS-1$
-					defaultValue = defaultValue.replaceAll("^'|'$", "");// 前後の'を外す //$NON-NLS-1$ //$NON-NLS-2$
-					defaultValue = defaultValue.replaceAll("''", "'");// '' → //$NON-NLS-1$ //$NON-NLS-2$
+					defaultValue = defaultValue.replaceAll("^'|'$", "");//$NON-NLS-1$ //$NON-NLS-2$
+					defaultValue = defaultValue.replaceAll("''", "'");//$NON-NLS-1$ //$NON-NLS-2$
 				}
 
 				return defaultValue;

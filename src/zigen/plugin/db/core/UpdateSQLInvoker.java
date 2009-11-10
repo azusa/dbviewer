@@ -102,7 +102,7 @@ public class UpdateSQLInvoker {
 				if (msg.startsWith("ORA-00997:")) {
 					StringBuffer s = new StringBuffer();
 					s.append("The table without PrimaryKey including the LONG data type cannot be update. \n");
-					s.append("error ÅF" + e.getLocalizedMessage());
+					s.append("error:" + e.getLocalizedMessage());
 					throw new IllegalArgumentException(s.toString());
 				}
 				break;

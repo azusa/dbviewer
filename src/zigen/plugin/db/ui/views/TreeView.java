@@ -484,12 +484,6 @@ public class TreeView extends AbstractTreeView {
 			Object ele2 = selection.iterator().next();
 
 			if (ele1 instanceof ITable && ele2 instanceof ITable) {
-				// ITable table1 = (ITable) ele1;
-				// ITable table2 = (ITable) ele2;
-				/*
-				 * if (DBType.DB_TYPE_ORACLE == table1.getDbConfig().getDbType() && DBType.DB_TYPE_ORACLE == table2.getDbConfig().getDbType()) { // OracleÇÃèÍçáÇÕDDLÇÃDiffÉÅÉjÉÖÅ[ï\é¶
-				 * ddlDiffAction.setEnabled(true); } else { ddlDiffAction.setEnabled(false); }
-				 */
 				diffAction.setEnabled(true);
 
 			} else if (ele1 instanceof Schema && ele2 instanceof Schema) {

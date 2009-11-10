@@ -178,8 +178,6 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 			IDBConfig config = schema.getDbConfig();
 			con = ConnectionManager.getConnection(config);
 
-			// çÌèúÇµÇ»Ç¢
-			// schema.removeChildAll();
 			schema.setExpanded(true);
 
 			String[] tableTypes = schema.getDataBase().getTableType();
@@ -257,7 +255,7 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 										DbPlugin.log(e);
 									}
 								}
-								IDDL ddl = new DDL(table); // DLLÇÃçÏê¨
+								IDDL ddl = new DDL(table);
 								String key = currentType + "@" + table.getName();
 								if (!allTables.contains(key)) {
 									allTables.add(key);
@@ -267,7 +265,7 @@ public class DDLDiffForSchemaJob extends AbstractJob {
 							} else if (obj instanceof OracleSource) {
 								OracleSource os = (OracleSource) obj;
 								monitor.subTask("Target:" + os.getName());
-								IDDL ddl = new SourceDDL(os); // DLLÇÃçÏê¨
+								IDDL ddl = new SourceDDL(os);
 								String key = currentType + "@" + os.getName();
 								if (!allTables.contains(key)) {
 									allTables.add(key);

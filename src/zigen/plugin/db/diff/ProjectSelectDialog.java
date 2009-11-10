@@ -1,8 +1,7 @@
 /*
- * 作成日: 2007/10/11
- * 著作権: Copyright (c) 2005 ZIGEN
- * ライセンス：Eclipse Public License - v 1.0
- * 原文：http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2007 - 2009 ZIGEN
+ * Eclipse Public License - v 1.0
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.diff;
 
@@ -124,7 +123,6 @@ public class ProjectSelectDialog extends TitleAreaDialog {
 
 	protected Control createContents(Composite parent) {
 		Control ctl = super.createContents(parent);
-		// OKボタンを使用不可にする
 		getButton(IDialogConstants.OK_ID).setEnabled(false);
 		return ctl;
 	}

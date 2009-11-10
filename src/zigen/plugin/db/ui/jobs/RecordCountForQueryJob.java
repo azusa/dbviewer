@@ -26,7 +26,7 @@ import zigen.plugin.db.ui.editors.QueryViewEditorInput;
 
 public class RecordCountForQueryJob extends AbstractJob {
 
-	int timeoutSec = 5; // 5•b
+	int timeoutSec = 5;
 
 	private Transaction trans;
 

@@ -65,7 +65,7 @@ public class ElementFilterDialog extends Dialog {
 	public ElementFilterDialog(Shell parent, TreeView treeView) {
 		super(parent);
 		super.setDefaultImage(ImageCacher.getInstance().getImage(DbPlugin.IMG_CODE_DB));
-		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE); // 最大化可能、リサイズ可能
+		setShellStyle(getShellStyle() | SWT.MAX | SWT.RESIZE);
 		this.treeView = treeView;
 	}
 

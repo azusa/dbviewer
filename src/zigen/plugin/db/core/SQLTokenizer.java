@@ -12,7 +12,6 @@ import zigen.plugin.db.DbPluginConstant;
 
 public class SQLTokenizer implements Enumeration {
 
-	// public final String LINE_SEP = "\r"; // 改行コードは1文字で扱う
 	public static final String LINE_SEP = "\n";
 
 	private String text = null;
@@ -106,7 +105,6 @@ public class SQLTokenizer implements Enumeration {
 			e.printStackTrace();
 		}
 
-		// 改行だけの場合は省略する
 		String out = sb.toString().trim();
 		if (out.length() == 0) {
 			return null;

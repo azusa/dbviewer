@@ -116,7 +116,6 @@ public class FormatModeAction extends SQLSourceViewerAction implements IMenuCrea
 		if (fSQLSourceViewer != null)
 			fSQLSourceViewer.setFormatPreExecute(b);
 
-		// ê›íËÇï€ë∂
 		setLastAutoFormatMode(b);
 	}
 

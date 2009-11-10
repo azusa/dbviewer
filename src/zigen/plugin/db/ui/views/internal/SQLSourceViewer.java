@@ -207,7 +207,6 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 	}
 
 	protected void doSelectedSQLExecute() {
-		// Ì«°Ï¯Ä‘O‚Ìó‘Ô‚ğ•Û‘¶‚·‚é
 		TextSelection selection = (TextSelection) getSelection();
 
 		SQLExecuteView view = getSQLExecuteView();

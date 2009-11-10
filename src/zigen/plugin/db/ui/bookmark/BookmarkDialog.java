@@ -155,7 +155,6 @@ public class BookmarkDialog extends Dialog {
 	}
 
 	protected void hookDoubleClickAction() {
-		// DoubleClickHandler‚Ì’Ç‰Á
 		viewer.addDoubleClickListener(new TreeDoubleClickHandler());
 	}
 

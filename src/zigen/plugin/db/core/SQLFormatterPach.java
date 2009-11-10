@@ -9,12 +9,6 @@ public class SQLFormatterPach {
 
 	public static final String LINE_SEP = "\n"; // BlancoFormattert the line feed code is treated with \n.
 
-	/**
-	 * SQL整形
-	 *
-	 * @param sql
-	 * @return
-	 */
 	public static String format(String sql) {
 		sql = formatOpenParen(sql);
 		sql = formatCase(sql);
@@ -102,7 +96,6 @@ public class SQLFormatterPach {
 		return sb.toString();
 	}
 
-	// Support CASE WHEN
 	private static String formatCase(String sql) {
 		StringBuffer sb = new StringBuffer();
 		StringTokenizer t3 = new StringTokenizer(sql, " ");
@@ -127,7 +120,7 @@ public class SQLFormatterPach {
 				} else if ("WHEN".equalsIgnoreCase(token3)) {
 					if (isCase) {
 						sb.append(" ");
-						sb.append("    "); // スペース４つ
+						sb.append("    ");
 						sb.append(StringUtil.indent(token3, preIndent));
 					} else {
 						sb.append(LINE_SEP);

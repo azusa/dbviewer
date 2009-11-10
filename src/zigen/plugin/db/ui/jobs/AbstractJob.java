@@ -22,7 +22,7 @@ public abstract class AbstractJob extends Job {
 	protected IPreferenceStore store;
 
 	public AbstractJob(String msg) {
-		super(msg); // TitleŽw’è
+		super(msg);
 		store = DbPlugin.getDefault().getPreferenceStore();
 	}
 

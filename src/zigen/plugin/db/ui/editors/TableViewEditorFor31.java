@@ -252,7 +252,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 	public TableViewEditorFor31() {
 		super();
 		ps = DbPlugin.getDefault().getPreferenceStore();
-		isLockedColumnWidth = ps.getBoolean(PreferencePage.P_LOCKE_COLUMN_WIDTH); // èâä˙íl
+		isLockedColumnWidth = ps.getBoolean(PreferencePage.P_LOCKE_COLUMN_WIDTH);
 	}
 
 	private void makeActions() {
@@ -492,7 +492,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			whereString = conditionComb.getText();
 			pager.setPageNo(1);
 			offset = 1;
-			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD); // êßå¿Çèâä˙âª
+			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
 			updateTableViewer(whereString, offset, limit);
 		}
 	}
@@ -1065,7 +1065,7 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 
 				setInfomationText(maxRecordMessage);
 
-				setResponseTime(time.getTotalTime());// âûìöéûä‘
+				setResponseTime(time.getTotalTime());
 
 				if (elements != null) {
 					TreeView view = (TreeView) DbPlugin.findView(DbPluginConstant.VIEW_ID_TreeView);
@@ -1237,7 +1237,6 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 			input.setToolTipText(sb.toString());
 
 			setStatusMessage(input.getToolTipText());
-			// ïœçXí ím(OFF)
 			setDirty(false);
 
 		} catch (Exception e) {
@@ -1363,7 +1362,6 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 		return filterInfos;
 	}
 
-	// DB Tree ViewÇÃSelection
 	public void setSelection(ISelection selection) {
 		this.selection = selection;
 	}

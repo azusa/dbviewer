@@ -69,13 +69,13 @@ public class OpenEditorJob extends RefreshColumnJob {
 
 					if (!db.isConnected()) {
 						db.setConnected(true);
-						db.removeChild(db.getChild(DbPluginConstant.TREE_LEAF_LOADING)); // ダミーノードがあれば削除
+						db.removeChild(db.getChild(DbPluginConstant.TREE_LEAF_LOADING));
 						if (db.isSchemaSupport()) {
-							db.addChild(new Schema(DbPluginConstant.TREE_LEAF_LOADING)); // ダミーノード追加
+							db.addChild(new Schema(DbPluginConstant.TREE_LEAF_LOADING));
 						} else {
-							db.addChild(new Folder(DbPluginConstant.TREE_LEAF_LOADING)); // ダミーノード追加
+							db.addChild(new Folder(DbPluginConstant.TREE_LEAF_LOADING));
 						}
-						showResults(new RefreshTreeNodeAction(viewer, db, RefreshTreeNodeAction.MODE_COLLAPSE)); // 展開しない
+						showResults(new RefreshTreeNodeAction(viewer, db, RefreshTreeNodeAction.MODE_COLLAPSE));
 
 					}
 				}

@@ -41,7 +41,6 @@ public class SQLCreator {
 		sb.append("SELECT * FROM "); //$NON-NLS-1$
 		sb.append(table.getSqlTableName());
 
-		// WHEREğŒ
 		for (int i = 0; i < uniqueColumns.length; i++) {
 			Object uniqueItem = uniqueItems[i];
 			TableColumn col = uniqueColumns[i];

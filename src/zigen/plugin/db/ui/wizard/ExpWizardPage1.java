@@ -101,7 +101,7 @@ public class ExpWizardPage1 extends DefaultWizardPage {
 				if (child instanceof DataBase) {
 					DataBase db = (DataBase) child;
 					// tableItems[i] = new TableItem(db.getDbConfig(), true);
-					tableItems[i] = new TableItem(db.getDbConfig(), false); // èâä˙íl
+					tableItems[i] = new TableItem(db.getDbConfig(), false);
 					// False
 					i++;
 				}

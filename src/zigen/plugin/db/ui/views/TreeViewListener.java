@@ -122,7 +122,6 @@ public class TreeViewListener implements ITreeViewerListener {
 						job.schedule();
 
 						return;
-						// ª
 					}
 				}
 

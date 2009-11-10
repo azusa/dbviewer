@@ -173,12 +173,6 @@ public class TableSearcher {
 		}
 
 	}
-
-
-
-	// TABLE-TYPE‚Éw’èo—ˆ‚é•¶š—ñ
-	// "TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY",
-	// "LOCAL TEMPORARY", "ALIAS", "SYNONYM".
 }
 
 class TableInfoSorter implements Comparator {

@@ -93,7 +93,6 @@ public class RefreshSchemaJob extends AbstractJob {
 		}
 
 		return Status.OK_STATUS;
-		// エラーダイアログを表示するためにOKで返す
 	}
 
 }

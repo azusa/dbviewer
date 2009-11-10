@@ -103,9 +103,7 @@ public class CSVResultWriter {
 	}
 
 	private String encode(String value) {
-		// " Ë "" ‚Ö
 		value = value.replaceAll("\"", "\"\""); //$NON-NLS-1$ //$NON-NLS-2$
-
 		if (value.indexOf("\"") > 0 || value.indexOf(",") > 0) { //$NON-NLS-1$ //$NON-NLS-2$
 			value = "\"" + value + "\""; //$NON-NLS-1$ //$NON-NLS-2$
 		}

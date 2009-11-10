@@ -55,7 +55,6 @@ public class DropColumnAction extends TableViewEditorAction {
 							thread.run();
 						}
 					} else {
-						// cascade constraintsオプションをサポートしていない場合はこちら
 						if (DbPlugin.getDefault().confirmDialog(msg)) {
 							thread = new DropColumnThread(table, col, false);
 							thread.run();

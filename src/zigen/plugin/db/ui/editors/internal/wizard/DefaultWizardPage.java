@@ -100,7 +100,7 @@ abstract class DefaultWizardPage extends WizardPage {
 			Column col = (Column) element;
 			switch (columnIndex) {
 			case 0:
-				result = col.getName().trim(); // ƒJƒ‰ƒ€–¼
+				result = col.getName().trim();
 				break;
 			default:
 				break;

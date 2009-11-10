@@ -489,7 +489,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 			sortListener = new TableSortListener(this, 0);
 			row.addSelectionListener(sortListener);
 			row.pack();
-			TableElement element = elements[0]; // ヘッダー用カラム
+			TableElement element = elements[0];
 			zigen.plugin.db.core.TableColumn[] columns = element.getColumns();
 			for (int i = 0; i < columns.length; i++) {
 				zigen.plugin.db.core.TableColumn tColumn = columns[i];

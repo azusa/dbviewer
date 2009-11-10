@@ -153,7 +153,6 @@ public class ColumnWizardPage extends DefaultWizardPage {
 
 		cmbColumnType.setText(column.getTypeName());
 
-		// 選択状態でなければ、追加する
 		if (cmbColumnType.getSelectionIndex() > 0) {
 			cmbColumnType.add(column.getTypeName());
 		}
@@ -262,7 +261,6 @@ public class ColumnWizardPage extends DefaultWizardPage {
 		});
 
 
-		// カラム選択を通知する
 		cmbColumnType.notifyListeners(SWT.Selection, null);
 	}
 

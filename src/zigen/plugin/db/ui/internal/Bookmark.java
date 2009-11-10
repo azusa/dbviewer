@@ -305,7 +305,6 @@ public class Bookmark extends TreeNode implements ITable {
 	}
 
 	public String getFolderName() {
-		// ‰ºˆÊŒİŠ·ˆ—
 		if (folder == null) {
 			if (type == Bookmark.TYPE_TABLE) {
 				return "TABLE";

@@ -341,7 +341,7 @@ public class DbPlugin extends AbstractUIPlugin {
 	}
 
 	private static String getFirstLineMessage(String message) {
-		StringUtil.convertLineSep(message); // \n で改行を統一する
+		StringUtil.convertLineSep(message);
 		int pos = message.indexOf("\n"); //$NON-NLS-1$
 		if (pos > 0) {
 			return message.substring(0, pos);
@@ -432,7 +432,7 @@ public class DbPlugin extends AbstractUIPlugin {
 		if (datas.length > 0) {
 			FontData data = datas[0];
 			int currnetHeight = data.getHeight();
-			data.setHeight(currnetHeight - 1); // サイズだけ変更
+			data.setHeight(currnetHeight - 1);
 			newFont = new Font(Display.getDefault(), data);
 		}
 		return newFont;
@@ -455,8 +455,8 @@ public class DbPlugin extends AbstractUIPlugin {
 		boolean optIn = st.getBoolean(SQLFormatPreferencePage.P_FORMAT_OPTION_IN);
 
 		rule.setIndentString(StringUtil.padding("", tabSize)); //$NON-NLS-1$
-		rule.setDecodeSpecialFormat(!optDecode); // default = true (caseと同様) false = 改行されない
-		rule.setInSpecialFormat(optIn); // default = true (値のみの場合は、改行されない)
+		rule.setDecodeSpecialFormat(!optDecode);
+		rule.setInSpecialFormat(optIn);
 		return rule;
 	}
 

@@ -209,7 +209,7 @@ public class CalcIndexSpace {
 		sb.append("   TABLE SPACE:"); //$NON-NLS-1$
 		sb.append("  " + getTableSpaceSize() + " MB"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("\n"); //$NON-NLS-1$
-		sb.append("   TABLE SPACE Å~" + getSafeCoefficient() + ":"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("   TABLE SPACE :" + getSafeCoefficient() + ":"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("  " + getTableSpaceSafeSize() + " MB"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("\n"); //$NON-NLS-1$
 		return sb.toString();
@@ -219,7 +219,7 @@ public class CalcIndexSpace {
 		List list = new ArrayList();
 		list.add(ownerName);
 		list.add(tableName);
-		list.add(indexName); // Indexñº
+		list.add(indexName);
 
 		list.add(String.valueOf(blockSize));
 		list.add(String.valueOf(pctFree));

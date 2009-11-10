@@ -137,7 +137,6 @@ public class SelectProcessor extends DefaultProcessor {
 					ASTTable table = (ASTTable) node;
 					TableInfo info;
 					if(table.getSchemaName() != null){
-						// スキーマ対応用
 						info = findTableInfo(ci.getTableInfo(table.getSchemaName()), table.getTableName());
 					}else{
 						info = findTableInfo(ci.getTableInfo(), table.getTableName());

@@ -217,7 +217,7 @@ public class DefaultProcessor {
 			if (ci.isConnected()) {
 
 				String schemaName = ((ASTTable) target).getSchemaName();
-				if(schemaName == null) schemaName = ci.getCurrentSchema();	// 接続中のスキーマ情報とする
+				if(schemaName == null) schemaName = ci.getCurrentSchema();
 				String tableName = ((ASTTable) target).getTableName();
 				Column[] cols = ci.getColumns(schemaName, tableName);
 				SQLProposalCreator2.addProposal(proposals, cols, pinfo);
@@ -251,7 +251,7 @@ public class DefaultProcessor {
 					}
 
 					colInfo[index][0] = columnName;
-					colInfo[index][1] = sb.toString(); // display用
+					colInfo[index][1] = sb.toString();
 
 					index++;
 				}
@@ -264,7 +264,7 @@ public class DefaultProcessor {
 	protected boolean addTableProposalBySchema(ContentInfo ci, String inputWord)throws Exception{
 		String correctSchemaName = ci.findCorrectSchema(inputWord);
 		if (correctSchemaName != null){
-			SQLProposalCreator2.addProposal(proposals, ci.getTableInfo(correctSchemaName), pinfo);// テーブルリストを表示する
+			SQLProposalCreator2.addProposal(proposals, ci.getTableInfo(correctSchemaName), pinfo);
 			return true;
 		}else{
 			return false;

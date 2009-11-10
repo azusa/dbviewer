@@ -50,7 +50,7 @@ public class TableKeyEventHandler {
 	}
 
 	public int getSelectedRow() {
-		return table.getSelectionIndex(); // siæ“ª‚Í0‚©‚ç)
+		return table.getSelectionIndex();
 	}
 
 	public void selectRow(int index) {

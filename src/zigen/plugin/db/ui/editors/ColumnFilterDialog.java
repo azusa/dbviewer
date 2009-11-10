@@ -451,11 +451,11 @@ public class ColumnFilterDialog extends Dialog {
 				result = col.getSize();
 				break;
 			case 7:
-				result = col.isPrimaryKey() ? "Åõ" : "Å@"; //$NON-NLS-1$ //$NON-NLS-2$
+				result = col.isPrimaryKey() ? Messages.getString("ColumnFilterDialog.24") : Messages.getString("ColumnFilterDialog.25"); //$NON-NLS-1$ //$NON-NLS-2$
 				break;
 
 			case 8:
-				result = col.isNotNull() ? "Åõ" : "Å@"; //$NON-NLS-1$ //$NON-NLS-2$
+				result = col.isNotNull() ? Messages.getString("ColumnFilterDialog.26") : Messages.getString("ColumnFilterDialog.27"); //$NON-NLS-1$ //$NON-NLS-2$
 				break;
 			case 9:
 				result = col.getDefaultValue();

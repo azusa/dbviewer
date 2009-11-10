@@ -114,7 +114,6 @@ public class SQLUtil {
 				throw new IllegalArgumentException("The mistake is found in SQL. There is no ')'.");
 			}
 		} else {
-			// SELECT•¶
 			s = s.toUpperCase();
 			if (s.startsWith("SELECT") || s.startsWith("SHOW") || s.startsWith("DESCRIBE")) {
 				return true;
@@ -155,9 +154,9 @@ public class SQLUtil {
 					String token2 = tokenizer.getToken();
 					String temp = token2.trim();
 					if (temp.startsWith("'") && temp.endsWith("'")) {
-						;// •ÏŠ·‚µ‚È‚¢
+						;
 					} else if (temp.startsWith("\"") && temp.endsWith("\"")) {
-						;// •ÏŠ·‚µ‚È‚¢
+						;
 					} else {
 						if (mode == MODE_TO_UPPER) {
 							token2 = token2.toUpperCase();

@@ -72,7 +72,6 @@ public class RecordCountForTableJob extends AbstractJob {
 			int timeout = store.getInt(PreferencePage.P_QUERY_TIMEOUT_FOR_COUNT);
 
 			IDBConfig config = table.getDbConfig();
-			// ITable‚Ínull‚ÅgetFactory‚·‚é(“ÁŽê)
 			ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, null);
 			String q = factory.createCountAll(condition);
 

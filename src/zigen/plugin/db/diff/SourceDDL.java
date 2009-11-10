@@ -32,7 +32,7 @@ public class SourceDDL implements IDDL, Serializable {
 
 	OracleSourceDetailInfo oracleSourceDetailInfo;
 
-	String SqlSouceName; // Schema•t‚«
+	String SqlSouceName;
 
 	public SourceDDL() {
 

@@ -39,7 +39,6 @@ public class ImpWizardPage1 extends DefaultWizardPage {
 
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		// 1•ªŠ„Afalse:‹Ï“™‚É‚µ‚È‚¢
 		container.setLayout(new GridLayout(1, false));
 
 		Label label = new Label(container, SWT.NULL);

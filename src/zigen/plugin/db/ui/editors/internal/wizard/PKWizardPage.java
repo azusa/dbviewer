@@ -175,7 +175,7 @@ public class PKWizardPage extends DefaultWizardPage {
 
 		selectColumnViewer.setContentProvider(new ConstraintsColumnContentProvider());
 		selectColumnViewer.setLabelProvider(new ConstraintsColumnLabelProvider());
-		// defineViewer.setSorter(new TreeViewSorter()); // 選択した順とする
+		// defineViewer.setSorter(new TreeViewSorter());
 
 		selectColumnViewer.addDoubleClickListener(new IDoubleClickListener() {
 
@@ -246,7 +246,7 @@ public class PKWizardPage extends DefaultWizardPage {
 	}
 
 	protected void createOptionControl(Composite container) {
-		; // 拡張用メソッド
+		;
 	}
 
 	protected void update() {

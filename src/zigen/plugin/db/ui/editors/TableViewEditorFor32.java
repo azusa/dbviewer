@@ -213,7 +213,7 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 
 			pager.setPageNo(1);
 			offset = 1;
-			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD); // êßå¿Çèâä˙âª
+			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
 			updateTableViewer(whereString, offset, limit);
 
 		} else if (e.stateMask == SWT.CTRL && e.character == ' ') {
@@ -275,9 +275,6 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 				return new DefaultInformationControl(parent);
 			}
 		});
-
-		// IInformationControlCreatorÇÃê›íË
-		// contentAssistant.setInformationControlCreator(getInformationControlCreator(sourceViewer));
 
 		contentAssistant.enableAutoActivation(true);
 

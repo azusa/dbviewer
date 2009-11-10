@@ -3,12 +3,6 @@
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-/*
- * 作成日
- *
- * TODO この生成されたファイルのテンプレートを変更するには次へジャンプ:
- * ウィンドウ - 設定 - Java - コード・スタイル - コード・テンプレート
- */
 package zigen.plugin.db;
 
 import org.eclipse.core.runtime.IPath;

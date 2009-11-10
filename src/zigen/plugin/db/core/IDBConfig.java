@@ -97,12 +97,10 @@ public interface IDBConfig {
 
 	public void setConnectAsSYSDBA(boolean b);
 
-	// for Oracle
 	public boolean isConnectAsSYSOPER();
 
 	public void setConnectAsSYSOPER(boolean b);
 
-	// for MySQL5�ȍ~
 	public boolean isConnectAsInformationSchema();
 
 	public void setConnectAsInformationSchema(boolean isConnectAsInformationSchema);

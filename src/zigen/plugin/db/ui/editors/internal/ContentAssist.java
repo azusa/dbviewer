@@ -117,7 +117,6 @@ public class ContentAssist {
 
 	private Rectangle getRectangle(Combo text) {
 		Rectangle rectangle = new Rectangle(text.getBorderWidth(), 0, 0, 0);
-		// 親をさかのぼって座標を割り出す
 		Composite parent = text.getParent();
 		while (parent != null) {
 			if (parent instanceof Composite) {
@@ -134,7 +133,6 @@ public class ContentAssist {
 
 	private Rectangle getRectangle(Text text) {
 		Rectangle rectangle = new Rectangle(text.getBorderWidth(), text.getLineHeight(), 0, 0);
-		// 親をさかのぼって座標を割り出す
 		Composite parent = text.getParent();
 		while (parent != null) {
 			if (parent instanceof Composite) {

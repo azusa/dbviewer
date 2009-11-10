@@ -267,7 +267,7 @@ public class DDLDiffForFolderJob extends AbstractJob {
 									DbPlugin.log(e);
 								}
 							}
-							IDDL ddl = new DDL(table); // DLL�̍쐬
+							IDDL ddl = new DDL(table);
 							String key = currentType + "@" + table.getName();
 							if (!allList.contains(key)) {
 								allList.add(key);
@@ -277,7 +277,7 @@ public class DDLDiffForFolderJob extends AbstractJob {
 						} else if (obj instanceof OracleSource) {
 							OracleSource os = (OracleSource) obj;
 							monitor.subTask("Target:" + os.getName());
-							IDDL ddl = new SourceDDL(os); // DLL�̍쐬
+							IDDL ddl = new SourceDDL(os);
 							String key = currentType + "@" + os.getName();
 							if (!allList.contains(key)) {
 								allList.add(key);

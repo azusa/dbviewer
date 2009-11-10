@@ -375,7 +375,7 @@ public class WizardPage2 extends DefaultWizardPage {
 				driverList.add(f.getPath());
 			}
 		}
-		String[] driverClassPath = (String[]) driverList.toArray(new String[0]); // çÏã∆ópClassPath
+		String[] driverClassPath = (String[]) driverList.toArray(new String[0]);
 		ClassLoader loader = PluginClassLoader.getClassLoader(classpaths, getClass().getClassLoader());
 
 		DriverSearcherThread thread = new DriverSearcherThread(loader, driverClassPath);

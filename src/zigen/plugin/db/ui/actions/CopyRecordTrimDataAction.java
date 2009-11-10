@@ -71,14 +71,14 @@ public class CopyRecordTrimDataAction extends CopyRecordDataAction {
 							}
 
 							if (value.indexOf("\"") >= 0) { //$NON-NLS-1$
-								value = value.replaceAll("\"", "\"\""); // " Å® // "" //$NON-NLS-1$ //$NON-NLS-2$
+								value = value.replaceAll("\"", "\"\""); //$NON-NLS-1$ //$NON-NLS-2$
 								// //$NON-NLS-1$
 								// //$NON-NLS-2$
 							}
 							if (value.length() == 0) {
 								value = "\"\""; //$NON-NLS-1$
 							} else {
-								value = value.replaceAll("^|$", "\""); // êÊì™Ç∆çsññÇ…"Çì¸ÇÍÇÈ //$NON-NLS-1$ //$NON-NLS-2$
+								value = value.replaceAll("^|$", "\""); //$NON-NLS-1$ //$NON-NLS-2$
 								// //$NON-NLS-1$
 								// //$NON-NLS-2$
 							}

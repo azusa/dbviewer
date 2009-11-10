@@ -58,7 +58,7 @@ public class ChangeColorJobDefine extends AbstractJob {
 
 		ColorManager colorManager = new ColorManager();
 		Display display = Display.getDefault();
-		this.blue = new Color(display, 0, 0, 255); // ê¬
+		this.blue = new Color(display, 0, 0, 255);
 		this.black = new Color(display, 0, 0, 0);
 		this.glay = display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
 		this.white = display.getSystemColor(SWT.COLOR_WHITE);

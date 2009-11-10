@@ -28,9 +28,6 @@ public class ConfirmDDLWizardPage extends DefaultWizardPage {
 
 	public static final String MSG_DSC = Messages.getString("ConfirmDDLWizardPage.0"); //$NON-NLS-1$
 
-	// private static final String MSG_REQUIRE_NAME = "制約名を入力してください";
-	// private static final String MSG_REQUIRE_COLUMN = "対象になるカラムを選択してください";
-
 	protected SQLDocument document;
 
 	protected ColorManager colorManager = new ColorManager();
@@ -77,7 +74,6 @@ public class ConfirmDDLWizardPage extends DefaultWizardPage {
 			generateSQL();
 			setDescription(MSG_DSC);
 		} else {
-			// 確認画面以外の場合は、PageCompleteをFalseにする
 			setPageComplete(false);
 		}
 	}
@@ -89,10 +85,7 @@ public class ConfirmDDLWizardPage extends DefaultWizardPage {
 
 
 		String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
-
-		// start 障害対応 20207/10/02 ZIGEN クリアされない
-		document.set(""); // 初期化
-		// end 障害対応
+		document.set("");
 
 		IWizard wiz = getWizard();
 		if (wiz instanceof IConfirmDDLWizard) {

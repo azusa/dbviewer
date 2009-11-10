@@ -132,7 +132,7 @@ public class Column extends TreeLeaf {
 		} else {
 			sb.append(column.getColumnName());
 		}
-		sb.append("ÅF");
+		sb.append(":");
 		sb.append(column.getTypeName().toLowerCase());
 
 		if (column.getDecimalDigits() == 0) {

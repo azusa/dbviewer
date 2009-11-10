@@ -75,7 +75,7 @@ public class CellModifier implements ICellModifier {
 				if (!info.isChecked())
 					return false;
 
-				TableColumn col = elem.getColumns()[index - 1]; // rowNo•ª
+				TableColumn col = elem.getColumns()[index - 1];
 
 				if (elem.isNew()) {
 					switch (col.getDataType()) {

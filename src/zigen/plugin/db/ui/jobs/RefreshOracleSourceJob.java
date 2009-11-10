@@ -63,9 +63,9 @@ public class RefreshOracleSourceJob extends AbstractJob {
 			OracleSourceErrorInfo[] errors  = OracleSourceErrorSearcher.execute(con, owner, source.getName(),type);
 			source.setHasError(errors.length > 0);
 
-			showResults(new RefreshTreeNodeAction(viewer, source.getParent(), RefreshTreeNodeAction.MODE_NOTHING)); // 親フォルダ再描画
+			showResults(new RefreshTreeNodeAction(viewer, source.getParent(), RefreshTreeNodeAction.MODE_NOTHING));
 
-			showResults(new RefreshTreeNodeAction(viewer, source, RefreshTreeNodeAction.MODE_NOTHING)); // 再描画
+			showResults(new RefreshTreeNodeAction(viewer, source, RefreshTreeNodeAction.MODE_NOTHING));
 
 			monitor.done();
 		} catch (Exception e) {

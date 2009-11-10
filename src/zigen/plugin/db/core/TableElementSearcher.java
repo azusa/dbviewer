@@ -85,7 +85,6 @@ public class TableElementSearcher extends TableManager {
 			sb.append("SELECT * FROM "); //$NON-NLS-1$
 			sb.append(table.getSqlTableName() + " "); //$NON-NLS-1$
 
-			// WHEREğŒ
 			for (int i = 0; i < uniqueColumns.length; i++) {
 				Object uniqueItem = uniqueItems[i];
 				TableColumn uniqueColumn = uniqueColumns[i];

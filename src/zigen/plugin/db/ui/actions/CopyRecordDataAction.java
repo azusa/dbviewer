@@ -78,7 +78,7 @@ public class CopyRecordDataAction extends TableViewEditorAction {
 
 
 							if (value.indexOf("\"") >= 0) { //$NON-NLS-1$
-								value = value.replaceAll("\"", "\"\""); // " Å®
+								value = value.replaceAll("\"", "\"\"");
 								// ""
 								// //$NON-NLS-1$
 								// //$NON-NLS-2$

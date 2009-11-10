@@ -74,7 +74,7 @@ public class ColumnSearchAction implements Runnable {
 			table.removeChild(table.getChild(DbPluginConstant.TREE_LEAF_LOADING));
 
 			if (viewer != null) {
-				viewer.refresh(table);// çƒï`âÊ
+				viewer.refresh(table);
 			}
 
 			IDBConfig config = table.getDbConfig();
@@ -86,7 +86,6 @@ public class ColumnSearchAction implements Runnable {
 			switch (DBType.getType(con.getMetaData())) {
 			case DBType.DB_TYPE_ORACLE:
 				if (table instanceof Synonym) {
-					// OracleÇ≈Ç©Ç¬SynonymÇÃèÍçá
 					Synonym synonym = (Synonym) table;
 					schemaName = synonym.getTable_owner();
 					tableName = synonym.getTable_name();
@@ -161,7 +160,7 @@ public class ColumnSearchAction implements Runnable {
 			}
 
 			if (viewer != null) {
-				viewer.refresh(table);// çƒï`âÊ
+				viewer.refresh(table);
 			}
 
 		} catch (NotFoundSynonymInfoException e) {
@@ -186,7 +185,6 @@ public class ColumnSearchAction implements Runnable {
 			break;
 
 		default:
-			// í èÌ
 			table.addChild(new Column(w_column, w_pk, w_fks));
 			break;
 		}

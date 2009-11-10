@@ -48,7 +48,7 @@ public class OracleSequeceSearchJob extends AbstractJob {
 			addSequences(con, folder, infos);
 
 			folder.setExpanded(true);
-			showResults(new RefreshTreeNodeAction(viewer, folder, RefreshTreeNodeAction.MODE_NOTHING)); // çƒï`âÊ
+			showResults(new RefreshTreeNodeAction(viewer, folder, RefreshTreeNodeAction.MODE_NOTHING));
 
 			monitor.done();
 

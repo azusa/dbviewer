@@ -91,7 +91,6 @@ public class ConnectDBJob extends AbstractJob {
 				Connection con = Transaction.getInstance(config).getConnection();
 
 				if (DBType.DB_TYPE_SYMFOWARE != config.getDbType()) {
-					// トランザクションレベルを変更(同期処理)
 					Display.getDefault().syncExec(new ChangeTransactionIsolationLevelAction(config));
 				}
 
@@ -100,7 +99,6 @@ public class ConnectDBJob extends AbstractJob {
 				}
 
 				db.removeChildAll();
-				// 結果反映
 				showResults(new RefreshTreeNodeAction(viewer, db));
 
 				db.setSchemaSupport(SchemaSearcher.isSupport(con));
