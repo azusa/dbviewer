@@ -1,0 +1,34 @@
+------------------------------------------------------------------
+DBViewer Plugin for Eclipse V1.2.0.200911xx
+------------------------------------------------------------------
+
+New features /improvement
+
+Speed-up of DBTreeView.
+Speed-up of Paste record data.
+The display processing of TableEditor is sped up.
+Defailt SQL demiliter is changed from '/' to ';'.
+Trouble to which SYSOPER is displayed with SYSOPEA is corrected.
+The record is done in Trim and copied" function is added by Table Editor.
+The table comment and the column comment are displayed by Symfoware.
+Time is shortened to the compilation of long PLSQL.
+
+Bug Fix
+< DBTreeView >
+The icon is displayed when there is an error by Oracle Function/StoredProcedure.
+The problem that the schema is not displayed is corrected by DB2.
+t corrects it like displaying the digit of NCHAR and NVARCHAR2 of Oracle.
+
+< TableEditor>
+The constraint name is corrected like displaying initial.
+The trouble where data cannot be paste is corrected by linux.
+The trouble of the INSERT Statement making processing is corrected.
+
+< Diff(only Oracle) >
+・Trouble that Diff cannot be taken by the unit of Folder is corrected.
+
+< SQL Content Assist>
+Deterioration for the schema was corrected.
+It is corrected that the column name is correctly retrieved.
+
+
