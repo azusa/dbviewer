@@ -127,13 +127,13 @@ public class StringUtil {
 		return str.substring(0, cnt);
 	}
 
-	public static String rTrimFullSpace(String str) {
-		return rTrim(str, '　'); // デフォルトは半角空白
-	}
-
-	public static String lTrimFullSpace(String str) {
-		return lTrim(str, '　');
-	}
+//	public static String rTrimFullSpace(String str) {
+//		return rTrim(str, '　');
+//	}
+//
+//	public static String lTrimFullSpace(String str) {
+//		return lTrim(str, '　');
+//	}
 
 	public static String lTrim(String str, char trimChar) {
 		int cnt = str.length();
