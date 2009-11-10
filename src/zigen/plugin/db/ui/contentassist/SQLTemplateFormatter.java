@@ -57,7 +57,7 @@ public class SQLTemplateFormatter {
 		StringTokenizer tokenizer = new StringTokenizer(sql, " ");
 		String token = null;
 		int indent = 0;
-		int preIndent = 0; // 1つ前のインデント
+		int preIndent = 0;
 
 		boolean isDoru = false;
 		boolean isStart = false;

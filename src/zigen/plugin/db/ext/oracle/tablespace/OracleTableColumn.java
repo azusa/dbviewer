@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -8,14 +8,6 @@ package zigen.plugin.db.ext.oracle.tablespace;
 
 import java.io.Serializable;
 
-/**
- * OracleTableColumnクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/01 ZIGEN create.
- * 
- */
 public class OracleTableColumn implements Serializable, IColumn {
 
 	private static final long serialVersionUID = 1L;
@@ -30,11 +22,8 @@ public class OracleTableColumn implements Serializable, IColumn {
 
 	protected int column_length;
 
-	protected String column_type; // 型を追加
+	protected String column_type;
 
-	/**
-	 * コンストラクタ
-	 */
 	public OracleTableColumn() {}
 
 	public String getTable_owner() {
@@ -77,17 +66,10 @@ public class OracleTableColumn implements Serializable, IColumn {
 		this.column_length = column_length;
 	}
 
-	/**
-	 * @return column_type を戻します。
-	 */
 	public String getColumn_type() {
 		return column_type;
 	}
 
-	/**
-	 * @param column_type
-	 *            column_type を設定。
-	 */
 	public void setColumn_type(String column_type) {
 		this.column_type = column_type;
 	}

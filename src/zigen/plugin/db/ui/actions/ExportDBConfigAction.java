@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -14,24 +14,10 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.internal.Root;
 import zigen.plugin.db.ui.wizard.ExpDBConfigWizard;
 
-/**
- * 
- * ExportDBConfigAction.javaクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/04/12 ZIGEN create.
- * 
- */
 public class ExportDBConfigAction extends Action {
 
 	Root root = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public ExportDBConfigAction(Root root) {
 		this.root = root;
 		this.setText(Messages.getString("ExportDBConfigAction.0")); //$NON-NLS-1$
@@ -40,9 +26,6 @@ public class ExportDBConfigAction extends Action {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		try {

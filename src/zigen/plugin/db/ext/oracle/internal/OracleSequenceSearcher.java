@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -69,7 +69,6 @@ public class OracleSequenceSearcher {
 
 	}
 
-	// OracleópSQL
 	private static String getSQL(String owner) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT"); //$NON-NLS-1$

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -15,38 +15,18 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.DbPluginConstant;
 import zigen.plugin.db.ui.views.HistoryView;
 
-/**
- * ShowDriverVersionActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/11/26 ZIGEN create.
- * 
- */
 public class ShowHistoryViewAction extends Action {
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public ShowHistoryViewAction() {
 		super(Messages.getString("ShowHistoryViewAction.0"), IAction.AS_CHECK_BOX); //$NON-NLS-1$
-		// super(Messages.getString("ShowHistoryViewAction.0"), IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
-		// super(Messages.getString("ShowHistoryViewAction.0"), IAction.AS_DROP_DOWN_MENU); //$NON-NLS-1$
 
 		this.setToolTipText(Messages.getString("ShowHistoryViewAction.0")); //$NON-NLS-1$
 		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_CLOCK));
-		// this.setChecked(true);
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		try {
 			if (isChecked()) {
-				// Viewを開く
 				DbPlugin.showView(DbPluginConstant.VIEW_ID_HistoryView);
 			} else {
 				IViewPart part = DbPlugin.findView(DbPluginConstant.VIEW_ID_HistoryView);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,25 +19,12 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.ClipboardUtils;
 import zigen.plugin.db.ui.internal.Column;
 
-/**
- * CopyColumnNameAction.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/12/04 ZIGEN create.
- * 
- */
 public class CopyColumnNameWithRemarksAction extends Action implements Runnable {
 
 	// private final String LINE_SEP = System.getProperty("line.separator");
 
 	StructuredViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public CopyColumnNameWithRemarksAction(StructuredViewer viewer) {
 		this.viewer = viewer;
 
@@ -46,9 +33,6 @@ public class CopyColumnNameWithRemarksAction extends Action implements Runnable 
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		try {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -23,18 +23,9 @@ import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.TableConstraintColumn;
 import zigen.plugin.db.core.TimeWatcher;
 
-/**
- * OracleConstraintSearcherクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- * 
- */
 public class OracleConstraintSearcher {
 
 
-	// PK, FK 以外の制約を検索するQuery
 	private static String getOtherCounstraintQuery(String schemaPattern, String tableName) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT"); //$NON-NLS-1$
@@ -60,13 +51,10 @@ public class OracleConstraintSearcher {
 		sb.append("        AND CON.TABLE_NAME = IND.TABLE_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_NAME = IND.INDEX_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_TYPE NOT IN('P','R')"); // PK,
-		// FK以外を対象
-		// //$NON-NLS-1$
 		return sb.toString();
 
 	}
 
-	// UniqueIndexのみ返す
 	public static TableConstraintColumn[] getConstraintColumns(Connection con, String schemaPattern, String tableName) throws Exception {
 		List list = new ArrayList();
 
@@ -98,7 +86,6 @@ public class OracleConstraintSearcher {
 					} else {
 						column.setNonUnique(true);
 					}
-					// indexTypeを追加
 					column.setIndexType(rs.getString("INDEX_TYPE")); //$NON-NLS-1$
 					column.setSearch_condition(rs.getString("SEARCH_CONDITION")); //$NON-NLS-1$
 

@@ -1,19 +1,11 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package zigen.plugin.db.ext.oracle.tablespace;
 
-/**
- * OracleIndexColumnÉNÉâÉX.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/01 ZIGEN create.
- * 
- */
 public class OracleIndexColumn extends OracleTableColumn {
 
 	private static final long serialVersionUID = 1L;

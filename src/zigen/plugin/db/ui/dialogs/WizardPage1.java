@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -46,14 +46,6 @@ import zigen.plugin.db.core.ColumnLayout;
 import zigen.plugin.db.ui.editors.event.TextSelectionListener;
 import zigen.plugin.db.ui.util.WidgetUtil;
 
-/**
- * SelectTableWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class WizardPage1 extends DefaultWizardPage {
 
 	ImageCacher ic = ImageCacher.getInstance();
@@ -204,8 +196,8 @@ public class WizardPage1 extends DefaultWizardPage {
 		// tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE);
 
 		table = tableViewer.getTable();
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(false); // ラインを表示
+		table.setHeaderVisible(true);
+		table.setLinesVisible(false);
 		tableViewer.setContentProvider(new TableContentProvider());
 		tableViewer.setLabelProvider(new TableLabelProvider());
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -226,7 +218,6 @@ public class WizardPage1 extends DefaultWizardPage {
 		// gd.heightHint = 50;
 		tableViewer.getControl().setLayoutData(gd);
 
-		// テーブルヘッダの設定
 		// setHeaderColumn(table, new String[] {""}); //$NON-NLS-1$
 
 		GC gc = new GC(getShell());
@@ -252,33 +243,6 @@ public class WizardPage1 extends DefaultWizardPage {
 		}
 		tableViewer.setInput(classpathList);
 
-		// initializeDialogUnits(table);
-
-		// int maxWidth = 100;
-		// if (getOldConfig() != null) {
-		// classpathList = new ArrayList();
-		// String[] list = getOldConfig().getClassPaths();
-		// for (int i = 0; i < list.length; i++) {
-		// classpathList.add(list[i]);
-		// int width = convertWidthInCharsToPixels(list[i].length());
-		// if(maxWidth < width){
-		// maxWidth = width;
-		// }
-		// }
-		// } else {
-		// classpathList = new ArrayList();
-		// }
-		// tableViewer.setInput(classpathList);
-		//
-		// // modify start 2007/10/18 pack処理がうまく機能しないため手動で設定
-		// //columnsPack(table);
-		// table.setVisible(false);
-		// TableColumn[] cols = table.getColumns();
-		// for (int i = 0; i < cols.length; i++) {
-		// cols[i].setWidth((maxWidth+50));
-		// }
-		// table.setVisible(true);
-		// // modify end
 
 
 		Composite buttonComp = new Composite(group, SWT.NONE);

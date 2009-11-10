@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -10,14 +10,6 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 
 import zigen.plugin.db.core.rule.Validator;
 
-/**
- * WizardPage2CellEditorValidatorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/04/24 ZIGEN create.
- * 
- */
 public class WizardPage2CellEditorValidator implements ICellEditorValidator {
 
 	int columnIndex;
@@ -28,7 +20,6 @@ public class WizardPage2CellEditorValidator implements ICellEditorValidator {
 
 	public String isValid(Object value) {
 		String input = String.valueOf(value);
-		// エラーの場合は、エラーメッセージを格納
 		String msg = validate(input);
 		return msg;
 

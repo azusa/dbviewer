@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -53,13 +53,6 @@ public class CopySQLForStringBuffer2ContextAction implements IViewActionDelegate
 					sb.append("sb.append(\""); //$NON-NLS-1$
 					sb.append(StringUtil.encodeDoubleQuotation(token));
 
-					// if(st.hasMoreTokens()){
-					// sb.append("\\r\\n");
-					// }
-
-					// 最後の行にも改行コードを入れる
-					// sb.append("\\r\\n");
-					// sb.append("\");");//$NON-NLS-1$
 
 					sb.append("\")");//$NON-NLS-1$\
 					sb.append(".append(\"\\r\\n\");"); //$NON-NLS-1$

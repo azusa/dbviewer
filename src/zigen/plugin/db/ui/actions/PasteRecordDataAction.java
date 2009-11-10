@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -18,20 +18,9 @@ import zigen.plugin.db.ui.editors.TableViewEditorFor31;
 import zigen.plugin.db.ui.editors.event.TableKeyAdapter;
 import zigen.plugin.db.ui.editors.event.TableKeyEventHandler;
 
-/**
- * CopyRecordDataAction.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/12/04 ZIGEN create.
- * 
- */
 public class PasteRecordDataAction extends TableViewEditorAction implements IWorkbenchWindowActionDelegate {
 
 	public PasteRecordDataAction() {
-		// テキストやツールチップ、アイコンの設定
-		// this.setText("クリップボードデータを貼り付け(&P)");
-		// this.setToolTipText("クリップボードデータを貼り付け");
 		setImage(ITextOperationTarget.PASTE);
 		setEnabled(false);
 
@@ -39,44 +28,27 @@ public class PasteRecordDataAction extends TableViewEditorAction implements IWor
 
 	public void run() {
 		try {
-
-			// TableKeyEventHandler handler = new
-			// TableKeyEventHandler(editor.getViewer());
 			TableKeyEventHandler handler = new TableKeyEventHandler((TableViewEditorFor31) editor);
 
 			TableKeyAdapter keyAdapter = new TableKeyAdapter(handler);
 			keyAdapter.createNewElement();
-
-			// editor.getViewer().getTable().notifyListeners(SWT.Selection, null); // 選択状態を通知
 
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);
 
 		} finally {
 
-			// 選択状態を再度通知する
 			editor.getViewer().getControl().notifyListeners(SWT.Selection, null);
-			/*
-			 * if (editor instanceof TableViewEditorFor31) { // 貼り付け後、ActionをRefleshする ((TableViewEditorFor31) editor).refleshAction(); }
-			 */
 		}
 
 	}
 
-	/**
-	 * Enableモードを設定する
-	 * 
-	 */
 	public void refresh() {
 		if (editor == null) {
 			setEnabled(false);
 		} else if (editor.getViewer() == null) {
 			setEnabled(false);
 		} else {
-			// クリップボードに適切なデータがあればTrueを設定する
-
-			// TableKeyEventHandler handler = new
-			// TableKeyEventHandler(editor.getViewer());
 			TableKeyEventHandler handler = new TableKeyEventHandler((TableViewEditorFor31) editor);
 			TableKeyAdapter keyAdapter = new TableKeyAdapter(handler);
 

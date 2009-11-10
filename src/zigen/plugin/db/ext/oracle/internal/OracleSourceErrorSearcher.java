@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,14 +19,6 @@ import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.Transaction;
 
-/**
- * OracleSourceErrorSearcherクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- *
- */
 public class OracleSourceErrorSearcher {
 
 	public static OracleSourceErrorInfo[] execute(IDBConfig config, String owner, String name, String type) throws Exception {
@@ -73,7 +65,6 @@ public class OracleSourceErrorSearcher {
 
 	}
 
-	// Oracle用SQL
 	private static String getSQL(String owner, String name, String type) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT"); //$NON-NLS-1$
@@ -90,7 +81,6 @@ public class OracleSourceErrorSearcher {
 //		sb.append("         AND NAME = '" + SQLUtil.encodeQuotation(name) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 //		sb.append("         AND TYPE = '" + SQLUtil.encodeQuotation(type) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		// plsqlファイルでストアド実行する際、スキーマ名やタイプが小文字の場合もあるため、大文字に変換する
 		sb.append("         AND NAME = '" + SQLUtil.encodeQuotation(name.toUpperCase()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("         AND TYPE = '" + SQLUtil.encodeQuotation(type.toUpperCase()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -142,12 +132,6 @@ public class OracleSourceErrorSearcher {
 		return (OracleSourceErrorInfo[]) list.toArray(new OracleSourceErrorInfo[0]);
 
 	}
-	/**
-	 * ツリーが展開されて時点で、エラーがあるかどうか表示できるようにする。
-	 * @param owner
-	 * @param type
-	 * @return
-	 */
 	private static String getSQL(String owner, String type) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT"); //$NON-NLS-1$
@@ -162,7 +146,6 @@ public class OracleSourceErrorSearcher {
 		sb.append("     WHERE"); //$NON-NLS-1$
 		sb.append("         OWNER = '" + SQLUtil.encodeQuotation(owner) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("         AND TYPE = '" + SQLUtil.encodeQuotation(type.toUpperCase()) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-
 		sb.append("     ORDER BY OWNER, NAME, TYPE, SEQUENCE"); //$NON-NLS-1$
 
 		return sb.toString();

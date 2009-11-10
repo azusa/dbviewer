@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -23,14 +23,6 @@ import zigen.plugin.db.core.rule.IStatementFactory;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * DeleteRecordActionクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- *
- */
 public class CopyInsertStatementAction extends TableViewEditorAction {
 
 	private final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
@@ -38,18 +30,13 @@ public class CopyInsertStatementAction extends TableViewEditorAction {
 	IStructuredSelection selection;
 
 	public CopyInsertStatementAction() {
-		// テキストやツールチップ、アイコンの設定
 		this.setText(Messages.getString("CopyInsertStatementAction.1")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("CopyInsertStatementAction.2")); //$NON-NLS-1$
 	}
 
 	public void run() {
-
 		try {
-
 			String demiliter = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_SQL_DEMILITER);
-
-
 			StringBuffer sb = new StringBuffer();
 			Clipboard clipboard = ClipboardUtils.getInstance();
 			TextTransfer text_transfer = TextTransfer.getInstance();
@@ -67,7 +54,6 @@ public class CopyInsertStatementAction extends TableViewEditorAction {
 					sb.append(table.getSqlTableName());
 					sb.append(" ("); //$NON-NLS-1$
 
-					// カラムを指定するように修正
 					for (int i = 0; i < columns.length; i++) {
 						TableColumn col = columns[i];
 
@@ -118,10 +104,6 @@ public class CopyInsertStatementAction extends TableViewEditorAction {
 
 	}
 
-	/**
-	 * Enableモードを設定する
-	 *
-	 */
 	public void refresh() {
 		if (editor == null) {
 			setEnabled(false);

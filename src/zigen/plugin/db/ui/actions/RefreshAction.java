@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -24,24 +24,12 @@ import zigen.plugin.db.ui.jobs.RefreshFolderJob;
 import zigen.plugin.db.ui.jobs.RefreshTableJob;
 import zigen.plugin.db.ui.jobs.TableTypeSearchJob;
 
-/**
- * RefleshActionクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create. [2] 2005/06/25 ZIGEN Folder(スキーマ下のフォルダ）用の更新処理を追記
- */
 public class RefreshAction extends Action {
 
 	private boolean showDialog = true;
 
 	private TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 *
-	 * @param viewer
-	 */
 	public RefreshAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("RefreshAction.0")); //$NON-NLS-1$
@@ -51,9 +39,6 @@ public class RefreshAction extends Action {
 		this.setDisabledImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_REFRESH));
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		Object element = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
@@ -73,20 +58,6 @@ public class RefreshAction extends Action {
 
 			} else if (element instanceof Schema) {
 				Schema schema = (Schema) element;
-				// if (!schema.isExpanded()) {
-				// // 新規
-				// schema.setExpanded(true);
-				// TableTypeSearchJob job = new TableTypeSearchJob(viewer, schema);
-				// job.setUser(showDialog);
-				// job.setPriority(TableTypeSearchJob.SHORT);
-				// job.schedule();
-				// } else {
-				// RefreshSchemaJob job = new RefreshSchemaJob(viewer, schema);
-				// job.setPriority(RefreshSchemaJob.SHORT);
-				// job.setUser(showDialog);
-				// job.schedule();
-				// }
-				// 常に更新するように変更 2007/11/05 展開後にPL/SQLを追加するとSchemaを更新しても表示されない不具合に対応
 				schema.setExpanded(true);
 				TableTypeSearchJob job = new TableTypeSearchJob(viewer, schema);
 				job.setUser(showDialog);
@@ -104,7 +75,7 @@ public class RefreshAction extends Action {
 							if ("SEQUENCE".equals(folder.getName())) { //$NON-NLS-1$
 								OracleSequeceSearchJob job = new OracleSequeceSearchJob(viewer, folder);
 								job.setPriority(OracleSequeceSearchJob.SHORT);
-								job.setUser(showDialog); // ダイアログを出す
+								job.setUser(showDialog);
 								job.schedule();
 								return;
 							} else {
@@ -132,7 +103,6 @@ public class RefreshAction extends Action {
 				job.setUser(showDialog);
 				job.schedule();
 
-				// [003] 追加 ZIGEN 2005/06/25 -->
 			} else if (element instanceof ITable) {
 				ITable table = (ITable) element;
 				table.setExpanded(true);

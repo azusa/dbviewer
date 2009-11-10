@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.contentassist.processor;
@@ -42,21 +42,19 @@ public class SelectProcessor extends DefaultProcessor {
 				case SqlParser.SCOPE_WHERE:
 				case SqlParser.SCOPE_BY: // ORDER BY, GROUP BY
 					if (fromItemCount == 0) {
-						// テーブル一覧が表示されるため、抜けるように修正 2007/12/06
 						break; //
 					} else if (fromItemCount == 1) {
 						if (isAfterPeriod) {
 							createColumnProposal(findFromNode(fromList, word));
 						} else {
-							// 単一テーブル指定 AND ピリオド以降
 							int _offset = wordGroup.indexOf('.');
 							if (_offset > 0) {
 								String w_table = wordGroup.substring(0, _offset);
 								createColumnProposal(findFromNode(fromList, w_table));
 							} else {
-								createColumnProposal(fromList.getChild(0)); // 単一テーブルの場合はカラムリストを表示
-								createTableProposal(ci, getFromNodes(fromList));// テーブル名の一覧
-								SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
+								createColumnProposal(fromList.getChild(0));
+								createTableProposal(ci, getFromNodes(fromList));
+								SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);
 							}
 						}
 
@@ -65,7 +63,6 @@ public class SelectProcessor extends DefaultProcessor {
 
 						if (isAfterPeriod) {
 							if(!addTableProposalBySchema(ci, word)){
-								// スキーマの後ではない場合(つまり、テーブル名の後)
 								createColumnProposal(findFromNode(fromList, word));
 							}
 						} else {
@@ -81,8 +78,8 @@ public class SelectProcessor extends DefaultProcessor {
 									}
 								}
 							} else {
-								createTableProposal(ci, getFromNodes(fromList));// テーブル名の一覧
-								SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
+								createTableProposal(ci, getFromNodes(fromList));
+								SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);
 							}
 						}
 						break;
@@ -98,8 +95,8 @@ public class SelectProcessor extends DefaultProcessor {
 							String w_schema = wordGroup.substring(0, _offset);
 							addTableProposalBySchema(ci, w_schema);
 						} else {
-							SQLProposalCreator2.addProposal(proposals, ci.getTableInfo(), pinfo);// テーブル名の一覧
-							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
+							SQLProposalCreator2.addProposal(proposals, ci.getTableInfo(), pinfo);
+							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);
 						}
 
 					}
@@ -116,13 +113,13 @@ public class SelectProcessor extends DefaultProcessor {
 			switch (currentScope) {
 			case SqlParser.SCOPE_SELECT:
 			case SqlParser.SCOPE_WHERE:
-				SQLProposalCreator2.addProposalForFunction(proposals, rule.getFunctionNames(), pinfo);// 関数の登録
-				SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);// SQLキーワードの登録
+				SQLProposalCreator2.addProposalForFunction(proposals, rule.getFunctionNames(), pinfo);
+				SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);
 				break;
 
 			case SqlParser.SCOPE_FROM:
 			default:
-				SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);// SQLキーワードの登録
+				SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);
 				break;
 			}
 

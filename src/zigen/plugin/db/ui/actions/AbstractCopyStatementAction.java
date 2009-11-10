@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -62,18 +62,6 @@ abstract public class AbstractCopyStatementAction implements IViewActionDelegate
 
 				StringBuffer sb = new StringBuffer();
 
-				// if (!checkLoadColumn(ss)) {
-				// String msg = "カラム情報が未取得のテーブルがあります。取得しますか？";
-				// msg += "\nカラム情報の取得には時間がかかる場合があります。";
-				// if (DbPlugin.getDefault().confirmDialog(msg)) {
-				// new CopyAction(treeViewer, ss).run();
-				// }else{
-				// // 中途半端な状態ではComment文をコピーさせない
-				// return;
-				// }
-				// }else{
-				// new CopyAction(treeViewer, ss).run();
-				// }
 				new CopyAction(treeViewer, ss).run();
 
 
@@ -133,7 +121,6 @@ abstract public class AbstractCopyStatementAction implements IViewActionDelegate
 								ITable table = (ITable) obj;
 								monitor.subTask("Target : " + table + ", " + i + "/" + ss.size());
 								if (!table.isExpanded()) {
-									// 展開フラグをTrueにする(テーブル要素をキャッシュする）
 									table.setExpanded(true);
 
 									new ColumnSearchAction(viewer, table).run();
@@ -150,7 +137,6 @@ abstract public class AbstractCopyStatementAction implements IViewActionDelegate
 					}
 				};
 
-				// ダイアログの表示
 				new ProgressMonitorDialog(DbPlugin.getDefault().getShell()).run(true, true, op);
 
 			} catch (InvocationTargetException e) {

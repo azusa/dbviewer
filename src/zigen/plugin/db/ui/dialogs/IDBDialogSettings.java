@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -12,17 +12,6 @@ import java.io.Writer;
 
 import zigen.plugin.db.core.SchemaInfo;
 
-/**
- * IDataBaseSettingsクラス. オリジナルソース：org.eclipse.jface.dialogs.IDialogSettings
- * 
- * org.eclipse.jface.dialogs.IDialogSettingsクラスに 保存したSectionを削除するメソッドを追加したクラス。
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4
- * @see org.eclipse.jface.dialogs.IDialogSettings history Symbol Date Person Note [1] 2005/03/15 ZIGEN create.
- * 
- */
 public interface IDBDialogSettings {
 
 	public IDBDialogSettings addNewSection(String name);

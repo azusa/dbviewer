@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.contentassist.processor;
@@ -51,14 +51,6 @@ public class DefaultProcessor {
 
 	protected DbPluginFormatRule rule;
 
-	/**
-	 * コンストラクタ
-	 *
-	 * @param proposals
-	 * @param word
-	 * @param offset
-	 * @param isAfterPeriod
-	 */
 	public DefaultProcessor(List proposals, ProcessorInfo pinfo) {
 		this.proposals = proposals;
 		this.pinfo = pinfo;
@@ -104,14 +96,11 @@ public class DefaultProcessor {
 	}
 
 	protected ASTTable findASTTable(ASTInsertStatement node) {
-		// INESRT INTO TBL SELECT * FROM TBL の場合を考慮して
-		// INTOを探してからTBLを取得する
 		ASTInto into = (ASTInto) ASTUtil2.findFirstChild(node, "ASTInto"); //$NON-NLS-1$
 		return (ASTTable) ASTUtil2.findFirstChild(into, "ASTTable"); //$NON-NLS-1$
 	}
 
 	protected ASTTable findASTTable(ASTUpdateStatement node) {
-		// UPDATEはASTUpdateStatement直下で判断する
 		if (node.getChildrenSize() > 0) {
 			INode n = node.getChild(0);
 			if (n != null) {
@@ -123,13 +112,6 @@ public class DefaultProcessor {
 		return null;
 	}
 
-	/**
-	 * ASTFromListから別名が一致するINodeを取得する
-	 *
-	 * @param fromlist
-	 * @param aliasName
-	 * @return
-	 */
 	protected INode findFromNode(ASTFrom fromlist, String aliasName) {
 		if (fromlist != null) {
 			for (int i = 0; i < fromlist.getChildrenSize(); i++) {
@@ -149,12 +131,6 @@ public class DefaultProcessor {
 		return null;
 	}
 
-	/**
-	 * FromList配下を取得
-	 *
-	 * @param fromlist
-	 * @return
-	 */
 	protected INode[] getFromNodes(ASTFrom fromlist) {
 		List list = new ArrayList();
 		for (int i = 0; i < fromlist.getChildrenSize(); i++) {
@@ -167,12 +143,6 @@ public class DefaultProcessor {
 
 	}
 
-	/**
-	 * カンマを除いた子ノードの数
-	 *
-	 * @param target
-	 * @return
-	 */
 	protected int getSizeRemoveComma(INode target) {
 		int cnt = 0;
 		for (int i = 0; i < target.getChildrenSize(); i++) {
@@ -230,7 +200,6 @@ public class DefaultProcessor {
 				createColumn((ASTSelectStatement) target);
 
 			} else if (target instanceof ASTParentheses) {
-				// 最初のSelect文を探す
 				ASTSelectStatement select = (ASTSelectStatement) ASTUtil2.findFirstChild(target, "ASTSelectStatement"); //$NON-NLS-1$
 				if (select != null) {
 					createColumnProposal(select);
@@ -248,7 +217,6 @@ public class DefaultProcessor {
 			if (ci.isConnected()) {
 
 				String schemaName = ((ASTTable) target).getSchemaName();
-				// スキーマ指定が無い場合を考慮する
 				if(schemaName == null) schemaName = ci.getCurrentSchema();	// 接続中のスキーマ情報とする
 				String tableName = ((ASTTable) target).getTableName();
 				Column[] cols = ci.getColumns(schemaName, tableName);
@@ -263,7 +231,6 @@ public class DefaultProcessor {
 			String alias = target.getAliasName();
 			ASTSelect selectList = findASTSelect(target);
 
-			// ここではカンマの分の配列があるから削除しなければならない
 			int count = getSizeRemoveComma(selectList);
 			String[][] colInfo = new String[count][2];
 
@@ -289,7 +256,6 @@ public class DefaultProcessor {
 					index++;
 				}
 			}
-			// 副問合せの場合
 			SQLProposalCreator2.addProposal(proposals, colInfo, pinfo);
 		}
 

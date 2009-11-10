@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -35,14 +35,6 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ext.oracle.internal.OracleDbBlockSizeSearcher;
 import zigen.plugin.db.ui.editors.event.TextSelectionListener;
 
-/**
- * SelectTableWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class WizardPage2 extends DefaultWizardPage {
 
 	private DbBlockSizeVerifyListener verifyListener = new DbBlockSizeVerifyListener();
@@ -74,13 +66,11 @@ public class WizardPage2 extends DefaultWizardPage {
 
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		// 1分割、false:均等にしない
 		container.setLayout(new GridLayout(1, false));
 
 		Composite composite = createDefaultComposite(container);
 		Label nameLabel = new Label(composite, SWT.NONE);
 		nameLabel.setText(Messages.getString("WizardPage2.7")); //$NON-NLS-1$
-		// nameLabel.setLayoutData(getGridData(LEVEL_FIELD_WIDTH));
 		dbBlockSizeText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		dbBlockSizeText.addFocusListener(new TextSelectionListener());
 		dbBlockSizeText.addVerifyListener(verifyListener);
@@ -91,9 +81,6 @@ public class WizardPage2 extends DefaultWizardPage {
 			}
 		});
 
-		// dbBlockSizeText.setLayoutData(getGridData(TEXT_FIELD_WIDTH));
-		//		
-		//        
 
 		createTable(container);
 		setControl(container);
@@ -117,18 +104,14 @@ public class WizardPage2 extends DefaultWizardPage {
 
 		Table table = tableViewer.getTable();
 		table.setLayoutData(gridData);
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(true); // ラインを表示
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
-		// テーブルヘッダの設定
 		String[] headers = {HEADER_TABLENAME, HEADER_PCTFREE, HEADER_RECORD};
 		setHeaderColumn(table, headers);
 
-		// String[] properties = new String[] { "1", "2", "3" };
-		// カラム・プロパティの設定
 		tableViewer.setColumnProperties(headers);
 
-		// 各カラムに設定するセル・エディタの配列
 		CellEditor[] editors = new CellEditor[] {null, new TextCellEditor(table), new TextCellEditor(table)};
 
 		for (int i = 0; i < editors.length; i++) {
@@ -136,7 +119,6 @@ public class WizardPage2 extends DefaultWizardPage {
 				editors[i].setValidator(new WizardPage2CellEditorValidator(i));
 			}
 		}
-		// セル・エディタの設定
 		tableViewer.setCellEditors(editors);
 		tableViewer.setCellModifier(new WizardPage2CellModifier(this));
 
@@ -148,22 +130,6 @@ public class WizardPage2 extends DefaultWizardPage {
 			columnsPack(table);
 		}
 
-		// tableViewer.addSelectionChangedListener(new
-		// ISelectionChangedListener() {
-		// public void selectionChanged(SelectionChangedEvent event) {
-		// tableSelectionChangedHandler(event);
-		// }
-		// });
-		//		
-		// // doubleClick による編集は未実装
-		// tableViewer.addDoubleClickListener(new IDoubleClickListener() {
-		// public void doubleClick(DoubleClickEvent event) {
-		// if (!tableViewer.getSelection().isEmpty()) {
-		// editButtonPressedHandler();
-		// }
-		// }
-		// });
-
 	}
 
 	private void dialogChanged() {
@@ -174,13 +140,6 @@ public class WizardPage2 extends DefaultWizardPage {
 		updateStatus(null);
 	}
 
-	/**
-	 * テーブルヘッダーを設定する
-	 * 
-	 * @param meta
-	 * @param table
-	 * @throws SQLException
-	 */
 	private void setHeaderColumn(Table table, String[] headers) {
 
 		for (int i = 0; i < headers.length; i++) {
@@ -245,12 +204,6 @@ public class WizardPage2 extends DefaultWizardPage {
 			contents = null;
 		}
 
-		/**
-		 * 選択されているテーブルに絞り込む
-		 * 
-		 * @param items
-		 * @return
-		 */
 		private List getCheckedList(TableItem[] items) {
 			List checkedList = new ArrayList();
 			for (int i = 0; i < items.length; i++) {
@@ -301,11 +254,9 @@ public class WizardPage2 extends DefaultWizardPage {
 
 		public void verifyText(VerifyEvent e) {
 			char chr = e.character;
-			// BackspaceやDeleteが押されたときは、有効にする
 			if (e.character == SWT.BS || e.character == SWT.DEL) {
 				return;
 			}
-			// 大文字以外のアルファベットは無効にする
 			if (acceptableChar.indexOf(Character.toString(e.character)) == -1) {
 				e.doit = false;
 			}

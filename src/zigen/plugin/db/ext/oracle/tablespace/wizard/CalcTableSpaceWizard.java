@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -9,16 +9,7 @@ package zigen.plugin.db.ext.oracle.tablespace.wizard;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.Wizard;
 
-/**
- * TestWizardクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class CalcTableSpaceWizard extends Wizard {
-
 
 	private WizardPage1 page1;
 
@@ -49,7 +40,6 @@ public class CalcTableSpaceWizard extends Wizard {
 		return true;
 	}
 
-	// オーバーライド
 	public boolean canFinish() {
 		if (page1.isPageComplete() && page2.isPageComplete() && page3.isPageComplete()) {
 			return true;

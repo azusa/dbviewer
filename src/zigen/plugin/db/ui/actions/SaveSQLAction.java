@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -21,11 +21,6 @@ import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
 public class SaveSQLAction extends SQLSourceViewerAction {
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public SaveSQLAction(SQLSourceViewer viewer) {
 		super(viewer);
 		this.setText(Messages.getString("SaveSQLAction.0")); //$NON-NLS-1$
@@ -34,9 +29,6 @@ public class SaveSQLAction extends SQLSourceViewerAction {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		try {
 			Shell shell = DbPlugin.getDefault().getShell();
@@ -53,7 +45,6 @@ public class SaveSQLAction extends SQLSourceViewerAction {
 					});
 			String fileName = dialog.open();
 
-			// キャンセル時の処理
 			if (fileName == null)
 				return;
 

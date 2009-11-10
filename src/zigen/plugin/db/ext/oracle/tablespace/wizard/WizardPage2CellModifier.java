@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -11,14 +11,6 @@ import org.eclipse.swt.widgets.Item;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * MyCellModifierÉNÉâÉX.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class WizardPage2CellModifier implements ICellModifier {
 
 	private WizardPage2 page;

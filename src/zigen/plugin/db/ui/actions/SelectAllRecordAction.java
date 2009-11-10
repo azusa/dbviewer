@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -12,21 +12,12 @@ import org.eclipse.swt.SWT;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * SelectAllRecordActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class SelectAllRecordAction extends TableViewEditorAction {
 
 	protected IStructuredSelection selection;
 
 	public SelectAllRecordAction() {
 		super();
-		// テキストやツールチップ、アイコンの設定
 		setText(Messages.getString("SelectAllRecordAction.0")); //$NON-NLS-1$
 		setToolTipText(Messages.getString("SelectAllRecordAction.1")); //$NON-NLS-1$
 		// setAccelerator(SWT.CTRL | 'A');

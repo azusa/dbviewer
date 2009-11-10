@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -46,18 +46,7 @@ import zigen.plugin.db.ui.views.TreeLabelProvider;
 import zigen.plugin.db.ui.views.TreeViewListener;
 import zigen.plugin.db.ui.views.TreeViewSorter;
 
-/**
- * NewDBConfigDialogクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
- */
 public class BookmarkDialog extends Dialog {
-
-	// private BookmarkManager bookMarkMgr =
-	// DbPlugin.getDefault().getBookmarkManager();
 
 	public static final int BUTTON_WIDTH = 100;
 
@@ -79,7 +68,6 @@ public class BookmarkDialog extends Dialog {
 
 	private TreeItem dragSourceItem;
 
-	// 追加
 	class BookmarkFilter extends ViewerFilter {
 
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -90,11 +78,6 @@ public class BookmarkDialog extends Dialog {
 		}
 	}
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param parent
-	 */
 	public BookmarkDialog(Shell parent, TreeContentProvider provider) {
 		super(parent);
 		this.provider = provider;
@@ -118,16 +101,12 @@ public class BookmarkDialog extends Dialog {
 		GridLayout layout = new GridLayout(2, false);
 		composite.setLayout(layout);
 
-		// 説明文
 		createListLabel(composite);
 
-		// ツリー表示
 		createList(composite);
 
-		// 編集ボタン
 		createListEditButtons(composite);
 
-		// セパレータ(parentに対して定義する)
 		addSeparator(parent);
 
 		return composite;
@@ -156,10 +135,8 @@ public class BookmarkDialog extends Dialog {
 		viewer.setLabelProvider(new TreeLabelProvider());
 		viewer.setSorter(new TreeViewSorter());
 		viewer.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		// viewer.expandToLevel(3); // すべて展開状態とする
-		viewer.expandToLevel(2); // すべて展開状態とする
+		viewer.expandToLevel(2);
 
-		// Listenerの追加(スキーマ展開時にテーブルを検索する）
 		viewer.addTreeListener(new TreeViewListener());
 
 		GridData data = new GridData(GridData.FILL_BOTH);
@@ -261,11 +238,6 @@ public class BookmarkDialog extends Dialog {
 		separator.setLayoutData(gridData);
 	}
 
-	/**
-	 * DB接続情報の保存
-	 * 
-	 * @return
-	 */
 	private boolean save() {
 		try {
 
@@ -295,12 +267,5 @@ public class BookmarkDialog extends Dialog {
 	public TreeNode getSelectedNode() {
 		return selectedNode;
 	}
-
-	// /**
-	// * ダイアログサイズ
-	// */
-	// protected Point getInitialSize() {
-	// return new Point(400, 350);
-	// }
 
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -16,15 +16,6 @@ import zigen.plugin.db.ui.internal.Folder;
 import zigen.plugin.db.ui.internal.OracleSource;
 import zigen.plugin.db.ui.internal.Schema;
 
-/**
- * 
- * OracleSourceSearchThreadクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/21 ZIGEN create.
- * 
- */
 public class OracleSourceSearchAction implements Runnable {
 
 	private StructuredViewer viewer;
@@ -38,16 +29,8 @@ public class OracleSourceSearchAction implements Runnable {
 
 	public void run() {
 		try {
-			// "読み込み中"を削除
-			// folder.removeChild(folder.getChild(DbPluginConstant.TREE_LEAF_LOADING));
-
-			// if (viewer != null) {
-			// viewer.refresh(folder);// 再描画
-			// }
-
 			Connection con = Transaction.getInstance(folder.getDbConfig()).getConnection();
 
-			// Folderの上位は、Schema前提
 			Schema schema = (Schema) folder.getParent();
 
 			String owner = schema.getName();
@@ -57,9 +40,8 @@ public class OracleSourceSearchAction implements Runnable {
 
 			AddSources(con, folder, infos);
 
-			// 再描画
 			if (viewer != null) {
-				viewer.refresh(folder);// 再描画
+				viewer.refresh(folder);
 			}
 
 		} catch (Exception e) {
@@ -68,14 +50,6 @@ public class OracleSourceSearchAction implements Runnable {
 
 	}
 
-	/**
-	 * ソース要素をフォルダ配下に追加する
-	 * 
-	 * @param con
-	 * @param folder
-	 * @param infos
-	 * @throws Exception
-	 */
 	private static void AddSources(Connection con, Folder folder, OracleSourceInfo[] infos) throws Exception {
 		for (int i = 0; i < infos.length; i++) {
 			OracleSource source = new OracleSource();

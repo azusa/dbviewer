@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.contentassist;
@@ -29,7 +29,7 @@ public class ObjectCacher {
 		return instance;
 	}
 
-	private int timeout = 60000; // ƒ~ƒŠ•b:60•bƒLƒƒƒbƒVƒ…
+	private int timeout = 60000;
 
 	private String key = null;
 

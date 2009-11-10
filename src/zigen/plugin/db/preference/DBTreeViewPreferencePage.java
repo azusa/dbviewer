@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -13,14 +13,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * PreferencePageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/09 ZIGEN create. [002] 2005/07/30 ZIGEN テーブルおよびカラムのコメント表示有無の追加
- * 
- */
 public class DBTreeViewPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public static final String DESC = Messages.getString("DBTreeViewPreferencePage.0"); //$NON-NLS-1$

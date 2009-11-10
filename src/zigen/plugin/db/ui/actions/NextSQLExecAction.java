@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -13,25 +13,12 @@ import zigen.plugin.db.core.SQLHistory;
 import zigen.plugin.db.core.SQLHistoryManager;
 import zigen.plugin.db.ui.views.SQLExecuteView;
 
-/**
- * CommitActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class NextSQLExecAction extends Action implements Runnable {
 
 	SQLHistoryManager mgr = DbPlugin.getDefault().getHistoryManager();
 
 	private SQLExecuteView view;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public NextSQLExecAction(SQLExecuteView view) {
 		this.setText(Messages.getString("NextSQLExecAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("NextSQLExecAction.1")); //$NON-NLS-1$
@@ -41,9 +28,6 @@ public class NextSQLExecAction extends Action implements Runnable {
 		this.view = view;
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		SQLHistory history = mgr.nextHisotry();
@@ -51,7 +35,7 @@ public class NextSQLExecAction extends Action implements Runnable {
 			String sql = mgr.loadContents(history);
 			view.getSqlViewer().getDocument().set(sql);
 			// view.getSqlViewer().setSelectedRange(sql.length(), 0);
-			view.getSqlViewer().invalidateTextPresentation(); // テキストエディタを再描画
+			view.getSqlViewer().invalidateTextPresentation();
 		} else {
 			view.getSqlViewer().getDocument().set(""); //$NON-NLS-1$
 		}

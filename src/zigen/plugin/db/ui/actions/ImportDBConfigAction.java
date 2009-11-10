@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -22,23 +22,10 @@ import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.XMLManager;
 import zigen.plugin.db.ui.wizard.ImpDBConfigWizard;
 
-/**
- * RegistDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class ImportDBConfigAction extends Action implements Runnable {
 
 	TreeViewer viewer;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public ImportDBConfigAction(TreeViewer viewer) {
 		this.viewer = viewer;
 
@@ -48,22 +35,15 @@ public class ImportDBConfigAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		try {
-			// CSV用保存ダイアログ表示
 			Shell shell = DbPlugin.getDefault().getShell();
 			File file = save(shell, null);
 			if (file != null) {
 				Object xml = loadXml(file);
 				if (xml instanceof IDBConfig[]) {
 					IDBConfig[] configs = (IDBConfig[]) xml;
-
-					// 読み込んだIDBConfigを選択させるために
-					// Wizardを起動する
 					ImpDBConfigWizard wizard = new ImpDBConfigWizard(viewer, configs);
 					WizardDialog dialog = new WizardDialog(shell, wizard);
 					dialog.open();

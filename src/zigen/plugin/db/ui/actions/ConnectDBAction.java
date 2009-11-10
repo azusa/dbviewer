@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -16,22 +16,10 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.jobs.ConnectDBJob;
 
-/**
- * ConnectDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- */
 public class ConnectDBAction extends Action implements Runnable {
 
 	TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public ConnectDBAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("ConnectDBAction.0")); //$NON-NLS-1$
@@ -40,9 +28,6 @@ public class ConnectDBAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		try {
 
@@ -52,12 +37,12 @@ public class ConnectDBAction extends Action implements Runnable {
 				if (element instanceof DataBase) {
 					DataBase db = (DataBase) element;
 					if (!db.isConnected()) {
-						db.setConnected(true); // 2度押しを防ぐ
+						db.setConnected(true);
 						ConnectDBJob job = new ConnectDBJob(viewer, db);
 						job.setPriority(ConnectDBJob.SHORT);
 						job.setUser(false);
 						job.setSystem(false);
-						job.schedule(); // 接続に失敗すれば、db.setConnected(false);
+						job.schedule();
 					} else {
 					}
 				}

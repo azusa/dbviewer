@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,36 +19,19 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.ClipboardUtils;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * CopyTableNameAction.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/12/04 ZIGEN create.
- * 
- */
 public class CopyTableNameAction extends Action implements Runnable {
 
 	// private final String LINE_SEP = System.getProperty("line.separator");
 
 	StructuredViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public CopyTableNameAction(StructuredViewer viewer) {
 		this.viewer = viewer;
-
 		this.setText(Messages.getString("CopyTableNameAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("CopyTableNameAction.1")); //$NON-NLS-1$
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		try {

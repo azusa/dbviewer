@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -34,7 +34,6 @@ public abstract class TableViewEditorAction extends Action implements Runnable, 
 
 	protected IDBConfig config;
 
-	// DisposeÇ©ÇÁÇÕÅANULLÇ™ê›íËÇ≥ÇÍÇÈ
 	public void setActiveEditor(ITableViewEditor target) {
 		if (target != null) {
 			editor = target;

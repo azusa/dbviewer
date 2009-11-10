@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -26,29 +26,21 @@ import org.eclipse.swt.widgets.Text;
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.editors.event.TextSelectionListener;
 
-/**
- * URLInputDialogクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
- */
 public class URLInputDialog extends Dialog {
 
 	private static final int LEVEL_FIELD_WIDTH = 20;
 
 	private static final int TEXT_FIELD_WIDTH = 50;
 
-	protected Text driverText; // DriverName
+	protected Text driverText;
 
-	protected Text urlText; // 接続URL
+	protected Text urlText;
 
 	protected static final String KEY_DRIVER = "driver"; //$NON-NLS-1$
 
 	protected static final String KEY_URL = "url"; //$NON-NLS-1$
 
-	protected Map valueMap = new HashMap(); // 呼び出し元から参照するため
+	protected Map valueMap = new HashMap();
 
 	public String getStringValue(String key) {
 		return (String) valueMap.get(key);
@@ -98,15 +90,9 @@ public class URLInputDialog extends Dialog {
 		return null;
 	}
 
-	/**
-	 * DB接続情報の保存
-	 * 
-	 * @return
-	 */
 	private boolean save() {
 
 		String msg = null;
-		// validate , および | が含まれていないことをチェック
 		if ((msg = validate("Driver", driverText)) != null) { //$NON-NLS-1$
 			DbPlugin.getDefault().showWarningMessage(msg);
 			return false;
@@ -131,7 +117,6 @@ public class URLInputDialog extends Dialog {
 		nameLabel.setLayoutData(getGridData(LEVEL_FIELD_WIDTH));
 		driverText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		driverText.setLayoutData(getGridData(TEXT_FIELD_WIDTH));
-		// フォーカス時に入力文字列を選択状態とする
 		driverText.addFocusListener(new TextSelectionListener());
 
 		driverText.addVerifyListener(new VerifyListener() {
@@ -153,7 +138,6 @@ public class URLInputDialog extends Dialog {
 		nameLabel.setLayoutData(getGridData(LEVEL_FIELD_WIDTH));
 		urlText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		urlText.setLayoutData(getGridData(TEXT_FIELD_WIDTH));
-		// フォーカス時に入力文字列を選択状態とする
 		urlText.addFocusListener(new TextSelectionListener());
 		urlText.addVerifyListener(new VerifyListener() {
 
@@ -166,19 +150,10 @@ public class URLInputDialog extends Dialog {
 		}
 	}
 
-	/**
-	 * ダイアログサイズ
-	 */
 	protected Point getInitialSize() {
 		return new Point(400, 150);
 	}
 
-	/**
-	 * 共通のComposite作成メソッド
-	 * 
-	 * @param parent
-	 * @return
-	 */
 	private Composite createDefaultComposite(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -193,12 +168,6 @@ public class URLInputDialog extends Dialog {
 		return composite;
 	}
 
-	/**
-	 * 共通のGridData取得メソッド GridDataの使いまわしNGの為、必ずNewしたものを返す
-	 * 
-	 * @param width
-	 * @return
-	 */
 	private GridData getGridData(int width) {
 		GridData gd = new GridData();
 		gd.widthHint = convertWidthInCharsToPixels(width);

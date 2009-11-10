@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,22 +17,10 @@ import zigen.plugin.db.core.ConnectionManager;
 import zigen.plugin.db.core.DBType;
 import zigen.plugin.db.ui.internal.DataBase;
 
-/**
- * CloseDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- */
 public class ShutDownDBAction extends Action implements Runnable {
 
 	TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public ShutDownDBAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("ShutDownDBAction.0")); //$NON-NLS-1$
@@ -40,9 +28,6 @@ public class ShutDownDBAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		Object element = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
 		if (element instanceof DataBase) {
@@ -52,7 +37,6 @@ public class ShutDownDBAction extends Action implements Runnable {
 			} catch (SQLException e) {
 				if (DBType.getType(db.getDbConfig()) == DBType.DB_TYPE_DERBY) {
 					if (e.getErrorCode() == 50000) {
-						// Derbyの正常シャットダウンは、エラーコードが50000
 						DbPlugin.getDefault().showInformationMessage(e.getMessage());
 						return;
 					}

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,14 +19,6 @@ import zigen.plugin.db.core.rule.IColumnSearcherFactory;
 import zigen.plugin.db.ext.oracle.tablespace.OracleTableColumn;
 import zigen.plugin.db.ui.internal.Table;
 
-/**
- * Oracle用TableCommentSearcherクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- * 
- */
 public class OracleTableColumnSearcher {
 
 	public static OracleTableColumn[] execute(IDBConfig config, Table table) throws Exception {
@@ -54,7 +46,6 @@ public class OracleTableColumnSearcher {
 			for (int i = 0; i < columns.length; i++) {
 				TableColumn column = columns[i];
 
-				// 表領域計算用のTableColumnに変換
 				OracleTableColumn col = new OracleTableColumn();
 				col.setColumn_name(column.getColumnName());
 				col.setColumn_length(column.getColumnSize());

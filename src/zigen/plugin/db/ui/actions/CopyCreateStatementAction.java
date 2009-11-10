@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -66,12 +66,11 @@ public class CopyCreateStatementAction implements IViewActionDelegate {
 				StringBuffer sb = new StringBuffer();
 
 				if (!checkLoadColumn(ss)) {
-					String msg = "カラム情報が未取得のテーブルがあります。取得しますか？";
-					msg += "\nカラム情報の取得には時間がかかる場合があります。";
+					String msg = Messages.getString("CopyCreateStatementAction.0"); //$NON-NLS-1$
+					msg += Messages.getString("CopyCreateStatementAction.1"); //$NON-NLS-1$
 					if (DbPlugin.getDefault().confirmDialog(msg)) {
 						new LoadAction(treeViewer, ss).run();
 					} else {
-						// 中途半端な状態ではComment文をコピーさせない
 						return;
 					}
 				} else {
@@ -134,7 +133,7 @@ public class CopyCreateStatementAction implements IViewActionDelegate {
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-						monitor.beginTask("カラム情報の取得中...", ss.size());
+						monitor.beginTask(Messages.getString("CopyCreateStatementAction.2"), ss.size()); //$NON-NLS-1$
 						sb = new StringBuffer(); // clear
 						int i = 1;
 						for (Iterator iter = ss.iterator(); iter.hasNext();) {
@@ -144,9 +143,8 @@ public class CopyCreateStatementAction implements IViewActionDelegate {
 							Object obj = iter.next();
 							if (obj instanceof ITable) {
 								ITable table = (ITable) obj;
-								monitor.subTask("Target : " + table + ", " + i + "/" + ss.size());
+								monitor.subTask("Target : " + table + ", " + i + "/" + ss.size()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 								if (!table.isExpanded()) {
-									// 展開フラグをTrueにする(テーブル要素をキャッシュする）
 									table.setExpanded(true);
 
 									new ColumnSearchAction(viewer, table).run();
@@ -163,13 +161,12 @@ public class CopyCreateStatementAction implements IViewActionDelegate {
 					}
 				};
 
-				// ダイアログの表示
 				new ProgressMonitorDialog(DbPlugin.getDefault().getShell()).run(true, true, op);
 
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				DbPlugin.getDefault().showInformationMessage("キャンセルされました");
+				DbPlugin.getDefault().showInformationMessage(Messages.getString("CopyCreateStatementAction.6")); //$NON-NLS-1$
 			}
 		}
 

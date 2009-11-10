@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -20,21 +20,8 @@ import zigen.plugin.db.core.InputStreamUtil;
 import zigen.plugin.db.preference.PreferencePage;
 import zigen.plugin.db.ui.views.internal.SQLSourceViewer;
 
-/**
- * CreateCSVActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/08 ZIGEN create.
- * 
- */
 public class OpenSQLAction extends SQLSourceViewerAction {
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public OpenSQLAction(SQLSourceViewer viewer) {
 		super(viewer);
 		this.setText(Messages.getString("OpenSQLAction.0")); //$NON-NLS-1$
@@ -43,9 +30,6 @@ public class OpenSQLAction extends SQLSourceViewerAction {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		try {
 			Shell shell = DbPlugin.getDefault().getShell();
@@ -60,7 +44,6 @@ public class OpenSQLAction extends SQLSourceViewerAction {
 					});
 			String fileName = dialog.open();
 
-			// キャンセル時の処理
 			if (fileName == null)
 				return;
 

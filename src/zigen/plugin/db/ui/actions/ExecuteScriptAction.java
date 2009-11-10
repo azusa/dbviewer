@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -57,14 +57,12 @@ public class ExecuteScriptAction extends Action implements Runnable {
 				String sql = doc.get();
 				if (sql != null && sql.trim().length() > 0) {
 
-					// トランザクション取得
 					Transaction trans = Transaction.getInstance(config);
 					ScriptExecJob job = new ScriptExecJob(trans, sql, secondaryId);
 					// job.setPriority(Job.SHORT);
-					job.setUser(false); // ダイアログを出さない
+					job.setUser(false);
 					job.schedule();
 
-					// RefreshFolderJobが終了するまで待機
 					if (editorMode) {
 						try {
 							job.join();
@@ -74,19 +72,12 @@ public class ExecuteScriptAction extends Action implements Runnable {
 							if (errs != null) {
 								plsqlEditor.setError(errs);
 
-								// Open ProblemView
-								//DbPlugin.findView("org.eclipse.ui.views.ProblemView");
-
-
-								// SourceEditorの場合は、エラーアイコンを更新する
 								if(plsqlEditor instanceof SourceEditor){
 									SourceEditor editor = (SourceEditor)plsqlEditor;
 									SourceEditorInput input = (SourceEditorInput)editor.getEditorInput();
 									DbPlugin.fireStatusChangeListener(input.getOracleSource(), IStatusChangeListener.EVT_RefreshOracleSource);
 
 								}
-
-
 							}
 
 						} catch (InterruptedException e) {

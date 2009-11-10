@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,15 +17,6 @@ import zigen.plugin.db.ui.internal.Folder;
 import zigen.plugin.db.ui.internal.OracleSource;
 import zigen.plugin.db.ui.internal.Schema;
 
-/**
- * 
- * TableTypeSearchThreadクラス. スキーマ下にTable-Typeを検索する
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/21 ZIGEN create.
- * 
- */
 public class SourceTypeSearchAction implements Runnable {
 
 	StructuredViewer viewer;
@@ -39,12 +30,6 @@ public class SourceTypeSearchAction implements Runnable {
 
 	public void run() {
 		try {
-			// "読み込み中"を削除
-			// schema.removeChild((Table)schema.getChild(DbPluginConstant.TREE_LEAF_LOADING));
-			// schema.removeChild(schema.getChild(DbPluginConstant.TREE_LEAF_LOADING));
-			// 再描画
-			// viewer.refresh(schema);
-
 			Connection con = Transaction.getInstance(schema.getDbConfig()).getConnection();
 
 			String owner = schema.getName();
@@ -61,7 +46,6 @@ public class SourceTypeSearchAction implements Runnable {
 				schema.addChild(folder);
 			}
 
-			// 再描画
 			viewer.refresh(schema);
 
 		} catch (Exception e) {

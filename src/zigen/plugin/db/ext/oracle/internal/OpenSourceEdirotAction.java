@@ -53,7 +53,7 @@ public class OpenSourceEdirotAction extends Action implements Runnable {
 				openSequenceEditor(seq);
 
 			} else {
-				throw new IllegalStateException("他の要素でのダブルクリック"); //$NON-NLS-1$
+				throw new IllegalStateException("OpenSourceEdirotAction#run()"); //$NON-NLS-1$
 			}
 		}
 

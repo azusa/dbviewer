@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -18,14 +18,6 @@ import zigen.plugin.db.core.ClipboardUtils;
 import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * CopyColumnNameAction.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/12/04 ZIGEN create.
- * 
- */
 public class CopyLogicalColumnNameWithTableNameAction extends AbstractCopyAction {
 
 	public void run(IAction action) {
@@ -47,7 +39,7 @@ public class CopyLogicalColumnNameWithTableNameAction extends AbstractCopyAction
 					}
 					String remarks = col.getRemarks();
 					if (remarks == null || "".equals(remarks.trim())) {
-						remarks = col.getName(); // ñ≥Ç¢èÍçáÇÕï®óùñº
+						remarks = col.getName();
 					}
 					if (index == 0) {
 						sb.append(tableRemarks);

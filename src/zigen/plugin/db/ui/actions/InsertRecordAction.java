@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,18 +17,9 @@ import zigen.plugin.db.preference.PreferencePage;
 import zigen.plugin.db.ui.editors.internal.TableViewerManager;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * InsertRecordActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class InsertRecordAction extends TableViewEditorAction {
 
 	public InsertRecordAction() {
-		// テキストやツールチップ、アイコンの設定
 		this.setText(Messages.getString("InsertRecordAction.0")); //$NON-NLS-1$
 		this.setToolTipText(Messages.getString("InsertRecordAction.1")); //$NON-NLS-1$
 		this.setActionDefinitionId("zigen.plugin.InsertRecordCommand"); //$NON-NLS-1$
@@ -39,14 +30,11 @@ public class InsertRecordAction extends TableViewEditorAction {
 
 	public void run() {
 		String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
-
 		ITable table = editor.getTableNode();
-
 		TableViewer viewer = editor.getViewer();
 		TableElement elem = editor.getHeaderTableElement();
 		int count = viewer.getTable().getItems().length;
 
-		// NewRecordの初期値
 		Object[] items = new Object[elem.getColumns().length];
 		for (int i = 0; i < items.length; i++) {
 			TableColumn column = elem.getColumns()[i];
@@ -57,24 +45,15 @@ public class InsertRecordAction extends TableViewEditorAction {
 		// log.debug(elem.getUniqueColumns());
 		TableElement newElement = new TableNewElement(table, count + 1, elem.getColumns(), items, elem.getUniqueColumns());
 
-		// レコードの追加
 		TableViewerManager.insert(viewer, newElement);
 
-		// １カラム目(Rowを除いたもの）を編集
 		editor.editTableElement(newElement, 1);
 
 	}
 
-	/**
-	 * 新規レコード作成時の初期値を設定するメソッド
-	 * 
-	 * @param column
-	 * @return
-	 */
 	public static String getDefaultValue(TableColumn column) {
 		String nullSymbol = DbPlugin.getDefault().getPreferenceStore().getString(PreferencePage.P_NULL_SYMBOL);
 
-		// 初期値を設定するように修正
 		String defaultValue = column.getDefaultValue();
 
 		if (defaultValue != null && !"".equals(defaultValue)) { //$NON-NLS-1$
@@ -82,12 +61,10 @@ public class InsertRecordAction extends TableViewEditorAction {
 			if (defaultValue.matches("^'.*'$")) { //$NON-NLS-1$
 				defaultValue = defaultValue.replaceAll("^'|'$", "");// 前後の'を外す //$NON-NLS-1$ //$NON-NLS-2$
 				defaultValue = defaultValue.replaceAll("''", "'");// '' → //$NON-NLS-1$ //$NON-NLS-2$
-				// ' 変換
 				return defaultValue;
 			} else if (defaultValue.matches("^\\(.*\\)$")) { //$NON-NLS-1$
 				defaultValue = defaultValue.replaceAll("^\\(|\\)$", "");// 前後の()を外す //$NON-NLS-1$ //$NON-NLS-2$
 
-				// 括弧を外した後に、前後の'を外す
 				if (defaultValue.matches("^'.*'$")) { //$NON-NLS-1$
 					defaultValue = defaultValue.replaceAll("^'|'$", "");// 前後の'を外す //$NON-NLS-1$ //$NON-NLS-2$
 					defaultValue = defaultValue.replaceAll("''", "'");// '' → //$NON-NLS-1$ //$NON-NLS-2$
@@ -97,18 +74,17 @@ public class InsertRecordAction extends TableViewEditorAction {
 
 			} else {
 				if (defaultValue.equalsIgnoreCase("NULL")) { //$NON-NLS-1$
-					return nullSymbol; // NULLならばNULL文字を設定
+					return nullSymbol;
 				} else if (StringUtil.isNumeric(defaultValue.trim())) {
 					return defaultValue.trim();
 				} else {
-					; // 設定しない(SYSDATEなどの関数を初期値に設定している場合)
 					return ""; //$NON-NLS-1$
 				}
 			}
 
 		} else {
 			if (!column.isNotNull()) {
-				return nullSymbol; // NULLならばNULL文字を設定
+				return nullSymbol;
 			} else {
 				return ""; //$NON-NLS-1$
 			}

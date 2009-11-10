@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -48,14 +48,6 @@ import zigen.plugin.db.ui.actions.AutoDelayListener;
 import zigen.plugin.db.ui.editors.event.TextSelectionListener;
 import zigen.plugin.db.ui.util.WidgetUtil;
 
-/**
- * SelectTableWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class WizardPage3 extends DefaultWizardPage {
 
 	public static final String MSG = Messages.getString("WizardPage3.0"); //$NON-NLS-1$
@@ -130,7 +122,6 @@ public class WizardPage3 extends DefaultWizardPage {
 		charsetText.addFocusListener(new TextSelectionListener());
 
 		if (getOldConfig() != null) {
-			// 旧バージョン用にNULLチェック
 			if (getOldConfig().getCharset() != null)
 				charsetText.setText(getOldConfig().getCharset());
 		} else {
@@ -158,15 +149,10 @@ public class WizardPage3 extends DefaultWizardPage {
 		}
 	}
 
-	/*
-	 * private void addOnlyDefaultSchemaSection(Composite group) { schemaOnlyCheck = new Button(group, SWT.CHECK); schemaOnlyCheck.setText(Messages.getString("WizardPage3.10")); //$NON-NLS-1$ if
-	 * (getOldConfig() != null) { schemaOnlyCheck.setSelection(getOldConfig().isOnlyDefaultSchema()); } else { schemaOnlyCheck.setSelection(ONLY_DEFAULT_SCHEMA); } }
-	 */
-
 	private void addNoLockModeSection(Composite group) {
 		symfowareOptionCheck = new Button(group, SWT.CHECK);
 		symfowareOptionCheck.setText(Messages.getString("WizardPage3.11")); //$NON-NLS-1$
-		symfowareOptionCheck.setSelection(true); // 初期値はTrue
+		symfowareOptionCheck.setSelection(true);
 		if (getOldConfig() != null) {
 			symfowareOptionCheck.setSelection(getOldConfig().isNoLockMode());
 		} else {
@@ -205,7 +191,6 @@ public class WizardPage3 extends DefaultWizardPage {
 
 
 			try {
-				// 毎回取得する
 				if (getOldConfig() != null) {
 					settingSchemas = getOldConfig().getDisplayedSchemas();
 					if (settingSchemas != null) {
@@ -371,7 +356,6 @@ public class WizardPage3 extends DefaultWizardPage {
 
 		fTableViewer.setInput(filterSchemas);
 
-		// チェック状態を設定する
 		if (filterSchemas != null) {
 			for (int i = 0; i < filterSchemas.length; i++) {
 				SchemaInfo info = filterSchemas[i];
@@ -483,7 +467,6 @@ public class WizardPage3 extends DefaultWizardPage {
 			}
 		});
 
-		// デフォルトの設定
 		filterText.setText(filterPattern);
 		visibleCheck.setSelection(checkFilterPattern);
 		setEnabled(checkFilterPattern);
@@ -584,7 +567,6 @@ public class WizardPage3 extends DefaultWizardPage {
 					schemas[i] = new SchemaInfo(config, names[i], true);
 				}
 			} else {
-				// マージする必要がある
 				schemas = new SchemaInfo[names.length];
 				for (int i = 0; i < names.length; i++) {
 					if (settingSchemaMap.containsKey(names[i])) {
@@ -595,10 +577,6 @@ public class WizardPage3 extends DefaultWizardPage {
 							schemas[i] = new SchemaInfo(config, names[i], false);
 						}
 					} else {
-						// 新しいスキーマがある場合は表示ONとする
-						// schemas[i] = new SchemaInfo(config, names[i], true);
-
-						// 新しいスキーマがある場合は表示OFFとする
 						schemas[i] = new SchemaInfo(config, names[i], false);
 					}
 				}

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -38,14 +38,6 @@ import zigen.plugin.db.ext.oracle.tablespace.CalcIndexSpace;
 import zigen.plugin.db.ext.oracle.tablespace.CalcIndexSpaces;
 import zigen.plugin.db.ext.oracle.tablespace.CalcTableSpace;
 
-/**
- * SelectTableWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class WizardPage3 extends DefaultWizardPage {
 
 	public static final String HEADER_SCHEMANAME = Messages.getString("WizardPage3.0"); //$NON-NLS-1$
@@ -83,7 +75,7 @@ public class WizardPage3 extends DefaultWizardPage {
 
 	private Text dbBlockSizeText;
 
-	private int dbBlockSize = 0; // 見積もりに使用するDB_BLOCK_SIZE
+	private int dbBlockSize = 0;
 
 	public WizardPage3() {
 		super("wizardPage"); //$NON-NLS-1$
@@ -96,7 +88,6 @@ public class WizardPage3 extends DefaultWizardPage {
 
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		// 1分割、false:均等にしない
 		container.setLayout(new GridLayout(1, false));
 
 		Composite composite = createDefaultComposite(container);
@@ -129,10 +120,8 @@ public class WizardPage3 extends DefaultWizardPage {
 
 		Table table = tableViewer.getTable();
 		table.setLayoutData(gridData);
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(true); // ラインを表示
-
-		// テーブルヘッダの設定
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
 		setHeaderColumn(table, headers);
 
@@ -157,26 +146,19 @@ public class WizardPage3 extends DefaultWizardPage {
 
 	}
 
-	/**
-	 * CSVにエクスポート
-	 * 
-	 */
 	void exportCsvButtonPressedHandler() {
-		// CSVヘッダー定義
 		String[] headers = {HEADER_SCHEMANAME, HEADER_TABLENAME, HEADER_INDEXNAME, WizardPage2.HEADER_BLOCKSIZE, WizardPage2.HEADER_PCTFREE, HEADER_RECORD, HEADER_TABLESPACESIZE,
 				HEADER_SAFECONEFFICIENT, HEADER_TOTALTABLESPACESIZE};
 
 		CSVResultWriter writer = new CSVResultWriter();
 		writer.setHeaders(headers);
-		writer.setAppend(false); // 新規モード(Wizardでは新規モードのみ)
+		writer.setAppend(false);
 
-		// CSV用保存ダイアログ表示
 		Shell shell = DbPlugin.getDefault().getShell();
 		File file = saveCsv(shell, null);
 
 		if (file.exists()) {
 			if (!confirmOverwrite(shell, file.getName())) {
-				// log.debug("上書きをキャンセルしました。"); //$NON-NLS-1$
 				return;
 			}
 		}
@@ -217,13 +199,6 @@ public class WizardPage3 extends DefaultWizardPage {
 		}
 	}
 
-	/**
-	 * テーブルヘッダーを設定する
-	 * 
-	 * @param meta
-	 * @param table
-	 * @throws SQLException
-	 */
 	private void setHeaderColumn(Table table, String[] headers) {
 
 		for (int i = 0; i < headers.length; i++) {
@@ -247,8 +222,6 @@ public class WizardPage3 extends DefaultWizardPage {
 
 	private IItem[] calcurate(TableItem[] tableItems) {
 		List result = new ArrayList();
-
-		// CSV出力用
 		csvResultList = new ArrayList();
 
 		try {
@@ -257,10 +230,6 @@ public class WizardPage3 extends DefaultWizardPage {
 
 				if (!item.isChecked())
 					continue;
-
-				// ---------------------------------
-				// テーブルの表領域計算
-				// ---------------------------------
 				CalcTableSpace tableSpace = new CalcTableSpace(item.table, dbBlockSize, item.getPctFree(), item.getRecordSize());
 				tableSpace.calcurate();
 
@@ -269,9 +238,6 @@ public class WizardPage3 extends DefaultWizardPage {
 				result.add(item);
 				csvResultList.add(tableSpace.getCsvRow());
 
-				// ----------------------------------
-				// インデックスの表領域計算
-				// ---------------------------------
 				CalcIndexSpaces indexSpaces = new CalcIndexSpaces(item.table, dbBlockSize, item.getPctFree(), item.getRecordSize());
 				indexSpaces.calcurate();
 
@@ -307,7 +273,6 @@ public class WizardPage3 extends DefaultWizardPage {
 				String str = page.dbBlockSizeText.getText();
 				if (str != null && !"".equals(str)) { //$NON-NLS-1$
 					this.dbBlockSize = Integer.parseInt(str);
-					// log.debug("dbBlockSize > " + dbBlockSize); //$NON-NLS-1$
 					dbBlockSizeText.setText(str);
 				}
 				tableViewer.setInput(calcurate(tableItems));
@@ -339,35 +304,33 @@ public class WizardPage3 extends DefaultWizardPage {
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 		public String getColumnText(Object element, int columnIndex) {
-			// log.debug("getCOlumnText:" + columnIndex + ", element:" +
-			// element.toString());
 			String result = ""; //$NON-NLS-1$
 			IItem item = (IItem) element;
 			switch (columnIndex) {
-			case COLUMN_TABLENAME: // 表名
+			case COLUMN_TABLENAME:
 				result = item.getTableName();
 				break;
-			case COLUMN_INDEXNAME: // Index名
+			case COLUMN_INDEXNAME:
 				if (item instanceof IndexItem) {
 					result = item.getIndexName();
 				}
 				break;
-			case COLUMN_PCTFREE: // PCTFREE
+			case COLUMN_PCTFREE:
 				result = String.valueOf(item.getPctFree());
 				break;
 
-			case COLUMN_RECORD: // 見積もり行数
+			case COLUMN_RECORD:
 				result = String.valueOf(item.getRecordSize());
 				break;
 
-			case COLUMN_TABLESPACESIZE: // 見積表領域(MB)
+			case COLUMN_TABLESPACESIZE:
 				result = String.valueOf(item.getTableSpaceSize());
 				break;
-			case COLUMN_SAFECONEFFICIENT: // 安全係数
+			case COLUMN_SAFECONEFFICIENT:
 				result = String.valueOf(item.getSafeCoefficient());
 				break;
 
-			case COLUMN_TOTALTABLESPACESIZE: // トータル表領域(MB)
+			case COLUMN_TOTALTABLESPACESIZE:
 				result = String.valueOf(item.getTableSpaceSafeSize());
 				break;
 

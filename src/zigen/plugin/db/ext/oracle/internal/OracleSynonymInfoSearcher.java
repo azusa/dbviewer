@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,14 +17,6 @@ import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.Transaction;
 
-/**
- * OracleColumnCommentSearcherクラス.
- *
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/01 ZIGEN create.
- *
- */
 public class OracleSynonymInfoSearcher {
 
 	public static SynonymInfo execute(IDBConfig config, String owner, String synonym) throws Exception {
@@ -53,9 +45,6 @@ public class OracleSynonymInfoSearcher {
 				info.setDb_link(rs.getString("DB_LINK")); //$NON-NLS-1$
 				info.setComments(rs.getString("COMMENTS")); //$NON-NLS-1$
 			} else {
-
-				// throw new Exception("ALL_SYNONYMSから指定したスキーマ情報を取得できまんでした
-				// OWNER=" + owner + ", SYNONYM=" + synonym);
 			}
 
 		} catch (Exception e) {
@@ -69,7 +58,6 @@ public class OracleSynonymInfoSearcher {
 		return info;
 	}
 
-	// Oracle用SQL
 	private static String getSQL(String owner, String synonym) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT"); //$NON-NLS-1$

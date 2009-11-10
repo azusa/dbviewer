@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -23,14 +23,6 @@ import zigen.plugin.db.core.SameDbNameException;
 import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.views.TreeContentProvider;
 
-/**
- * RegistDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class CopyDBAction extends Action implements Runnable {
 
 	public class DBNameValidator implements IInputValidator {
@@ -50,11 +42,6 @@ public class CopyDBAction extends Action implements Runnable {
 
 	TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public CopyDBAction(TreeViewer viewer) {
 
 		this.viewer = viewer;
@@ -64,11 +51,7 @@ public class CopyDBAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
-
 		Object element = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
 		if (element instanceof DataBase) {
 			DataBase db = (DataBase) element;
@@ -85,31 +68,23 @@ public class CopyDBAction extends Action implements Runnable {
 
 				return;
 			} else {
-				// 入力した文字列を設定
 				copyConfig.setDbName(dialog.getValue());
 
-				// IContentProviderを取得
 				IContentProvider obj = viewer.getContentProvider();
 				if (obj instanceof TreeContentProvider) {
 					TreeContentProvider provider = (TreeContentProvider) obj;
-					DataBase registDb = provider.addDataBase(copyConfig); // データベースを追加する
-
+					DataBase registDb = provider.addDataBase(copyConfig);
 					viewer.refresh();
 
-					// 追加したデータエースに選択を与える
 					viewer.setSelection(new StructuredSelection(registDb), true);
-
 					viewer.getControl().notifyListeners(SWT.Selection, null);
 				}
 
-				// 設定ファイルの保存
 				try {
 					DBConfigManager.save(copyConfig);
 				} catch (SameDbNameException e) {
 					DbPlugin.getDefault().showErrorDialog(e);
 				}
-
-
 				DbPlugin.fireStatusChangeListener(viewer, IStatusChangeListener.EVT_UpdateDataBaseList);
 
 			}

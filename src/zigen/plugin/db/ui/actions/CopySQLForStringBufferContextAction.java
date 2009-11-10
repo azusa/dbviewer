@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -20,15 +20,6 @@ import org.eclipse.ui.IViewPart;
 import zigen.plugin.db.core.ClipboardUtils;
 import zigen.plugin.db.core.StringUtil;
 
-/**
- * CopySQLForStringBufferActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/08/28 ZIGEN create.
- * 
- * 
- */
 public class CopySQLForStringBufferContextAction implements IViewActionDelegate {
 
 	private final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
@@ -38,13 +29,11 @@ public class CopySQLForStringBufferContextAction implements IViewActionDelegate 
 	private IViewPart viewPart;
 
 	public void init(IViewPart view) {
-		// TODO 自動生成されたメソッド・スタブ
 		this.viewPart = view;
 
 	}
 
 	public void run(IAction action) {
-		// TODO 自動生成されたメソッド・スタブ
 		StringBuffer sb = new StringBuffer();
 		Clipboard clipboard = ClipboardUtils.getInstance();
 		TextTransfer text_transfer = TextTransfer.getInstance();
@@ -71,7 +60,6 @@ public class CopySQLForStringBufferContextAction implements IViewActionDelegate 
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO 自動生成されたメソッド・スタブ
 		this.selection = selection;
 
 	}

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -20,14 +20,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import zigen.plugin.db.core.DBConfig;
 import zigen.plugin.db.core.IDBConfig;
 
-/**
- * DefaultWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/02 ZIGEN create.
- * 
- */
 abstract class DefaultWizardPage extends WizardPage {
 
 	protected int LEVEL_FIELD_WIDTH = 20;
@@ -64,7 +56,7 @@ abstract class DefaultWizardPage extends WizardPage {
 
 	protected boolean DEFAULT_SAVEPASSWORD = false;
 
-	protected boolean DEFAULT_NO_LOCK_MODE = true; // 初期値true
+	protected boolean DEFAULT_NO_LOCK_MODE = true;
 
 
 	public DefaultWizardPage(String pageName) {
@@ -138,9 +130,9 @@ abstract class DefaultWizardPage extends WizardPage {
 
 	protected void resize() {
 		IWizardContainer con = getContainer();
-		int width = con.getShell().getSize().x; // 幅を記憶
+		int width = con.getShell().getSize().x;
 		con.getShell().pack();
-		int height = con.getShell().getSize().y; // 高さを記憶
+		int height = con.getShell().getSize().y;
 		con.getShell().setSize(width, height);
 	}
 }

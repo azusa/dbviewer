@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,23 +17,10 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.internal.BookmarkFolder;
 import zigen.plugin.db.ui.views.TreeContentProvider;
 
-/**
- * RegistDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class RemoveBookmarkFolderAction extends Action implements Runnable {
 
 	StructuredViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public RemoveBookmarkFolderAction(StructuredViewer viewer) {
 
 		this.viewer = viewer;
@@ -42,9 +29,6 @@ public class RemoveBookmarkFolderAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();

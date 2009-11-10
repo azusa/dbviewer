@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -60,11 +60,11 @@ public class WizardPage2 extends DefaultWizardPage {
 
 	Button radio2;
 
-	Button savePassword; // 未使用
+	Button savePassword;
 
-	Button testBtn; // テスト接続ボタン
+	Button testBtn;
 
-	boolean searchDriverFlg = true; // Driverを検索する場合はtrue
+	boolean searchDriverFlg = true;
 
 	protected IPreferenceStore store;
 
@@ -109,11 +109,6 @@ public class WizardPage2 extends DefaultWizardPage {
 		driverCombox = new Combo(group, SWT.READ_ONLY);
 		driverCombox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		// Page2が表示された場合にDriverを検索するように変更
-		// DBConfigWizard wiz = (DBConfigWizard) getWizard();
-		// WizardPage1 page = (WizardPage1) wiz.getPreviousPage(this);
-		// updateComboBox(page.classpathList);
-
 		driverCombox.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
@@ -129,12 +124,10 @@ public class WizardPage2 extends DefaultWizardPage {
 					schemaText.setEnabled(false);
 				}
 
-				// 雛形のURL文字列を設定（新規のみ）
 				setDefaultURLString(driverCombox.getText());
 			}
 		});
 
-		// 既存のDriver名を設定 // 障害対応 2007/06/26 ZIGEN
 		if (getOldConfig() != null) {
 			IDBConfig old = getOldConfig();
 			driverCombox.add(old.getDriverName());
@@ -177,7 +170,6 @@ public class WizardPage2 extends DefaultWizardPage {
 				modified();
 
 				if (driverCombox != null && driverCombox.getText().indexOf("mysql") >= 0 && schemaText != null) {
-					// MYSQLならば、URLからデフォルトスキーマを設定する
 					String url = urlText.getText();
 					String[] wk = url.split("/");
 					if (wk.length >= 4) {
@@ -185,7 +177,6 @@ public class WizardPage2 extends DefaultWizardPage {
 						int index = s.indexOf('?');
 						if (index >= 0) {
 							schemaText.setText(s.substring(0, index)); // ?
-							// の前までを使う
 						} else {
 							schemaText.setText(s);
 						}
@@ -201,13 +192,11 @@ public class WizardPage2 extends DefaultWizardPage {
 		urlText.addKeyListener(new KeyAdapter() {
 
 			public void keyReleased(KeyEvent e) {
-				// TODO 自動生成されたメソッド・スタブ
 				super.keyReleased(e);
 			}
 
 		});
 
-		// urlText.setEnabled(false);
 		if (getOldConfig() != null) {
 			urlText.setText(getOldConfig().getUrl());
 		} else {
@@ -227,7 +216,6 @@ public class WizardPage2 extends DefaultWizardPage {
 				modified();
 
 				if (driverCombox != null && driverCombox.getText().indexOf("mysql") >= 0 && schemaText != null) {
-					;// mysqlであれば、何もしない
 				} else {
 					Text text = (Text) evt.widget;
 					if (schemaText != null)
@@ -272,7 +260,7 @@ public class WizardPage2 extends DefaultWizardPage {
 	}
 
 	private void addSavePassowrdSection(Composite group) {
-		Label urlLabel = new Label(group, SWT.NONE); // ダミー
+		Label urlLabel = new Label(group, SWT.NONE);
 
 		savePassword = new Button(group, SWT.CHECK);
 		savePassword.setText(Messages.getString("WizardPage2.13")); //$NON-NLS-1$
@@ -318,11 +306,6 @@ public class WizardPage2 extends DefaultWizardPage {
 		}
 	}
 
-	/**
-	 * コンボボックスを更新する
-	 *
-	 * @param parent
-	 */
 	private void updateComboBox(List classpathList) {
 		this.driverCombox.removeAll();
 		// DriverSearch
@@ -339,7 +322,7 @@ public class WizardPage2 extends DefaultWizardPage {
 					driverCombox.add(string);
 					if (getOldConfig() == null) {
 						if (i == 0) {
-							driverCombox.select(i); // 最初の先頭を選択状態にする
+							driverCombox.select(i);
 						}
 						driverCombox.select(0);
 					} else {
@@ -357,18 +340,6 @@ public class WizardPage2 extends DefaultWizardPage {
 
 	}
 
-	// private void initDriverCombox() {
-	// if (driverCombox.getItemCount() == 0) {
-	// super.updateStatus("JDBCDriverが含まれておりません。もう一度やり直してください");
-	// }
-	// }
-
-	/**
-	 * 指定したディレクトリ配下のすべてのファイル一覧を作成する
-	 *
-	 * @param list
-	 * @param dir
-	 */
 	private void createClassPathList(List list, String folderName, File dir) {
 		if (dir.isDirectory()) {
 			File[] files = dir.listFiles();
@@ -377,7 +348,6 @@ public class WizardPage2 extends DefaultWizardPage {
 				if (file.isDirectory()) {
 					createClassPathList(list, folderName, file);
 				} else if (file.isFile()) {
-					// 不要なディレクトリ名を取り除く AND "\" → "/" に変換
 					String path = file.getPath();
 					path = path.replace('\\', '/');
 					path = path.replaceAll(folderName.replace('\\', '/') + "/", ""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -387,7 +357,6 @@ public class WizardPage2 extends DefaultWizardPage {
 		}
 	}
 
-	// String[] から File[]に変換
 	private File[] toFiles(String[] classpaths) {
 		File[] files = new File[classpaths.length];
 		for (int i = 0; i < classpaths.length; i++) {
@@ -397,13 +366,11 @@ public class WizardPage2 extends DefaultWizardPage {
 	}
 
 	private String[] searchDriver(Shell shell, String[] classpaths) throws InterruptedException {
-		// classpathsの中でFolderになっているものはファイルに展開する
 		File[] files = toFiles(classpaths);
 		List driverList = new ArrayList();
 		for (int j = 0; j < files.length; j++) {
 			File f = files[j];
 			if (f.isDirectory()) {
-				// ディレクトリ指定の場合は、ディレクトリ名を除いたclassPathに変換して追加
 				createClassPathList(driverList, f.getPath(), f);
 			} else {
 				driverList.add(f.getPath());
@@ -412,7 +379,6 @@ public class WizardPage2 extends DefaultWizardPage {
 		String[] driverClassPath = (String[]) driverList.toArray(new String[0]); // 作業用ClassPath
 		ClassLoader loader = PluginClassLoader.getClassLoader(classpaths, getClass().getClassLoader());
 
-		// プログラスバーなし
 		DriverSearcherThread thread = new DriverSearcherThread(loader, driverClassPath);
 		thread.run();
 		List list = thread.getDriverNames();
@@ -453,7 +419,6 @@ public class WizardPage2 extends DefaultWizardPage {
 						} else if ("".equals(url)) { //$NON-NLS-1$
 							super.updateStatus(Messages.getString("WizardPage2.25")); //$NON-NLS-1$
 							// }else if("".equals(userid)){
-							// super.updateStatus("接続ユーザを入力してください");
 						} else if ("".equals(driver)) { //$NON-NLS-1$
 							super.updateStatus(Messages.getString("WizardPage2.27")); //$NON-NLS-1$
 						}
@@ -470,7 +435,6 @@ public class WizardPage2 extends DefaultWizardPage {
 
 	private void setDefaultURLString(String driverString) {
 		if (driverString != null && !"".equals(driverString)) { //$NON-NLS-1$
-			// Driver指定が同じ場合は、URLを置き換えないこと
 			String oldDriver = (getOldConfig() == null) ? "" : getOldConfig().getDriverName(); //$NON-NLS-1$
 			String checkDriver = driverString.toLowerCase();
 
@@ -522,7 +486,6 @@ public class WizardPage2 extends DefaultWizardPage {
 		if (visible) {
 			setDescription(MSG);
 			if (searchDriverFlg) {
-				// Page2の表示されるタイミングでDriverを読み込む
 				DBConfigWizard wiz = (DBConfigWizard) getWizard();
 				WizardPage1 page = (WizardPage1) wiz.getPreviousPage(this);
 				updateComboBox(page.classpathList);
@@ -534,9 +497,6 @@ public class WizardPage2 extends DefaultWizardPage {
 						resize();
 					}
 				} else if (DBType.getType(driver) == DBType.DB_TYPE_MYSQL) {
-					/*
-					 * 特に接続モードを設定する必要がなくなった。 if (connectionModeCombox2 == null) { addMySQL5OptionSection(group); resize(); }
-					 */
 				}
 			}
 		}

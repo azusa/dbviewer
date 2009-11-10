@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.contentassist.processor;
@@ -30,11 +30,10 @@ public class DropProcessor extends DefaultProcessor {
 
 			if (ci.isConnected()) {
 
-				TableInfo[] currentTableInfos = ci.getTableInfo(); // カレントスキーマに対応するテーブル情報リスト取得
+				TableInfo[] currentTableInfos = ci.getTableInfo();
 
 				switch (currentScope) {
 				case SqlParser.SCOPE_DROP:
-					// Deleteのあとは、Fromのみ表示
 					modifiers = new String[] {"TABLE", //$NON-NLS-1$
 							"VIEW", //$NON-NLS-1$
 							"SYNONYM" //$NON-NLS-1$
@@ -43,7 +42,6 @@ public class DropProcessor extends DefaultProcessor {
 					break;
 
 				case SqlParser.SCOPE_TARGET:
-					// テーブルリストを表示する
 					//SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);
 					if (isAfterPeriod) {
 						addTableProposalBySchema(ci, word);
@@ -54,8 +52,8 @@ public class DropProcessor extends DefaultProcessor {
 							String w_schema = wordGroup.substring(0, _offset);
 							addTableProposalBySchema(ci, w_schema);
 						} else {
-							SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);// テーブル名の一覧
-							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
+							SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);
+							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);
 						}
 
 					}
@@ -69,7 +67,6 @@ public class DropProcessor extends DefaultProcessor {
 			DbPlugin.getDefault().showErrorDialog(e);
 
 		} finally {
-			// SQLキーワードの登録
 			SQLProposalCreator2.addProposal(proposals, modifiers, pinfo);
 		}
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -59,7 +59,6 @@ public class CopySQLForStringBuilderContext2Action implements IViewActionDelegat
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO 自動生成されたメソッド・スタブ
 		this.selection = selection;
 
 	}

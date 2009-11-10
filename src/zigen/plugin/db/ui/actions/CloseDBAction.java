@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -31,22 +31,10 @@ import zigen.plugin.db.ui.editors.sql.SequenceEditorInput;
 import zigen.plugin.db.ui.editors.sql.SourceEditorInput;
 import zigen.plugin.db.ui.internal.DataBase;
 
-/**
- * CloseDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- */
 public class CloseDBAction extends Action implements Runnable {
 
 	TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public CloseDBAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("CloseDBAction.0")); //$NON-NLS-1$
@@ -55,9 +43,6 @@ public class CloseDBAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 
@@ -82,14 +67,13 @@ public class CloseDBAction extends Action implements Runnable {
 			TransactionForTableEditor trans2 = TransactionForTableEditor.getInstance(db.getDbConfig());
 			trans2.cloesConnection();
 
-			// 選択状態を再度通知する
 			viewer.getControl().notifyListeners(SWT.Selection, null);
 
 			db.removeChildAll();
-			db.setConnected(false); // 切断状態とする
+			db.setConnected(false);
 			db.setExpanded(false);
 
-			viewer.collapseToLevel(db, 1); // 非展開状態にする(2007/06/20)
+			viewer.collapseToLevel(db, 1);
 			viewer.refresh(db);
 
 			List target = new ArrayList();
@@ -128,7 +112,6 @@ public class CloseDBAction extends Action implements Runnable {
 			}
 
 			if (DBType.getType(db.getDbConfig()) == DBType.DB_TYPE_DERBY) {
-				// Derbyの場合は、切断時にシャットダウンする（組み込みモードのみ）
 				shutdown(db.getDbConfig());
 			}
 
@@ -145,7 +128,7 @@ public class CloseDBAction extends Action implements Runnable {
 		} catch (SQLException e) {
 
 			if (DBType.getType(config) == DBType.DB_TYPE_DERBY) {
-				if (e.getErrorCode() == 50000) {// Derbyの正常シャットダウンは、エラーコードが50000
+				if (e.getErrorCode() == 50000) {
 					DbPlugin.getDefault().showInformationMessage(e.getMessage());
 					return;
 				}

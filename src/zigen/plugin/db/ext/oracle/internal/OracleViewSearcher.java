@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,14 +17,6 @@ import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.Transaction;
 
-/**
- * OracleViewSearcherÉNÉâÉX.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- * 
- */
 public class OracleViewSearcher {
 
 	public static String execute(IDBConfig config, String owner, String view) throws Exception {
@@ -59,7 +51,6 @@ public class OracleViewSearcher {
 
 	}
 
-	// OracleópSQL
 	private static String getSQL(String owner, String view) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT TEXT"); //$NON-NLS-1$

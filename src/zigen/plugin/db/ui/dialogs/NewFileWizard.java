@@ -18,12 +18,11 @@ public class NewFileWizard extends Wizard implements INewWizard {
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		// TODO 自動生成されたメソッド・スタブ
 		this.selection = selection;
 	}
 
 	public void addPages() {
-		page = new WizardNewFileCreationPage("ファイルの保存", selection);
+		page = new WizardNewFileCreationPage(Messages.getString("NewFileWizard.0"), selection); //$NON-NLS-1$
 		addPage(page);
 	}
 

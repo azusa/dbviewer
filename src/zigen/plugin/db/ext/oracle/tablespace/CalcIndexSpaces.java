@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -16,14 +16,6 @@ import zigen.plugin.db.ext.oracle.internal.OracleIndexColumnSearcher;
 import zigen.plugin.db.ext.oracle.internal.OracleIndexNameSearcher;
 import zigen.plugin.db.ui.internal.Table;
 
-/**
- * CalcIndexSpacesクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/01 ZIGEN create.
- * 
- */
 public class CalcIndexSpaces {
 
 	private Table table;
@@ -49,9 +41,6 @@ public class CalcIndexSpaces {
 		this.maxRecord = maxRecord;
 	}
 
-	/**
-	 * 計算メソッド
-	 */
 	public void calcurate() throws CalcTableSpaceException {
 		try {
 
@@ -83,7 +72,7 @@ public class CalcIndexSpaces {
 			throw e;
 
 		} catch (Exception e) {
-			throw new CalcTableSpaceException("表領域の見積り処理でエラーが発生しました", e.getCause()); //$NON-NLS-1$
+			throw new CalcTableSpaceException("The error occurred by the estimate processing in the table area.", e.getCause()); //$NON-NLS-1$
 
 		}
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,14 +19,6 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 
 import zigen.plugin.db.ui.internal.Column;
 
-/**
- * SQLContentAssistantProcessorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/04/01 ZIGEN create.
- * 
- */
 public class ColumnContentAssistantProcessor implements IContentAssistProcessor, ISubjectControlContentAssistProcessor {
 
 	static final String[] Keywords = {"AND", "ASC", "BETWEEN", "BY", "DESC", "EXISTS", "IN", "IS NULL", "IS NOT NULL", "LIKE", "NOT", "NOT EXISTS", "NULL", "OR", "ORDER BY"};
@@ -95,7 +87,6 @@ public class ColumnContentAssistantProcessor implements IContentAssistProcessor,
 	}
 
 	public IContextInformation[] computeContextInformation(IContentAssistSubjectControl contentAssistSubjectControl, int documentOffset) {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 

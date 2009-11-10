@@ -24,13 +24,6 @@ import zigen.plugin.db.core.rule.AbstractSQLCreatorFactory;
 import zigen.plugin.db.core.rule.ISQLCreatorFactory;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * RenameTableActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/07/08 ZIGEN create.
- */
 public class RenameTableAction extends Action implements Runnable {
 
 	private StructuredViewer viewer = null;
@@ -46,9 +39,6 @@ public class RenameTableAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		Object element = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
@@ -72,7 +62,6 @@ public class RenameTableAction extends Action implements Runnable {
 
 					Transaction trans = Transaction.getInstance(config);
 
-					// 実際には、ここではTable名しか変更されない
 					String[] sqls = createSQL(table, newTableName, newRemarks);
 					for (int i = 0; i < sqls.length; i++) {
 						SQLInvoker.execute(trans.getConnection(), sqls[i]);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,14 +17,6 @@ import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.Transaction;
 
-/**
- * OracleViewSearcherクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- * 
- */
 public class OracleSourceDetailSearcher {
 
 	public static OracleSourceDetailInfo execute(IDBConfig config, String owner, String name, String type, boolean visibleSchema) throws Exception {
@@ -59,7 +51,7 @@ public class OracleSourceDetailSearcher {
 
 					String str = rs.getString("TEXT");//$NON-NLS-1$
 
-					int pos = str.toUpperCase().indexOf(info.getName().toUpperCase()); // ソース名のポジションを取得
+					int pos = str.toUpperCase().indexOf(info.getName().toUpperCase());
 
 					if (visibleSchema) {
 						sb.append("CREATE OR REPLACE ").append(info.getType());
@@ -79,7 +71,6 @@ public class OracleSourceDetailSearcher {
 			}
 
 			if (info != null) {
-				// StringBufferに入れた文字列を設定する
 				info.setText(sb.toString());
 			}
 
@@ -95,7 +86,6 @@ public class OracleSourceDetailSearcher {
 
 	}
 
-	// Oracle用SQL
 	private static String getSQL(String owner, String name, String type) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT"); //$NON-NLS-1$

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -14,14 +14,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * PreferencePageÉNÉâÉX.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- * 
- */
 public class CodeAssistPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public static final String MODE_NONE = "0"; //$NON-NLS-1$

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -19,23 +19,10 @@ import zigen.plugin.db.preference.SQLEditorPreferencePage;
 import zigen.plugin.db.preference.SQLFormatPreferencePage;
 import zigen.plugin.db.ui.views.SQLExecuteView;
 
-/**
- * SQLFormatActionクラス. 「blancoCommons」ライブラリ(GNU LGPLライセンス)の SQLフォーマット機能を使用しています。
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/08/06 ZIGEN create.
- * 
- */
 public class SQLFormatAction extends Action implements Runnable {
 
 	private SQLExecuteView view;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public SQLFormatAction(SQLExecuteView view) {
 		setText(Messages.getString("SQLFormatAction.0")); //$NON-NLS-1$
 		setToolTipText(Messages.getString("SQLFormatAction.1")); //$NON-NLS-1$
@@ -45,16 +32,11 @@ public class SQLFormatAction extends Action implements Runnable {
 		this.view = view;
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		TimeWatcher tw = new TimeWatcher();
 
 		try {
-			// SQL実行ビューからIDBConfigを取得
-
 			SourceViewer sv = view.getSqlViewer();
 
 			String preSql = sv.getDocument().get();
@@ -74,7 +56,7 @@ public class SQLFormatAction extends Action implements Runnable {
 				String sql = (String) st.nextElement();
 				if (sql != null && sql.length() > 0) {
 					// -----------------------------------------------
-					// BlancoSqlFormatterを使ったSQLフォーマット処理
+					// for BlancoSqlFormatter
 					// -----------------------------------------------
 					// sb.append(SQLFormatter.format(sql,onPatch));
 					// sb.append(StringUtil.convertLineSep(SQLFormatter.format(sql, type, onPatch), DbPluginConstant.LINE_SEP));

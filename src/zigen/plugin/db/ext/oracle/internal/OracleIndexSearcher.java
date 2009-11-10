@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -22,14 +22,6 @@ import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.TableIDXColumn;
 
-/**
- * OracleConstraintSearcherÉNÉâÉX.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- * 
- */
 public class OracleIndexSearcher {
 
 	private static String getIndexQuery(String schemaPattern, String tableName, boolean uniqueIndex) {
@@ -72,7 +64,6 @@ public class OracleIndexSearcher {
 
 	}
 
-	// UniqueIndexÇÃÇ›ï‘Ç∑
 	public static TableIDXColumn[] getIDXColumns(Connection con, String schemaPattern, String tableName, boolean uniqueIndex) throws Exception {
 		List list = new ArrayList();
 
@@ -100,7 +91,6 @@ public class OracleIndexSearcher {
 					} else {
 						column.setNonUnique(true);
 					}
-					// indexTypeÇí«â¡
 					column.setIndexType(rs.getString("INDEX_TYPE")); //$NON-NLS-1$
 
 					list.add(column);
@@ -125,8 +115,6 @@ public class OracleIndexSearcher {
 			StatementUtil.close(st);
 		}
 	}
-
-	// ResponseUpÇÃà◊Ç…ÅAàÍâÒÇ≈ï‘Ç∑
 
 	private static String getIndexQuery(String schemaPattern, String tableName) {
 		StringBuffer sb = new StringBuffer();
@@ -198,7 +186,6 @@ public class OracleIndexSearcher {
 					} else {
 						column.setNonUnique(true);
 					}
-					// indexTypeÇí«â¡
 					column.setIndexType(rs.getString("INDEX_TYPE")); //$NON-NLS-1$
 
 

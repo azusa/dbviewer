@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -23,14 +23,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * CSVPreferencePageÉNÉâÉX.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
- */
 public class CSVPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	public static final String P_ENCODING = "CSVPreferencePage.Encoding"; //$NON-NLS-1$
@@ -67,8 +59,6 @@ public class CSVPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
 	public CSVPreferencePage() {
 		super();
-		// setDescription("CSVèoóÕÇÃê›íË");
-		// PreferenceStoreÇê›íËÇµÇƒÇ®Ç≠
 		super.setPreferenceStore(DbPlugin.getDefault().getPreferenceStore());
 
 	}
@@ -78,7 +68,6 @@ public class CSVPreferencePage extends PreferencePage implements IWorkbenchPrefe
 	}
 
 	protected Control createContents(Composite parent) {
-		// noDefaultAndApplyButton();
 
 		Composite base = new Composite(parent, SWT.NONE);
 		base.setLayout(new GridLayout(1, false));

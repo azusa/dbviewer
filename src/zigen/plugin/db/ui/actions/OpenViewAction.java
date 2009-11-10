@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -30,11 +30,6 @@ public class OpenViewAction extends Action {
 
 	private SQLExecuteView view;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public OpenViewAction(SQLExecuteView view, IWorkbenchWindow window) {
 		this.view = view;
 		this.setText(Messages.getString("OpenViewAction.0")); //$NON-NLS-1$
@@ -45,9 +40,6 @@ public class OpenViewAction extends Action {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		try {
 			checkSecondaryId();
@@ -56,7 +48,6 @@ public class OpenViewAction extends Action {
 
 			if (part instanceof SQLExecuteView) {
 				SQLExecuteView sv = (SQLExecuteView) part;
-				// 起動元のデータベースロック状態を引き継ぐ
 				sv.setLockedDataBase(view.isLockedDataBase());
 
 				sv.setCommitMode(config, config.isAutoCommit());

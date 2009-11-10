@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -9,14 +9,6 @@ package zigen.plugin.db.ext.oracle.tablespace.wizard;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.swt.widgets.Item;
 
-/**
- * MyCellModifierクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class WizardPage1CellModifier implements ICellModifier {
 
 	private WizardPage1 page;
@@ -29,15 +21,8 @@ public class WizardPage1CellModifier implements ICellModifier {
 		return true;
 	}
 
-	/*
-	 * (非 Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object, java.lang.String)
-	 */
 	public Object getValue(Object element, String property) {
 		TableItem item = (TableItem) element;
-		// return item.getText();
-
 		if (property == "check") { //$NON-NLS-1$
 			return new Boolean(item.isChecked());
 		} else {
@@ -45,11 +30,6 @@ public class WizardPage1CellModifier implements ICellModifier {
 		}
 	}
 
-	/*
-	 * (非 Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object, java.lang.String, java.lang.Object)
-	 */
 	public void modify(Object element, String property, Object value) {
 		if (element instanceof Item) {
 			element = ((Item) element).getData();
@@ -66,7 +46,6 @@ public class WizardPage1CellModifier implements ICellModifier {
 			}
 		}
 
-		// テーブル・ビューワを更新
 		page.tableViewer.update(element, null);
 
 	}

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -26,14 +26,6 @@ import zigen.plugin.db.ui.editors.internal.TableViewerManager;
 import zigen.plugin.db.ui.internal.ITable;
 import zigen.plugin.db.ui.jobs.RecordCountForTableJob;
 
-/**
- * DeleteRecordActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class DeleteRecordAction extends TableViewEditorAction {
 
 	protected IStructuredSelection selection;
@@ -43,10 +35,6 @@ public class DeleteRecordAction extends TableViewEditorAction {
 		setImage(ITextOperationTarget.DELETE);
 	}
 
-	/**
-	 * Enableモードを設定する
-	 * 
-	 */
 	public void refresh() {
 		if (editor == null) {
 			setEnabled(false);
@@ -83,26 +71,16 @@ public class DeleteRecordAction extends TableViewEditorAction {
 					TableElement elem = (TableElement) obj;
 
 					if (elem.isNew()) {
-						rowAffected++; // 新規レコード用もカウントに追加してみる
+						rowAffected++;
 
 					} else {
 
 						TableColumn[] uniqueColumns = elem.getUniqueColumns();
 						Object[] uniqueItems = elem.getUniqueItems();
 
-						// rowAffected += DeleteSQLInvoker.invoke(con, table,
-						// uniqueColumns, uniqueItems);
-						// 2006/11/24 ZIGEN modify start
-						String sql = SQLCreator.createDeleteSql(table, uniqueColumns, uniqueItems);
-
+						//String sql = SQLCreator.createDeleteSql(table, uniqueColumns, uniqueItems);
 						int row = DeleteSQLInvoker.invoke(con, table, uniqueColumns, uniqueItems);
-						// レスポンス優先のため、ログに記録しない。
-						/*
-						 * if (row > 0) { TableEditorLogUtil.successLog(sql); } else { TableEditorLogUtil.failureLog(sql); }
-						 */
-
 						rowAffected += row;
-						// 2006/11/24 ZIGEN modify start end;
 
 					}
 				}
@@ -110,16 +88,10 @@ public class DeleteRecordAction extends TableViewEditorAction {
 			tw.stop();
 
 			if (DbPlugin.getDefault().confirmDialog(rowAffected + Messages.getString("DeleteRecordAction.0"))) { //$NON-NLS-1$
-				// コミット
 				trans.commit();
-
-				// TableViewerから削除する
 				removeElement(selection);
-				// 再検索
-				// new OpenEditorAction(null).openTableEditor(table);
 
 			} else {
-				// ロールバック
 				trans.rollback();
 			}
 
@@ -135,7 +107,6 @@ public class DeleteRecordAction extends TableViewEditorAction {
 		if (editor != null) {
 			TableViewer viewer = editor.getViewer();
 
-			// 削除レスポンスを向上
 			TableViewerManager.remove(viewer, selection.toArray());
 
 			TableElement[] elements = (TableElement[]) viewer.getInput();
@@ -148,7 +119,7 @@ public class DeleteRecordAction extends TableViewEditorAction {
 			job2.schedule();
 
 		} else {
-			throw new IllegalStateException("TableViewerが見つかりません"); //$NON-NLS-1$
+			throw new IllegalStateException("TableViewer not found"); //$NON-NLS-1$
 		}
 
 	}

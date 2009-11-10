@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -26,23 +26,10 @@ import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.views.TreeContentProvider;
 
-/**
- * EditDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [001] 2005/03/21 ZIGEN create. [002] 2005/07/16 ZIGEN 一部修正.
- * 
- */
 public class EditDBAction extends Action implements Runnable {
 
 	TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public EditDBAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("EditDBAction.0")); //$NON-NLS-1$
@@ -51,9 +38,6 @@ public class EditDBAction extends Action implements Runnable {
 		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_DB_EDIT));
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		Object element = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
 		if (element instanceof DataBase) {
@@ -62,12 +46,6 @@ public class EditDBAction extends Action implements Runnable {
 
 			DataBase oldDB = (DataBase) db.clone();
 
-			/*
-			 * // DB接続定義用ダイアログのオープン DBConfigDialog dialog = new DBConfigDialog(DbPlugin.getDefault().getShell(), db.getDbConfig()); int ret = dialog.open();
-			 * 
-			 * if (ret == IDialogConstants.OK_ID) { // XMLに保存するDBConfigを取得 IDBConfig newConfig = dialog.getNewConfig(); // <!-- [002] 修正 ZIGEN 2005/07/16 // db.setName(newConfig.getDBName());
-			 * db.setDbConfig(newConfig); // 2005/08/05 修正 ZIGEN viewer.refresh(db); // [002] 修正 ZIGEN 2005/07/16 --> }
-			 */
 
 			Shell shell = DbPlugin.getDefault().getShell();
 			DBConfigWizard wizard = new DBConfigWizard(viewer.getSelection(), db.getDbConfig());
@@ -75,10 +53,9 @@ public class EditDBAction extends Action implements Runnable {
 			int ret = dialog2.open();
 
 			if (ret == IDialogConstants.OK_ID) {
-				// XMLに保存するDBConfigを取得
 				IDBConfig newConfig = wizard.getNewConfig();
 
-				db.setDbConfig(newConfig); // 2005/08/05 修正 ZIGEN
+				db.setDbConfig(newConfig);
 				viewer.refresh(db);
 
 				IContentProvider cp = viewer.getContentProvider();
@@ -89,14 +66,10 @@ public class EditDBAction extends Action implements Runnable {
 					updateBookmark(bmroot, oldDB, db);
 
 				}
-
-				// 選択状態を再度通知する
 				viewer.getControl().notifyListeners(SWT.Selection, null);
 
-				// Filter通知
 				DbPlugin.fireStatusChangeListener(newConfig, IStatusChangeListener.EVT_AddSchemaFilter);
 
-				// データベース定義編修後通知する
 				DbPlugin.fireStatusChangeListener(viewer, IStatusChangeListener.EVT_UpdateDataBaseList);
 
 
@@ -105,11 +78,6 @@ public class EditDBAction extends Action implements Runnable {
 		}
 	}
 
-	/**
-	 * 指定したDataBaseに一致するお気に入りのDataBase情報を更新する。
-	 * 
-	 * @param targetDataBase
-	 */
 	private void updateBookmark(BookmarkFolder folder, DataBase targetDataBase, DataBase newDataBase) {
 		TreeLeaf[] leafs = folder.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {

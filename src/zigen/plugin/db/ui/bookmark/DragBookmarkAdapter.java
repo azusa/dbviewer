@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -17,14 +17,6 @@ import org.eclipse.swt.dnd.DragSourceEvent;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.internal.TreeNode;
 
-/**
- * DragBookmarkAdapter
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/02/08 ZIGEN create.
- * 
- */
 public class DragBookmarkAdapter extends DragSourceAdapter {
 
 
@@ -35,12 +27,6 @@ public class DragBookmarkAdapter extends DragSourceAdapter {
 		this.viewer = viewer;
 	}
 
-	/**
-	 * ドラック可能かどうかの判定 「異なる階層(level)」を選択しているときは、ドラック不可とする
-	 * 
-	 * @param iter
-	 * @return
-	 */
 	private boolean canDrag(Iterator iter) {
 		int wk = -1;
 		while (iter.hasNext()) {
@@ -76,7 +62,6 @@ public class DragBookmarkAdapter extends DragSourceAdapter {
 				TreeNode parent = leaf.getParent();
 				parent.removeChild(leaf);
 				viewer.refresh(parent);
-
 			}
 
 		} else {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -43,14 +43,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.util.WidgetUtil;
 
-/**
- * URLPreferencePageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/10 ZIGEN create.
- * 
- */
 public class URLPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	public static final String P_URLDefine = "URLPreferencePage.URLDefine"; //$NON-NLS-1$
@@ -86,7 +78,6 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 		setDescription(desc);
 		properties = getDefaultList();
 
-		// PreferenceStoreを設定しておく 2005.7.8 add ZIGEN
 		super.setPreferenceStore(DbPlugin.getDefault().getPreferenceStore());
 
 	}
@@ -145,9 +136,6 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
 	}
 
-	/**
-	 * @see URLPreferencePage#createControl(Composite)
-	 */
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 	}
@@ -210,7 +198,6 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 			}
 		});
 
-		// doubleClick による編集は未実装
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
 			public void doubleClick(DoubleClickEvent event) {
@@ -303,16 +290,10 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 		tableViewer.refresh();
 	}
 
-	/**
-	 * Clear the variables.
-	 */
 	protected void performDefaults() {
 		super.performDefaults();
 	}
 
-	/**
-	 * Sets the saved state for reversion.
-	 */
 	public boolean performOk() {
 		saveProperties();
 		return super.performOk();
@@ -339,8 +320,6 @@ public class URLPreferencePage extends PreferencePage implements IWorkbenchPrefe
 		}
 
 		public void dispose() {
-		// TODO 自動生成されたメソッド・スタブ
-
 		}
 
 	}

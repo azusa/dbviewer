@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -63,18 +63,6 @@ public class CopyCommentStatementAction implements IViewActionDelegate {
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection ss = (IStructuredSelection) selection;
 
-				// if (!checkLoadColumn(ss)) {
-				// String msg = "カラム情報が未取得のテーブルがあります。取得しますか？";
-				// msg += "\nカラム情報の取得には時間がかかる場合があります。";
-				// if (DbPlugin.getDefault().confirmDialog(msg)) {
-				// new CopyAction(treeViewer, ss).run();
-				// }else{
-				// // 中途半端な状態ではComment文をコピーさせない
-				// return;
-				// }
-				// }else{
-				// new CopyAction(treeViewer, ss).run();
-				// }
 
 				new CopyAction(treeViewer, ss).run();
 				setContents(buffer.toString());
@@ -143,7 +131,6 @@ public class CopyCommentStatementAction implements IViewActionDelegate {
 
 								monitor.subTask(sb.toString());
 								if (!table.isExpanded()) {
-									// 展開フラグをTrueにする(テーブル要素をキャッシュする）
 									table.setExpanded(true);
 
 									new ColumnSearchAction(viewer, table).run();
@@ -161,7 +148,6 @@ public class CopyCommentStatementAction implements IViewActionDelegate {
 					}
 				};
 
-				// ダイアログの表示
 				new ProgressMonitorDialog(DbPlugin.getDefault().getShell()).run(true, true, op);
 
 			} catch (InvocationTargetException e) {

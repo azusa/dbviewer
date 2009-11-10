@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -21,25 +21,12 @@ import zigen.plugin.db.ui.internal.Schema;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.jobs.RefreshFolderJob;
 
-/**
- * PURGE RECYCLEBIN実行Actionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note
- * 
- */
 public class PurgeRecyclebinAction extends Action implements Runnable {
 
 	public static final String SQL = "PURGE RECYCLEBIN"; //$NON-NLS-1$
 
 	private TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public PurgeRecyclebinAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("PurgeRecyclebinAction.1")); //$NON-NLS-1$
@@ -48,9 +35,6 @@ public class PurgeRecyclebinAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		Connection con = null;
 		Object element = (Object) ((StructuredSelection) viewer.getSelection()).getFirstElement();
@@ -62,7 +46,6 @@ public class PurgeRecyclebinAction extends Action implements Runnable {
 					con = ConnectionManager.getConnection(config);
 					SQLInvoker.executeUpdate(con, SQL);
 
-					// PurgeRecyclebinの後にTABLEフォルダを更新する
 					TreeLeaf leaf = schema.getChild("TABLE"); //$NON-NLS-1$
 					if (leaf instanceof Folder) {
 						RefreshFolderJob job = new RefreshFolderJob(viewer, (Folder) leaf);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -116,11 +116,5 @@ public class CopySelectStatementAction implements IViewActionDelegate {
 
 		clipboard.setContents(new Object[] {sql}, new Transfer[] {text_transfer});
 
-		/*
-		 * SQLExecuteView view = (SQLExecuteView) DbPlugin.findView(DbPluginConstant.VIEW_ID_SQLExecute, DbPlugin.getSecondarlyId()); if (view == null) { view = (SQLExecuteView)
-		 * DbPlugin.findView(DbPluginConstant.VIEW_ID_SQLExecute); }
-		 * 
-		 * view.setSqlText(sql); view.setFocus();
-		 */
 	}
 }

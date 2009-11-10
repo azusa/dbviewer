@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.contentassist;
@@ -28,14 +28,13 @@ public class SQLProposalCreator2 {
 			Image img = getImage(DbPlugin.IMG_CODE_SQL);
 
 			if (isAfterPeriod)
-				word = ""; // ピリオドで終わっている場合は""に置き換える //$NON-NLS-1$
+				word = "";
 
 			int len = word.length();
 			for (int i = 0; i < modifiers.length; i++) {
 				String modifier = modifiers[i];
 				String value = ContentAssistUtil.subString(modifiers[i], len);
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
-					// 候補の作成と追加
 					proposals.add(new CompletionProposal(modifier, offset - len, len, modifier.length(), img, null, new ContextInformation(null, modifier), null));
 
 				}
@@ -53,15 +52,14 @@ public class SQLProposalCreator2 {
 			Image img = getImage(DbPlugin.IMG_CODE_UNKNOWN);
 
 			if (isAfterPeriod)
-				word = ""; // ピリオドで終わっている場合は""に置き換える //$NON-NLS-1$
+				word = "";
 
 			int len = word.length();
 			for (int i = 0; i < modifiers.length; i++) {
-				String modifier = modifiers[i][0]; // 入力候補
+				String modifier = modifiers[i][0];
 				String display = modifiers[i][1]; // display
 				String value = ContentAssistUtil.subString(modifier, len);
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
-					// 候補の作成と追加
 					proposals.add(new CompletionProposal(modifier, offset - len, len, modifier.length(), img, display, new ContextInformation(null, modifier), null));
 
 				}
@@ -78,13 +76,13 @@ public class SQLProposalCreator2 {
 			Image img = getImage(DbPlugin.IMG_CODE_SCHEMA);;
 
 			if (isAfterPeriod)
-				word = ""; // ピリオドで終わっている場合は""に置き換える //$NON-NLS-1$
+				word = "";
 
 			int len = word.length();
 			for (int i = 0; i < schemas.length; i++) {
 				SchemaInfo info = schemas[i];
 				String modifier = info.getName();
-				String display = modifier; // デフォルトはテーブル名
+				String display = modifier;
 
 				String comment = "Schema";
 
@@ -100,7 +98,6 @@ public class SQLProposalCreator2 {
 
 				String value = ContentAssistUtil.subString(modifier, len);
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
-					// 候補の作成と追加
 					proposals.add(new CompletionProposal(modifier, offset - len, len, modifier.length(), img, display, new ContextInformation(null, modifier), null));
 
 				}
@@ -118,7 +115,7 @@ public class SQLProposalCreator2 {
 			Image img = null;
 
 			if (isAfterPeriod)
-				word = ""; // ピリオドで終わっている場合は""に置き換える //$NON-NLS-1$
+				word = "";
 
 			int len = word.length();
 			for (int i = 0; i < tables.length; i++) {
@@ -139,7 +136,7 @@ public class SQLProposalCreator2 {
 				}
 
 				String modifier = info.getName();
-				String display = modifier; // デフォルトはテーブル名
+				String display = modifier;
 
 				String comment = info.getComment();
 
@@ -154,7 +151,6 @@ public class SQLProposalCreator2 {
 
 				String value = ContentAssistUtil.subString(modifier, len);
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
-					// 候補の作成と追加
 					proposals.add(new CompletionProposal(modifier, offset - len, len, modifier.length(), img, display, new ContextInformation(null, modifier), null));
 
 				}
@@ -170,7 +166,7 @@ public class SQLProposalCreator2 {
 
 		if (columns != null) {
 			if (isAfterPeriod)
-				word = ""; // ピリオドで終わっている場合は""に置き換える //$NON-NLS-1$
+				word = "";
 
 			int len = word.length();
 			for (int i = 0; i < columns.length; i++) {
@@ -189,7 +185,6 @@ public class SQLProposalCreator2 {
 
 				String value = ContentAssistUtil.subString(modifier, len);
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
-					// 候補の作成と追加
 					proposals.add(new CompletionProposal(modifier, offset - len, len, modifier.length(), img, display, new ContextInformation(null, modifier), null));
 
 				}
@@ -206,14 +201,13 @@ public class SQLProposalCreator2 {
 			Image img = getImage(DbPlugin.IMG_CODE_FUNCTION);
 
 			if (isAfterPeriod)
-				word = ""; // ピリオドで終わっている場合は""に置き換える //$NON-NLS-1$
+				word = "";
 
 			int len = word.length();
 			for (int i = 0; i < modifiers.length; i++) {
 				String modifier = modifiers[i];
 				String value = ContentAssistUtil.subString(modifiers[i], len);
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
-					// 候補の作成と追加
 					proposals.add(new CompletionProposal(modifier, offset - len, len, modifier.length(), img, null, new ContextInformation(null, modifier), null));
 
 				}
@@ -221,16 +215,7 @@ public class SQLProposalCreator2 {
 		}
 	}
 
-	/**
-	 * 補完用のイメージを取得します。
-	 *
-	 * @param imageCode
-	 *            イメージのコード
-	 * @return
-	 */
 	private static Image getImage(String imageCode) {
-		// return
-		// DbPlugin.getDefault().getImageRegistry().getDescriptor(imageCode).createImage();
 		return ImageCacher.getInstance().getImage(imageCode);
 
 	}

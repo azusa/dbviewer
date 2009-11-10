@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -33,14 +33,6 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.internal.ITable;
 import zigen.plugin.db.ui.internal.Schema;
 
-/**
- * SelectTableWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class WizardPage1 extends DefaultWizardPage {
 
 	public static final String HEADER_TABLE = Messages.getString("WizardPage1.0"); //$NON-NLS-1$
@@ -75,7 +67,6 @@ public class WizardPage1 extends DefaultWizardPage {
 
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		// 1分割、false:均等にしない
 		container.setLayout(new GridLayout(1, false));
 
 		Label label = new Label(container, SWT.NULL);
@@ -99,32 +90,25 @@ public class WizardPage1 extends DefaultWizardPage {
 		tableViewer = new TableViewer(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
 		Table table = tableViewer.getTable();
 		table.setLayoutData(gridData);
-		table.setHeaderVisible(true);// ヘッダを可視にする
-		table.setLinesVisible(true); // ラインを表示
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
-		// テーブルヘッダの設定
 		setHeaderColumn(table, headers);
 
 		gridData = new GridData(GridData.FILL_BOTH);
 		tableViewer.getControl().setLayoutData(gridData);
 
 		String[] properties = new String[] {"check"}; //$NON-NLS-1$
-		// カラム・プロパティの設定
 		tableViewer.setColumnProperties(properties);
 
-		// 各カラムに設定するセル・エディタの配列
 		CellEditor[] editors = new CellEditor[] {new CheckboxCellEditor(table)};
 
-		// セル・エディタの設定
 		tableViewer.setCellEditors(editors);
 
 		tableViewer.setCellModifier(new WizardPage1CellModifier(this));
 		tableViewer.setContentProvider(new TableContentProvider());
 		tableViewer.setLabelProvider(new TableLabelProvider());
 
-		// ---------------------------
-		// テーブルItemの作成
-		// ---------------------------
 		createTableItems();
 
 		if (tableItems != null) {
@@ -132,31 +116,9 @@ public class WizardPage1 extends DefaultWizardPage {
 			columnsPack(table);
 		}
 
-		// tableViewer.addSelectionChangedListener(new
-		// ISelectionChangedListener() {
-		// public void selectionChanged(SelectionChangedEvent event) {
-		// tableSelectionChangedHandler(event);
-		// }
-		// });
-		//		
-		// // doubleClick による編集は未実装
-		// tableViewer.addDoubleClickListener(new IDoubleClickListener() {
-		// public void doubleClick(DoubleClickEvent event) {
-		// if (!tableViewer.getSelection().isEmpty()) {
-		// editButtonPressedHandler();
-		// }
-		// }
-		// });
 
 	}
 
-	/**
-	 * テーブルヘッダーを設定する
-	 * 
-	 * @param meta
-	 * @param table
-	 * @throws SQLException
-	 */
 	private void setHeaderColumn(Table table, String[] headers) {
 
 		for (int i = 0; i < headers.length; i++) {
@@ -170,11 +132,6 @@ public class WizardPage1 extends DefaultWizardPage {
 
 	private void createTableItems() {
 		try {
-			//	        
-			// int dbBlockSize =
-			// OracleDbBlockSizeSearcher.execute(schemaNode.getDBConfig());
-			// log.debug("dbBlockSize:" + dbBlockSize);
-
 			zigen.plugin.db.ui.internal.Table[] tables = schemaNode.getTables();
 			tableItems = new TableItem[tables.length];
 			for (int i = 0; i < tables.length; i++) {
@@ -188,11 +145,6 @@ public class WizardPage1 extends DefaultWizardPage {
 
 	}
 
-	/**
-	 * １つでも選択状態があればTrue
-	 * 
-	 * @return
-	 */
 	boolean isSelected() {
 		for (int i = 0; i < tableItems.length; i++) {
 			IItem item = tableItems[i];
@@ -219,7 +171,6 @@ public class WizardPage1 extends DefaultWizardPage {
 		}
 
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// log.debug("未実装です");
 			contents = null;
 		}
 
@@ -236,7 +187,6 @@ public class WizardPage1 extends DefaultWizardPage {
 	private static ImageRegistry imageRegistry = new ImageRegistry();
 
 	static {
-		// String iconPath = "icons/";
 		String iconPath = ""; //$NON-NLS-1$
 		imageRegistry.put(CHECKED_IMAGE, ImageDescriptor.createFromFile(WizardPage1.class, iconPath + CHECKED_IMAGE + ".gif")); //$NON-NLS-1$
 		imageRegistry.put(UNCHECKED_IMAGE, ImageDescriptor.createFromFile(WizardPage1.class, iconPath + UNCHECKED_IMAGE + ".gif")); //$NON-NLS-1$

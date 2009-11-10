@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ext.oracle.internal;
@@ -17,9 +17,6 @@ public class OracleSourceErrorInfo extends OracleSourceInfo implements Serializa
 
 	private String text;
 
-	/**
-	 * コンストラクタ
-	 */
 	public OracleSourceErrorInfo() {}
 
 	public int getLine() {
@@ -46,11 +43,6 @@ public class OracleSourceErrorInfo extends OracleSourceInfo implements Serializa
 		this.text = text;
 	}
 
-	/**
-	 * ソーステキスト
-	 * 
-	 * @return
-	 */
 	public String getErrorText() {
 		if (text == null) {
 			return null;

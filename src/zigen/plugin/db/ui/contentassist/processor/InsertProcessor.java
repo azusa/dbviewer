@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.contentassist.processor;
@@ -30,7 +30,7 @@ public class InsertProcessor extends DefaultProcessor {
 			ContentInfo ci = new ContentInfo(ContentAssistUtil.getIDBConfig());
 
 			if (ci.isConnected()) {
-				TableInfo[] currentTableInfos = ci.getTableInfo(); // カレントスキーマに対応するテーブル情報リスト取得
+				TableInfo[] currentTableInfos = ci.getTableInfo();
 				ASTTable table = super.findASTTable(st);
 
 				switch (currentScope) {
@@ -40,8 +40,6 @@ public class InsertProcessor extends DefaultProcessor {
 					break;
 
 				case SqlParser.SCOPE_INTO:
-					// テーブルリストを表示する
-					//SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);
 					if (isAfterPeriod) {
 						addTableProposalBySchema(ci, word);
 
@@ -51,8 +49,8 @@ public class InsertProcessor extends DefaultProcessor {
 							String w_schema = wordGroup.substring(0, _offset);
 							addTableProposalBySchema(ci, w_schema);
 						} else {
-							SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);// テーブル名の一覧
-							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);// スキーマの一覧
+							SQLProposalCreator2.addProposal(proposals, currentTableInfos, pinfo);
+							SQLProposalCreator2.addProposal(proposals, ci.getSchemaInfos(), pinfo);
 						}
 
 					}
@@ -69,7 +67,6 @@ public class InsertProcessor extends DefaultProcessor {
 			DbPlugin.getDefault().showErrorDialog(e);
 
 		} finally {
-			// SQLキーワードの登録
 			SQLProposalCreator2.addProposal(proposals, modifiers, pinfo);
 		}
 	}

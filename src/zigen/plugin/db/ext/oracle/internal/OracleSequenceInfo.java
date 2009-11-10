@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ext.oracle.internal;
@@ -30,9 +30,6 @@ public class OracleSequenceInfo implements Serializable {
 
 	private BigDecimal last_number;
 
-	/**
-	 * コンストラクタ
-	 */
 	public OracleSequenceInfo() {}
 
 	public BigDecimal getCache_size() {

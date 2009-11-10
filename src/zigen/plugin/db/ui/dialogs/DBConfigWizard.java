@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -26,19 +26,11 @@ import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.internal.Root;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 
-/**
- * TestWizardクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class DBConfigWizard extends Wizard {
 
-	IDBConfig oldConfig; // 旧DB接続定義
+	IDBConfig oldConfig;
 
-	IDBConfig newConfig; // XMLに登録するDBConfigオブジェクト
+	IDBConfig newConfig;
 
 	private WizardPage1 page1;
 
@@ -74,7 +66,6 @@ public class DBConfigWizard extends Wizard {
 		addPage(page3);
 
 
-		// Filter用スキーマだけはここで設定しておく。
 		if (oldConfig != null) {
 			page3.filterSchemas = oldConfig.getDisplayedSchemas();
 			page3.checkFilterPattern = oldConfig.isCheckFilterPattern();
@@ -88,9 +79,7 @@ public class DBConfigWizard extends Wizard {
 
 			newConfig = createNewConfig();
 
-			// 新規か修正かを判定
 			if (oldConfig == null) {
-				// 新規保存
 				DBConfigManager.save(newConfig);
 			} else {
 
@@ -105,23 +94,17 @@ public class DBConfigWizard extends Wizard {
 							Object obj = iterator.next();
 							if (obj instanceof BookmarkRoot) {
 								changeDataBase((BookmarkRoot) obj, _db, newConfig);
-								break; // ブックマークのルートは１つ
+								break;
 							}
 						}
 					}
 				}
 
-				// 修正
 				DBConfigManager.modify(oldConfig, newConfig);
 			}
 
-			// SQLExecuteViewのDBリスト（コンボボックス）の更新
-			// updateComboOfSQLViewer(newConfig);
-
-			// DriverManagerのキャッシュをクリアする
 			DriverManager.getInstance().removeCach(newConfig);
 
-			// 物理ファイルへの保存を行なうようにした。
 			DbPlugin.getDefault().saveDBDialogSettings();
 
 			return true;
@@ -136,11 +119,6 @@ public class DBConfigWizard extends Wizard {
 
 	}
 
-	/**
-	 * 指定したDataBaseに一致するお気に入りのDBConfigも変更する
-	 * 
-	 * @param targetDataBase
-	 */
 	private void changeDataBase(BookmarkFolder folder, DataBase targetDataBase, IDBConfig newConfig) {
 		TreeLeaf[] leafs = folder.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {
@@ -156,7 +134,6 @@ public class DBConfigWizard extends Wizard {
 		}
 	}
 
-	// オーバーライド
 	public boolean canFinish() {
 		if (page1.isPageComplete() && page2.isPageComplete() && page3.isPageComplete()) {
 			return true;
@@ -165,11 +142,6 @@ public class DBConfigWizard extends Wizard {
 		}
 	}
 
-	/**
-	 * DB接続情報の保存
-	 * 
-	 * @return
-	 */
 	protected IDBConfig createNewConfig() {
 		DBConfig config = new DBConfig();
 
@@ -195,13 +167,12 @@ public class DBConfigWizard extends Wizard {
 			config.setAutoCommit(page3.commitModeCheck.getSelection());
 
 			// config.setOnlyDefaultSchema(page3.schemaOnlyCheck.getSelection());
-			config.setOnlyDefaultSchema(false); // この機能は廃止
+			config.setOnlyDefaultSchema(false);
 
 
 			if (page3.symfowareOptionCheck != null) {
 				config.setNoLockMode(page3.symfowareOptionCheck.getSelection());
 			} else {
-				// 3ページを見なかった場合はtrueで設定する
 				config.setNoLockMode(true);
 
 			}
@@ -234,7 +205,7 @@ public class DBConfigWizard extends Wizard {
 
 			config.setDisplayedSchemas(page3.filterSchemas);
 			// config.setCheckFilterPattern(page3.checkFilterPattern);
-			config.setCheckFilterPattern(false); // 初回起動時はOFFにする
+			config.setCheckFilterPattern(false);
 			config.setFilterPattern(page3.filterPattern);
 
 

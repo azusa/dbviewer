@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -18,14 +18,6 @@ import org.eclipse.swt.dnd.TransferData;
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.ui.internal.Bookmark;
 
-/**
- * BookmarkTransfer
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/02/08 ZIGEN create.
- * 
- */
 public class BookmarkTransfer extends ByteArrayTransfer {
 
 	private static final String MYTYPENAME = "Bookmark"; //$NON-NLS-1$
@@ -40,7 +32,6 @@ public class BookmarkTransfer extends ByteArrayTransfer {
 		return instance;
 	}
 
-	// シリアライズ
 	public void javaToNative(Object object, TransferData transferData) {
 		if (object == null || !(object instanceof Bookmark)) {
 			return;
@@ -61,7 +52,6 @@ public class BookmarkTransfer extends ByteArrayTransfer {
 		}
 	}
 
-	// デシリアライズ
 	public Object nativeToJava(TransferData transferData) {
 		if (isSupportedType(transferData)) {
 			byte[] buffer = (byte[]) super.nativeToJava(transferData);

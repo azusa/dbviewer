@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -13,14 +13,6 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-/**
- * CopyColumnNameAction.java.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/12/04 ZIGEN create.
- * 
- */
 public class ExecuteAction implements IObjectActionDelegate {
 
 	protected IAction action;

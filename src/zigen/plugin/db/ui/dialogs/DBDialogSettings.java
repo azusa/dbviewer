@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -44,16 +44,6 @@ import org.xml.sax.SAXException;
 
 import zigen.plugin.db.core.SchemaInfo;
 
-/**
- * DBDialogSettingクラス. org.eclipse.jface.dialogs.DialogSettingsクラスに 保存したSectionを削除するメソッドを追加したクラス。
- * 
- * original source:org.eclipse.jface.dialogs.DialogSettings
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/13 ZIGEN create.
- * 
- */
 public class DBDialogSettings implements IDBDialogSettings {
 
 	private String name;
@@ -85,12 +75,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 
 	private final String TAG_CHECKED = "checked";//$NON-NLS-1$
 
-	/**
-	 * Create an empty dialog settings which loads and saves its content to a file. Use the methods <code>load(String)</code> and <code>store(String)</code> to load and store this dialog settings.
-	 * 
-	 * @param sectionName
-	 *            the name of the section in the settings.
-	 */
 	public DBDialogSettings(String sectionName) {
 		name = sectionName;
 		items = new HashMap();
@@ -99,53 +83,32 @@ public class DBDialogSettings implements IDBDialogSettings {
 		schemaInfoItems = new HashMap();
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public IDBDialogSettings addNewSection(String sectionName) {
 		DBDialogSettings section = new DBDialogSettings(sectionName);
 		addSection(section);
 		return section;
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void addSection(IDialogSettings section) {
 		sections.put(section.getName(), section);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public String get(String key) {
 		return (String) items.get(key);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public String[] getArray(String key) {
 		return (String[]) arrayItems.get(key);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public SchemaInfo[] getSchemaInfos(String key) {
 		return (SchemaInfo[]) schemaInfoItems.get(key);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public boolean getBoolean(String key) {
 		return new Boolean((String) items.get(key)).booleanValue();
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public double getDouble(String key) throws NumberFormatException {
 		String setting = (String) items.get(key);
 		if (setting == null)
@@ -154,9 +117,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 		return new Double(setting).doubleValue();
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public float getFloat(String key) throws NumberFormatException {
 		String setting = (String) items.get(key);
 		if (setting == null)
@@ -165,9 +125,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 		return new Float(setting).floatValue();
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public int getInt(String key) throws NumberFormatException {
 		String setting = (String) items.get(key);
 		if (setting == null) {
@@ -180,9 +137,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 		return new Integer(setting).intValue();
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public long getLong(String key) throws NumberFormatException {
 		String setting = (String) items.get(key);
 		if (setting == null) {
@@ -195,23 +149,14 @@ public class DBDialogSettings implements IDBDialogSettings {
 		return new Long(setting).longValue();
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public IDBDialogSettings getSection(String sectionName) {
 		return (IDBDialogSettings) sections.get(sectionName);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public IDBDialogSettings[] getSections() {
 		Collection values = sections.values();
 		IDBDialogSettings[] result = new IDBDialogSettings[values.size()];
@@ -219,9 +164,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void load(Reader r) {
 		Document document = null;
 		try {
@@ -245,9 +187,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 		}
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void load(String fileName) throws IOException {
 		FileInputStream stream = new FileInputStream(fileName);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "utf-8"));//$NON-NLS-1$
@@ -255,9 +194,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 		reader.close();
 	}
 
-	/*
-	 * (non-Javadoc) Load the setting from the <code> document </code>
-	 */
 	private void load(Document document, Element root) {
 		name = root.getAttribute(TAG_NAME);
 		NodeList l = root.getElementsByTagName(TAG_ITEM);
@@ -329,65 +265,38 @@ public class DBDialogSettings implements IDBDialogSettings {
 		}
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void put(String key, String[] value) {
 		arrayItems.put(key, value);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void put(String key, SchemaInfo[] value) {
 		schemaInfoItems.put(key, value);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void put(String key, double value) {
 		put(key, String.valueOf(value));
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void put(String key, float value) {
 		put(key, String.valueOf(value));
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void put(String key, int value) {
 		put(key, String.valueOf(value));
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void put(String key, long value) {
 		put(key, String.valueOf(value));
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void put(String key, String value) {
 		items.put(key, value);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void put(String key, boolean value) {
 		put(key, String.valueOf(value));
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void save(Writer writer) throws IOException {
 		try {
 			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -396,7 +305,7 @@ public class DBDialogSettings implements IDBDialogSettings {
 			Source source = new DOMSource(document);
 
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			transformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$            
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8"); //$NON-NLS-1$
 			transformer.transform(source, result);
 		} catch (TransformerConfigurationException e) {
@@ -408,9 +317,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 		}
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on IDialogSettings.
-	 */
 	public void save(String fileName) throws IOException {
 		FileOutputStream stream = new FileOutputStream(fileName);
 		OutputStreamWriter writer = new OutputStreamWriter(stream, "utf-8");//$NON-NLS-1$
@@ -418,9 +324,6 @@ public class DBDialogSettings implements IDBDialogSettings {
 		writer.close();
 	}
 
-	/*
-	 * (non-Javadoc) Save the settings in the <code> document </code> .
-	 */
 	private void save(Document document, Node parent) {
 		Element root = document.createElement(TAG_SECTION);
 		parent.appendChild(root);
@@ -432,7 +335,7 @@ public class DBDialogSettings implements IDBDialogSettings {
 			root.appendChild(child);
 			child.setAttribute(TAG_KEY, key == null ? "" : key); //$NON-NLS-1$
 			String string = (String) items.get(key);
-			child.setAttribute(TAG_VALUE, string == null ? "" : string); //$NON-NLS-1$        
+			child.setAttribute(TAG_VALUE, string == null ? "" : string); //$NON-NLS-1$
 		}
 
 		for (Iterator i = arrayItems.keySet().iterator(); i.hasNext();) {
@@ -463,7 +366,7 @@ public class DBDialogSettings implements IDBDialogSettings {
 					child.appendChild(c);
 					SchemaInfo schema = value[index];
 					c.setAttribute(TAG_NAME, schema.getName()); //$NON-NLS-1$
-					c.setAttribute(TAG_CHECKED, String.valueOf(schema.isChecked())); //$NON-NLS-1$   
+					c.setAttribute(TAG_CHECKED, String.valueOf(schema.isChecked())); //$NON-NLS-1$
 
 				}
 			}
@@ -478,22 +381,13 @@ public class DBDialogSettings implements IDBDialogSettings {
 		sections.put(section.getName(), section);
 	}
 
-	// ↓ 独自に実装したメソッド ↓ //
 
-	/**
-	 * 指定したSectionを削除する
-	 */
 	public void removeSection(String sectionName) {
 		sections.remove(sectionName);
 	}
 
-	/**
-	 * 指定したSectionNameが含まれるか
-	 */
 	public boolean hasSection(String sectionName) {
 		return sections.containsKey(sectionName);
 	}
-
-	// ↑ 独自に実装したメソッド ↑ //
 
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -11,14 +11,6 @@ import java.math.BigDecimal;
 import zigen.plugin.db.ext.oracle.tablespace.CalcTableSpace;
 import zigen.plugin.db.ui.internal.Table;
 
-/**
- * TableItemÉNÉâÉX.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/08/21 ZIGEN create.
- * 
- */
 public class TableItem implements IItem {
 
 	Table table;
@@ -27,11 +19,11 @@ public class TableItem implements IItem {
 
 	boolean checked = false;
 
-	long recordSize = 0; // å©êœÇ‡ÇËçsêî
+	long recordSize = 0;
 
-	int pctFree = 10; // PCTFREE
+	int pctFree = 10;
 
-	int dbBlockSize = 0; // DBBLOCKSIZE
+	int dbBlockSize = 0;
 
 	public BigDecimal getTableSpaceSize() {
 		if (tableSpace != null) {
@@ -66,10 +58,6 @@ public class TableItem implements IItem {
 		this.checked = b;
 	}
 
-	/**
-	 * å©êœÇ‡ÇËåãâ ÇÃê›íË
-	 * 
-	 */
 	public void setCalcTableSpace(CalcTableSpace tableSpace) throws Exception {
 		this.tableSpace = tableSpace;
 	}

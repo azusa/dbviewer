@@ -41,7 +41,7 @@ public class DriverSelectDialog extends TitleAreaDialog {
 
 	public DriverSelectDialog(Shell shell) {
 		super(shell);
-		setShellStyle(getShellStyle() | SWT.RESIZE); // リサイズ可能
+		setShellStyle(getShellStyle() | SWT.RESIZE);
 	}
 
 	protected void configureShell(Shell newShell) {
@@ -66,7 +66,6 @@ public class DriverSelectDialog extends TitleAreaDialog {
 
 		composite2.setLayout(new GridLayout(1, false));
 
-		// ツリーの作成
 		viewer = new TreeViewer(composite2, SWT.BORDER | SWT.MULTI);
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -76,18 +75,15 @@ public class DriverSelectDialog extends TitleAreaDialog {
 
 		// Label label = new Label(composite3, SWT.NONE);
 		// label.setText("hogehoghoege");
-		// Javaプロジェクト表示の設定
 		viewer.setContentProvider(new DriverContentProvider());
 		viewer.setLabelProvider(new DriverLabelProvider());
 		viewer.setInput(this);
-		// ラベルプロバイダーの設定
 		// WorkbenchLabelProvider provider = new WorkbenchLabelProvider();
 		// viewer.setLabelProvider(provider);
 
 		// IWorkspace ws = ResourcesPlugin.getWorkspace();
 		// viewer.setInput(ws);
 
-		// ツリーを選択したときの処理
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -102,7 +98,6 @@ public class DriverSelectDialog extends TitleAreaDialog {
 
 	protected Control createContents(Composite parent) {
 		Control ctl = super.createContents(parent);
-		// OKボタンを使用不可にする
 		getButton(IDialogConstants.OK_ID).setEnabled(false);
 		return ctl;
 	}
@@ -113,8 +108,6 @@ public class DriverSelectDialog extends TitleAreaDialog {
 	}
 
 	private void selectionChangeHandler(SelectionChangedEvent event) {
-		// 選択したものによって表示するメニューを変更
-
 		StructuredSelection ss = (StructuredSelection) event.getSelection();
 
 		targetNames = new ArrayList();
@@ -133,16 +126,6 @@ public class DriverSelectDialog extends TitleAreaDialog {
 
 	}
 
-	// private void validate(){
-	// IContainer container = getContainer();
-	// if(container != null){
-	// IFile file = container.getFile(new Path(getSaveFileName()));
-	// if(file.exists()){
-	// super.setMessage(Messages.getString("ProjectSelectDialog.4"),
-	// IMessageProvider.WARNING); //$NON-NLS-1$
-	// }
-	// }
-	// }
 
 	protected Point getInitialSize() {
 		return new Point(480, 450);

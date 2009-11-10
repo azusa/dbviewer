@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.ui.contentassist;
@@ -51,7 +51,7 @@ public class ContentInfo {
 		if (config != null) {
 			configure();
 		} else {
-			DbPlugin.log("ContentInfoの生成処理でエラーが発生しました。データベース接続定義情報がありません");
+			DbPlugin.log("There is no data base definition.");
 		}
 	}
 
@@ -81,13 +81,6 @@ public class ContentInfo {
 		}
 	}
 
-	/**
-	 * スキーマ名は大文字小文字を判断するデータベースがあるため、 データベース定義からではなく、DBツリーから取得する
-	 *
-	 * @param con
-	 * @param config
-	 * @return
-	 */
 	private String findCurrentSchema() throws Exception {
 		TreeView tw = (TreeView) DbPlugin.getDefault().findView(DbPluginConstant.VIEW_ID_TreeView);
 		if (tw != null) {
@@ -103,12 +96,12 @@ public class ContentInfo {
 						}
 					} else {
 //						return null;
-						throw new IllegalStateException("スキーマサポートしている場合は、DataBase要素の後にSchema要素があるべきです");
+						throw new IllegalStateException("Schema is not found.");
 					}
 				}
-				throw new IllegalStateException("データベース接続定義の接続スキーマ名に誤りがあります。");
+				throw new IllegalStateException("schema name is wrong.");
 			}else{
-				return null;	// スキーマをサポートしていないので、NULL
+				return null;
 			}
 		} else {
 			return findCorrectSchema(config.getSchema().toUpperCase());
@@ -129,10 +122,9 @@ public class ContentInfo {
 					String[] result = SchemaSearcher.execute(trans.getConnection());
 					for (int i = 0; i < result.length; i++) {
 						String schema = result[i];
-						// エスケープ文字で囲む対応
 						schema = SQLUtil.enclose(schema, encloseChar);
 						SchemaInfo info = new SchemaInfo(config, schema);
-						map.put(schema.toUpperCase(), info); // KEYは大文字、 VALUEはSchemaInfo
+						map.put(schema.toUpperCase(), info);
 					}
 				} catch (Exception e) {
 					DbPlugin.log(e);
@@ -164,9 +156,7 @@ public class ContentInfo {
 			tableTypes = new String[] {"TABLE", "VIEW", "SYNONYM"}; //$NON-NLS-1$ //$NON-NLS-2$
 			break;
 		default:
-			// <-- 性能を考えて、上記以外のDBは、TABLEとVIEWだけテーブル補完されるように修正
 			tableTypes = new String[] {"TABLE", "VIEW"}; //$NON-NLS-1$ //$NON-NLS-2$
-			// -->
 			break;
 		}
 		TableInfo[] result = null;
@@ -220,12 +210,6 @@ public class ContentInfo {
 		return result;
 	}
 
-	/**
-	 * 正しいスキーマ名(大文字、小文字を判断するDBがあるため)
-	 *
-	 * @param target
-	 * @return
-	 */
 	public String findCorrectSchema(String target) {
 		SchemaInfo info = (SchemaInfo) schemaInfoMap.get(target.toUpperCase());
 		if (info != null) {
@@ -247,7 +231,7 @@ public class ContentInfo {
 	}
 
 	public SchemaInfo[] getSchemaInfos() {
-		if(schemaInfoMap == null) return null;	// 接続先を選択していない場合
+		if(schemaInfoMap == null) return null;
 
 		SchemaInfo[] infos = new SchemaInfo[schemaInfoMap.size()];
 		int i = 0;

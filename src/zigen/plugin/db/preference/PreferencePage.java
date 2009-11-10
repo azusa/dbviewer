@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -25,14 +25,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.DbPluginConstant;
 
-/**
- * PreferencePageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/09 ZIGEN create.
- * 
- */
 public class PreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public static final String P_MAX_VIEW_RECORD = "PreferencePage.MaxViewRecord"; //$NON-NLS-1$
@@ -193,7 +185,6 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	}
 
 	protected void performDefaults() {
-		// SQLファイルエンコーディングの設定を初期値に戻す処理を追加
 		String defaultString = getPreferenceStore().getDefaultString(P_SQL_FILE_CHARSET);
 		for (int i = 0; i < CSVPreferencePage.encordes.length; i++) {
 			if (CSVPreferencePage.encordes[i].equals(defaultString)) {
@@ -205,7 +196,6 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	}
 
 	public boolean performOk() {
-		// SQLファイルエンコーディングが保存されない問題を修正
 		getPreferenceStore().setValue(P_SQL_FILE_CHARSET, comb.getText());
 		return super.performOk();
 	}

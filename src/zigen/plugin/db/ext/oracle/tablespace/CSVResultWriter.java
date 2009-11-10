@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -15,14 +15,6 @@ import java.util.List;
 
 import zigen.plugin.db.DbPlugin;
 
-/**
- * 表領域の見積もり結果をCSVに出力するクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/01 ZIGEN create.
- * 
- */
 public class CSVResultWriter {
 
 	private char demiliter = ',';
@@ -51,13 +43,6 @@ public class CSVResultWriter {
 		this.encording = encording;
 	}
 
-	/**
-	 * コネクションを維持しながらSQLを連続実行する場合は直接起動する. その場合は、自分でConnectionのCloseを行うこと.
-	 * 
-	 * @param con
-	 * @param query
-	 * @throws Exception
-	 */
 	public void execute(File csvFile, List csvList) throws Exception {
 		PrintStream pout = null;
 
@@ -65,13 +50,10 @@ public class CSVResultWriter {
 			pout = new PrintStream(new FileOutputStream(csvFile, append), true, // flashMode
 					encording); // encording
 
-			// カラムラベルの書き込み
 			if (!append) {
-				// 追加モードでなければヘッダーを出力
 				writeHeader(pout);
 			}
 
-			// カラム値の書き込み
 			writeValue(pout, csvList);
 
 		} catch (Exception e) {
@@ -84,13 +66,11 @@ public class CSVResultWriter {
 
 	}
 
-	// カラムデータの書き込み
 	private void writeHeader(PrintStream pout) throws SQLException {
 
 		for (int i = 0; i < headers.length; i++) {
 			String header = encode(headers[i]);
 			if (i == headers.length - 1) {
-				// 最後は改行付
 				pout.println(header);
 			} else {
 				pout.print(header + demiliter);
@@ -99,7 +79,6 @@ public class CSVResultWriter {
 		}
 	}
 
-	// カラムデータの書き込み
 	private void writeValue(PrintStream pout, List csvList) throws SQLException {
 
 		for (Iterator iter = csvList.iterator(); iter.hasNext();) {
@@ -110,7 +89,6 @@ public class CSVResultWriter {
 				for (int i = 0; i < list.size(); i++) {
 					String value = encode(list.get(i).toString());
 					if (i == list.size() - 1) {
-						// 最後は改行付
 						pout.println(value);
 					} else {
 						pout.print(value + demiliter);
@@ -118,7 +96,7 @@ public class CSVResultWriter {
 
 				}
 			} else {
-				throw new IllegalArgumentException("csvListの中身はList型である必要があります"); //$NON-NLS-1$
+				throw new IllegalArgumentException("Contents of csvList should be List types."); //$NON-NLS-1$
 			}
 
 		}
@@ -129,7 +107,6 @@ public class CSVResultWriter {
 		// " ⇒ "" へ
 		value = value.replaceAll("\"", "\"\""); //$NON-NLS-1$ //$NON-NLS-2$
 
-		// カンマを含むデータの場合は、前後を"で囲む
 		if (value.indexOf("\"") > 0 || value.indexOf(",") > 0) { //$NON-NLS-1$ //$NON-NLS-2$
 			value = "\"" + value + "\""; //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -137,62 +114,34 @@ public class CSVResultWriter {
 		return value;
 	}
 
-	/**
-	 * @return append を戻します。
-	 */
 	public boolean isAppend() {
 		return append;
 	}
 
-	/**
-	 * @param append
-	 *            append を設定。
-	 */
 	public void setAppend(boolean append) {
 		this.append = append;
 	}
 
-	/**
-	 * @return demiliter を戻します。
-	 */
 	public char getDemiliter() {
 		return demiliter;
 	}
 
-	/**
-	 * @param demiliter
-	 *            demiliter を設定。
-	 */
 	public void setDemiliter(char demiliter) {
 		this.demiliter = demiliter;
 	}
 
-	/**
-	 * @return encording を戻します。
-	 */
 	public String getEncording() {
 		return encording;
 	}
 
-	/**
-	 * @param encording
-	 *            encording を設定。
-	 */
 	public void setEncording(String encording) {
 		this.encording = encording;
 	}
 
-	/**
-	 * @return header を戻します。
-	 */
 	public String[] getHeaders() {
 		return headers;
 	}
 
-	/**
-	 * @param header
-	 *            header を設定。
-	 */
 	public void setHeaders(String[] headers) {
 		this.headers = headers;
 	}

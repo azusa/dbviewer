@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -24,14 +24,6 @@ import zigen.plugin.db.core.rule.IColumnSearcherFactory;
 import zigen.plugin.db.ext.oracle.tablespace.OracleIndexColumn;
 import zigen.plugin.db.ui.internal.ITable;
 
-/**
- * OracleIndexColumnSearcherクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/24 ZIGEN create.
- * 
- */
 public class OracleIndexColumnSearcher {
 
 	public static OracleIndexColumn[] execute(IDBConfig config, ITable table, String indexName) throws Exception {
@@ -96,7 +88,7 @@ public class OracleIndexColumnSearcher {
 				return;
 			}
 		}
-		throw new IllegalStateException("setOptionInfoでエラーが発生しました。(カラム名が一致しません)"); //$NON-NLS-1$
+		throw new IllegalStateException("The column name was not corresponding."); //$NON-NLS-1$
 	}
 
 	private static String getSql(ITable table, String indexName) {

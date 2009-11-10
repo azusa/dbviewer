@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -32,11 +32,6 @@ public class DeleteHistoryAction extends Action implements Runnable {
 
 	StructuredViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public DeleteHistoryAction(StructuredViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("DeleteHistoryAction.0")); //$NON-NLS-1$
@@ -46,9 +41,6 @@ public class DeleteHistoryAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();

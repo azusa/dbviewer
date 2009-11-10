@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.preference;
@@ -202,9 +202,6 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 		tabSize4.setText(Messages.getString("SQLFormatPreferencePage.4")); //$NON-NLS-1$
 		tabSize4.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		// -----------------------------
-		// // default=true(case文と同様に改行する)
-		// -----------------------------
 		specialFormatDecode = new Button(grp, SWT.CHECK);
 		specialFormatDecode.setText(Messages.getString("SQLFormatPreferencePage.5")); // default=true(改行する)
 		// //$NON-NLS-1$
@@ -212,9 +209,6 @@ public class SQLFormatPreferencePage extends PreferencePage implements IWorkbenc
 		gd.horizontalSpan = 2;
 		specialFormatDecode.setLayoutData(gd);
 
-		// -----------------------------
-		// default = true (値のみの場合は、改行されない)
-		// -----------------------------
 		specialFormatIn = new Button(grp, SWT.CHECK);
 		specialFormatIn.setText(Messages.getString("SQLFormatPreferencePage.6")); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);

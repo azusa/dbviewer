@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.parser.util;
@@ -12,7 +12,6 @@ import zigen.sql.parser.INode;
 
 public class ASTUtil2 {
 
-	// 親ノード検索メソッド
 	public static INode findParent(INode node, String type) {
 		if (node == null || type.equals(node.getNodeClassName())) {
 			return node;
@@ -22,17 +21,15 @@ public class ASTUtil2 {
 
 	}
 
-	// 子ノード検索メソッド
 	public static INode findFirstChild(INode node, String type) {
 		INode[] nodes = findChildren(node, type);
 		if (nodes != null && nodes.length > 0) {
-			return nodes[0]; // 最初のノードを
+			return nodes[0];
 		} else {
 			return null;
 		}
 	}
 
-	// 子ノード検索メソッド
 	public static INode[] findChildren(INode node, String type) {
 		List list = new ArrayList();
 		if (node != null) {

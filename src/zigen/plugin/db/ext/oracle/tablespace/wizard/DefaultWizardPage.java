@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -16,14 +16,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-/**
- * DefaultWizardPageクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/02 ZIGEN create.
- * 
- */
 abstract class DefaultWizardPage extends WizardPage {
 
 	protected int LEVEL_FIELD_WIDTH = 20;
@@ -45,9 +37,6 @@ abstract class DefaultWizardPage extends WizardPage {
 
 	abstract public void createControl(Composite parent);
 
-	/**
-	 * 各カラムの幅の自動計算
-	 */
 	protected void columnsPack(Table table) {
 		TableColumn[] cols = table.getColumns();
 		for (int i = 0; i < cols.length; i++) {
@@ -55,11 +44,6 @@ abstract class DefaultWizardPage extends WizardPage {
 		}
 	}
 
-	/**
-	 * Statusバーを更新
-	 * 
-	 * @param message
-	 */
 	void updateStatus(String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
@@ -72,12 +56,6 @@ abstract class DefaultWizardPage extends WizardPage {
 		line.setLayoutData(gridData);
 	}
 
-	/**
-	 * 共通のComposite作成メソッド
-	 * 
-	 * @param parent
-	 * @return
-	 */
 	protected Composite createDefaultComposite(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout();
@@ -98,12 +76,6 @@ abstract class DefaultWizardPage extends WizardPage {
 		return composite;
 	}
 
-	/**
-	 * 共通のGridData取得メソッド GridDataの使いまわしNGの為、必ずNewしたものを返す
-	 * 
-	 * @param width
-	 * @return
-	 */
 	protected GridData getGridData(int width) {
 		GridData gd = new GridData();
 		gd.widthHint = convertWidthInCharsToPixels(width);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -47,7 +47,7 @@ public class ConfirmConnectDBAction extends Action implements Runnable {
 			} else {
 				StringBuffer sb = new StringBuffer();
 				sb.append(config.getDbName());
-				sb.append(Messages.getString("ConfirmConnectDBAction.1")); //$NON-NLS-1$				
+				sb.append(Messages.getString("ConfirmConnectDBAction.1")); //$NON-NLS-1$
 				String msg = sb.toString();
 				String opt = Messages.getString("ConfirmConnectDBAction.0"); //$NON-NLS-1$
 				MessageDialogWithToggle dialog = DbPlugin.getDefault().confirmDialogWithToggle(msg, opt, false);
@@ -76,14 +76,12 @@ public class ConfirmConnectDBAction extends Action implements Runnable {
 		TreeLeaf node = root.getChild(config.getDbName());
 		if (node != null && node instanceof DataBase) {
 			DataBase db = (DataBase) node;
-			db.setConnected(true); // 2ìxâüÇµÇñhÇÆ
+			db.setConnected(true);
 			ConnectDBJob job = new ConnectDBJob(view.getTreeViewer(), db);
 			job.setPriority(ConnectDBJob.SHORT);
 			job.setUser(false);
 			job.setSystem(false);
-			job.schedule(); // ê⁄ë±Ç…é∏îsÇ∑ÇÍÇŒÅAdb.setConnected(false);
-
-			// ConnectDBJobÇ™èIóπÇ∑ÇÈÇ‹Ç≈ë“ã@
+			job.schedule();
 			try {
 				job.join();
 			} catch (InterruptedException e) {

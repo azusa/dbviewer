@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -15,24 +15,10 @@ import org.eclipse.jface.viewers.TreeViewer;
 import zigen.plugin.db.ui.internal.ITable;
 import zigen.plugin.db.ui.jobs.OpenEditorJob;
 
-/**
- * CloseDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create. [2] 2005/11/23 ZIGEN エディター起動時にカラムを読み込むように修正.
- * 
- * 
- */
 public class OpenEditorAction extends Action implements Runnable {
 
 	TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public OpenEditorAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("OpenEditorAction.0")); //$NON-NLS-1$
@@ -40,9 +26,6 @@ public class OpenEditorAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 
@@ -57,7 +40,7 @@ public class OpenEditorAction extends Action implements Runnable {
 				job.schedule();
 
 			} else {
-				throw new IllegalStateException("他の要素でのダブルクリック"); //$NON-NLS-1$
+				throw new IllegalStateException("Double-clicking by other elements"); //$NON-NLS-1$
 			}
 		}
 

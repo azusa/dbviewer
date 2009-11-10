@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -20,22 +20,10 @@ import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.jobs.LoadColumnsJob;
 import zigen.plugin.db.ui.jobs.OpenEditorJob;
 
-/**
- * ConnectDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- */
 public class LoadColumnAction extends Action implements Runnable {
 
 	TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public LoadColumnAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("LoadColumnAction.0")); //$NON-NLS-1$
@@ -43,9 +31,6 @@ public class LoadColumnAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
 		try {
 

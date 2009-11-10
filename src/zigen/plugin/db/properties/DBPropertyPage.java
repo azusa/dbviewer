@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007Å|2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package zigen.plugin.db.properties;
@@ -97,13 +97,11 @@ public class DBPropertyPage extends PropertyPage {
 			for (int i = 0; i < configs.length; i++) {
 				IDBConfig w_config = configs[i];
 				selectCombo.add(w_config.getDbName());
-				// ç≈èâÇÃêÊì™ÇëIëèÛë‘Ç…Ç∑ÇÈ
 				if (i == 0)
 					selectCombo.select(0);
-				// éwíËÇ≥ÇÍÇΩDBNameÇ∆àÍívÇ∑ÇÍÇŒÇªÇÍÇëIëèÛë‘Ç∆Ç∑ÇÈ
 				if (dbName != null && dbName.equals(w_config.getDbName())) {
 					// selectCombo.select(i);
-					selectCombo.select(i + 1);// INITIAL_VALUEï™Ççló∂
+					selectCombo.select(i + 1);
 
 				}
 			}

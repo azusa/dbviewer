@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -18,31 +18,17 @@ import zigen.plugin.db.ext.oracle.internal.OracleDbBlockSizeSearcher;
 import zigen.plugin.db.ui.internal.ITable;
 import zigen.plugin.db.ui.internal.Table;
 
-/**
- * CalcIndexSpaceクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/10/01 ZIGEN create.
- * 
- */
 public class CalcIndexSpace {
 
-	/**
-	 * 変更可能プロパティ calcurateメソッド実行前に値をSetすること
-	 */
-	int block_header = 100; // 100バイト
+	int block_header = 100; // 100byte
 
-	double safeCoefficient = 2; // 安全係数
+	double safeCoefficient = 2;
 
-	/**
-	 * コンストラクタで値を設定するプロパティ
-	 */
-	private final long maxRecord; // 予測件数
+	private final long maxRecord; // expect record
 
 	private final Table table;
 
-	private final OracleIndexColumn[] columns; // 索引となるカラム
+	private final OracleIndexColumn[] columns;
 
 	private final String ownerName;
 
@@ -52,48 +38,20 @@ public class CalcIndexSpace {
 
 	private final int pctFree;
 
-	/**
-	 * DB_BLOCK_SIZE
-	 */
 	private int blockSize;
 
-	/**
-	 * 計算結果取得用(安全係数なし）
-	 */
 	private BigDecimal tableSpaceSize;
 
-	/**
-	 * 計算結果取得用（安全係数をかけたもの）
-	 */
 	private BigDecimal tableSpaceSafeSize;
 
-	/**
-	 * 安全係数をかけた表領域の見積りサイズ
-	 * 
-	 * @return tableSpaceSafeSize を戻します。
-	 */
 	public BigDecimal getTableSpaceSafeSize() {
 		return tableSpaceSafeSize;
 	}
 
-	/**
-	 * 表領域の見積りサイズ
-	 * 
-	 * @return tableSpaceSize を戻します。
-	 */
 	public BigDecimal getTableSpaceSize() {
 		return tableSpaceSize;
 	}
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param table
-	 * @param indexName
-	 * @param columns
-	 * @param pctFree
-	 * @param maxRecord
-	 */
 	public CalcIndexSpace(Table table, String indexName, OracleIndexColumn[] columns, int pctFree, long maxRecord) {
 		this.table = table;
 		this.indexName = indexName;
@@ -104,17 +62,6 @@ public class CalcIndexSpace {
 		this.maxRecord = maxRecord;
 	}
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param table
-	 * @param blockSize
-	 *            任意のDB_BLOCK_SIZEを指定する
-	 * @param indexName
-	 * @param columns
-	 * @param pctFree
-	 * @param maxRecord
-	 */
 	public CalcIndexSpace(Table table, int blockSize, String indexName, OracleIndexColumn[] columns, int pctFree, long maxRecord) {
 		this.table = table;
 		this.blockSize = blockSize;
@@ -126,39 +73,24 @@ public class CalcIndexSpace {
 		this.maxRecord = maxRecord;
 	}
 
-	/**
-	 * 計算メソッド
-	 */
 	public void calcurate() throws Exception {
 		try {
 
 			IDBConfig config = table.getDbConfig();
 			Connection con = Transaction.getInstance(config).getConnection();
 
-			// ブロックサイズ算出
 			if (blockSize == 0) {
 				blockSize = OracleDbBlockSizeSearcher.execute(con);
 			}
-			// log.debug("ブロックサイズ:" + this.blockSize); //$NON-NLS-1$
-			// カラム領域の取得
 			OracleColumnSizeUtil cs = new OracleColumnSizeUtil();
 			int columnAreaSize = cs.getRowLength(con, columns);
 
-			// 安全係数なし
 			this.tableSpaceSize = new BigDecimal((getNecessaryBlockSize(columns, columnAreaSize, maxRecord) * blockSize) / (1024d * 1024d));
-			// 切り上げ
-			// this.tableSpaceSize = this.tableSpaceSize.setScale(1,
-			// BigDecimal.ROUND_UP); // 切上げ
-			this.tableSpaceSize = this.tableSpaceSize.setScale(3, BigDecimal.ROUND_UP); // 切上げ
+			this.tableSpaceSize = this.tableSpaceSize.setScale(3, BigDecimal.ROUND_UP);
 
-			// 安全係数後
 			this.tableSpaceSafeSize = this.tableSpaceSize.multiply(new BigDecimal(safeCoefficient));
-			// 切り上げ
-			// this.tableSpaceSafeSize = this.tableSpaceSafeSize.setScale(1,
-			// BigDecimal.ROUND_UP); // 切上げ
-			this.tableSpaceSafeSize = this.tableSpaceSafeSize.setScale(3, BigDecimal.ROUND_UP); // 切上げ
 
-			// log.debug("必要なサイズ(MB)を取得:" + this.tableSpaceSafeSize); //$NON-NLS-1$
+			this.tableSpaceSafeSize = this.tableSpaceSafeSize.setScale(3, BigDecimal.ROUND_UP);
 
 		} catch (Exception e) {
 			throw e;
@@ -167,40 +99,23 @@ public class CalcIndexSpace {
 
 	}
 
-	/**
-	 * <索引>1.ブロックヘッダー 固定長ヘッダー＋可変長トランザクション・ヘッダ(24*INITRANS) 表とは異なり、索引ではINITRNASは2
-	 * 
-	 * @return
-	 */
 	public double getBlockHeaderSize() {
 		double d = 113 + 24 * 2;
-		// log.debug("1.ブロックヘッダー:" + d); //$NON-NLS-1$
 		return d;
 	}
 
-	/**
-	 * <索引>2.ブロックあたりの利用可能領域の取得
-	 * 
-	 * @return
-	 */
 	private final double getRiyouKanouArea() {
 		double d = Math.ceil((blockSize - getBlockHeaderSize()) * (1 - pctFree / 100d));
-		// log.debug("2.利用可能領域の取得:" + d); //$NON-NLS-1$
 		return d;
 
 	}
 
-	/**
-	 * <索引>3.全体の索引値サイズの計算
-	 * 
-	 * @return
-	 */
 	private double getIndexValueSize(IColumn[] columns, int columnAreaSize) {
 
 		int entryHeader = 2;
 		int rowId = 6;
-		int f = 0; // 127バイト以下のデータを格納する列数
-		int v = 0; // 128バイト以下のデータを格納する列数
+		int f = 0;
+		int v = 0;
 
 		for (int i = 0; i < columns.length; i++) {
 			IColumn column = columns[i];
@@ -212,67 +127,35 @@ public class CalcIndexSpace {
 
 		}
 		double d = entryHeader + rowId + (f * 1 + v * 2) + columnAreaSize;
-		// log.debug("3.全体の索引値サイズの計算:" + d); //$NON-NLS-1$
 		return d;
 	}
 
-	/**
-	 * <索引>4.ブロックあたりの平均索引エントリ数の計算
-	 * 
-	 * @return
-	 */
 	private final double getAverageRowCountOfBlock(IColumn[] columns, int columnAreaSize) throws CalcTableSpaceException {
 		double d = Math.floor(getRiyouKanouArea() / getIndexValueSize(columns, columnAreaSize));
-		// log.debug("4.ブロックあたりの平均行数の計算:" + d); //$NON-NLS-1$
 		return d;
 	}
 
-	/**
-	 * <索引>5.必要なブロック数
-	 * 
-	 * @param totalRow
-	 * @return
-	 */
 	private final double getNecessaryBlockSize(IColumn[] columns, int columnAreaSize, long totalRow) throws CalcTableSpaceException {
 		double d = Math.ceil(1.05 * totalRow / getAverageRowCountOfBlock(columns, columnAreaSize));
-		// log.debug("5.必要なブロック数:" + d); //$NON-NLS-1$
 		return d;
 	}
 
-	/**
-	 * @param block_header
-	 *            block_header を設定。
-	 */
 	public void setBlock_header(int block_header) {
 		this.block_header = block_header;
 	}
 
-	/**
-	 * @param blockSize
-	 *            blockSize を設定。
-	 */
 	public void setBlockSize(int blockSize) {
 		this.blockSize = blockSize;
 	}
 
-	/**
-	 * @param safeCoefficient
-	 *            safeCoefficient を設定。
-	 */
 	public void setSafeCoefficient(double safeCoefficient) {
 		this.safeCoefficient = safeCoefficient;
 	}
 
-	/**
-	 * @return safeCoefficient を戻します。
-	 */
 	public double getSafeCoefficient() {
 		return safeCoefficient;
 	}
 
-	/**
-	 * @return blockSize を戻します。
-	 */
 	public int getBlockSize() {
 		return blockSize;
 	}
@@ -312,7 +195,7 @@ public class CalcIndexSpace {
 
 	public String getCalcResult() throws Exception {
 		StringBuffer sb = new StringBuffer();
-		sb.append(" [索引領域]:" + indexName + " "); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append(" [INDEX]:" + indexName + " "); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
 			OracleIndexColumn column = columns[i];
@@ -324,10 +207,10 @@ public class CalcIndexSpace {
 		}
 		sb.append(")"); //$NON-NLS-1$
 		sb.append("\n"); //$NON-NLS-1$
-		sb.append("   見積りサイズ:"); //$NON-NLS-1$
+		sb.append("   TABLE SPACE:"); //$NON-NLS-1$
 		sb.append("  " + getTableSpaceSize() + " MB"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("\n"); //$NON-NLS-1$
-		sb.append("   見積りサイズ×" + getSafeCoefficient() + ":"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("   TABLE SPACE ×" + getSafeCoefficient() + ":"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("  " + getTableSpaceSafeSize() + " MB"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("\n"); //$NON-NLS-1$
 		return sb.toString();

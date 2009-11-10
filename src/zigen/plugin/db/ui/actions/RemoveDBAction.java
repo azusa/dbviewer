@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -24,23 +24,10 @@ import zigen.plugin.db.ui.internal.DataBase;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.views.TreeContentProvider;
 
-/**
- * RemoveDBActionクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2005/03/12 ZIGEN create.
- * 
- */
 public class RemoveDBAction extends Action implements Runnable {
 
 	TreeViewer viewer = null;
 
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param viewer
-	 */
 	public RemoveDBAction(TreeViewer viewer) {
 		this.viewer = viewer;
 		this.setText(Messages.getString("RemoveDBAction.0")); //$NON-NLS-1$
@@ -50,11 +37,7 @@ public class RemoveDBAction extends Action implements Runnable {
 		this.setImageDescriptor(DbPlugin.getDefault().getImageDescriptor(DbPlugin.IMG_CODE_DB_DELETE));;
 	}
 
-	/**
-	 * Action実行時の処理
-	 */
 	public void run() {
-
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 
 		StringBuffer sb = new StringBuffer();
@@ -73,18 +56,11 @@ public class RemoveDBAction extends Action implements Runnable {
 					if (obj instanceof DataBase) {
 						DataBase db = (DataBase) obj;
 
-						// お気に入りも削除する
 						removeBookmark(bmroot, db);
 
-						// DBConfigから削除する
 						DBConfigManager.remove(db.getDbConfig());
-						// 自信を要素から削除する
 						db.getParent().removeChild(db);
-						// Viewerの再描画
 						viewer.refresh();
-						// SQL実行Viewのコンボボックスを更新
-						// updateComboOfSQLViewer(null);
-						// 選択状態を再度通知する
 						viewer.getControl().notifyListeners(SWT.Selection, null);
 
 						DbPlugin.fireStatusChangeListener(db.getDbConfig(), IStatusChangeListener.EVT_RemoveSchemaFilter);
@@ -102,11 +78,6 @@ public class RemoveDBAction extends Action implements Runnable {
 
 	}
 
-	/**
-	 * 指定したDataBaseに一致するお気に入りを削除します。
-	 * 
-	 * @param targetDataBase
-	 */
 	private void removeBookmark(BookmarkFolder folder, DataBase targetDataBase) {
 		TreeLeaf[] leafs = folder.getChildrens();
 		for (int i = 0; i < leafs.length; i++) {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007－2009 ZIGEN
- * Eclipse Public License - v 1.0 
+ * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
@@ -59,14 +59,6 @@ import zigen.sql.parser.ast.ASTSelectStatement;
 import zigen.sql.parser.ast.ASTUpdateStatement;
 import zigen.sql.parser.exception.ParserException;
 
-/**
- * SQLContentAssistantProcessorクラス.
- * 
- * @author ZIGEN
- * @version 1.0
- * @since JDK1.4 history Symbol Date Person Note [1] 2006/04/01 ZIGEN create.
- * 
- */
 public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor implements IContentAssistProcessor {
 
 	private static final class ProposalComparator implements Comparator {
@@ -151,10 +143,10 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 
 						if (currentNode == null) {
 							StringBuffer sb = new StringBuffer();
-							sb.append("オフセットに対するノードが見つかりません").append(DbPluginConstant.LINE_SEP);
-							sb.append("全SQLは").append(DbPluginConstant.LINE_SEP);
+							sb.append("The node is not found. ").append(DbPluginConstant.LINE_SEP);
+							sb.append("all SQL is ").append(DbPluginConstant.LINE_SEP);
 							sb.append(allSql).append(DbPluginConstant.LINE_SEP);
-							sb.append("オフセットまでのSQLは").append(DbPluginConstant.LINE_SEP);
+							sb.append("until ofset sql is ").append(DbPluginConstant.LINE_SEP);
 							sb.append(cs.getOffsetSql()).append(DbPluginConstant.LINE_SEP);
 							DbPlugin.log(sb.toString());
 						} else {
@@ -190,7 +182,7 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 
 			try {
 				if (timeout > 0) {
-					th.join(timeout * 1000); // 1秒のタイムアウトを設定
+					th.join(timeout * 1000);
 				} else {
 					th.join();
 				}
@@ -236,14 +228,13 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 		if (templates != null) {
 			String word = pinfo.getWord();
 			if (pinfo.isAfterPeriod())
-				word = ""; // ピリオドで終わっている場合は""に置き換える //$NON-NLS-1$
+				word = "";
 			int len = word.length();
 			for (int i = 0; i < templates.length; i++) {
 				ICompletionProposal template = templates[i];
 				String str = template.getDisplayString();
 				String value = ContentAssistUtil.subString(str, len);
 				if (value != null && value.compareToIgnoreCase(word) == 0) {
-					// 候補の追加
 					proposals.add(template);
 
 				}
@@ -267,12 +258,10 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 				return null;
 
 			} else if (mode.equals(CodeAssistPreferencePage.MODE_KEYWORD)) {
-				// SQLを解析しない場合
 				SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);
 				SQLProposalCreator2.addProposalForFunction(proposals, rule.getFunctionNames(), pinfo);
 
 			} else if (mode.equals(CodeAssistPreferencePage.MODE_PARSE)) {
-				// SQLを解析する場合
 				try {
 					parseSql(doc, offset, pinfo, demiliter);
 
@@ -294,7 +283,6 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 						DropProcessor p = new DropProcessor(proposals, pinfo);
 						p.createProposals((ASTDropStatement) st);
 					} else {
-						// 上記に当てはまらない場合
 						// SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);
 					}
 
@@ -302,15 +290,9 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 					SQLProposalCreator2.addProposal(proposals, rule.getKeywordNames(), pinfo);
 				}
 			}
-			// ---------------------
-			// SQLTemplateの候補を追加
-			// ---------------------
 			ICompletionProposal[] templates = super.computeCompletionProposals(viewer, offset);
 			addTemplateProposal(proposals, templates, pinfo);
 
-			// // ---------------------
-			// // 関数Templateの候補を追加
-			// // ---------------------
 			ICompletionProposal[] tFunctions = computeCompletionProposalsForFunction(viewer, offset);
 			addTemplateProposal(proposals, tFunctions, pinfo);
 
@@ -318,7 +300,6 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 		} catch (Exception e) {
 			DbPlugin.getDefault().showErrorDialog(e);
 		}
-		// 配列への変換
 		return (ICompletionProposal[]) proposals.toArray(new ICompletionProposal[0]);
 	}
 
@@ -333,7 +314,6 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 		return null;
 	}
 
-	// <--- 関数用に追加 --
 	public ICompletionProposal[] computeCompletionProposalsForFunction(ITextViewer viewer, int offset) {
 		ITextSelection selection = (ITextSelection) viewer.getSelectionProvider().getSelection();
 		// adjust offset to end of normalized selection
@@ -386,8 +366,6 @@ public class SQLContentAssistantProcessor2 extends TemplateCompletionProcessor i
 		ImageCacher ic = ImageCacher.getInstance();
 		return ic.getImage(DbPlugin.IMG_CODE_FUNCTION);
 	}
-
-	// --- 関数用に追加 --->
 
 
 	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
