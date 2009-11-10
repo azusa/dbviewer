@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule.derby;
 
 import zigen.plugin.db.core.SQLUtil;
@@ -215,7 +214,6 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" BITMAP");
 		}
 		sb.append(" INDEX ");
-		// INDEXñº
 		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 
 		sb.append(".");
@@ -271,7 +269,7 @@ public class DerbySQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT ");
 		sb.append(SQLUtil.enclose(constraintName, encloseChar));
-		sb.append(" UNIQUE "); // UNIQUE KEY Ç≈ÇÕÇ»Ç≠ÅA UNIQUE
+		sb.append(" UNIQUE ");
 		sb.append("(");
 		for (int i = 0; i < columns.length; i++) {
 			Column column = columns[i];

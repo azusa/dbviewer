@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core;
 
 import java.io.Serializable;
@@ -109,7 +108,6 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 			properties.setProperty("schema", this.getSchema());//$NON-NLS-1$
 		}
 
-		// charSetÇÃí«â¡
 		if (this.getCharset() != null && !this.getCharset().equals("")) { //$NON-NLS-1$
 
 			switch (DBType.getType(driverName)) {
@@ -365,7 +363,7 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 			for (int i0 = 0; i0 < this.displayedSchemas.length; i0++) {
 				inst.displayedSchemas[i0] = this.displayedSchemas[i0] == null ? null : this.displayedSchemas[i0];
 				if (inst.displayedSchemas != null) {
-					inst.displayedSchemas[i0].setConfig(inst);// ÉRÉsÅ[ÇµÇΩÇ‡ÇÃÇ…SchemaInfoÇÃéQè∆Çó^Ç¶ÇÈÇ±Ç∆
+					inst.displayedSchemas[i0].setConfig(inst);
 				}
 			}
 		} else {

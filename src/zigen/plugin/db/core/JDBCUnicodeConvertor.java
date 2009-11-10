@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core;
 
 public class JDBCUnicodeConvertor {
@@ -15,33 +14,33 @@ public class JDBCUnicodeConvertor {
 		}
 
 		char[] chars = str.toCharArray();
-		for (int i = 0; i < chars.length; i++) {
+ 		for (int i = 0; i < chars.length; i++) {
 			switch (chars[i]) {
-			case '\u301c': // 'Å`'
+			case '\u301c': // 'ÔΩû'
 				chars[i] = '\uff5e';
 				break;
-			case '\u2016': // 'Åa'
+			case '\u2016': // '‚à•'
 				chars[i] = '\u2225';
 				break;
-			case '\u2212': // 'Å|'
+			case '\u2212': // 'Ôºç'
 				chars[i] = '\uff0d';
 				break;
-			case '\u00a2': // 'Åë'
+			case '\u00a2': // 'Ôø†'
 				chars[i] = '\uffe0';
 				break;
-			case '\u00a3': // 'Åí'
+			case '\u00a3': // 'Ôø°'
 				chars[i] = '\uffe1';
 				break;
-			case '\u00ac': // 'Å '
+			case '\u00ac': // 'Ôø¢'
 				chars[i] = '\uffe2';
 				break;
-			case '\u00a6': // '˙U'
+			case '\u00a6': // 'Ôø§'
 				chars[i] = '\uffe4';
 				break;
-			case '\u2032': // '˙V'
+			case '\u2032': // 'Ôºá'
 				chars[i] = '\uff07';
 				break;
-			case '\u2033': // '˙W'
+			case '\u2033': // 'ÔºÇ'
 				chars[i] = '\uff02';
 				break;
 			default:

@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule.postgresql;
 
 import zigen.plugin.db.core.SQLFormatter;
@@ -169,8 +168,8 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(" ADD COLUMN "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
-		sb.append(column.getTypeName());// å^
-		if (isVisibleColumnSize(column.getTypeName())) {// åÖ
+		sb.append(column.getTypeName());
+		if (isVisibleColumnSize(column.getTypeName())) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(column.getSize());
 			sb.append(")"); //$NON-NLS-1$
@@ -199,8 +198,8 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" ALTER "); //$NON-NLS-1$
 			sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 			sb.append(" TYPE "); //$NON-NLS-1$
-			sb.append(to.getTypeName());// å^
-			if (isVisibleColumnSize(to.getTypeName())) {// åÖ
+			sb.append(to.getTypeName());
+			if (isVisibleColumnSize(to.getTypeName())) {
 				sb.append("("); //$NON-NLS-1$
 				sb.append(to.getSize());
 				sb.append(")"); //$NON-NLS-1$
@@ -242,13 +241,11 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" DROP COLUMN "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
-		// MySQL Ç≈ÇÕñ¢ÉTÉ|Å[Ég
 		// sb.append(" CASCADE CONSTRAINTS ");
 		return new String[] {sb.toString()};
 
 	}
 
-	// Å†Å†Å† CREATE INDEX Å†Å†Å†
 	public String createCreateIndexDDL(String indexName, Column[] columns, int indexType) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE"); //$NON-NLS-1$
@@ -259,7 +256,6 @@ public class PostgreSQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" BITMAP"); //$NON-NLS-1$
 		}
 		sb.append(" INDEX "); //$NON-NLS-1$
-		// INDEXñº
 		// sb.append(table.getSchemaName());
 		// sb.append(".");
 		sb.append(SQLUtil.enclose(indexName, encloseChar));

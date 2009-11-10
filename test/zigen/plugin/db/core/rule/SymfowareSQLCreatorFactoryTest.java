@@ -217,27 +217,27 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 		table = createTable("SCOTT", "EMP");
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
-		sql = f.createCommentOnTableDDL("ƒRƒƒ“ƒg‚Å‚·");
+		sql = f.createCommentOnTableDDL("ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Å‚ï¿½");
 		assertEquals(null, sql);
 
 		table = createTable("SCOTT-1", "EMP-1");
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
-		sql = f.createCommentOnTableDDL("ƒR'ƒƒ“ƒg\"‚Å‚·");
+		sql = f.createCommentOnTableDDL("ï¿½R'ï¿½ï¿½ï¿½ï¿½ï¿½g\"ï¿½Å‚ï¿½");
 		assertEquals(null, sql);
 
 	}
 
 	public void testCreateCommentOnColumnDDL() {
 		table = createTable("SCOTT", "EMP");
-		table.addChild(createColumn("EMPNO", "NUMBER", null, "ƒRƒƒ“ƒg"));
+		table.addChild(createColumn("EMPNO", "NUMBER", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 		sql = f.createCommentOnColumnDDL(table.getColumns()[0]);
 		assertEquals(null, sql);
 
 		table = createTable("SCOTT-1", "EMP-1");
-		table.addChild(createColumn("EMPNO-1", "NUMBER", null, "ƒR'ƒƒ“\"ƒg"));
+		table.addChild(createColumn("EMPNO-1", "NUMBER", null, "ï¿½R'ï¿½ï¿½ï¿½ï¿½\"ï¿½g"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 		sql = f.createCommentOnColumnDDL(table.getColumns()[0]);
@@ -263,7 +263,7 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 
 	public void testCreateRenameColumnDDL() {
 		table = createTable("SCOTT", "EMP");
-		table.addChild(createColumn("EMPNO", "NUMBER", null, "ƒRƒƒ“ƒg"));
+		table.addChild(createColumn("EMPNO", "NUMBER", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
@@ -272,7 +272,7 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 		assertEquals(null, sql);
 
 		table = createTable("SCOTT-1", "EMP-1");
-		table.addChild(createColumn("EMPNO-2", "NUMBER", null, "ƒRƒƒ“ƒg"));
+		table.addChild(createColumn("EMPNO-2", "NUMBER", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
@@ -283,27 +283,27 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 
 	public void testCreateAddColumnDDL() {
 		table = createTable("SCOTT", "EMP");
-		table.addChild(createColumn("EMPNO", "CHAR", null, "ƒRƒƒ“ƒg"));
+		table.addChild(createColumn("EMPNO", "CHAR", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
-		Column newCol = createColumn("DEPTNO", "CHAR", null, "ƒRƒƒ“ƒg");
+		Column newCol = createColumn("DEPTNO", "CHAR", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g");
 		newCol.setSize("1");
 		String[] sqls;
 		sqls = f.createAddColumnDDL(newCol);
 		assertEquals(null, sqls);
 
 
-		newCol = createColumn("DEPTNO", "VARCHAR", "123", "ƒRƒƒ“ƒg");
+		newCol = createColumn("DEPTNO", "VARCHAR", "123", "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g");
 		newCol.setSize("1");
 		sqls = f.createAddColumnDDL(newCol);
 		assertEquals(null, sqls);
 
 		table = createTable("SCOTT-1", "EMP-1");
-		table.addChild(createColumn("EMPNO", "VARCHAR", null, "ƒRƒƒ“ƒg"));
+		table.addChild(createColumn("EMPNO", "VARCHAR", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
-		newCol = createColumn("DEPTNO-1", "VARCHAR", null, "ƒRƒƒ“ƒg");
+		newCol = createColumn("DEPTNO-1", "VARCHAR", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g");
 		newCol.setSize("1");
 		sqls = f.createAddColumnDDL(newCol);
 		assertEquals(null, sqls);
@@ -313,45 +313,45 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 	public void testCreateModifyColumnDDL() {
 		table = createTable("SCOTT", "EMP");
 
-		Column fromCol = createColumn("EMPNO", "NUMBER", null, "ƒRƒƒ“ƒg");
+		Column fromCol = createColumn("EMPNO", "NUMBER", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g");
 		fromCol.setSize("1");
 		table.addChild(fromCol);
 
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
-		// –¼‘O‚Í‚±‚±‚Å‚Í•Ï‚¦‚ç‚ê‚È‚¢(ALTER TABLE RENAME COLUMN‚ªg‚í‚ê‚éj
-		Column toCol = createColumn("EMONO", "VARCHAR2", "abc", "ƒRƒƒ“ƒg2");
+		// ï¿½ï¿½ï¿½Oï¿½Í‚ï¿½ï¿½ï¿½ï¿½Å‚Í•Ï‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½(ALTER TABLE RENAME COLUMNï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½j
+		Column toCol = createColumn("EMONO", "VARCHAR2", "abc", "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g2");
 		toCol.setSize("10");
 		toCol.setNotNull(true);
 		String[] sqls;
 		sqls = f.createModifyColumnDDL(fromCol, toCol);
 		assertEquals(null, sqls);
-		
-		
+
+
 		table = createTable("SCOTT-1", "EMP-1");
 
-		fromCol = createColumn("EMPNO-1", "NUMBER", null, "ƒRƒƒ“ƒg");
+		fromCol = createColumn("EMPNO-1", "NUMBER", null, "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g");
 		fromCol.setSize("1");
 		table.addChild(fromCol);
 
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
-		// –¼‘O‚Í‚±‚±‚Å‚Í•Ï‚¦‚ç‚ê‚È‚¢(ALTER TABLE RENAME COLUMN‚ªg‚í‚ê‚éj
-		toCol = createColumn("EMONO-1", "VARCHAR2", "abc", "ƒRƒƒ“ƒg2");
+		// ï¿½ï¿½ï¿½Oï¿½Í‚ï¿½ï¿½ï¿½ï¿½Å‚Í•Ï‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½(ALTER TABLE RENAME COLUMNï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½j
+		toCol = createColumn("EMONO-1", "VARCHAR2", "abc", "ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g2");
 		toCol.setSize("10");
 		toCol.setNotNull(true);
 
 		sqls = f.createModifyColumnDDL(fromCol, toCol);
 		assertEquals(null, sqls);
-			
+
 	}
 
 	public void testCreateDropColumnDDL() {
 		table = createTable("SCOTT", "EMP");
 
-		Column col = createColumn("EMPNO", "NUMBER", null, "ƒRƒƒ“ƒg");
+		Column col = createColumn("EMPNO", "NUMBER", null, "ã‚³ãƒ¡ãƒ³ãƒˆ");
 		col.setSize("1");
 		table.addChild(col);
 
@@ -363,7 +363,7 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 		assertEquals(null, sqls);
 
 		table = createTable("SCOTT-1", "EMP-1");
-		col = createColumn("EMPNO-1", "NUMBER", null, "ƒRƒƒ“ƒg");
+		col = createColumn("EMPNO-1", "NUMBER", null, "ã‚³ãƒ¡ãƒ³ãƒˆ");
 		col.setSize("1");
 		table.addChild(col);
 

@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule;
 
 import java.sql.Connection;
@@ -37,7 +36,7 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 			Map map = getCustomColumnInfoMap(con, schemaPattern, tableName, convertUnicode);
 
 			DatabaseMetaData objMet = con.getMetaData();
-			// TablePKColumn[] pks = ConstraintSearcher.getPKColumns(con, schemaPattern, tableName); // PKéÊìæ;
+			// TablePKColumn[] pks = ConstraintSearcher.getPKColumns(con, schemaPattern, tableName);
 			if (schemaPattern != null) {
 				rs = objMet.getColumns(null, schemaPattern, tableName, "%"); //$NON-NLS-1$
 			} else {
@@ -51,7 +50,7 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 				column.setSeq(seq);
 
 				column.setColumnName(rs.getString(COLUMN_NAME));
-				column.setDataType(rs.getShort(DATA_TYPE)); // Types.VARCHARÇ»Ç«
+				column.setDataType(rs.getShort(DATA_TYPE)); // Types.VARCHAR
 				column.setTypeName(rs.getString(TYPE_NAME));
 				column.setColumnSize(rs.getInt(COLUMN_SIZE));
 				column.setDecimalDigits(rs.getInt(DECIMAL_DIGITS));
@@ -100,7 +99,6 @@ public class DefaultColumnSearcherFactory extends AbstractColumnSearcherFactory 
 		try {
 			defaultValue = rs.getString("COLUMN_DEF"); //$NON-NLS-1$
 
-			// TRIMÇ∑ÇÈ
 			if (defaultValue != null)
 				defaultValue = defaultValue.trim();
 

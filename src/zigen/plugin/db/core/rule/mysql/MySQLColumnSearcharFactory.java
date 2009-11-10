@@ -94,7 +94,7 @@ public class MySQLColumnSearcharFactory extends DefaultColumnSearcherFactory {
 					column.setDecimalDigits(rs.getInt("DECIMAL_DIGITS"));
 					column.setDefaultValue(rs.getString("COLUMN_DEF"));
 
-					column.setDataType(getJavaType(column.getTypeName())); // Types.VARCHAR‚È‚Ç
+					column.setDataType(getJavaType(column.getTypeName()));
 
 					String remarks = rs.getString("REMARKS"); //$NON-NLS-1$
 					if (convertUnicode) {

@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007－2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule;
 
 import java.util.ArrayList;
@@ -339,7 +338,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 					} else {
 
 						if (table.getSchemaName() != null && !table.getSchema().getName().equalsIgnoreCase(column.getPkColumnName())) {
-							// スキーマが存在し、自身のスキーマと結合先のスキーマが異なればスキーマを表示
 							sb2.append(column.getPkSchema());
 							sb2.append(".");
 
@@ -392,7 +390,6 @@ public class DefaultSQLCreatorFactory extends AbstractSQLCreatorFactory implemen
 				if (i == 0) {
 
 					if (column.getColumnName() == null && !"".equals(column.getSearch_condition())) {
-						// CHECK制約とみなす
 						name = column.getName();
 						type = "CHECK";
 

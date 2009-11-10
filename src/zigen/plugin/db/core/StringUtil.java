@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007�|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
@@ -128,11 +128,11 @@ public class StringUtil {
 	}
 
 	public static String rTrimFullSpace(String str) {
-		return rTrim(str, '　'); // 2byte space
+		return rTrim(str, '　'); // デフォルトは半角空白
 	}
 
 	public static String lTrimFullSpace(String str) {
-		return lTrim(str, '　'); // 2byte space
+		return lTrim(str, '　');
 	}
 
 	public static String lTrim(String str, char trimChar) {
@@ -155,9 +155,9 @@ public class StringUtil {
 
 	private static Pattern lineCommentPattern = Pattern.compile("--.*?(\r|\n|$)");
 
-	private static Pattern leftTrimPattern = Pattern.compile("^(�@| )+");
+	private static Pattern leftTrimPattern = Pattern.compile("^(　| )+");
 
-	private static Pattern rightTrimPattern = Pattern.compile("(�@| )+$");
+	private static Pattern rightTrimPattern = Pattern.compile("(　| )+$");
 
 	public static String removeComment(String s) {
 		return commentPattern.matcher(s).replaceAll("");
@@ -175,12 +175,6 @@ public class StringUtil {
 		return rightTrimPattern.matcher(s).replaceAll("");
 	}
 
-	/**
-	 * The line feed code is united to LF(\n).
-	 *
-	 * @param text
-	 * @return
-	 */
 	public static String convertLineSep(String text) {
 		return text.replaceAll("\\r\\n|\\r|\\n", "\n");
 

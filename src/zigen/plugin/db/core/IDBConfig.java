@@ -1,10 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
-
 package zigen.plugin.db.core;
 
 import java.util.Properties;
@@ -31,7 +29,7 @@ public interface IDBConfig {
 
 	public boolean isConvertUnicode();
 
-	public int getDbType(); // DBîªíËóp
+	public int getDbType();
 
 	public String getDriverVersion();
 
@@ -104,7 +102,7 @@ public interface IDBConfig {
 
 	public void setConnectAsSYSOPER(boolean b);
 
-	// for MySQL5à»ç~
+	// for MySQL5ÔøΩ»ç~
 	public boolean isConnectAsInformationSchema();
 
 	public void setConnectAsInformationSchema(boolean isConnectAsInformationSchema);

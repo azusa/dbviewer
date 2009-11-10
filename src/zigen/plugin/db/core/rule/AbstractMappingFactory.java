@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule;
 
 import java.io.ByteArrayOutputStream;
@@ -56,7 +55,7 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 			return getFactory(objMet.getDriverName(), isConvertUnicode);
 
 		} catch (SQLException e) {
-			throw new IllegalStateException("DriverNameÇÃéÊìæÇ…é∏îsÇµÇ‹ÇµÇΩ");
+			throw new IllegalStateException(e.getMessage());
 		}
 
 	}
@@ -75,26 +74,21 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 			switch (DBType.getType(driverName)) {
 
 				case DBType.DB_TYPE_ORACLE:
-					// log.debug("OracleMappingRuleê∂ê¨");
 					factory = new OracleMappingFactory(isConvertUnicode);
 					break;
 				case DBType.DB_TYPE_SYMFOWARE:
-					// log.debug("SymfowareMappingRuleê∂ê¨");
 					factory = new SymfowareMappingFactory(isConvertUnicode);
 					break;
 				case DBType.DB_TYPE_MYSQL:
-					// log.debug("MySQLMappingRuleê∂ê¨");
 					factory = new MySQLMappingFactory(isConvertUnicode);
 					break;
 				case DBType.DB_TYPE_POSTGRESQL:
 					factory = new PostgreSQLMappingFactory(isConvertUnicode);
 					break;
 				case DBType.DB_TYPE_DERBY:
-					// log.debug("DerbyMappingRuleê∂ê¨");
 					factory = new DerbyMappingFactory(isConvertUnicode);
 					break;
 				default:
-					// log.debug("UnKnownMappingRuleê∂ê¨");
 					factory = new DefaultMappingFactory(isConvertUnicode);
 					break;
 			}

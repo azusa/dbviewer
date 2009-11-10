@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule.h2;
 
 import zigen.plugin.db.core.SQLFormatter;
@@ -258,7 +257,6 @@ public class H2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" BITMAP"); //$NON-NLS-1$
 		}
 		sb.append(" INDEX "); //$NON-NLS-1$
-		// INDEXñº
 		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append("."); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(indexName, encloseChar));

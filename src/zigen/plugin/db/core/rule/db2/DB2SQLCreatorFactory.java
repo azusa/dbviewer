@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule.db2;
 
 import zigen.plugin.db.core.SQLFormatter;
@@ -112,8 +111,8 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(" ADD "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
-		sb.append(column.getTypeName());// å^
-		if (isVisibleColumnSize(column.getTypeName())) {// åÖ
+		sb.append(column.getTypeName());
+		if (isVisibleColumnSize(column.getTypeName())) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(column.getSize());
 			sb.append(")"); //$NON-NLS-1$
@@ -128,7 +127,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (column.isNotNull()) { // NOT NULL
 			sb.append(" NOT NULL"); //$NON-NLS-1$
 		} else {
-			; // NULLÇÃèÍçáÇÕñ¢éwíË
+			;
 		}
 
 		return new String[] {sb.toString()};
@@ -154,7 +153,6 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" BITMAP"); //$NON-NLS-1$
 		}
 		sb.append(" INDEX "); //$NON-NLS-1$
-		// INDEXñº
 		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append("."); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(indexName, encloseChar));
@@ -210,7 +208,7 @@ public class DB2SQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(constraintName, encloseChar));
-		sb.append(" UNIQUE "); // UNIQUE KEY Ç≈ÇÕÇ»Ç≠ÅA UNIQUE //$NON-NLS-1$
+		sb.append(" UNIQUE ");//$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
 			Column column = columns[i];

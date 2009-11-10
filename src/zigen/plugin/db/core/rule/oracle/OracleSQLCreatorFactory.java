@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule.oracle;
 
 import zigen.plugin.db.core.SQLFormatter;
@@ -220,8 +219,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 //		sb.append(SQLUtil.encodeQuotation(column.getName()));
 		sb.append(SQLUtil.enclose(column.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
-		sb.append(column.getTypeName());// å^
-		if (isVisibleColumnSize(column.getTypeName()) && !column.getColumn().isWithoutParam()) {// åÖ
+		sb.append(column.getTypeName());
+		if (isVisibleColumnSize(column.getTypeName()) && !column.getColumn().isWithoutParam()) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(column.getSize());
 			sb.append(")"); //$NON-NLS-1$
@@ -256,8 +255,8 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 //			sb.append(SQLUtil.encodeQuotation(to.getName()));
 			sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 			sb.append(" "); //$NON-NLS-1$
-			sb.append(to.getTypeName());// å^
-			if (isVisibleColumnSize(to.getTypeName()) && !to.getColumn().isWithoutParam()) {// åÖ
+			sb.append(to.getTypeName());
+			if (isVisibleColumnSize(to.getTypeName()) && !to.getColumn().isWithoutParam()) {
 				sb.append("("); //$NON-NLS-1$
 				sb.append(to.getSize());
 				sb.append(")"); //$NON-NLS-1$
@@ -329,7 +328,6 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			sb.append(" BITMAP"); //$NON-NLS-1$
 		}
 		sb.append(" INDEX "); //$NON-NLS-1$
-		// INDEXñº
 		sb.append(SQLUtil.enclose(table.getSchemaName(), encloseChar));
 		sb.append("."); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(indexName, encloseChar));
@@ -388,7 +386,7 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(getTableNameWithSchemaForSQL(table, isVisibleSchemaName));
 		sb.append(" ADD CONSTRAINT "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(constraintName, encloseChar));
-		sb.append(" UNIQUE "); // UNIQUE KEY Ç≈ÇÕÇ»Ç≠ÅA UNIQUE //$NON-NLS-1$
+		sb.append(" UNIQUE "); //$NON-NLS-1$
 		sb.append("("); //$NON-NLS-1$
 		for (int i = 0; i < columns.length; i++) {
 			Column column = columns[i];

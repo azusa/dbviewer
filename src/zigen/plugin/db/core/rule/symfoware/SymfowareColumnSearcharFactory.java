@@ -132,7 +132,7 @@ public class SymfowareColumnSearcharFactory extends DefaultColumnSearcherFactory
 		sb.append("        ,CASE");
 		sb.append("            WHEN COL.CHAR_MAX_LENGTH IS NULL THEN COL.NUMERIC_PRECISION");
 		sb.append("            ELSE CASE");
-		sb.append("                WHEN COL.CHAR_MAX_LENGTH > " + Integer.MAX_VALUE + " THEN " + Integer.MAX_VALUE); // これは本当は違う(2進数で計算しないと・・)
+		sb.append("                WHEN COL.CHAR_MAX_LENGTH > " + Integer.MAX_VALUE + " THEN " + Integer.MAX_VALUE);
 		sb.append("                ELSE COL.CHAR_MAX_LENGTH");
 		sb.append("            END");
 		sb.append("        END ").append(DATA_PRECISION_STR);

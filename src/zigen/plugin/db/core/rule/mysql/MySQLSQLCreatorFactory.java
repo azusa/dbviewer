@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007Å|2009 ZIGEN
+ * Copyright (c) 2007 - 2009 ZIGEN
  * Eclipse Public License - v 1.0
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package zigen.plugin.db.core.rule.mysql;
 
 import zigen.plugin.db.core.SQLFormatter;
@@ -220,7 +219,7 @@ public class MySQLSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		sb.append(" "); //$NON-NLS-1$
 		sb.append(SQLUtil.enclose(to.getName(), encloseChar));
 		sb.append(" "); //$NON-NLS-1$
-		sb.append(to.getTypeName());// å^
+		sb.append(to.getTypeName());
 		if (isVisibleColumnSize(to.getTypeName())) {
 			sb.append("("); //$NON-NLS-1$
 			sb.append(to.getSize());
