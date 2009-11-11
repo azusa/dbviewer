@@ -10,9 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kry.sql.format.SqlFormatRule;
-import kry.sql.tokenizer.SqlScanner;
 import kry.sql.tokenizer.SqlTokenizer;
-import kry.sql.tokenizer.TokenList;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -141,10 +139,7 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 	}
 
 	protected void contextMenuAboutToShow(IMenuManager menu) {
-		// JavaPlugin.createStandardGroups(menu);
 		IStructuredSelection selection = (IStructuredSelection) getSelection();
-		// fActionGroups.setContext(new ActionContext(selection));
-		// fActionGroups.fillContextMenu(menu);
 		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
@@ -172,7 +167,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 	}
 
 	public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
-		// menuManager.add(new ChangeModeAction());
 		toolBarManager.add(new ExpandAllAction());
 		toolBarManager.add(new CollapseAllAction());
 
@@ -215,32 +209,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			return getEndNode(n);
 		}
 	}
-
-	// /**
-	// * Returns the <code>IShowInTarget</code> for this view.
-	// *
-	// * @return the {@link IShowInTarget}
-	// */
-	// protected IShowInTarget getShowInTarget() {
-	// return new IShowInTarget() {
-	// public boolean show(ShowInContext context) {
-	// ISelection sel= context.getSelection();
-	// if (sel instanceof ITextSelection) {
-	// ITextSelection tsel= (ITextSelection) sel;
-	// int offset= tsel.getOffset();
-	// IJavaElement element= fEditor.getElementAt(offset);
-	// if (element != null) {
-	// setSelection(new StructuredSelection(element));
-	// return true;
-	// }
-	// } else if (sel instanceof IStructuredSelection) {
-	// setSelection(sel);
-	// return true;
-	// }
-	// return false;
-	// }
-	// };
-	// }
 
 	class ExpandAllAction extends Action {
 
@@ -405,11 +373,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 			} else {
 				return ic.getImage(DbPlugin.IMG_CODE_SQL);
 			}
-			// return ic.getImage(DbPlugin.IMG_CODE_SQL);
-
-			// String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
-			// return
-			// PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 		}
 
 	}
@@ -482,9 +445,6 @@ public class SQLOutinePage extends ContentOutlinePage implements ISelectionListe
 		IProgressMonitor monitor;
 
 		public SqlParserWithProgressMonitor(IProgressMonitor monitor, String sql, SqlFormatRule rule) {
-			//super(sql, rule);
-			// super.setTokenizer(new SqlTokenizerWithProgressMonitor(monitor,
-			// sql, rule));
 			super(sql, new SqlTokenizerWithProgressMonitor(monitor, sql, rule));
 			this.monitor = monitor;
 		}

@@ -21,12 +21,13 @@ import blanco.commons.sql.format.BlancoSqlRule;
 
 public class SQLFormatter {
 
-	/**
-	 * for blancoCommons Formatter.
-	 */
+
 	public static String format(String preSql, int formatterType, boolean onPatch, int offset) {
 
 		if (formatterType == SQLFormatPreferencePage.TYPE_DBVIEWER) {
+			/**
+			 * for DBViewer SQL Formatter.
+			 */
 			try {
 				ISqlFormat formatter = new SqlFormat(DbPlugin.getSqlFormatRult());
 
@@ -36,6 +37,9 @@ public class SQLFormatter {
 			}
 			return preSql;
 		} else {
+			/**
+			 * for blancoCommons Formatter.
+			 */
 			try {
 				BlancoSqlFormatter formatter = new BlancoSqlFormatter(new BlancoSqlRule());
 				String result = formatter.format(preSql);
