@@ -99,7 +99,8 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 			break;
 
 		default:
-			obj = "<<Unknown Type (" + type + ")>>";
+//			obj = "<<Unknown Type (" + type + ")>>";
+			obj = getUnknown(rs, icol, type);
 			break;
 		}
 		return obj;
@@ -390,6 +391,17 @@ public class DefaultMappingFactory extends AbstractMappingFactory implements IMa
 			return nullSymbol;
 		return "<<OTHER>>";
 	}
+
+	protected String getUnknown(ResultSet rs, int icol, int type) throws SQLException {
+		Object value = rs.getObject(icol);
+
+		if (rs.wasNull())
+			return nullSymbol;
+
+		return "<<Unknown Type (" + type + ")>>";
+
+	}
+
 
 	protected void setChar(PreparedStatement pst, int icol, String str) throws SQLException {
 
