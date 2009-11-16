@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.java_cup.internal.sym;
-
 import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.ResultSetUtil;
 import zigen.plugin.db.core.SQLUtil;
