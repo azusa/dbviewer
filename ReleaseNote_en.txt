@@ -5,6 +5,16 @@ DBViewer Plugin for Eclipse V1.2.0.20091116
 Bug Fix
 ---------------------------
 
+The problem that was not able to be right-clicked as a table edit editor was corrected.
+
+
+------------------------------------------------------------------
+DBViewer Plugin for Eclipse V1.2.0.20091116
+------------------------------------------------------------------
+
+Bug Fix
+---------------------------
+
 There is a problem that the label is not correctly displayed under English-language environments.
 
 
