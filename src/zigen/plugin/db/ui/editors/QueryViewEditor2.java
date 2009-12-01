@@ -301,6 +301,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		cellEditors = new CellEditor[size];
 		TableKeyAdapter keyAdapter = new TableKeyAdapter(handler);
 		for (int i = 0; i < cellEditors.length; i++) {
+			properties[i] = String.valueOf(i);
 			if (i > 0) {
 				CellEditor cellEditor = new TextCellEditor(table, i);
 
