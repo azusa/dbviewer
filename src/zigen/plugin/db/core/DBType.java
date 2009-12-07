@@ -37,6 +37,7 @@ public class DBType {
 
 	public static final int DB_TYPE_INTERBASE = 13;
 
+
 	public static final int getType(IDBConfig config) {
 		return getType(config.getDriverName());
 	}

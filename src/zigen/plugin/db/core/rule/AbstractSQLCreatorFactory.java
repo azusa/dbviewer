@@ -27,6 +27,7 @@ import zigen.plugin.db.core.rule.hsqldb.HSQLDBSQLCreatorFactory;
 import zigen.plugin.db.core.rule.mysql.MySQLSQLCreatorFactory;
 import zigen.plugin.db.core.rule.oracle.OracleSQLCreatorFactory;
 import zigen.plugin.db.core.rule.postgresql.PostgreSQLSQLCreatorFactory;
+import zigen.plugin.db.core.rule.sqlite.SqliteSQLCreatorFactory;
 import zigen.plugin.db.core.rule.sqlserver.SQLServerSQLCreatorFactory;
 import zigen.plugin.db.core.rule.symfoware.SymfowareSQLCreatorFactory;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
@@ -100,7 +101,9 @@ public abstract class AbstractSQLCreatorFactory implements ISQLCreatorFactory {
 			case DBType.DB_TYPE_SQLSERVER:
 				factory = new SQLServerSQLCreatorFactory(table);
 				break;
-
+			case DBType.DB_TYPE_SQLITE:
+				factory = new SqliteSQLCreatorFactory(table);
+				break;
 			case DBType.DB_TYPE_H2:
 				factory = new H2SQLCreatorFactory(table);
 				break;

@@ -28,6 +28,7 @@ import zigen.plugin.db.core.rule.derby.DerbyMappingFactory;
 import zigen.plugin.db.core.rule.mysql.MySQLMappingFactory;
 import zigen.plugin.db.core.rule.oracle.OracleMappingFactory;
 import zigen.plugin.db.core.rule.postgresql.PostgreSQLMappingFactory;
+import zigen.plugin.db.core.rule.sqlite.SqliteMappingFactory;
 import zigen.plugin.db.core.rule.symfoware.SymfowareMappingFactory;
 import zigen.plugin.db.preference.PreferencePage;
 
@@ -87,6 +88,9 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 					break;
 				case DBType.DB_TYPE_DERBY:
 					factory = new DerbyMappingFactory(isConvertUnicode);
+					break;
+				case DBType.DB_TYPE_SQLITE:
+					factory = new SqliteMappingFactory(isConvertUnicode);
 					break;
 				default:
 					factory = new DefaultMappingFactory(isConvertUnicode);
