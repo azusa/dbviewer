@@ -104,7 +104,7 @@ public class DBConfig implements IDBConfig, Serializable, Cloneable {
 		Properties properties = new Properties();
 		properties.setProperty("user", this.getUserId()); //$NON-NLS-1$
 		properties.setProperty("password", this.getPassword()); //$NON-NLS-1$
-		if(this.getSchema() != null){
+		if(this.getSchema() != null && !"".equals(this.getSchema())){
 			properties.setProperty("schema", this.getSchema());//$NON-NLS-1$
 		}
 
