@@ -263,7 +263,8 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		for (int i = 0; i < colums.length; i++) {
 			TableColumn col = colums[i];
 
-			if (!col.getColumnName().equals(items[i])) {
+			//if (!col.getColumnName().equals(items[i])) {
+			if (!col.getColumnName().equalsIgnoreCase(items[i])) {
 				isHeader = false;
 			}
 
@@ -277,13 +278,25 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 		if (target == null || "".equals(target))return false; //$NON-NLS-1$
 
 		StringTokenizer tokenizer = new StringTokenizer(target, DbPluginConstant.LINE_SEP);
-		while (tokenizer.hasMoreTokens()) {
+//		while (tokenizer.hasMoreTokens()) {
+//			StringBuffer sb = new StringBuffer();
+//			sb.append(tokenizer.nextToken()).append(DbPluginConstant.LINE_SEP);
+//			TabTokenizer t = new TabTokenizer(sb.toString());
+//			if (columnCount != t.getTokenCount()) {
+//				return false;
+//			}
+//		}
+		// only check first Record
+		if (tokenizer.hasMoreTokens()) {
 			StringBuffer sb = new StringBuffer();
 			sb.append(tokenizer.nextToken()).append(DbPluginConstant.LINE_SEP);
 			TabTokenizer t = new TabTokenizer(sb.toString());
 			if (columnCount != t.getTokenCount()) {
 				return false;
 			}
+//			if (columnCount < t.getTokenCount()) {
+//				return false;
+//			}
 		}
 
 		return true;
@@ -336,7 +349,7 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 			final StringTokenizer tokenizer = new StringTokenizer(str, DbPluginConstant.LINE_SEP);
 
 			int position = editor.getRecordOffset() + table.getItemCount();
-			PasteRecordJob job = new PasteRecordJob(tokenizer, position);
+			PasteRecordJob job = new PasteRecordJob(tokenizer, position, columnCount);
 			//job.setPriority(OpenEditorJob.LONG);
 			job.setPriority(OpenEditorJob.SHORT);
 			job.setUser(true);
@@ -421,11 +434,13 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 
 		int position;
 
-		public PasteRecordJob(StringTokenizer tokenizer, int position) {
+		int columnCount;
+		public PasteRecordJob(StringTokenizer tokenizer, int position, int columnCount) {
 			super("Paste Record Data");
 			this.tokenizer = tokenizer;
 			editor.setEnabled(false);
 			this.position = position;
+			this.columnCount = columnCount;
 		}
 
 		protected IStatus run(IProgressMonitor monitor) {
@@ -444,15 +459,22 @@ public class TableKeyAdapter implements KeyListener, TraverseListener {
 							return Status.CANCEL_STATUS;
 						} else {
 							String record = tokenizer.nextToken();
-							List itemList = new ArrayList();
+							//List itemList = new ArrayList();
 							TabTokenizer t = new TabTokenizer(record);
 
-							while (t.hasMoreElements()) {
-								String token = convertToken(t.nextToken());
-								itemList.add(token);
+//							while (t.hasMoreElements()) {
+//								String token = convertToken(t.nextToken());
+//								itemList.add(token);
+//							}
+							String[] items = new String[columnCount];
+							for (int i = 0; i < columnCount; i++) {
+								if(t.hasMoreElements()){
+									String token = convertToken(t.nextToken());
+									items[i] = token;
+								}else{
+									items[i] = "";
+								}
 							}
-							String[] items = (String[]) itemList.toArray(new String[0]);
-
 							if (cnt == 1 && isHeaderData(columns, items)) {
 								totalWork--;
 								displayCount--;
