@@ -43,7 +43,9 @@ public class OracleConstraintSearcharFactory extends DefaultConstraintSearcherFa
 		sb.append("    WHERE"); //$NON-NLS-1$
 		sb.append("        CON.OWNER = '" + SQLUtil.encodeQuotation(schemaPattern) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append("        AND CON.TABLE_NAME = '" + SQLUtil.encodeQuotation(tableName) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		sb.append("        AND CON.GENERATED = 'USER NAME'"); //$NON-NLS-1$
+//		sb.append("        AND CON.GENERATED = 'USER NAME'"); //$NON-NLS-1$
+		sb.append("        AND (CON.GENERATED = 'USER NAME' OR (CON.GENERATED = 'GENERATED NAME' AND COLUMN_POSITION IS NOT NULL))"); //$NON-NLS-1$
+		
 		sb.append("        AND CON.OWNER = COL.INDEX_OWNER(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.CONSTRAINT_NAME = COL.INDEX_NAME(+)"); //$NON-NLS-1$
 		sb.append("        AND CON.OWNER = COL.TABLE_OWNER(+)"); //$NON-NLS-1$
