@@ -24,6 +24,7 @@ import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.core.DBType;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.TableColumn;
+import zigen.plugin.db.core.rule.db2.DB2MappingFactory;
 import zigen.plugin.db.core.rule.derby.DerbyMappingFactory;
 import zigen.plugin.db.core.rule.mysql.MySQLMappingFactory;
 import zigen.plugin.db.core.rule.oracle.OracleMappingFactory;
@@ -76,6 +77,9 @@ public abstract class AbstractMappingFactory implements IMappingFactory {
 
 				case DBType.DB_TYPE_ORACLE:
 					factory = new OracleMappingFactory(isConvertUnicode);
+					break;
+				case DBType.DB_TYPE_DB2:
+					factory = new DB2MappingFactory(isConvertUnicode);
 					break;
 				case DBType.DB_TYPE_SYMFOWARE:
 					factory = new SymfowareMappingFactory(isConvertUnicode);
