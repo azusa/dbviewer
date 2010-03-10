@@ -1044,7 +1044,8 @@ public class TableViewEditorFor31 extends MultiPageEditorPart implements ITableV
 				boolean doCalculate = false;
 				try {
 					elements = TableManager.invoke(config, iTable);
-
+					doCalculate = true;// [change] doCalculate is true
+					
 				} catch (MaxRecordException e) {
 					elements = e.getTableElements();
 					doCalculate = true;

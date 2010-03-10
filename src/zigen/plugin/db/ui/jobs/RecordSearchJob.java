@@ -79,7 +79,9 @@ public class RecordSearchJob extends AbstractJob {
 				if (factory.isSupportPager()) {
 					showResults(new ShowResultAction(condition, elements, time.getTotalTime(), true));
 				} else {
-					showResults(new ShowResultAction(condition, elements, time.getTotalTime(), false));
+					
+					//showResults(new ShowResultAction(condition, elements, time.getTotalTime(), false));
+					showResults(new ShowResultAction(condition, elements, time.getTotalTime(), true));	// [change] doCalculate is true
 				}
 			}
 

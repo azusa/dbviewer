@@ -91,6 +91,61 @@ public class SQLInvoker {
 
 	}
 
+	
+	public static TableElement[] executeQueryForPager(Connection con, String query, boolean convUnicode, boolean isNoLockMode, int offset, int limit) throws Exception{
+		ResultSet rs = null;
+		Statement stmt = null;
+		try {
+			stmt = con.createStatement();
+
+			if (isNoLockMode) {
+				if (DBType.DB_TYPE_SYMFOWARE == DBType.getType(con.getMetaData())) {
+					if (!query.trim().endsWith("WITH OPTION LOCK_MODE(NL)")) { //$NON-NLS-1$
+						query += " WITH OPTION LOCK_MODE(NL)"; //$NON-NLS-1$
+					}
+				}
+			}
+
+			rs = stmt.executeQuery(query);
+			ResultSetMetaData meta = rs.getMetaData();
+			List list = new ArrayList();
+			TableColumn[] columns = getTableColumns(meta);
+			TableElement header = new TableHeaderElement(columns);
+			list.add(header);
+			int size = meta.getColumnCount();
+			int recordNo = 0;
+			IMappingFactory factory = AbstractMappingFactory.getFactory(con.getMetaData(), convUnicode);
+
+			int addCount = 0;
+			while (rs.next()) {
+				recordNo++;
+
+				if (recordNo >= offset && addCount < limit) {
+					Object[] items = new Object[size];
+					for (int i = 0; i < size; i++) {
+						items[i] = factory.getObject(rs, i + 1);
+					}
+
+					TableElement elements = new TableElement(recordNo, columns, items);
+					list.add(elements);
+					addCount++;
+				}
+
+			}
+
+			return (TableElement[]) list.toArray(new TableElement[0]);
+
+		} catch (Exception e) {
+			throw e;
+
+		} finally {
+			ResultSetUtil.close(rs);
+			StatementUtil.close(stmt);
+		}
+
+	}
+	
+	
 	private static TableColumn[] getTableColumns(ResultSetMetaData meta) throws SQLException {
 		int count = meta.getColumnCount();
 

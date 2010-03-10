@@ -95,6 +95,7 @@ public class TableManager {
 			list.add(header);
 
 			int recordNo = 0;
+			int addCount = 0;
 			while (rs.next()) {
 
 				recordNo++;
@@ -108,23 +109,35 @@ public class TableManager {
 					} else {
 						elements = createElement(rs, table, columns, uidxs, no);
 					}
-
+					list.add(elements);
 				} else {
+					/*
 					if (limit > 0 && recordNo > limit) {
 						String msg = Messages.getString("TableManager.0"); //$NON-NLS-1$
 						throw new MaxRecordException(msg, (TableElement[]) list.toArray(new TableElement[0]));
 					}
-
 					int no = recordNo;
 					if (pks != null && pks.length > 0) {
 						elements = createElement(rs, table, columns, pks, no);
 					} else {
 						elements = createElement(rs, table, columns, uidxs, no);
 					}
-
+					*/
+					
+					if (recordNo >= offset && addCount < limit) {
+						int no = recordNo;
+						if (pks != null && pks.length > 0) {
+							elements = createElement(rs, table, columns, pks, no);
+						} else {
+							elements = createElement(rs, table, columns, uidxs, no);
+						}
+						list.add(elements);
+						addCount++;
+					}
+					
 				}
 
-				list.add(elements);
+				//list.add(elements);
 			}
 
 			return (TableElement[]) list.toArray(new TableElement[0]);
@@ -138,10 +151,129 @@ public class TableManager {
 		}
 
 	}
+	
+	
+	public static TableElement[] invokeForPager(IDBConfig config, ITable table) throws Exception, MaxRecordException {
+		int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
+		return invokeForPager(config, table, null, 0, limit);
+	}
 
+	public static TableElement[] invokeForPager(IDBConfig config, ITable table, String condition) throws Exception, MaxRecordException {
+		int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
+		return invokeForPager(config, table, condition, 0, limit);
+	}
+
+	public static TableElement[] invokeForPager(IDBConfig config, ITable table, String condition, int offset, int limit) throws Exception, MaxRecordException {
+		try {
+			Connection con = Transaction.getInstance(config).getConnection();
+			return invokeForPager(con, table, condition, offset, limit);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public static TableElement[] invokeForPager(Connection con, ITable table) throws Exception, MaxRecordException {
+		return invokeForPager(con, table, null);
+	}
+
+	public static TableElement[] invokeForPager(Connection con, ITable table, String condition) throws Exception, MaxRecordException {
+		int limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
+		return invoke(con, table, condition, 0, limit);
+	}
+	
+	public static TableElement[] invokeForPager(Connection con, ITable table, String condition, int offset, int limit) throws Exception, MaxRecordException {
+		ResultSet rs = null;
+		Statement stmt = null;
+		TablePKColumn[] pks = null;
+		TableFKColumn[] fks = null;
+		TableIDXColumn[] uidxs = null;
+		try {
+			pks = table.getTablePKColumns();
+			if (pks == null) {
+				// pks = ConstraintSearcher.getPKColumns(con, table.getSchemaName(), table.getName());
+				IConstraintSearcherFactory factory = DefaultConstraintSearcherFactory.getFactory(table.getDbConfig());
+				pks = factory.getPKColumns(con, table.getSchemaName(), table.getName());
+				if (pks == null) {
+					uidxs = ConstraintUtil.getFirstUniqueIndex(table.getTableUIDXColumns());
+				}
+			}
+			fks = table.getTableFKColumns();
+			stmt = con.createStatement();
+
+			IDBConfig config = table.getDbConfig();
+			ISQLCreatorFactory factory = DefaultSQLCreatorFactory.getFactory(config, table);
+			String sql = getSQL(factory, condition, offset, limit);
+			rs = stmt.executeQuery(sql);
+			ResultSetMetaData meta = rs.getMetaData();
+			List list = new ArrayList();
+			TableColumn[] columns = getTableColumns(meta, table);
+			TableElement header;
+			if (pks != null && pks.length > 0) {
+				header = createHeaderElement(rs, table, columns, pks, fks);
+			} else {
+				header = createHeaderElement(rs, table, columns, uidxs, fks);
+			}
+			if (pks == null || pks.length == 0) {
+				header.setCanModify(checkModify(table.getDbConfig(), columns));
+			} else {
+				header.setCanModify(true);
+			}
+			list.add(header);
+
+			int recordNo = 0;
+			int addCount = 0;
+			int size = meta.getColumnCount();
+			while (rs.next()) {
+
+				recordNo++;
+
+				TableElement elements = null;
+
+				if (offset > 0 && factory.isSupportPager()) {
+					int no = recordNo + offset - 1;
+					if (pks != null && pks.length > 0) {
+						elements = createElement(rs, table, columns, pks, no);
+					} else {
+						elements = createElement(rs, table, columns, uidxs, no);
+					}
+					list.add(elements);
+				} else {
+					if (recordNo >= offset && addCount < limit) {
+						int no = recordNo;
+						if (pks != null && pks.length > 0) {
+							elements = createElement(rs, table, columns, pks, no);
+						} else {
+							elements = createElement(rs, table, columns, uidxs, no);
+						}
+						list.add(elements);
+						addCount++;
+					}
+				}
+			}
+
+			return (TableElement[]) list.toArray(new TableElement[0]);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			ResultSetUtil.close(rs);
+			StatementUtil.close(stmt);
+		}
+
+	}
 	private static String getSQL(ISQLCreatorFactory factory, String condition, int offset, int limit) {
+		/*
 		if (offset == 0 || !factory.isSupportPager()) {
 			return factory.createSelect(condition, limit);
+		} else {
+			return factory.createSelectForPager(condition, offset, limit);
+		}
+		*/
+		if (offset == 0) {
+			return factory.createSelect(condition, limit);
+		}else if(!factory.isSupportPager()){
+			return factory.createSelect(condition, 0);	// noLimit
 		} else {
 			return factory.createSelectForPager(condition, offset, limit);
 		}

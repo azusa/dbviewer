@@ -1,4 +1,15 @@
 ------------------------------------------------------------------
+DBViewer Plugin for Eclipse V1.2.0.20100310
+------------------------------------------------------------------
+
+New features /improvement
+---------------------------
+
+It came to be able to use the pager function with all DB. 
+It came to be able to use the pager function for the query result. 
+
+
+------------------------------------------------------------------
 DBViewer Plugin for Eclipse V1.2.0.20091129
 ------------------------------------------------------------------
 

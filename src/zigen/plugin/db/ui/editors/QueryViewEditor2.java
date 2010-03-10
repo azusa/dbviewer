@@ -39,10 +39,14 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.CoolItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
@@ -64,6 +68,7 @@ import zigen.plugin.db.ImageCacher;
 import zigen.plugin.db.core.IDBConfig;
 import zigen.plugin.db.core.TableElement;
 import zigen.plugin.db.core.Transaction;
+import zigen.plugin.db.preference.PreferencePage;
 import zigen.plugin.db.ui.actions.CopyRecordDataAction;
 import zigen.plugin.db.ui.actions.ITableViewEditorAction;
 import zigen.plugin.db.ui.actions.SelectAllRecordAction;
@@ -76,12 +81,33 @@ import zigen.plugin.db.ui.internal.Column;
 import zigen.plugin.db.ui.internal.ITable;
 import zigen.plugin.db.ui.jobs.ChangeColorJob;
 import zigen.plugin.db.ui.jobs.RecordCountForQueryJob;
+import zigen.plugin.db.ui.jobs.RecordSearchJob;
+import zigen.plugin.db.ui.jobs.SqlExecForPagerJob;
 import zigen.plugin.db.ui.jobs.SqlExecJob;
 import zigen.plugin.db.ui.views.StatusLineContributionItem;
 
-public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewEditor, IQueryViewEditor {
-
-
+public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewEditor, IQueryViewEditor, IPageChangeListener {
+	protected int limit = 0;
+	protected int offset = 0;
+	
+	public void pageChanged(int status, int offset, int limit) {
+		this.offset = offset;
+		this.limit = limit;
+		updateTableViewer(offset, limit);
+	}
+	protected void updateTableViewer(int offset, int limit) {
+		if (limit == 0) {
+			offset = 0;
+		}
+		QueryViewEditorInput ei = (QueryViewEditorInput) getEditorInput();
+		Transaction trans = Transaction.getInstance(config);
+		SqlExecForPagerJob job = new SqlExecForPagerJob(trans, query, ei.getSecondarlyId(), true, offset, limit);
+		// job.setPriority(Job.SHORT);
+		job.setUser(false);
+		job.schedule();
+	}
+	
+	
 	private ImageCacher ic = ImageCacher.getInstance();
 
 	private Table table;
@@ -189,12 +215,20 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		reloeadItem.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent e) {
+//				QueryViewEditorInput ei = (QueryViewEditorInput) getEditorInput();
+//				Transaction trans = Transaction.getInstance(config);
+//				SqlExecJob job = new SqlExecJob(trans, query, ei.getSecondarlyId(), true);
+//				// job.setPriority(Job.SHORT);
+//				job.setUser(false);
+//				job.schedule();
+				
 				QueryViewEditorInput ei = (QueryViewEditorInput) getEditorInput();
 				Transaction trans = Transaction.getInstance(config);
-				SqlExecJob job = new SqlExecJob(trans, query, ei.getSecondarlyId(), true);
+				SqlExecForPagerJob job = new SqlExecForPagerJob(trans, query, ei.getSecondarlyId(), true, offset, limit);
 				// job.setPriority(Job.SHORT);
 				job.setUser(false);
 				job.schedule();
+				
 			}
 		});
 	}
@@ -271,6 +305,8 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		hookContextMenu();
 		contributeToStatusLine();
 
+		createFooterArea(main);
+		
 		int index = addPage(main);
 
 		setActivePage(getPageCount() - 1);
@@ -278,7 +314,44 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		getSite().setSelectionProvider(viewer);
 
 	}
-
+	
+	CoolItem pagerItem;
+	QueryViewerPager pager;
+	private void createFooterArea(Composite parent) {
+		CoolBar coolBar1 = new CoolBar(parent, SWT.NONE);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		coolBar1.setLayoutData(gridData);
+		GridLayout gridLayout = new GridLayout(1, false);
+		gridLayout.marginHeight = 0;
+		gridLayout.marginWidth = 0;
+		gridLayout.horizontalSpacing = 0;
+		gridLayout.verticalSpacing = 0;
+		coolBar1.setLayout(gridLayout);
+		pagerItem = new CoolItem(coolBar1, SWT.FLAT);
+		
+		limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
+		pager = new QueryViewerPager(limit);
+		pagerItem.setControl(pager.createStackedButtons(coolBar1));
+		computeSize(pagerItem);
+		pager.setPageNo(1);
+		pager.addPageChangeListener(this);
+//		infoLabelItem = new CoolItem(coolBar1, SWT.NONE);
+//		infoLabel = new Label(coolBar1, SWT.NONE);
+//		infoLabel.setText(""); //$NON-NLS-1$
+//		infoLabel.setForeground(new Color(null, 255, 0, 0));
+//		// infoLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+//		infoLabelItem.setControl(infoLabel);
+//
+//		computeSize(infoLabelItem);
+	}
+	private void computeSize(CoolItem item) {
+		Control control = item.getControl();
+		Point pt = control.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		pt = item.computeSize(pt.x + 5, pt.y);
+		item.setSize(pt);
+	}
+	
+	
 	CellEditor[] cellEditors;
 
 	public void refleshAction() {
@@ -384,6 +457,10 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		sb.append("]"); //$NON-NLS-1$
 
 		setPageText(getActivePage(), sb.toString());
+		
+		pager.setLimit(limit);
+		pager.setRecordCount((int) totalCount);
+		computeSize(pagerItem);
 	}
 
 	public void setResponseTime(String responseTime) {
@@ -402,6 +479,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 		try {
 			this.query = query;
 
+			
 			// remove dummy page
 			if (getPageText(0).equals("log")) {
 				removePage(0);
@@ -424,6 +502,7 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 					sortListener = new TableSortListener(this, 0);
 					col.addSelectionListener(sortListener);
 
+					
 				} else {
 					this.elements = elements;
 
@@ -438,6 +517,9 @@ public class QueryViewEditor2 extends MultiPageEditorPart implements ITableViewE
 			}
 
 			if (!isReload) {
+				if(pager != null)
+					pager.setPageNo(1);
+				
 				QueryViewEditorInput ei = (QueryViewEditorInput) getEditorInput();
 				DbPlugin.showView(DbPluginConstant.VIEW_ID_SQLExecute, ei.getSecondarlyId());
 			}
