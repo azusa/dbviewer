@@ -232,8 +232,13 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 		if (column.getDefaultValue() != null && !"".equals(column.getDefaultValue())) {// DEFAULT
 			// //$NON-NLS-1$
 			sb.append(" DEFAULT "); //$NON-NLS-1$
-//			sb.append(column.getDefaultValue());
-			sb.append(SQLUtil.enclose(column.getDefaultValue(), encloseChar));
+			
+			if("NUMBER".equals(column.getTypeName())){
+				sb.append(column.getDefaultValue());
+			}else{
+				sb.append("'").append(column.getDefaultValue()).append("'");
+			}
+
 		}
 
 		if (column.isNotNull()) { // NOT NULL
@@ -279,11 +284,13 @@ public class OracleSQLCreatorFactory extends DefaultSQLCreatorFactory {
 			if ("".equals(to.getDefaultValue())) { //$NON-NLS-1$
 				sb2.append("NULL"); //$NON-NLS-1$
 			} else {
-//				sb2.append(to.getDefaultValue());
-				sb2.append(SQLUtil.enclose(to.getDefaultValue(), encloseChar));
+				if("NUMBER".equals(to.getTypeName())){
+					sb2.append(to.getDefaultValue());
+				}else{
+					sb2.append("'").append(to.getDefaultValue()).append("'");
+				}
 			}
 			sb2.append(")"); //$NON-NLS-1$
-
 		}
 
 		if (from.isNotNull() != to.isNotNull()) {
