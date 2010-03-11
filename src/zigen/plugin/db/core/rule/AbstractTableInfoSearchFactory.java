@@ -18,7 +18,9 @@ import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.TableInfo;
 import zigen.plugin.db.core.rule.mysql.MySQLColumnSearcharFactory;
 import zigen.plugin.db.core.rule.oracle.OracleColumnSearcharFactory;
+import zigen.plugin.db.core.rule.oracle.OracleTableInfoSearchFactory;
 import zigen.plugin.db.core.rule.symfoware.SymfowareColumnSearcharFactory;
+import zigen.plugin.db.core.rule.symfoware.SymfowareTableInfoSearchFactory;
 
 
 abstract public class AbstractTableInfoSearchFactory implements ITableInfoSearchFactory {

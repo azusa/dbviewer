@@ -1,4 +1,4 @@
-package zigen.plugin.db.core.rule;
+package zigen.plugin.db.core.rule.symfoware;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -13,6 +13,7 @@ import zigen.plugin.db.core.ResultSetUtil;
 import zigen.plugin.db.core.SQLUtil;
 import zigen.plugin.db.core.StatementUtil;
 import zigen.plugin.db.core.TableInfo;
+import zigen.plugin.db.core.rule.DefaultTableInfoSearchFactory;
 
 
 public class SymfowareTableInfoSearchFactory extends DefaultTableInfoSearchFactory{

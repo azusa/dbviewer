@@ -1,8 +1,9 @@
-package zigen.plugin.db.core.rule;
+package zigen.plugin.db.core.rule.oracle;
 
 import java.sql.DatabaseMetaData;
 
 import zigen.plugin.db.core.SQLUtil;
+import zigen.plugin.db.core.rule.DefaultTableInfoSearchFactory;
 
 
 public class OracleTableInfoSearchFactory extends DefaultTableInfoSearchFactory{
