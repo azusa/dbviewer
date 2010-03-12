@@ -38,10 +38,13 @@ import zigen.plugin.db.ui.editors.internal.action.DropConstraintAction;
 import zigen.plugin.db.ui.editors.internal.action.DropIndexAction;
 import zigen.plugin.db.ui.editors.internal.action.DuplicateColumnAction;
 import zigen.plugin.db.ui.editors.internal.action.EditColumnAction;
+import zigen.plugin.db.ui.editors.internal.action.OpenTriggerAction;
 import zigen.plugin.db.ui.internal.Constraint;
 import zigen.plugin.db.ui.internal.ConstraintRoot;
 import zigen.plugin.db.ui.internal.Index;
 import zigen.plugin.db.ui.internal.IndexRoot;
+import zigen.plugin.db.ui.internal.Trigger;
+import zigen.plugin.db.ui.internal.TriggerRoot;
 
 public class TableViewerContributor extends MultiPageEditorActionBarContributor {
 
@@ -82,7 +85,8 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 	private DropIndexAction dropIndexAction;
 
 	private DropConstraintAction dropConstraintAction;
-
+	
+	private OpenTriggerAction openTriggerAction;
 
 	protected CopyRecordTrimDataAction copyTrimAction;
 
@@ -114,7 +118,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		dropIndexAction = new DropIndexAction();
 		dropConstraintAction = new DropConstraintAction();
 		copyTrimAction = new CopyRecordTrimDataAction();
-
+		openTriggerAction = new OpenTriggerAction();
 	}
 
 	public void init(IActionBars bars, IWorkbenchPage page) {
@@ -215,7 +219,11 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 				dropIndexAction.setEnabled(true);
 				manager.add(addIndexAction);
 				manager.add(dropIndexAction);
+			
+			} else if (obj instanceof Trigger) {
+				manager.add(openTriggerAction);
 			}
+			
 			break;
 
 		case DBType.DB_TYPE_MYSQL:
@@ -288,6 +296,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
+
 	public void contributeToToolBar(IToolBarManager manager) {
 		super.contributeToToolBar(manager);
 		// manager.add(new Separator());
@@ -347,6 +356,8 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 			dropConstraintAction.setActiveEditor(editor);
 
 			copyTrimAction.setActiveEditor(editor);
+			
+			openTriggerAction.setActiveEditor(editor);
 
 		}
 	}
@@ -381,7 +392,7 @@ public class TableViewerContributor extends MultiPageEditorActionBarContributor 
 		dropIndexAction.setActiveEditor(null);
 		dropConstraintAction.setActiveEditor(null);
 		copyTrimAction.setActiveEditor(null);
-
+		openTriggerAction.setActiveEditor(null);
 		super.dispose();
 
 	}

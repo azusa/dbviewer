@@ -11,10 +11,6 @@ public class ConstraintRoot extends TreeNode {
 
 	private String name = "CONSTRAINT";
 
-	private String type = "";
-
-	private String paramater = "";
-
 	public ConstraintRoot() {}
 
 	public void addConstraint(Constraint model) {
@@ -23,14 +19,6 @@ public class ConstraintRoot extends TreeNode {
 
 	public String getName() {
 		return name;
-	}
-
-	public String getParamater() {
-		return paramater;
-	}
-
-	public String getType() {
-		return type;
 	}
 
 }

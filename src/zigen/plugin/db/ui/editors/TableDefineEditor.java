@@ -5,6 +5,7 @@
  */
 package zigen.plugin.db.ui.editors;
 
+import java.sql.Connection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,8 +49,13 @@ import zigen.plugin.db.core.DBType;
 import zigen.plugin.db.core.TableConstraintColumn;
 import zigen.plugin.db.core.TableFKColumn;
 import zigen.plugin.db.core.TableIDXColumn;
+import zigen.plugin.db.core.Transaction;
 import zigen.plugin.db.core.rule.AbstractSQLCreatorFactory;
 import zigen.plugin.db.core.rule.ISQLCreatorFactory;
+import zigen.plugin.db.ext.oracle.internal.OracleSourceInfo;
+import zigen.plugin.db.ext.oracle.internal.OracleSourceSearcher;
+import zigen.plugin.db.ext.oracle.internal.OracleTriggerInfo;
+import zigen.plugin.db.ext.oracle.internal.OracleTriggerSearcher;
 import zigen.plugin.db.ui.editors.event.TextSelectionListener;
 import zigen.plugin.db.ui.editors.internal.Messages;
 import zigen.plugin.db.ui.editors.internal.wizard.ColumnWizard;
@@ -62,6 +68,8 @@ import zigen.plugin.db.ui.internal.IndexRoot;
 import zigen.plugin.db.ui.internal.Root;
 import zigen.plugin.db.ui.internal.TreeLeaf;
 import zigen.plugin.db.ui.internal.TreeNode;
+import zigen.plugin.db.ui.internal.Trigger;
+import zigen.plugin.db.ui.internal.TriggerRoot;
 import zigen.plugin.db.ui.views.TreeViewSorter;
 
 public class TableDefineEditor {
@@ -183,6 +191,35 @@ public class TableDefineEditor {
 					}
 				}
 			}
+			
+			// for add Display TRIGGER
+			if(DBType.getType(tableNode.getDbConfig()) == DBType.DB_TYPE_ORACLE){
+				try {
+					Connection con = Transaction.getInstance(tableNode.getDbConfig()).getConnection();
+					String owner = tableNode.getSchemaName();
+					String tableName = tableNode.getName();
+					OracleTriggerInfo[] infos = OracleTriggerSearcher.execute(con, owner, tableName);
+					if(infos != null && infos.length > 0){
+						TriggerRoot triggerRoot = new TriggerRoot();
+						for (int i = 0; i < infos.length; i++) {
+							OracleTriggerInfo info = infos[i];
+							Trigger trigger = new Trigger(tableNode, info);
+//							String name;
+//							if(owner.equalsIgnoreCase(info.getOwner())){
+//								name = info.getName();
+//							}else{
+//								name = info.getOwner() + "." + info.getName();
+//							}
+							triggerRoot.addChild(trigger);
+						}
+						root.addChild(triggerRoot);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			
 			constraintViewer.setInput(root);
 			constraintViewer.expandAll();
 			columnsPack(constraintViewer.getTree());
@@ -573,6 +610,28 @@ public class TableDefineEditor {
 						return idx.getParamater();
 					case 3:
 						return idx.getIndexType();
+					default:
+						break;
+					}
+					
+				} else if (obj instanceof TriggerRoot) {
+					TriggerRoot root = (TriggerRoot) obj;
+					switch (i) {
+					case 0:
+						return root.getName();
+					default:
+						return ""; //$NON-NLS-1$
+					}
+					
+				} else if (obj instanceof Trigger) {
+					Trigger tri = (Trigger) obj;
+					switch (i) {
+					case 0:
+						return tri.getName();
+					case 1:
+						return tri.getType();
+					case 2:
+						return tri.getEvent();
 					default:
 						break;
 					}
