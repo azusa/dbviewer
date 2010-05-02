@@ -526,8 +526,9 @@ public class SQLSourceViewer extends ProjectionViewer implements ISQLOperationTa
 				}
 			}
 
-			// Ctrl + Space
-			if (event.stateMask == SWT.CTRL && event.character == ' ') {
+			// Ctrl + Space add for Mac OS
+			if ((event.stateMask == SWT.CTRL && event.character == ' ')
+				|| (event.stateMask == SWT.CTRL && event.keyCode == 32)) {
 				if (canDoOperation(ISourceViewer.CONTENTASSIST_PROPOSALS))
 					doOperation(ISourceViewer.CONTENTASSIST_PROPOSALS);
 				event.doit = false;

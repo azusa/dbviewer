@@ -216,7 +216,8 @@ public class TableViewEditorFor32 extends TableViewEditorFor31 implements ITable
 			limit = DbPlugin.getDefault().getPreferenceStore().getInt(PreferencePage.P_MAX_VIEW_RECORD);
 			updateTableViewer(whereString, offset, limit);
 
-		} else if (e.stateMask == SWT.CTRL && e.character == ' ') {
+		} else if ((e.stateMask == SWT.CTRL && e.character == ' ')
+			|| (e.stateMask == SWT.CTRL && e.keyCode == 32)) {
 			contentAssisting = true;
 			e.doit = false;
 
