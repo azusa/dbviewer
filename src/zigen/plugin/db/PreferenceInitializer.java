@@ -60,6 +60,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(SQLEditorPreferencePage.P_SQL_DEMILITER, ";"); //$NON-NLS-1$
 		// store.setDefault(SQLEditorPreferencePage.P_FORMAT_PATCH, true);
 
+		
+		store.setDefault(SQLEditorPreferencePage.P_STYLE_KEYWORD, "3"); //$NON-NLS-1$
+		store.setDefault(SQLEditorPreferencePage.P_STYLE_FUNCTION, "3"); //$NON-NLS-1$		
+		
 		saveURLPreferencePage(store, createURL());
 
 		store.setDefault(CSVPreferencePage.P_ENCODING, DbPluginConstant.FILE_ENCODING); //$NON-NLS-1$

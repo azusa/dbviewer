@@ -16,10 +16,12 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 import org.eclipse.swt.SWT;
 
+import zigen.plugin.db.DbPlugin;
 import zigen.plugin.db.DbPluginFormatRule;
 import zigen.plugin.db.preference.SQLEditorPreferencePage;
 
-public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScanner {
+public class SQLKeywordScanner extends RuleBasedScanner implements
+		ISQLTokenScanner {
 
 	static class WordDetector implements IWordDetector {
 
@@ -64,8 +66,14 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 
 		IRule[] rules = new IRule[2];
 		IToken other = new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_DEFAULT)));
-		IToken keyword = new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_KEYWORD), null, SWT.BOLD));
-		IToken function = new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_FUNCTION), null, SWT.BOLD));
+
+		
+		String styleKeyword = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_STYLE_KEYWORD);
+		String styleFunction = DbPlugin.getDefault().getPreferenceStore().getString(SQLEditorPreferencePage.P_STYLE_FUNCTION);
+	
+		IToken keyword = new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_KEYWORD), null, Integer.parseInt(styleKeyword)));
+		IToken function = new Token(new TextAttribute(colorManager.getColor(SQLEditorPreferencePage.P_COLOR_FUNCTION), null, Integer.parseInt(styleFunction)));
+	
 		WordRule wordRule = new WordRule(new WordDetector(), other);
 
 
@@ -89,5 +97,4 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLTokenScan
 		setRules(rules);
 
 	}
-
 }

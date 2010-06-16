@@ -51,6 +51,12 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 	public static final String P_SQL_DEMILITER = "SQLEditorPreferencePage.SqlDemiliter"; //$NON-NLS-1$
 
 	// public static final String P_FORMAT_PATCH = "SQLEditorPreferencePage.FormatPatch"; //$NON-NLS-1$
+	
+
+	public static final String P_STYLE_KEYWORD = "SQLEditorPreferencePage.StyleKeyword"; //$NON-NLS-1$
+	
+	public static final String P_STYLE_FUNCTION = "SQLEditorPreferencePage.StyleFunction"; //$NON-NLS-1$
+	
 
 	public void init(IWorkbench workbench) {}
 
@@ -69,11 +75,18 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 	}, new String[] {Messages.getString("SQLEditorPreferencePage.20"), ";" //$NON-NLS-1$ //$NON-NLS-2$
 	}};
 
+	private String[][] radioStyle = new String[][] {
+			new String[] { "Regular", String.valueOf(SWT.NORMAL) },
+			new String[] { "Italic ", String.valueOf(SWT.ITALIC) },
+			new String[] { "Bold", String.valueOf(SWT.BOLD) },
+			new String[] { "Bold Italic ", String.valueOf(SWT.ITALIC|SWT.BOLD) },};
+
+	
 	public void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
 		addOption1(parent);
 		addOption2(parent);
-		// addOption3(parent);
+		addOption3(parent);
 	}
 
 	private void addOption1(Composite parent) {
@@ -120,5 +133,22 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 		addField(new RadioGroupFieldEditor(P_SQL_DEMILITER, Messages.getString("SQLEditorPreferencePage.32"), radioSql.length, radioSql, grp)); //$NON-NLS-1$
 
 	}
+	
+	private void addOption3(Composite parent) {
+		Group group = new Group(parent, SWT.NONE);
+		FillLayout layout = new FillLayout(SWT.HORIZONTAL);
+		layout.marginHeight = 4;
+		layout.marginWidth = 4;
+		group.setLayout(layout);
+		group.setText("スタイル設定");
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		group.setLayoutData(gd);
+		Composite grp = new Composite(group, SWT.NONE);
+		grp.setLayout(new GridLayout(2, false));
 
+		addField(new RadioGroupFieldEditor(P_STYLE_KEYWORD, "予約語のスタイル", radioStyle.length, radioStyle, grp));
+		addField(new RadioGroupFieldEditor(P_STYLE_FUNCTION, "関数のスタイル", radioStyle.length, radioStyle, grp));
+
+	}
 }
