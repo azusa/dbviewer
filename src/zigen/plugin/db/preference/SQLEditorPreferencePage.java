@@ -76,10 +76,10 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 	}};
 
 	private String[][] radioStyle = new String[][] {
-			new String[] { "Regular", String.valueOf(SWT.NORMAL) },
-			new String[] { "Italic ", String.valueOf(SWT.ITALIC) },
-			new String[] { "Bold", String.valueOf(SWT.BOLD) },
-			new String[] { "Bold Italic ", String.valueOf(SWT.ITALIC|SWT.BOLD) },};
+			new String[] { Messages.getString("SQLEditorPreferencePage.1"), String.valueOf(SWT.NORMAL) }, //$NON-NLS-1$
+			new String[] { Messages.getString("SQLEditorPreferencePage.2"), String.valueOf(SWT.ITALIC) }, //$NON-NLS-1$
+			new String[] { Messages.getString("SQLEditorPreferencePage.3"), String.valueOf(SWT.BOLD) }, //$NON-NLS-1$
+			new String[] { Messages.getString("SQLEditorPreferencePage.4"), String.valueOf(SWT.ITALIC|SWT.BOLD) },}; //$NON-NLS-1$
 
 	
 	public void createFieldEditors() {
@@ -140,15 +140,15 @@ public class SQLEditorPreferencePage extends FieldEditorPreferencePage implement
 		layout.marginHeight = 4;
 		layout.marginWidth = 4;
 		group.setLayout(layout);
-		group.setText("スタイル設定");
+		group.setText(Messages.getString("SQLEditorPreferencePage.5")); //$NON-NLS-1$
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		group.setLayoutData(gd);
 		Composite grp = new Composite(group, SWT.NONE);
 		grp.setLayout(new GridLayout(2, false));
 
-		addField(new RadioGroupFieldEditor(P_STYLE_KEYWORD, "予約語のスタイル", radioStyle.length, radioStyle, grp));
-		addField(new RadioGroupFieldEditor(P_STYLE_FUNCTION, "関数のスタイル", radioStyle.length, radioStyle, grp));
+		addField(new RadioGroupFieldEditor(P_STYLE_KEYWORD, Messages.getString("SQLEditorPreferencePage.6"), radioStyle.length, radioStyle, grp)); //$NON-NLS-1$
+		addField(new RadioGroupFieldEditor(P_STYLE_FUNCTION, Messages.getString("SQLEditorPreferencePage.7"), radioStyle.length, radioStyle, grp)); //$NON-NLS-1$
 
 	}
 }

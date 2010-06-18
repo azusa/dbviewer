@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.swt.SWT;
 
 import zigen.plugin.db.preference.CSVPreferencePage;
 import zigen.plugin.db.preference.CodeAssistPreferencePage;
@@ -60,10 +61,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(SQLEditorPreferencePage.P_SQL_DEMILITER, ";"); //$NON-NLS-1$
 		// store.setDefault(SQLEditorPreferencePage.P_FORMAT_PATCH, true);
 
-		
-		store.setDefault(SQLEditorPreferencePage.P_STYLE_KEYWORD, "3"); //$NON-NLS-1$
-		store.setDefault(SQLEditorPreferencePage.P_STYLE_FUNCTION, "3"); //$NON-NLS-1$		
-		
+
+		store.setDefault(SQLEditorPreferencePage.P_STYLE_KEYWORD, String.valueOf(SWT.BOLD));
+		store.setDefault(SQLEditorPreferencePage.P_STYLE_FUNCTION, String.valueOf(SWT.BOLD));
+
 		saveURLPreferencePage(store, createURL());
 
 		store.setDefault(CSVPreferencePage.P_ENCODING, DbPluginConstant.FILE_ENCODING); //$NON-NLS-1$
