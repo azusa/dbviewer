@@ -277,18 +277,23 @@ public class TreeView extends AbstractTreeView {
 			manager.add(new Separator());
 			manager.add(showDriverVersionAction);
 
-			if (db.isConnected()) {
-				// refreshAction.setEnabled(true);
-				connectDBAction.setEnabled(false);
-				closeDBAction.setEnabled(true);
-				showDriverVersionAction.setEnabled(true);
+			if (db.isEnabled()) {
+				if (db.isConnected()) {
+					// refreshAction.setEnabled(true);
+					connectDBAction.setEnabled(false);
+					closeDBAction.setEnabled(true);
+					showDriverVersionAction.setEnabled(true);
+				} else {
+					// refreshAction.setEnabled(false);
+					connectDBAction.setEnabled(true);
+					closeDBAction.setEnabled(false);
+					showDriverVersionAction.setEnabled(false);
+				}
 			} else {
-				// refreshAction.setEnabled(false);
-				connectDBAction.setEnabled(true);
+				connectDBAction.setEnabled(false);
 				closeDBAction.setEnabled(false);
 				showDriverVersionAction.setEnabled(false);
 			}
-
 		} else if (obj instanceof Schema) {
 			// refreshAction.setEnabled(true);
 			manager.add(refreshAction);
