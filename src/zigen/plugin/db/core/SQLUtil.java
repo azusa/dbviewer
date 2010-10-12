@@ -31,7 +31,7 @@ public class SQLUtil {
 	}
 
 	private static boolean requireEnclose(String str) {
-		if (isBinTableForOracle(str) || StringUtil.isNumeric(str) || str.indexOf("-") > 0) {
+		if (isBinTableForOracle(str) || StringUtil.isNumeric(str) || str.indexOf("-") > 0 || str.indexOf(".") > 0) {			
 			return true;
 		} else {
 			return false;
