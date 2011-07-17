@@ -315,7 +315,7 @@ public class OracleSQLCreatorFactoryTest extends TestCase {
 		String[] sqls = f.createModifyColumnDDL(fromCol, toCol);
 		assertEquals(3, sqls.length);
 		assertEquals("ALTER TABLE SCOTT.EMP MODIFY (EMONO VARCHAR2(10))", sqls[0]);
-		assertEquals("ALTER TABLE SCOTT.EMP MODIFY (EMONO DEFAULT abc)", sqls[1]);
+		assertEquals("ALTER TABLE SCOTT.EMP MODIFY (EMONO DEFAULT 'abc')", sqls[1]);
 		assertEquals("ALTER TABLE SCOTT.EMP MODIFY (EMONO NOT NULL)", sqls[2]);
 		
 
@@ -336,7 +336,7 @@ public class OracleSQLCreatorFactoryTest extends TestCase {
 		sqls = f.createModifyColumnDDL(fromCol, toCol);
 		assertEquals(3, sqls.length);
 		assertEquals("ALTER TABLE \"SCOTT-1\".\"EMP-1\" MODIFY (\"EMONO-1\" VARCHAR2(10))", sqls[0]);
-		assertEquals("ALTER TABLE \"SCOTT-1\".\"EMP-1\" MODIFY (\"EMONO-1\" DEFAULT abc)", sqls[1]);
+		assertEquals("ALTER TABLE \"SCOTT-1\".\"EMP-1\" MODIFY (\"EMONO-1\" DEFAULT 'abc')", sqls[1]);
 		assertEquals("ALTER TABLE \"SCOTT-1\".\"EMP-1\" MODIFY (\"EMONO-1\" NOT NULL)", sqls[2]);
 		
 	}

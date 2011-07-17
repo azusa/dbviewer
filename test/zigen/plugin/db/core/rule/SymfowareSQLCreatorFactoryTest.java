@@ -217,27 +217,27 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 		table = createTable("SCOTT", "EMP");
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
-		sql = f.createCommentOnTableDDL("�R�����g�ł�");
+		sql = f.createCommentOnTableDDL("コメント");
 		assertEquals(null, sql);
 
 		table = createTable("SCOTT-1", "EMP-1");
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
-		sql = f.createCommentOnTableDDL("�R'�����g\"�ł�");
+		sql = f.createCommentOnTableDDL("コメント");
 		assertEquals(null, sql);
 
 	}
 
 	public void testCreateCommentOnColumnDDL() {
 		table = createTable("SCOTT", "EMP");
-		table.addChild(createColumn("EMPNO", "NUMBER", null, "�R�����g"));
+		table.addChild(createColumn("EMPNO", "NUMBER", null, "コメント"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 		sql = f.createCommentOnColumnDDL(table.getColumns()[0]);
 		assertEquals(null, sql);
 
 		table = createTable("SCOTT-1", "EMP-1");
-		table.addChild(createColumn("EMPNO-1", "NUMBER", null, "�R'����\"�g"));
+		table.addChild(createColumn("EMPNO-1", "NUMBER", null, "Comment"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 		sql = f.createCommentOnColumnDDL(table.getColumns()[0]);
@@ -263,7 +263,7 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 
 	public void testCreateRenameColumnDDL() {
 		table = createTable("SCOTT", "EMP");
-		table.addChild(createColumn("EMPNO", "NUMBER", null, "�R�����g"));
+		table.addChild(createColumn("EMPNO", "NUMBER", null, "コメント"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
@@ -272,7 +272,7 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 		assertEquals(null, sql);
 
 		table = createTable("SCOTT-1", "EMP-1");
-		table.addChild(createColumn("EMPNO-2", "NUMBER", null, "�R�����g"));
+		table.addChild(createColumn("EMPNO-2", "NUMBER", null, "コメント"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
@@ -283,27 +283,27 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 
 	public void testCreateAddColumnDDL() {
 		table = createTable("SCOTT", "EMP");
-		table.addChild(createColumn("EMPNO", "CHAR", null, "�R�����g"));
+		table.addChild(createColumn("EMPNO", "CHAR", null, "コメント"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
-		Column newCol = createColumn("DEPTNO", "CHAR", null, "�R�����g");
+		Column newCol = createColumn("DEPTNO", "CHAR", null, "コメント");
 		newCol.setSize("1");
 		String[] sqls;
 		sqls = f.createAddColumnDDL(newCol);
 		assertEquals(null, sqls);
 
 
-		newCol = createColumn("DEPTNO", "VARCHAR", "123", "�R�����g");
+		newCol = createColumn("DEPTNO", "VARCHAR", "123", "コメント");
 		newCol.setSize("1");
 		sqls = f.createAddColumnDDL(newCol);
 		assertEquals(null, sqls);
 
 		table = createTable("SCOTT-1", "EMP-1");
-		table.addChild(createColumn("EMPNO", "VARCHAR", null, "�R�����g"));
+		table.addChild(createColumn("EMPNO", "VARCHAR", null, "コメント"));
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
-		newCol = createColumn("DEPTNO-1", "VARCHAR", null, "�R�����g");
+		newCol = createColumn("DEPTNO-1", "VARCHAR", null, "コメント");
 		newCol.setSize("1");
 		sqls = f.createAddColumnDDL(newCol);
 		assertEquals(null, sqls);
@@ -313,7 +313,7 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 	public void testCreateModifyColumnDDL() {
 		table = createTable("SCOTT", "EMP");
 
-		Column fromCol = createColumn("EMPNO", "NUMBER", null, "�R�����g");
+		Column fromCol = createColumn("EMPNO", "NUMBER", null, "コメント");
 		fromCol.setSize("1");
 		table.addChild(fromCol);
 
@@ -321,7 +321,7 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 		f.setVisibleSchemaName(true);
 
 		// ���O�͂����ł͕ς����Ȃ�(ALTER TABLE RENAME COLUMN���g����j
-		Column toCol = createColumn("EMONO", "VARCHAR2", "abc", "�R�����g2");
+		Column toCol = createColumn("EMONO", "VARCHAR2", "abc", "コメント2");
 		toCol.setSize("10");
 		toCol.setNotNull(true);
 		String[] sqls;
@@ -331,15 +331,14 @@ public class SymfowareSQLCreatorFactoryTest extends OracleSQLCreatorFactoryTest 
 
 		table = createTable("SCOTT-1", "EMP-1");
 
-		fromCol = createColumn("EMPNO-1", "NUMBER", null, "�R�����g");
+		fromCol = createColumn("EMPNO-1", "NUMBER", null, "コメント");
 		fromCol.setSize("1");
 		table.addChild(fromCol);
 
 		f = AbstractSQLCreatorFactory.getFactory(table.getDbConfig(), table);
 		f.setVisibleSchemaName(true);
 
-		// ���O�͂����ł͕ς����Ȃ�(ALTER TABLE RENAME COLUMN���g����j
-		toCol = createColumn("EMONO-1", "VARCHAR2", "abc", "�R�����g2");
+		toCol = createColumn("EMONO-1", "VARCHAR2", "abc", "コメント2");
 		toCol.setSize("10");
 		toCol.setNotNull(true);
 
