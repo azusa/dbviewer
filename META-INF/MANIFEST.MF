@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: DBViewerPlugin
-Bundle-SymbolicName: zigen.plugin.db;singleton:=true
+Bundle-SymbolicName: jp.fieldnotes.plugin.db;singleton:=true
 Bundle-Version: 1.2.3.v20101023
 Bundle-ClassPath: .,
  lib/blancosqlformatter-0.0.3.jar,
