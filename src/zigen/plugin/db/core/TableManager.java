@@ -62,6 +62,7 @@ public class TableManager {
 		TableFKColumn[] fks = null;
 		TableIDXColumn[] uidxs = null;
 		try {
+			con.setSavepoint();
 			pks = table.getTablePKColumns();
 			if (pks == null) {
 				// pks = ConstraintSearcher.getPKColumns(con, table.getSchemaName(), table.getName());
@@ -148,6 +149,7 @@ public class TableManager {
 		} finally {
 			ResultSetUtil.close(rs);
 			StatementUtil.close(stmt);
+			con.rollback();
 		}
 
 	}
