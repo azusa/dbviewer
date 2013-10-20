@@ -84,8 +84,9 @@ public abstract class AbstractTreeView extends ViewPart implements IStatusChange
 
 	public boolean isLinkingEnabled() {
 		// return fLinkingEnabled;
-		Boolean b = (Boolean) settringMgr.getValue(PluginSettingsManager.KEY_LINKED_EDITOR);
-		return (b == null) ? false : b.booleanValue();
+//		Boolean b = (Boolean) settringMgr.getValue(PluginSettingsManager.KEY_LINKED_EDITOR);
+//		return (b == null) ? false : b.booleanValue();
+		return false;
 	}
 
 	public void createPartControl(Composite parent) {
