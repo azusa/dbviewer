@@ -83,8 +83,6 @@ public class SQLToolBar {
 
 	protected ShowHistoryViewAction showHistoryViewAction = new ShowHistoryViewAction();
 
-	protected LockDataBaseAction lockDataBaseAction = new LockDataBaseAction(null);
-
 	String lastSelectedDB;
 
 	boolean lastAutoFormatMode;
@@ -130,7 +128,6 @@ public class SQLToolBar {
 	protected ToolBarContributionItem getToolBarContributionItem6(CoolBarManager coolBarMgr) {
 		ToolBarManager toolBarMgr = new ToolBarManager(SWT.FLAT);
 		toolBarMgr.add(comboContributionItem); //$NON-NLS-1$
-		toolBarMgr.add(lockDataBaseAction);
 		return new ToolBarContributionItem(toolBarMgr);
 	}
 
@@ -202,9 +199,7 @@ public class SQLToolBar {
 	}
 
 	public void updateCombo(IDBConfig config) {
-		if (!lockDataBaseAction.isChecked()) {
 			comboContributionItem.updateCombo(config);
-		}
 	}
 
 	public void initializeSelectCombo() {
@@ -290,6 +285,9 @@ public class SQLToolBar {
 
 		void updateCombo(IDBConfig newConfig) {
 			if (newConfig != null) {
+				if (selectCombo.getSelectionIndex() >= 0){
+					return;
+				}
 				IDBConfig config = null;
 				for (int i = 0; i < configs.length; i++) {
 					IDBConfig w_config = configs[i];
@@ -355,12 +353,5 @@ public class SQLToolBar {
 		return selectCombo;
 	}
 
-	public boolean isLockedDataBase() {
-		return lockDataBaseAction.isChecked();
-	}
-
-	public void setLockedDataBase(boolean isLocked) {
-		lockDataBaseAction.setChecked(isLocked);
-	}
 
 }

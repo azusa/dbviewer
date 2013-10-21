@@ -761,18 +761,6 @@ public class SQLExecuteView extends ViewPart implements ITextEditorExtension2, I
 		}
 	}
 
-	public boolean isLockedDataBase() {
-		if (toolBar != null) {
-			return toolBar.isLockedDataBase();
-		}
-		return false;
-	}
-
-	public void setLockedDataBase(boolean isLocked) {
-		if (toolBar != null) {
-			toolBar.setLockedDataBase(isLocked);
-		}
-	}
 
 	SQLOutinePage outlinePage;
 

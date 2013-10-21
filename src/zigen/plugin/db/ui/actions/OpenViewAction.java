@@ -47,7 +47,7 @@ public class OpenViewAction extends Action {
 
 			if (part instanceof SQLExecuteView) {
 				SQLExecuteView sv = (SQLExecuteView) part;
-				sv.setLockedDataBase(view.isLockedDataBase());
+				
 
 				sv.setCommitMode(config, config.isAutoCommit());
 				// sv.updateCombo(config);
