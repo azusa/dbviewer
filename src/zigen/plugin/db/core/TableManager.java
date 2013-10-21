@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +62,15 @@ public class TableManager {
 		TablePKColumn[] pks = null;
 		TableFKColumn[] fks = null;
 		TableIDXColumn[] uidxs = null;
+		Savepoint sp = null;
 		try {
-			con.setSavepoint();
+			if (!con.getAutoCommit()){
+				try {
+					sp = con.setSavepoint();
+				} catch(SQLException e){
+					
+				}
+			}
 			pks = table.getTablePKColumns();
 			if (pks == null) {
 				// pks = ConstraintSearcher.getPKColumns(con, table.getSchemaName(), table.getName());
@@ -149,7 +157,9 @@ public class TableManager {
 		} finally {
 			ResultSetUtil.close(rs);
 			StatementUtil.close(stmt);
-			con.rollback();
+			if (sp != null){
+				con.rollback(sp);
+			}
 		}
 
 	}
