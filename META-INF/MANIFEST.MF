@@ -327,5 +327,5 @@ Export-Package: zigen.plugin.db;
    org.eclipse.jface.resource,
    org.eclipse.swt.layout,
    org.eclipse.swt.widgets"
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 
